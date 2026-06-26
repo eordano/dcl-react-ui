@@ -1,0 +1,585 @@
+.bdworlds {
+  min-height: 100%;
+  padding: 28px 24px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  --dark-two: #242129;
+  --bw-bar: #a09ba8;
+  --bw-muted: #cfcdd4;
+  --bw-green: #34ce76;
+  --bw-danger: #ff7439;
+  --bw-error: #ff2424;
+  --bw-gray: rgba(115, 110, 125, 0.45);
+}
+
+.bdworlds__title {
+  margin: 0 0 18px;
+  font-size: 34px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.bdworlds__nametabs {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+.bdworlds__nametab {
+  position: relative;
+  border: 0;
+  background: none;
+  color: var(--ink-6);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 14px 14px;
+  white-space: nowrap;
+  transition: color 0.12s ease;
+}
+.bdworlds__nametab:hover { color: #fff; }
+.bdworlds__nametab.is-active { color: #fff; font-weight: 700; }
+.bdworlds__nametab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--brand);
+}
+
+.bdworlds__storage {
+  background-color: var(--dark-two);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 24px;
+}
+.bdworlds__storageused {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.bdworlds__storagedesc {
+  color: var(--bw-muted);
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+.bdworlds__storagelink {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 700;
+}
+.bdworlds__storagespace {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #fff;
+}
+.bdworlds__storagecurrent { font-size: 1.5rem; }
+.bdworlds__bar {
+  flex: 1;
+  height: 11px;
+  border-radius: var(--r-pill);
+  background-color: var(--bw-bar);
+  overflow: hidden;
+}
+.bdworlds__barfront {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background-color: var(--brand);
+}
+
+.bdworlds__warning {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--dark-two);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 21px;
+  color: #fff;
+}
+.bdworlds__warning > svg { flex: 0 0 auto; color: var(--bw-danger); }
+.bdworlds__warning b { font-weight: 700; }
+
+.bdworlds__filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.bdworlds__itemscount {
+  flex: 1 0 auto;
+  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+.bdworlds__filteractions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.bdworlds__sort { position: relative; margin-right: 20px; }
+.bdworlds__sortbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+.bdworlds__caret { color: var(--ink-6); }
+.bdworlds__sortmenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: var(--z-overlay);
+  min-width: 170px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  box-shadow: var(--shadow-modal);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.bdworlds__sortitem {
+  text-align: left;
+  border: 0;
+  background: none;
+  color: var(--ink-85);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 9px 10px;
+  border-radius: 7px;
+}
+.bdworlds__sortitem:hover { background: var(--fill-3); color: #fff; }
+.bdworlds__sortitem.is-active { color: #fff; background: var(--fill-2); }
+
+.bdworlds__claim {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+  width: 16px;
+  height: 16px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: solid 1px var(--bw-gray);
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+.bdworlds__claim:hover { background: var(--fill-2); }
+
+.bdworlds__tablewrap { width: 100%; }
+.bdworlds__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: fixed;
+}
+.bdworlds__table thead th {
+  text-align: left;
+  padding: 12px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+}
+.bdworlds__th-name { width: 18%; }
+.bdworlds__th-url { width: 26%; }
+.bdworlds__center { text-align: center; }
+.bdworlds__trow { cursor: default; color: var(--ink-85); }
+.bdworlds__trow td {
+  padding: 14px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+  color: #fff;
+}
+
+.bdworlds__url {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+.bdworlds__urlright {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+.bdworlds__emptyurl { color: rgba(255, 255, 255, 0.8); font-style: italic; }
+
+.bdworlds__iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.bdworlds__iconbtn:hover { background: var(--fill-3); }
+
+.bdworlds__publish {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.bdworlds__publish > span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 120px;
+}
+
+.bdworlds__status { font-weight: 600; }
+.bdworlds__status.is-active { color: var(--bw-green); }
+.bdworlds__status.is-inactive { color: var(--bw-muted); }
+.bdworlds__status.is-warning { color: var(--bw-danger); }
+.bdworlds__status.is-blocked { color: var(--bw-error); }
+
+.bdworlds__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+  border-radius: var(--r-pill);
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+.bdworlds__btn--sm { font-size: 12px; padding: 8px 16px; }
+.bdworlds__btn:not(.bdworlds__btn--sm) { font-size: 13px; padding: 11px 22px; }
+.bdworlds__btn--primary { background: var(--brand); color: #fff; }
+.bdworlds__btn--primary:hover { background: var(--brand-hover); }
+.bdworlds__btn--inverted {
+  background: transparent;
+  border: 1px solid var(--ink-45);
+  color: #fff;
+}
+.bdworlds__btn--inverted:hover { background: var(--fill-2); }
+.bdworlds__btn--basic {
+  background: var(--fill-2);
+  border: 1px solid var(--line);
+  color: #fff;
+}
+.bdworlds__btn--basic:hover { background: var(--fill-4); }
+
+.bdworlds__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 500px;
+  padding: 24px 0;
+}
+.bdworlds__emptyicon {
+  width: 87px;
+  height: 87px;
+  margin-bottom: 30px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.2), transparent 62%),
+    linear-gradient(135deg, var(--rar-epic), var(--purple));
+  box-shadow: 0 10px 28px rgba(67, 143, 255, 0.25);
+}
+.bdworlds__emptyicon.is-ens {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.2), transparent 62%),
+    linear-gradient(135deg, #5298ff, #3a52d6);
+}
+.bdworlds__emptytitle {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 29px;
+  color: var(--text);
+}
+.bdworlds__emptydesc {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--text);
+  max-width: 612px;
+}
+.bdworlds__emptydesc b { font-weight: 700; }
+.bdworlds__emptyaction { margin-top: 40px; width: 372px; max-width: 90%; }
+
+.bdworlds__loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+.bdworlds__spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 4px solid var(--fill-3);
+  border-top-color: var(--rar-epic);
+  animation: u-spin 0.8s linear infinite;
+}
+.bdworlds__pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 18px;
+}
+.bdworlds__page {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: var(--fill-2);
+  color: var(--ink-7);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.bdworlds__page:hover { background: var(--fill-4); color: #fff; }
+.bdworlds__page.is-active {
+  background: var(--rar-epic);
+  border-color: var(--rar-epic);
+  color: #fff;
+}
+
+.bdworlds__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: var(--scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.bdworlds__modal {
+  width: 560px;
+  max-width: 100%;
+  max-height: 88vh;
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  box-shadow: var(--shadow-modal);
+  color: #fff;
+}
+.bdworlds__modalnav {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 24px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.bdworlds__modalnav h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.bdworlds__modalsub { font-size: 16px; font-weight: 600; color: var(--ink-7); }
+.bdworlds__modalbody { padding: 22px 24px; }
+.bdworlds__modalactions {
+  display: flex;
+  justify-content: center;
+  padding: 14px 24px 22px;
+  border-top: 1px solid var(--line);
+}
+
+.bdworlds__total {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+.bdworlds__total > span:first-child {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-6);
+}
+.bdworlds__totalmbs { font-size: 30px; font-weight: 700; }
+.bdworlds__asset {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 8px 0;
+}
+.bdworlds__assettexts { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.bdworlds__assetname { font-size: 15px; font-weight: 700; }
+.bdworlds__assetsub { font-size: 13px; color: var(--ink-6); line-height: 18px; }
+.bdworlds__assetamount {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bw-green);
+}
+.bdworlds__good { flex: 0 0 auto; }
+.bdworlds__separator { height: 1px; background: var(--line); margin: 8px 0; }
+.bdworlds__proposal {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--ink-6);
+  line-height: 18px;
+}
+
+.bdworlds__modaltabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+.bdworlds__mtab {
+  position: relative;
+  border: 0;
+  background: none;
+  color: var(--ink-6);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+  padding: 14px 10px;
+}
+.bdworlds__mtab.is-active { color: #fff; }
+.bdworlds__mtab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--brand);
+}
+.bdworlds__permdesc { margin: 0 0 18px; font-size: 13px; line-height: 20px; color: var(--ink-7); }
+.bdworlds__permrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.bdworlds__permtoggle {
+  width: 40px;
+  height: 22px;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  position: relative;
+  flex: 0 0 auto;
+}
+.bdworlds__permtoggle > span {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+}
+.bdworlds__permhead,
+.bdworlds__collabhead {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: var(--ink-6);
+  margin: 14px 0 8px;
+}
+.bdworlds__collabhead {
+  display: grid;
+  grid-template-columns: 1fr 64px 64px;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.bdworlds__collabhead > span:first-child { text-align: left; }
+.bdworlds__permlist { list-style: none; margin: 0 0 14px; padding: 0; }
+.bdworlds__permlist li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.bdworlds__collabrow {
+  display: grid !important;
+  grid-template-columns: 1fr 64px 64px;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.bdworlds__collabrow > span:first-child { text-align: left; }
+.bdworlds__check {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink-45);
+  margin: 0 auto;
+  position: relative;
+}
+.bdworlds__check.is-on { background: var(--brand); border-color: var(--brand); }
+.bdworlds__check.is-on::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.bdworlds__addaddr { width: 100%; }
+
+@media (max-width: 760px) {
+  .bdworlds { padding: 18px 14px 34px; }
+  .bdworlds__table { font-size: 13px; }
+  .bdworlds__th-name, .bdworlds__th-url { width: auto; }
+}

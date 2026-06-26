@@ -1,0 +1,16 @@
+.guard__card:has(.ce-mark) {
+  background:
+    linear-gradient(180deg, rgba(48,20,78,.92) 0%, rgba(48,20,78,0) 40%),
+    linear-gradient(170deg, #7a3eb8 0%, #6231ac 30%, #51288c 60%, #432473 100%);
+  padding-top: clamp(34px, 4.5vw, 46px);
+}
+
+.guard__card:has(.ce-mark) .guard__icon { margin-bottom: 20px; }
+
+.guard__card:has(.ce-mark) .guard__body { margin-top: 22px; }
+.guard__card:has(.ce-mark) .guard__actions { margin-top: 34px; }
+
+.guard__card:has(.ce-mark) .guard__btn {
+  height: 50px;
+  padding: 0 22px;
+}

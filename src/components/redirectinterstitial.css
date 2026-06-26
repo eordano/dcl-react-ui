@@ -1,0 +1,208 @@
+.rxi {
+  position: relative;
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 96px 24px 120px;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.rxi--hero {
+  --rxi-bg: linear-gradient(180deg, #39055c 0%, #570f88 30%, #6814a0 50%, #39055c 75%, #1a0230 100%);
+  --rxi-scrim: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 30%);
+  padding: 96px 64px 64px;
+  min-height: calc(100vh - 68px);
+}
+.rxi__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--rxi-scrim), var(--rxi-bg);
+  pointer-events: none;
+}
+
+.rxi__stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rxi__inner {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.rxi__gem {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 6px 22px rgba(255, 45, 85, 0.45));
+}
+
+.rxi__spinner {
+  display: inline-flex;
+  margin-top: 4px;
+}
+
+.rxi__title {
+  margin: 6px 0 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.2px;
+  color: #fff;
+}
+
+.rxi__text {
+  margin: 0;
+  max-width: 400px;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--ink-7);
+}
+
+.rxi__route {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+  max-width: 100%;
+}
+
+.rxi__path {
+  max-width: 100%;
+  padding: 7px 13px;
+  border-radius: var(--r-control);
+  background: var(--fill-2);
+  border: 1px solid var(--line);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rxi--hero .rxi__path {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.rxi__path--from {
+  color: var(--ink-45);
+}
+.rxi__path--strike {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-45);
+}
+
+.rxi__path--to {
+  color: #fff;
+  border-color: rgba(255, 45, 85, 0.45);
+  background: rgba(255, 45, 85, 0.16);
+}
+
+.rxi__route--neutral .rxi__path--to {
+  border-color: var(--line);
+  background: var(--fill-2);
+  color: var(--ink-85);
+}
+
+.rxi__arrow {
+  width: 24px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: var(--brand);
+}
+
+.rxi__replace {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-45);
+}
+
+.rxi__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.5);
+  animation: rxi-pulse 1.6s ease-out infinite;
+}
+
+@keyframes rxi-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.5); }
+  70% { box-shadow: 0 0 0 7px rgba(255, 45, 85, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 45, 85, 0); }
+}
+
+.rxi__replacet code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+.rxi__flag {
+  color: var(--ink-7);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.rxi__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(255, 45, 85, 0.32);
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+.rxi__cta:hover {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+}
+.rxi__cta svg {
+  flex: 0 0 auto;
+}
+.rxi__ctaicon {
+  display: inline-flex;
+}
+
+@media (max-width: 600px) {
+  .rxi,
+  .rxi--hero {
+    padding: 56px 18px 80px;
+  }
+  .rxi__route {
+    flex-direction: column;
+  }
+  .rxi__arrow {
+    transform: rotate(90deg);
+  }
+  .rxi__path {
+    max-width: 100%;
+  }
+}

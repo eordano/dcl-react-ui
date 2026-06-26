@@ -1,0 +1,158 @@
+.gvLogIn {
+  --gvsignin-secondary: #242129;
+  --gvsignin-background: #18141a;
+  --gvsignin-star: #ECEBED;
+  --gvsignin-secondary-text: #676370;
+  --gvsignin-primary: var(--brand);
+  --gvsignin-primary-hover: #ff3d61;
+
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.uiSignIn {
+  display: flex;
+  flex-flow: column;
+}
+.uiSignIn.center {
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.uiSignIn__header {
+  margin: 40px 0 25px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 600;
+  color: var(--gv-ink);
+  text-align: center;
+}
+
+.uiSignIn__star {
+  flex: none;
+  margin-bottom: 25px;
+  width: 180px;
+  height: 180px;
+  background-color: var(--gvsignin-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.uiSignIn__star svg {
+  fill: none;
+  stroke: var(--gvsignin-star);
+}
+
+.uiSignIn__message {
+  margin: 0;
+  padding: 0 38px;
+  text-align: center;
+  color: var(--gvsignin-secondary-text);
+  font-size: 16px;
+  line-height: 1.4;
+}
+.uiSignIn__message a {
+  color: var(--gvsignin-primary);
+  text-decoration: none;
+}
+.uiSignIn__message a:hover {
+  text-decoration: underline;
+}
+
+.uiSignIn__button {
+  flex: none;
+  margin-top: 40px;
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background-color: var(--gvsignin-primary);
+  border-radius: var(--r-pill);
+  padding: 0 28px;
+  height: 48px;
+  min-width: 175px;
+  transition: background-color 0.2s ease;
+}
+.uiSignIn__button:hover {
+  background-color: var(--gvsignin-primary-hover);
+}
+.uiSignIn__button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.uiSignIn__error {
+  opacity: 0;
+  user-select: none;
+  color: var(--gvsignin-primary);
+  margin: 20px 0 0;
+  font-size: 14px;
+}
+.uiSignIn__error.visible {
+  transition: opacity 0.25s ease;
+  opacity: 1;
+  user-select: auto;
+}
+
+.gvLogIn__mobile {
+  text-align: center;
+  padding: 48px 16px;
+}
+.gvLogIn__mobileLogo {
+  display: block;
+  margin: auto;
+  max-width: 50%;
+}
+.gvLogIn__mobileTitle {
+  margin: 24px 0 1rem;
+  font-weight: 600;
+  font-size: xx-large;
+  color: var(--gv-ink);
+}
+.gvLogIn__mobileMsg {
+  margin: 0 auto 5rem;
+  max-width: 420px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--gv-ink);
+}
+.gvLogIn__mobileBtn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background-color: var(--gvsignin-primary);
+  border-radius: var(--r-pill);
+  padding: 0 28px;
+  height: 44px;
+}
+.gvLogIn__mobileBtn:hover {
+  background-color: var(--gvsignin-primary-hover);
+}

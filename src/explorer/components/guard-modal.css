@@ -1,0 +1,44 @@
+.guard__backdrop {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 42%, #2a1438 0%, #160d20 70%, #100a18 100%);
+  padding: 20px; overflow: auto;
+}
+.guard__card {
+  border-radius: 20px; padding: clamp(28px, 4vw, 40px) clamp(22px, 3.5vw, 44px) clamp(26px, 3.5vw, 36px);
+  background: linear-gradient(165deg, #5d2f93 0%, #44206f 55%, #381a5e 100%);
+  box-shadow: var(--shadow-modal);
+  display: flex; flex-direction: column; align-items: center; color: #fff;
+  max-width: 100%;
+  max-height: calc(100vh - 40px); overflow-y: auto;
+}
+
+.guard__icon { margin-bottom: 16px; }
+.guard__title { font-weight: 700; font-size: clamp(20px, 5vw, 24px); text-align: center; }
+.guard__body {
+  margin-top: 18px; font-size: 14px; line-height: 1.5; text-align: center;
+  color: rgba(255,255,255,.86); max-width: 420px;
+}
+
+@media (max-width: 330px) {
+  .guard__actions--row { flex-direction: column; }
+}
+
+.guard__actions { margin-top: 26px; width: 100%; display: flex; flex-direction: column; gap: 12px; }
+.guard__actions--row { display: flex; flex-direction: row; gap: 12px; width: 100%; }
+
+/* Stories pass bare .btn (no size class -> no padding -> a thin sliver). Give
+   modal action buttons the shared modal button height to match the good modals. */
+.guard__actions .btn { width: 100%; min-height: var(--modal-btn-h); }
+.guard__actions--row .btn { flex: 1; }
+
+.guard__btn {
+  height: var(--modal-btn-h); border-radius: 12px; border: none; cursor: pointer; width: 100%;
+  font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: .4px;
+  text-transform: uppercase; transition: filter .12s ease, background .12s ease;
+}
+.guard__actions--row .guard__btn { flex: 1; }
+.guard__btn--primary { background: var(--brand); color: #fff; }
+.guard__btn--primary:hover { filter: brightness(1.08); }
+.guard__btn--dark { background: rgba(0,0,0,.28); color: #fff; }
+.guard__btn--dark:hover { background: rgba(0,0,0,.42); }

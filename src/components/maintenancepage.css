@@ -1,0 +1,215 @@
+.maintenance {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-sans);
+  background: var(--maintenance-page-bg);
+}
+
+/* surface tokens ---------------------------------------------------------- */
+/* Base = dark (default + Theme: Dark), or an explicit surface="dark" override. */
+.maintenance,
+.maintenance--dark {
+  --maintenance-ink: var(--text);
+  --maintenance-muted: var(--ink-6);
+  --maintenance-badge-bg: var(--fill-3);
+  --maintenance-badge-ink: var(--ink-85);
+  --maintenance-card-bg: var(--fill-2);
+  --maintenance-card-border: var(--line);
+  --maintenance-card-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+  --maintenance-page-bg: #0e0a16;
+}
+/* Light web look: Theme: Light (global) or an explicit surface="light" override
+   (e.g. governance). :not(.maintenance--dark) lets a forced-dark surface stay
+   dark even under Theme: Light. Placed after the dark block so an explicit
+   --light wins the specificity tie under Theme: Dark. */
+html.mp-light .maintenance:not(.maintenance--dark),
+.maintenance--light {
+  --maintenance-ink: var(--gv-ink, #16141a);
+  --maintenance-muted: var(--lm-ink-3, #676370);
+  --maintenance-badge-bg: rgba(22, 20, 26, 0.05);
+  --maintenance-badge-ink: var(--lm-ink-2, #3b3947);
+  --maintenance-card-bg: #fff;
+  --maintenance-card-border: rgba(22, 20, 26, 0.1);
+  --maintenance-card-shadow: 0 10px 28px rgba(22, 20, 26, 0.1);
+  --maintenance-page-bg: var(--lm-bg, #f3f2f5);
+}
+
+.maintenance__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* message hero ------------------------------------------------------------ */
+.maintenance__page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 70vh;
+}
+.maintenance--areas .maintenance__page {
+  min-height: 0;
+  padding: clamp(48px, 9vh, 96px) 24px 8px;
+}
+
+.maintenance__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.maintenance__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 7px 16px 7px 12px;
+  border-radius: var(--r-pill);
+  background: var(--maintenance-badge-bg);
+  color: var(--maintenance-badge-ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.maintenance__title {
+  margin: 0;
+  color: var(--maintenance-ink);
+  font-size: clamp(34px, 5vw, 48px);
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.maintenance__title--sign {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+.maintenance__sign {
+  font-size: 22px;
+  line-height: 1;
+}
+.maintenance__badge .maintenance__sign {
+  font-size: 15px;
+}
+
+.maintenance__text {
+  margin: 14px 0 0;
+  color: var(--maintenance-muted);
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 400;
+}
+
+/* explore areas ----------------------------------------------------------- */
+.maintenance__areas {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vh, 48px) 24px clamp(40px, 8vh, 72px);
+}
+
+.maintenance__areastitle {
+  margin: 0 0 18px;
+  text-align: center;
+  color: var(--maintenance-muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.maintenance__card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--r-card);
+  background: var(--maintenance-card-bg);
+  border: 1px solid var(--maintenance-card-border);
+  text-decoration: none;
+  transition: transform 0.14s ease, border-color 0.14s ease,
+    box-shadow 0.14s ease;
+}
+.maintenance__card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--mt, var(--brand)) 55%, transparent);
+  box-shadow: var(--maintenance-card-shadow);
+}
+
+.maintenance__cardicon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 24px;
+  line-height: 1;
+  background: color-mix(in srgb, var(--mt, var(--brand)) 16%, transparent);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--mt, var(--brand)) 28%, transparent);
+}
+
+.maintenance__cardbody {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.maintenance__cardtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--maintenance-ink);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.maintenance__cardarrow {
+  flex: 0 0 auto;
+  color: var(--mt, var(--brand));
+  opacity: 0;
+  transform: translateX(-3px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+.maintenance__card:hover .maintenance__cardarrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.maintenance__carddesc {
+  color: var(--maintenance-muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+@media only screen and (max-width: 767px) {
+  .maintenance__center { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .maintenance__card,
+  .maintenance__card:hover { transform: none; }
+}

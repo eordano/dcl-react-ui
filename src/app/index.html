@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Decentraland — Explore</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: transparent;
+      }
+      /* The SPA mounts as an overlay sibling over #mygame-canvas. The root is
+         click-through (pointer-events:none); only interactive chrome flips it
+         back on. Stays below the z-index:9999 crash overlay. */
+      #root {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        pointer-events: none;
+      }
+      .ui3-app-root {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      /* HUD model: root + .xc are click-through so the bevy world stays
+         interactive; only the nav bar and an OPEN panel capture pointer events
+         (the empty HUD body is none, so clicks pass to the 3D world). */
+      .ui3-app-root .xc { pointer-events: none; }
+      .ui3-app-root .xc__nav,
+      .ui3-app-root .xc__body { pointer-events: auto; }
+      .ui3-app-root .xc--hud .xc__body { pointer-events: none; }
+      /* Sidebar rail HUD (in-world): neutralize the story's full-screen opaque
+         stage so the bevy world shows through; only the rail captures clicks. */
+      .ui3-app-root .sb__stage {
+        width: auto; height: auto; background: transparent;
+        overflow: visible; pointer-events: none;
+      }
+      .ui3-app-root .sb { pointer-events: auto; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./main.jsx"></script>
+  </body>
+</html>

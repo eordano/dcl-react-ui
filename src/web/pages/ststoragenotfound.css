@@ -1,0 +1,84 @@
+.ststoragenotfound {
+  --ststoragenotfound-bg: var(--panel);
+  --ststoragenotfound-ink: rgba(240, 240, 240, 1);
+  --ststoragenotfound-muted: rgba(240, 240, 240, 0.7);
+  --ststoragenotfound-primary: var(--brand);
+  --ststoragenotfound-primary-contrast: #fff;
+  --ststoragenotfound-font: Inter, Helvetica, Arial, sans-serif;
+
+  font-family: var(--ststoragenotfound-font);
+  background: var(--ststoragenotfound-bg);
+  color: var(--ststoragenotfound-ink);
+  min-height: 100vh;
+}
+
+.ststoragenotfound__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 100vh;
+  padding: 64px 16px 48px;
+  text-align: center;
+  box-sizing: border-box;
+}
+@media (min-width: 900px) {
+  .ststoragenotfound__container {
+    padding-top: 96px;
+  }
+}
+
+.ststoragenotfound__code {
+  margin: 0;
+  font-size: 3.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.00833em;
+  color: var(--ststoragenotfound-ink);
+}
+
+.ststoragenotfound__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.334;
+  letter-spacing: 0;
+  color: var(--ststoragenotfound-ink);
+}
+
+.ststoragenotfound__subtitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: var(--ststoragenotfound-muted);
+}
+
+.ststoragenotfound__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 64px;
+  padding: 6px 16px;
+  margin-top: 8px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ststoragenotfound-primary-contrast);
+  background: var(--ststoragenotfound-primary);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.ststoragenotfound__btn:hover {
+  background: var(--brand-hover);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.4), 0 4px 5px 0 rgba(0, 0, 0, 0.28);
+}

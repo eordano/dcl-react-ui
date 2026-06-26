@@ -1,0 +1,138 @@
+.acrm {
+  --acrm-card: #18171c;
+  --acrm-ink: #fcfcfc;
+  --acrm-muted: rgba(255, 255, 255, .62);
+  --acrm-input-bg: #201e25;
+  --acrm-input-border: rgba(255, 255, 255, .14);
+  --acrm-action: var(--brand);
+  --acrm-close: #fcfcfc;
+}
+
+.acrm__card {
+  margin: auto;
+  position: relative;
+  box-sizing: border-box;
+  width: 520px;
+  max-width: 100%;
+  min-height: 278px;
+  background: var(--acrm-card);
+  color: var(--acrm-ink);
+  border-radius: 6px;
+  padding: 40px 0;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  font-family: inherit;
+  animation: u-fade-in 0.3s linear;
+}
+
+.acrm__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: -20px;
+  margin-right: -20px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--acrm-card);
+  color: var(--acrm-close);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+.acrm__close:hover { opacity: 0.78; }
+
+.acrm__header { text-align: center; padding: 0 40px; }
+.acrm__title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: var(--acrm-ink);
+}
+
+.acrm__content { text-align: center; padding: 0 40px; }
+
+.acrm__message {
+  text-align: center;
+  margin-top: 14px;
+  margin-bottom: 49px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 26px;
+  color: var(--acrm-muted);
+}
+
+.acrm__field {
+  min-width: 360px;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+}
+.acrm__inputwrap { position: relative; }
+.acrm__input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px 64px 16px 16px;
+  background: var(--acrm-input-bg);
+  border: 1px solid var(--acrm-input-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--acrm-ink);
+  outline: none;
+}
+.acrm__input::placeholder { color: rgba(115, 110, 125, 0.7); }
+.acrm__input:focus { border-color: rgba(115, 110, 125, 0.6); }
+
+.acrm__action {
+  position: absolute;
+  right: 0;
+  bottom: 37px;
+  padding: 0 8px 0 0;
+  border: none;
+  background: transparent;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  color: var(--acrm-action);
+  cursor: pointer;
+}
+.acrm__action:hover { opacity: 0.78; }
+
+.acrm__message-line {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--acrm-action);
+  text-align: left;
+}
+
+@media (max-height: 540px) {
+  .acrm { padding: 8px; }
+}
+
+/* Light theme — the Receive MANA modal is a web/dapp account surface, so it
+   follows "Theme: Light". Remap this surface's local dark tokens. */
+html.mp-light .acrm {
+  --acrm-card: var(--lm-surface);
+  --acrm-ink: var(--lm-ink);
+  --acrm-muted: var(--lm-ink-3);
+  --acrm-input-bg: var(--lm-field-bg);
+  --acrm-input-border: var(--lm-line);
+  --acrm-close: var(--lm-ink);
+}
+html.mp-light .acrm__card {
+  border: 1px solid var(--lm-line);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+}

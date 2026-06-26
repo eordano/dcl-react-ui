@@ -1,0 +1,170 @@
+.ch {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-panel);
+  display: flex;
+  color: #fff;
+  background:
+    radial-gradient(70% 50% at 0% 0%, rgba(67, 143, 255, 0.09), transparent 60%),
+    radial-gradient(90% 60% at 100% 100%, rgba(152, 45, 226, 0.07), transparent 62%),
+    #0c0c10;
+}
+
+.ch__rail {
+  flex: 0 0 auto;
+  width: 248px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 16px 18px;
+  background: rgba(11, 11, 15, 0.92);
+  border-right: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.ch__brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 4px 8px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.ch__brand img { width: 30px; height: 30px; flex: 0 0 auto; }
+.ch__brandtext { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+.ch__brandname { font-size: 15px; font-weight: 800; letter-spacing: 0.2px; }
+
+.ch__nav {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.ch__nav::-webkit-scrollbar { display: none; }
+
+.ch__navitem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--ink-7);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  padding: 11px 12px;
+  border-radius: var(--r-control);
+  position: relative;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.ch__navitem:hover { background: var(--fill-2); color: #fff; }
+.ch__navicon { display: inline-flex; flex: 0 0 auto; color: var(--ink-45); transition: color 0.12s ease; }
+.ch__navitem:hover .ch__navicon { color: var(--ink-85); }
+.ch__navlabel { min-width: 0; }
+
+.ch__navitem.is-active {
+  color: #fff;
+  font-weight: 700;
+  background: var(--fill-3);
+}
+.ch__navitem.is-active .ch__navicon { color: var(--rar-epic); }
+.ch__navitem.is-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  bottom: 9px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--rar-epic);
+  box-shadow: 0 0 10px rgba(67, 143, 255, 0.6);
+}
+
+.ch__foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.ch__settings {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  background: var(--fill-2);
+  color: var(--ink-7);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.ch__settings:hover { background: var(--fill-4); color: #fff; }
+
+.ch__account {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  background: var(--fill-2);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  padding: 5px 10px 5px 5px;
+  transition: background 0.12s ease;
+}
+.ch__account:hover { background: var(--fill-4); }
+.ch__avatar { border: 2px solid var(--ink-85); }
+.ch__accmeta { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
+.ch__accname { font-size: 13px; font-weight: 700; }
+.ch__accaddr { font-size: 11px; font-weight: 600; color: var(--ink-45); max-width: 110px; }
+
+.ch__signin {
+  flex: 1 1 auto;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: #fff;
+  background: var(--brand);
+  padding: 11px 14px;
+  border-radius: var(--r-control);
+  transition: background 0.12s ease;
+}
+.ch__signin:hover { background: var(--brand-hover); }
+
+.ch__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: auto;
+}
+
+@media (max-width: 720px) {
+  .ch__rail { width: 64px; padding: 18px 8px 14px; align-items: center; }
+  .ch__brand { padding: 4px 0 12px; justify-content: center; }
+  .ch__brandtext { display: none; }
+  .ch__navitem { justify-content: center; padding: 11px 0; }
+  .ch__navlabel { display: none; }
+  .ch__foot { flex-direction: column; }
+  .ch__settings { width: 40px; }
+  .ch__account { width: 40px; height: 40px; padding: 0; justify-content: center; flex: 0 0 auto; }
+  .ch__accmeta { display: none; }
+  .ch__signin { width: 40px; height: 40px; padding: 0; flex: 0 0 auto; font-size: 0; }
+  .ch__signin::before { content: "↪"; font-size: 16px; }
+}

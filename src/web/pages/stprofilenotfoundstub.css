@@ -1,0 +1,40 @@
+.stprofilenotfoundstub {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 32px;
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--text);
+  text-align: center;
+  font-family: var(--font-sans);
+}
+
+@media (min-width: 900px) {
+  .stprofilenotfoundstub { padding-top: 96px; }
+}
+
+.stprofilenotfoundstub__title {
+  margin: 0;
+  font-family: inherit;
+  font-size: 3rem;
+  line-height: 1.167;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: inherit;
+}
+
+.stprofilenotfoundstub__desc {
+  margin: 0;
+  max-width: 600px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.00938em;
+  color: inherit;
+}

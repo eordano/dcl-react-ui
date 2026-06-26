@@ -1,0 +1,20 @@
+.authfoot { display: flex; flex-direction: column; gap: 8px; }
+.authfoot__row { display: flex; align-items: center; gap: 8px; }
+.authfoot__exit {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 34px; padding: 0 14px; border-radius: var(--r-control); cursor: pointer; border: none;
+  background: var(--fill-5); color: #fff;
+  font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: .4px;
+  transition: background .12s ease;
+}
+.authfoot__exit:hover { background: rgba(255, 255, 255, .2); }
+.authfoot__exit-glyph { flex: none; transition: transform .12s ease; }
+.authfoot__exit:hover .authfoot__exit-glyph { transform: translateX(2px); }
+.authfoot__iconbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: var(--r-control); cursor: pointer; border: none;
+  background: var(--fill-5); color: #fff;
+  transition: background .12s ease;
+}
+.authfoot__iconbtn:hover { background: rgba(255, 255, 255, .2); }
+.authfoot__version { color: rgba(255, 255, 255, .5); font-size: 11px; }

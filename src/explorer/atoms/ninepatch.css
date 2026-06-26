@@ -1,0 +1,10 @@
+.ninepatch {
+  border-style: solid;
+  border-color: transparent;
+  border-image-source: var(--np-src);
+  border-image-slice: var(--np-slice) fill;
+  border-image-width: var(--np-width, 1);
+  border-image-repeat: stretch;
+  border-width: var(--np-border, 0);
+  background: none;
+}

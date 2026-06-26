@@ -1,0 +1,22 @@
+.slider { display: flex; align-items: center; gap: 12px; width: 100%; }
+.slider__input {
+  -webkit-appearance: none; appearance: none; flex: 1;
+  height: 4px; border-radius: 999px; outline: none; cursor: pointer;
+  background: linear-gradient(to right,
+    var(--brand) 0%, var(--brand) var(--pct, 50%),
+    rgba(255, 255, 255, .298) var(--pct, 50%), rgba(255, 255, 255, .298) 100%);
+}
+.slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%; background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .4); cursor: pointer;
+}
+.slider__input::-moz-range-thumb {
+  width: 16px; height: 16px; border: none; border-radius: 50%; background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .4); cursor: pointer;
+}
+.slider__value {
+  flex: 0 0 auto; min-width: 34px; text-align: right;
+  font-size: 13px; font-weight: 600; color: rgba(255, 255, 255, .85);
+  font-variant-numeric: tabular-nums;
+}

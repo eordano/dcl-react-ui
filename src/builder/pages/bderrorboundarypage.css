@@ -1,0 +1,115 @@
+.bderror {
+  --bderror-muted: #676370;
+  --bderror-trace-bg: #16141a;
+  --bderror-trace-shadow: #00000088;
+  --bderror-select-bg: #898695;
+  --bderror-select-fg: #000;
+
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+  background-attachment: fixed;
+
+  position: relative;
+}
+
+.bderror__panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.bderror__title {
+  margin: 0;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  user-select: none;
+}
+
+.bderror__subtitle {
+  margin: 12px 0 0;
+  font-size: 16px;
+  color: var(--bderror-muted);
+}
+
+.bderror__trace {
+  color: var(--bderror-muted);
+  outline: none;
+  border: 0;
+  border-radius: 6px;
+  background: var(--bderror-trace-bg);
+  margin: 24px 0;
+  padding: 16px;
+  resize: none;
+  box-shadow: var(--bderror-trace-shadow) 0 3px 9px;
+  font-family: var(
+    --font-monospace,
+    "Inconsolata",
+    "Consolas",
+    "Droid Sans Mono",
+    "Monaco",
+    "Courier New",
+    monospace
+  );
+  font-size: 13px;
+  line-height: 1.45;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.bderror__trace::selection {
+  background: var(--bderror-select-bg);
+  color: var(--bderror-select-fg);
+}
+
+.bderror__message {
+  margin: 8px 0 0;
+  max-width: 28em;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.bderror__back {
+  margin-top: 16px;
+}
+
+.bderror__chat-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  vertical-align: -4px;
+}
+
+.bderror__suggestion {
+  margin-top: 16px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.bderror__suggestion a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.bderror__suggestion a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .bderror__title {
+    font-size: 48px;
+  }
+  .bderror__trace {
+    width: 100%;
+  }
+}

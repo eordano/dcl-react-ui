@@ -1,0 +1,224 @@
+.mkactivitypage {
+  --undefined-secondary-text: var(--ink-6);
+  --undefined-neon-blue: #36cdf3;
+  --undefined-danger: var(--error);
+
+  min-height: 100%;
+  padding: 40px 24px 80px;
+  color: var(--text);
+}
+
+.mkactivitypage__page {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  min-height: 320px;
+}
+
+.mkactivitypage__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mkactivitypage__subheader {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.mkactivitypage__clear {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-7);
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+.mkactivitypage__clear:hover {
+  color: var(--text);
+}
+
+.mkactivitypage__list {
+  margin-top: 20px;
+}
+
+.mkactivitypage__row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.mkactivitypage__left {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mkactivitypage__image {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  flex: none;
+  margin-right: 16px;
+  background: var(--fill-2);
+}
+.mkactivitypage__thumb {
+  width: 100%;
+  height: 100%;
+}
+.mkactivitypage__imgmana {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--brand);
+}
+.mkactivitypage__imgmana svg {
+  width: 28px;
+  height: 28px;
+}
+
+.mkactivitypage__text {
+  display: flex;
+  align-items: baseline;
+  overflow: hidden;
+  min-width: 0;
+}
+.mkactivitypage__desc {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--text);
+}
+.mkactivitypage__link,
+.mkactivitypage__profile {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+}
+.mkactivitypage__link:hover,
+.mkactivitypage__profile:hover {
+  text-decoration: underline;
+}
+.mkactivitypage__profile {
+  margin-left: 3px;
+}
+.mkactivitypage__mana {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.mkactivitypage__manamark {
+  color: var(--brand);
+}
+
+.mkactivitypage__timestamp {
+  color: var(--undefined-secondary-text);
+  margin-left: 8px;
+  font-size: 13px;
+  flex: none;
+}
+
+.mkactivitypage__right {
+  display: flex;
+  align-items: center;
+  flex: none;
+  margin-left: 16px;
+}
+.mkactivitypage__status {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--undefined-secondary-text);
+}
+.mkactivitypage__statuslabel {
+  text-transform: capitalize;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mkactivitypage__statuslabel + * {
+  margin-left: 8px;
+}
+.mkactivitypage__status--confirmed {
+  color: var(--undefined-neon-blue);
+}
+.mkactivitypage__status--reverted {
+  color: var(--undefined-danger);
+}
+.mkactivitypage__statusspin {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mkactivitypage__sentinel {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.mkactivitypage__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.mkactivitypage__emptytext,
+.mkactivitypage__loadingtext {
+  margin: 0;
+  color: var(--undefined-secondary-text);
+  font-size: 15px;
+}
+
+.mkactivitypage__modaltitle {
+  margin: 0 0 14px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+}
+.mkactivitypage__modaltext {
+  margin: 0 0 22px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-7);
+}
+.mkactivitypage__actions {
+  display: flex;
+  gap: 12px;
+}
+.mkactivitypage__actionbtn {
+  flex: 1 1 0;
+}
+
+@media (max-width: 768px) {
+  .mkactivitypage {
+    padding: 24px 14px 60px;
+  }
+  .mkactivitypage__statuslabel,
+  .mkactivitypage__timestamp {
+    display: none;
+  }
+}

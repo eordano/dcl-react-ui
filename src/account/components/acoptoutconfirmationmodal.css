@@ -1,0 +1,112 @@
+.acooc {
+  --acooc-muted: #736e7d;
+  --acooc-close-fill: #ffffff17;
+  --acooc-close-fill-hover: #ffffff30;
+  --acooc-error-bg: rgba(255, 45, 85, 0.1);
+}
+
+.acooc__card {
+  margin: auto;
+  position: relative;
+  box-sizing: border-box;
+  width: 520px;
+  max-width: 100%;
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 16px;
+  padding: 50px;
+  box-shadow: var(--shadow-modal);
+  font-family: inherit;
+  animation: u-fade-in 0.3s linear;
+}
+
+.acooc__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--acooc-close-fill);
+  color: var(--text);
+  transition: background 0.15s ease;
+}
+.acooc__close:hover { background: var(--acooc-close-fill-hover); }
+
+.acooc__content { display: block; }
+
+.acooc__iconwrap { display: flex; justify-content: center; margin-bottom: 16px; color: var(--brand); }
+
+.acooc__warning {
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 26px;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.acooc__description {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--acooc-muted);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.acooc__error {
+  background: var(--acooc-error-bg);
+  border: 1px solid var(--brand);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  color: var(--brand);
+  font-size: 14px;
+  text-align: center;
+}
+
+.acooc__buttons { display: flex; gap: 12px; justify-content: center; }
+
+.acooc__btn {
+  box-sizing: border-box;
+  min-width: 140px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.acooc__btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.acooc__btn--cancel { background: transparent; border: 1px solid var(--ink-45); color: var(--ink-85); }
+.acooc__btn--cancel:not(:disabled):hover { background: var(--fill-3); border-color: var(--text); color: var(--text); }
+
+.acooc__btn--confirm { background: var(--brand); border: 1px solid var(--brand); color: #fff; }
+.acooc__btn--confirm:not(:disabled):hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+
+@media (max-height: 540px) {
+  .acooc { padding: 8px; }
+  .acooc__card { padding: 40px 32px 32px; border-radius: 12px; }
+}
+
+/* Light theme — the opt-out confirmation modal is a web/dapp account surface, so
+   it follows "Theme: Light". Remap the shared + local dark tokens it consumes. */
+html.mp-light .acooc {
+  --panel: var(--lm-surface);
+  --text: var(--lm-ink);
+  --acooc-close-fill: rgba(0, 0, 0, 0.06);
+  --acooc-close-fill-hover: rgba(0, 0, 0, 0.12);
+  --ink-45: rgba(0, 0, 0, 0.4);
+  --ink-85: rgba(0, 0, 0, 0.85);
+  --fill-3: rgba(0, 0, 0, 0.06);
+}
+html.mp-light .acooc__card { border: 1px solid var(--lm-line); }

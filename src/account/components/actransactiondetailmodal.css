@@ -1,0 +1,94 @@
+.actd {
+  --actd-card: #18171c;
+  --actd-text: #fcfcfc;
+  --actd-label: rgba(255, 255, 255, .62);
+  --actd-line: rgba(255, 255, 255, .1);
+  --actd-link: var(--brand);
+}
+
+.actd__card {
+  position: relative;
+  margin: auto;
+  width: 540px;
+  max-width: 100%;
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  background: var(--actd-card);
+  color: var(--actd-text);
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+  outline: none;
+  font-family: inherit;
+  animation: u-fade-in .3s linear;
+}
+
+.actd__close {
+  position: absolute;
+  top: 24px;
+  right: 25px;
+  margin-top: -5px;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #16141a;
+  opacity: .65;
+  cursor: pointer;
+  padding: 0;
+}
+.actd__close:hover { opacity: 1; }
+
+.actd__header {
+  text-align: center;
+  border-bottom: 1px solid var(--actd-line);
+  margin: 0;
+  padding: 20px 32px 28px 32px;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 30px;
+  letter-spacing: 0.315px;
+  color: var(--actd-text);
+}
+
+.actd__content { padding: 28px 32px 8px 32px; }
+
+.actd__data { margin-bottom: 40px; }
+.actd__data-label {
+  font-size: 13px;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: var(--actd-label);
+}
+.actd__data-value {
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 30px;
+  letter-spacing: 0.315px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--actd-text);
+}
+
+.actd__link { color: var(--actd-link); text-decoration: none; }
+.actd__link:hover { text-decoration: underline; }
+
+@media (max-height: 540px) {
+  .actd { padding: 8px; }
+  .actd__card { max-height: calc(100dvh - 16px); }
+}
+
+/* Light theme — the transaction-detail modal is a web/dapp account surface, so it
+   follows "Theme: Light". Remap this surface's local dark tokens. */
+html.mp-light .actd {
+  --actd-card: var(--lm-surface);
+  --actd-text: var(--lm-ink);
+  --actd-label: var(--lm-ink-3);
+  --actd-line: var(--lm-line);
+}
+html.mp-light .actd__card {
+  border: 1px solid var(--lm-line);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+}

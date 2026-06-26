@@ -1,0 +1,31 @@
+// Copy to src/app/panels/<Name>.route.jsx (this .txt is ignored by the glob).
+// Example for the Map panel — adapt names/imports per panel.
+
+import { useQuery } from "@tanstack/react-query";
+import Map from "../../explorer/pages/Map.jsx";
+import { fetchPlaces } from "../../data/catalyst/places.js";
+import { qk, STALE } from "../../data/queryKeys.js";
+// import { useBridgeState } from "../../overlay/bridge.js"; // read-only identity
+
+const LIST_PARAMS = { limit: 40 };
+
+// Optional: warm cache on hover/focus intent (called by the shell).
+export function prefetch(queryClient) {
+  queryClient.prefetchQuery({
+    queryKey: qk.places(LIST_PARAMS),
+    queryFn: ({ signal }) => fetchPlaces(LIST_PARAMS, { signal }),
+    staleTime: STALE.places,
+  });
+}
+
+export default function MapPanel() {
+  const places = useQuery({
+    queryKey: qk.places(LIST_PARAMS),
+    queryFn: ({ signal }) => fetchPlaces(LIST_PARAMS, { signal }),
+    staleTime: STALE.places,
+  });
+
+  // Pages are presentational with mock fallbacks: only override the prop once
+  // live data has arrived, so the panel still renders while loading.
+  return <Map {...(places.data ? { places: places.data } : {})} />;
+}

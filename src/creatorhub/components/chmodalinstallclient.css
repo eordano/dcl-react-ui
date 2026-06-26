@@ -1,0 +1,124 @@
+.chic {
+  --chic-secondary: #242129;
+  --chic-dark-gray: #43404a;
+  --chic-silver: #a09ba8;
+  --chic-primary: var(--brand);
+  --chic-primary-hover: #ff3d61;
+  --chic-text: #ffffff;
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: auto;
+  animation: u-fade-in 0.2s linear;
+}
+
+.chic__card {
+  box-sizing: border-box;
+  width: 540px;
+  max-width: 100%;
+  background: var(--chic-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+  color: var(--chic-text);
+  background-image: none;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  font-family: inherit;
+  animation: u-fade-in 0.2s linear;
+}
+
+.chic__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.chic__logo-wrap {
+  margin-bottom: 10px;
+}
+.chic__logo {
+  width: 64px;
+  height: 64px;
+  display: block;
+}
+
+.chic__title {
+  margin: 0 0 32px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--chic-text);
+}
+
+.chic__actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.chic__btn {
+  width: 100%;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  transition: background-color 0.15s ease;
+}
+
+.chic__btn--primary {
+  background: var(--chic-primary);
+  color: var(--chic-text);
+}
+.chic__btn--primary:hover {
+  background: var(--chic-primary-hover);
+}
+
+.chic__btn--cancel {
+  background: var(--chic-dark-gray);
+  color: var(--chic-text);
+  border: none;
+}
+.chic__btn--cancel:hover {
+  background: #4e4b55;
+}
+
+.chic__cta-icon {
+  flex: 0 0 auto;
+}
+
+.chic__stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(120% 90% at 50% 30%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 60%),
+    #1c1a20;
+}
+.chic__stage-hint {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.18);
+}
+

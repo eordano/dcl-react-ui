@@ -1,0 +1,13 @@
+.search {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(0, 0, 0, .157); border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: var(--ctl-radius, 999px); padding: 0 14px; height: 38px; min-width: 0;
+  transition: border-color .12s ease;
+}
+.search:focus-within { border-color: var(--brand); }
+.search__icon { color: rgba(255, 255, 255, .45); flex: 0 0 auto; }
+.search__input {
+  flex: 1; min-width: 0; background: none; border: none; outline: none;
+  color: #fff; font-family: inherit; font-size: 13px; font-weight: 500;
+}
+.search__input::placeholder { color: rgba(255, 255, 255, .4); }

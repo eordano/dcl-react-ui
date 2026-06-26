@@ -1,0 +1,246 @@
+# Explorer experience map (72 stories, 204 nav edges)
+
+**Hub:** Explorer/Frames/ExploreChrome
+
+## Canonical flow
+- Explorer/Workflows/Lobby
+- Explorer/Workflows/Loading
+- Explorer/Frames/Sidebar
+- Explorer/Pages/Places
+- Explorer/Pages/PlaceDetail
+- Explorer/Workflows/SceneLoading
+- Explorer/Frames/Minimap
+
+## Navigation edges (from → to : trigger)
+- `Explorer/Components/ChatReactions` → `Explorer/Components/EmojiPanel` — 'More reactions' (...) button
+- `Explorer/Components/CommunityCreate` → `Explorer/Pages/Communities` — CANCEL / CREATE (dismiss)
+- `Explorer/Components/CommunityStream` → `Explorer/Pages/Passport` — Sidebar profile avatar
+- `Explorer/Components/CommunityStream` → `Explorer/Pages/Backpack` — Sidebar Backpack button
+- `Explorer/Components/CommunityStream` → `Explorer/Components/EmoteWheel` — Sidebar Emotes button
+- `Explorer/Components/CommunityStream` → `Explorer/Pages/Communities` — Sidebar Communities button
+- `Explorer/Components/CommunityStream` → `Explorer/Pages/Friends` — Sidebar Friends button
+- `Explorer/Components/CommunityStream` → `Explorer/Frames/Chat` — Sidebar Chat button / chat input bar
+- `Explorer/Components/CommunityStream` → `Explorer/Components/SmartWearables` — Sidebar Smart Wearables button
+- `Explorer/Components/CommunityStream` → `Explorer/Components/Notifications` — Sidebar Notifications button
+- `Explorer/Components/CommunityStream` → `Explorer/Components/SkyboxHUD` — Sidebar Skybox button
+- `Explorer/Components/CommunityStream` → `Explorer/Pages/Settings` — Sidebar Settings button
+- `Explorer/Components/CommunityStream` → `Explorer/Pages/Controls` — Sidebar Controls button
+- `Explorer/Components/CommunityStream` → `Explorer/Pages/Map` — Minimap (click to expand)
+- `Explorer/Components/CommunityStream` → `Explorer/Components/ChatReactions` — Chat input react (heart) button
+- `Explorer/Components/ContextMenuDemo` → `Explorer/Pages/Passport` — View Profile menu item
+- `Explorer/Components/ContextMenuDemo` → `Explorer/Frames/ChatWindow` — Chat menu item (open DM)
+- `Explorer/Components/ContextMenuDemo` → `Explorer/Components/VoiceChat` — Call menu item
+- `Explorer/Components/ContextMenuDemo` → `Explorer/Workflows/SceneLoading` — Jump to Location menu item
+- `Explorer/Components/ContextMenuDemo` → `Explorer/Components/Confirm` — Block menu item
+- `Explorer/Components/EmoteWheel` → `Explorer/Pages/BackpackEmotes` — 'Customise [E]' button
+- `Explorer/Components/FriendActions` → `Explorer/Pages/Passport` — CANCEL / scrim / close
+- `Explorer/Components/Notifications` → `Explorer/Pages/Backpack` — 'View in Backpack' button (New Item card)
+- `Explorer/Components/Notifications` → `Explorer/Components/CommunityStream` — 'Join Stream' button (Community Voice Stream card)
+- `Explorer/Components/Notifications` → `Explorer/Pages/BadgesDetails` — 'View Badge' button (New Badge card)
+- `Explorer/Components/PrivateWorlds` → `Explorer/Workflows/SceneLoading` — CONFIRM with correct password
+- `Explorer/Components/ProfileWidget` → `Explorer/Pages/Passport` — VIEW PROFILE button
+- `Explorer/Components/TeleportPrompt` → `Explorer/Workflows/SceneLoading` — JUMP IN button
+- `Explorer/Frames/Chat` → `Explorer/Pages/ChatProfile` — Click a message author's avatar/name
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Reel` — Gallery top-nav tab
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Frames/ExploreChrome` → `Explorer/Pages/Passport` — User avatar button (top-right)
+- `Explorer/Frames/Gallery` → `Explorer/Pages/Passport` — 'View' button on a recognised person
+- `Explorer/Frames/Gallery` → `Explorer/Pages/Reel` — Close (x)
+- `Explorer/Frames/Minimap` → `Explorer/Pages/Map` — Expand button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Passport` — Profile avatar button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Backpack` — Backpack button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Places` — Places button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Communities` — Communities button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Reel` — Camera Reel button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Settings` — Settings button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Camera` — Camera button
+- `Explorer/Frames/Sidebar` → `Explorer/Pages/Friends` — Friends button
+- `Explorer/Frames/Sidebar` → `Explorer/Frames/Chat` — Chat button
+- `Explorer/Pages/AddLink` → `Explorer/Pages/Passport` — CANCEL button / SAVE button
+- `Explorer/Pages/Backpack` → `Explorer/Pages/BackpackOutfits` — 'Saved Outfits' sub-tab
+- `Explorer/Pages/Backpack` → `Explorer/Pages/BackpackEmotes` — 'Emotes' section pill
+- `Explorer/Pages/Backpack` → `Explorer/Pages/Events` — Events top-nav tab [X]
+- `Explorer/Pages/Backpack` → `Explorer/Pages/Places` — Places top-nav tab [Z]
+- `Explorer/Pages/Backpack` → `Explorer/Pages/Communities` — Communities top-nav tab [O]
+- `Explorer/Pages/Backpack` → `Explorer/Pages/Map` — Map top-nav tab [M]
+- `Explorer/Pages/Backpack` → `Explorer/Frames/Gallery` — Gallery top-nav tab [K]
+- `Explorer/Pages/Backpack` → `Explorer/Pages/Settings` — Settings top-nav tab [P]
+- `Explorer/Pages/Backpack` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Pages/Backpack` — 'Wearables' section pill
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Pages/Events` — Events top-nav tab [X]
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Pages/Places` — Places top-nav tab [Z]
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Pages/Communities` — Communities top-nav tab [O]
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Pages/Map` — Map top-nav tab [M]
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Frames/Gallery` — Gallery top-nav tab [K]
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Pages/Settings` — Settings top-nav tab [P]
+- `Explorer/Pages/BackpackEmotes` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/Backpack` — 'Categories' sub-tab / 'Wearables' section pill
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/BackpackEmotes` — 'Emotes' section pill
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/Events` — Events top-nav tab [X]
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/Places` — Places top-nav tab [Z]
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/Communities` — Communities top-nav tab [O]
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/Map` — Map top-nav tab [M]
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Frames/Gallery` — Gallery top-nav tab [K]
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/Settings` — Settings top-nav tab [P]
+- `Explorer/Pages/BackpackOutfits` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/BadgesDetails` → `Explorer/Pages/Passport` — 'Overview' tab (or close x)
+- `Explorer/Pages/BadgesDetails` → `Explorer/Pages/PassportPhotos` — 'Photos' tab
+- `Explorer/Pages/Camera` → `Explorer/Pages/Reel` — 'Camera Reel' button
+- `Explorer/Pages/ChatProfile` → `Explorer/Pages/BadgesDetails` — Select a badge in the Badges section
+- `Explorer/Pages/ChatProfile` → `Explorer/Frames/ChatWindow` — Close (x)
+- `Explorer/Pages/Communities` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/Communities` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/Communities` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Pages/Communities` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/Communities` → `Explorer/Frames/Gallery` — Gallery top-nav tab
+- `Explorer/Pages/Communities` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Pages/Communities` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/Communities` → `Explorer/Pages/CommunityCard` — Click a community card
+- `Explorer/Pages/Communities` → `Explorer/Components/CommunityCreate` — '+ Create a Community' button
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Passport` — Member avatar (Members tab) / User avatar (top-right)
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/PlaceDetail` — Place card in the Places tab
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/EventDetail` — Upcoming event card (right rail)
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Communities` — Close (x)
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Reel` — Gallery top-nav tab
+- `Explorer/Pages/CommunityCard` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Pages/CommunityContent` → `Explorer/Pages/PlaceDetail` — Place card in the Places tab
+- `Explorer/Pages/CommunityContent` → `Explorer/Pages/EventDetail` — Upcoming event card (right rail)
+- `Explorer/Pages/CommunityContent` → `Explorer/Pages/Communities` — Close (x)
+- `Explorer/Pages/CommunityMembers` → `Explorer/Pages/Passport` — Member avatar / name row (View Profile)
+- `Explorer/Pages/CommunityMembers` → `Explorer/Pages/EventDetail` — Upcoming event card (right rail)
+- `Explorer/Pages/CommunityMembers` → `Explorer/Pages/Communities` — Close (x)
+- `Explorer/Pages/Controls` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/Controls` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/Controls` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Pages/Controls` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Pages/Controls` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/Controls` → `Explorer/Pages/Reel` — Gallery top-nav tab
+- `Explorer/Pages/Controls` → `Explorer/Pages/Passport` — User chip (top-right)
+- `Explorer/Pages/EventDetail` → `Explorer/Pages/Events` — Close (x)
+- `Explorer/Pages/EventDetail` → `Explorer/Workflows/SceneLoading` — 'JUMP IN' button
+- `Explorer/Pages/Events` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/Events` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Pages/Events` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Pages/Events` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/Events` → `Explorer/Frames/Gallery` — Gallery top-nav tab
+- `Explorer/Pages/Events` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Pages/Events` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/Events` → `Explorer/Pages/EventDetail` — Click an event card
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/EventDetail` — Click an event card
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/Passport` — Top-right profile button
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/Places` — Places tab [Z]
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/Communities` — Communities tab [O]
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/Map` — Map tab [M]
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/Backpack` — Backpack tab [I]
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/Reel` — Gallery tab [K]
+- `Explorer/Pages/ExplorePanel` → `Explorer/Pages/Settings` — Settings tab [P]
+- `Explorer/Pages/Friends` → `Explorer/Pages/Passport` — Friend row / More -> View Profile
+- `Explorer/Pages/Friends` → `Explorer/Frames/Chat` — Message (envelope) button
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/BackpackEmotes` — 'Emotes' subtab
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/BackpackOutfits` — 'Saved Outfits' breadcrumb
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/Reel` — Gallery top-nav tab
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Pages/ItemInfo` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/Map` → `Explorer/Pages/MapFilters` — Map layers button
+- `Explorer/Pages/Map` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/Map` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/Map` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Pages/Map` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/Map` → `Explorer/Pages/Reel` — Gallery top-nav tab
+- `Explorer/Pages/Map` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Pages/Map` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Map` — Close / toggle off the Layers panel
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Reel` — Gallery top-nav tab
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Pages/MapFilters` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/Navigation` → `Explorer/Pages/Passport` — Top-right profile button
+- `Explorer/Pages/Navigation` → `Explorer/Pages/Events` — Events tab [X]
+- `Explorer/Pages/Navigation` → `Explorer/Pages/Places` — Places tab [Z]
+- `Explorer/Pages/Navigation` → `Explorer/Pages/Communities` — Communities tab [O]
+- `Explorer/Pages/Navigation` → `Explorer/Pages/Backpack` — Backpack tab [I]
+- `Explorer/Pages/Navigation` → `Explorer/Pages/Reel` — Gallery tab [K]
+- `Explorer/Pages/Navigation` → `Explorer/Pages/Settings` — Settings tab [P]
+- `Explorer/Pages/Passport` → `Explorer/Pages/BadgesDetails` — Badges tab / Badges module (see-all)
+- `Explorer/Pages/Passport` → `Explorer/Pages/PassportPhotos` — Photos tab
+- `Explorer/Pages/Passport` → `Explorer/Pages/AddLink` — Edit pencil on the Links module
+- `Explorer/Pages/PassportPhotos` → `Explorer/Pages/Passport` — Overview tab
+- `Explorer/Pages/PassportPhotos` → `Explorer/Pages/BadgesDetails` — Badges tab -> select a badge
+- `Explorer/Pages/PhotoDetail` → `Explorer/Pages/Passport` — 'View Profile' button on a person
+- `Explorer/Pages/PhotoDetail` → `Explorer/Workflows/SceneLoading` — Jump-in arrow on the Place row
+- `Explorer/Pages/PhotoDetail` → `Explorer/Pages/Reel` — Close (x)
+- `Explorer/Pages/PlaceDetail` → `Explorer/Workflows/SceneLoading` — JUMP IN button / START NAVIGATION button
+- `Explorer/Pages/PlaceDetail` → `Explorer/Pages/Places` — Close (x)
+- `Explorer/Pages/Places` → `Explorer/Pages/PlaceDetail` — Click a place card
+- `Explorer/Pages/Places` → `Explorer/Pages/Passport` — Top-right profile button
+- `Explorer/Pages/Places` → `Explorer/Pages/Events` — Events tab [X]
+- `Explorer/Pages/Places` → `Explorer/Pages/Communities` — Communities tab [O]
+- `Explorer/Pages/Places` → `Explorer/Pages/Map` — Map tab [M]
+- `Explorer/Pages/Places` → `Explorer/Pages/Backpack` — Backpack tab [I]
+- `Explorer/Pages/Places` → `Explorer/Pages/Reel` — Gallery tab [K]
+- `Explorer/Pages/Places` → `Explorer/Pages/Settings` — Settings tab [P]
+- `Explorer/Pages/Reel` → `Explorer/Frames/Gallery` — Click a photo thumbnail
+- `Explorer/Pages/Reel` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/Reel` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/Reel` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Pages/Reel` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Pages/Reel` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/Reel` → `Explorer/Pages/Settings` — Settings top-nav tab
+- `Explorer/Pages/Reel` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Pages/Settings` → `Explorer/Pages/Events` — Events top-nav tab
+- `Explorer/Pages/Settings` → `Explorer/Pages/Places` — Places top-nav tab
+- `Explorer/Pages/Settings` → `Explorer/Pages/Communities` — Communities top-nav tab
+- `Explorer/Pages/Settings` → `Explorer/Pages/Map` — Map top-nav tab
+- `Explorer/Pages/Settings` → `Explorer/Pages/Backpack` — Backpack top-nav tab
+- `Explorer/Pages/Settings` → `Explorer/Pages/Reel` — Gallery top-nav tab
+- `Explorer/Pages/Settings` → `Explorer/Pages/Passport` — User avatar (top-right)
+- `Explorer/Workflows/Loading` → `Explorer/Frames/Sidebar` — Progress completes (auto, drops into HUD)
+- `Explorer/Workflows/Lobby` → `Explorer/Workflows/Loading` — JUMP IN button
+- `Explorer/Workflows/LobbyNew` → `Explorer/Workflows/Loading` — JUMP IN button
+- `Explorer/Workflows/ProfileFetching` → `Explorer/Pages/ChatProfile` — Fetch resolves (mini profile card)
+- `Explorer/Workflows/ProfileFetching` → `Explorer/Pages/Passport` — Fetch resolves (full Passport)
+- `Explorer/Workflows/SceneLoading` → `Explorer/Frames/Minimap` — Loading reaches 100% (auto, in-world HUD)
+
+## Issues / notes
+- No dangling links: all 204 edges resolve to real story titles in the set; zero linksTo targets were dropped.
+- Orphaned navigable duplicate-variant pages (no inbound edge because nav targets the sibling variant): Explorer/Pages/ExplorePanel (duplicate of Explorer/Pages/Events), Explorer/Pages/Navigation (duplicate of Explorer/Pages/Map), Explorer/Pages/ItemInfo (duplicate of Explorer/Pages/Backpack), Explorer/Pages/CommunityContent and Explorer/Pages/CommunityMembers (tab states of Explorer/Pages/CommunityCard), Explorer/Pages/PhotoDetail (duplicate of Explorer/Frames/Gallery). Each should likely share the destination its sibling already receives.
+- Ambiguous chat target: Explorer/Components/ContextMenuDemo 'Chat' links to Explorer/Frames/ChatWindow, but Explorer/Pages/Friends 'Message' and Explorer/Frames/Sidebar 'Chat' link to Explorer/Frames/Chat. ChatWindow is documented as a non-wired presentational concept; the functional DM target is Frames/Chat. Pick one as canonical.
+- Ambiguous photo-viewer target: Explorer/Frames/Gallery and Explorer/Pages/PhotoDetail are both photo lightboxes. Reel/Places/Events/Communities/Backpack all open Frames/Gallery, leaving PhotoDetail with no inbound edge.
+- Entry-point-only roots with no inbound edges (expected): Explorer/Workflows/Lobby, Explorer/Workflows/LobbyNew, Explorer/Workflows/ProfileFetching (post sign-in flow), Explorer/Frames/ExploreChrome (the hub, opened via hotkey/Sidebar not via a link), Explorer/Frames/AuthFooterChrome.
+- Contextually-triggered nodes with no modeled inbound nav edge (expected, not navigation targets): system guard/alert modals (Explorer/Components/UpdateRequired, MinSpecs, ConnectionError, ConnectionStatus, ErrorPopup, RewardPanel, DuplicateIdentityPopup, NftPrompt, TeleportPrompt, SmartWearables, GuardModal), chat-input helpers (InputSuggestions, EmojiSprite), the own-profile/friend overlays (ProfileWidget, FriendActions), and reusable building blocks (BackPill, Tabs, ConfirmDialog, AvatarPreview, atoms SectionIcon/NinePatch/SidebarIcon).
+- Multi-element-to-same-target edges were deduped to one edge each (both clickable elements noted in wiring): Explorer/Pages/PlaceDetail->SceneLoading (JUMP IN + START NAVIGATION), Explorer/Pages/BackpackOutfits->Backpack (Categories sub-tab + Wearables pill), Explorer/Pages/AddLink->Passport (CANCEL + SAVE), Explorer/Pages/CommunityCard->Passport (member avatar + top-right user avatar).
+- Explorer/Components/Notifications and Explorer/Components/CommunityStream form a 2-node cycle (Join Stream <-> Sidebar Notifications), which is expected for a pinned-stream HUD.
+
+## Canonical resolutions (auditor fixes)
+
+The flagged "variant-page duplicates" are **distinct components** (different markup),
+not byte-duplicates — so they're resolved by canonical *targeting*, not deletion:
+
+- **Chat:** `Explorer/Frames/Chat` is the canonical DM/chat destination. `Explorer/Frames/ChatWindow` is a presentational sub-view, **not** a primary nav target. (Sidebar Chat, Friends "Message", ContextMenu "Chat" → Frames/Chat.)
+- **Map:** `Explorer/Pages/Map` is canonical; `Explorer/Pages/Navigation` folds into it.
+- **ItemInfo** is a sub-screen of `Explorer/Pages/Backpack` (reached by clicking an item) — not a Backpack duplicate.
+- **PhotoDetail** is a sub-screen of `Explorer/Frames/Gallery` (click a photo); Gallery is the canonical photo grid.
+- **CommunityContent / CommunityMembers** are tab states of `Explorer/Pages/CommunityCard`.
+
+## Wiring status
+- **Sidebar rail** (`Explorer/Frames/Sidebar`) wired: 14 `data-sb-linkto` edges (Backpack, Places,
+  Communities, Reel, Settings, Camera, Friends, VoiceChat, SmartWearables, SkyboxHUD, EmoteWheel,
+  Chat→Frames/Chat, Passport, Notifications). Mechanism: `data-sb-linkto="<Story Title>"` + a global
+  `withExperienceLinks` decorator (preview.jsx) that calls addon-links `linkTo` on click.
+- Remaining edges (ExploreChrome tabs, per-screen detail links) are catalogued above for incremental wiring.

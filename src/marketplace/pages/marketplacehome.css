@@ -1,0 +1,213 @@
+.mh {
+  --mh-statscard: #242129;
+  --mh-staticon: #37333d;
+  --mh-statsub: #736e7d;
+
+  min-height: 100%;
+  padding: 28px 22px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.mh__volume {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.mh__volhead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.mh__voltext { min-width: 0; }
+.mh__voltitle {
+  margin: 0;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: capitalize;
+}
+.mh__volsub {
+  margin: 6px 0 0;
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 400;
+  color: var(--ink-6);
+}
+
+.mh__timeframe {
+  flex: 0 0 auto;
+  display: inline-flex;
+  border: 1px solid rgba(115, 110, 125, 0.4);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.mh__tf {
+  border: 0;
+  border-right: 1px solid rgba(115, 110, 125, 0.4);
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--ink-7);
+  padding: 7px 16px;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.mh__tf:last-child { border-right: 0; }
+.mh__tf:hover { color: #fff; }
+.mh__tf.is-active { background: var(--brand); color: #fff; }
+
+.mh__statscard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--mh-statscard);
+  border-radius: 10px;
+  padding: 24px 36px;
+  min-height: 96px;
+}
+.mh__stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.mh__staticon {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 30px;
+  background: var(--mh-staticon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.mh__statbody {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.mh__statlabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-6);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 4px;
+}
+.mh__statinfo {
+  display: inline-flex;
+  color: var(--ink-45);
+  cursor: pointer;
+}
+.mh__statvalue {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 21px;
+  font-weight: 700;
+  color: #fff;
+}
+.mh__statmana { color: var(--brand); flex: 0 0 auto; }
+.mh__statsub {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--mh-statsub);
+  margin-left: 8px;
+}
+
+.mh__section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mh__sechead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.mh__sectext { min-width: 0; }
+.mh__sectitle {
+  margin: 0;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: capitalize;
+}
+.mh__secsub {
+  margin: 6px 0 0;
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 400;
+  color: var(--ink-6);
+}
+.mh__exploreall {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  color: var(--brand);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  padding: 6px 0;
+}
+.mh__exploreall:hover { color: var(--brand-hover); }
+
+.mh__row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  margin: -4px;
+  padding: 4px 4px 8px;
+}
+.mh__cell {
+  flex: 0 0 auto;
+  width: clamp(210px, 21vw, 250px);
+  scroll-snap-align: start;
+}
+
+.mh__empty {
+  padding: 40px;
+  text-align: center;
+  color: var(--ink-45);
+  font-size: 14px;
+  background: var(--fill-2);
+  border: 1px dashed var(--line);
+  border-radius: var(--r-card);
+}
+
+@media (max-width: 768px) {
+  .mh { padding: 18px 14px 32px; gap: 36px; }
+  .mh__volhead { flex-direction: column; gap: 14px; }
+  .mh__voltitle, .mh__sectitle { font-size: 22px; line-height: 28px; }
+  .mh__volsub, .mh__secsub { font-size: 15px; line-height: 22px; }
+  .mh__statscard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    padding: 24px;
+  }
+  .mh__cell { width: 60vw; max-width: 230px; }
+}

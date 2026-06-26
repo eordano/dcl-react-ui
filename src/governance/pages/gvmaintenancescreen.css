@@ -1,0 +1,56 @@
+.gvmaintenancescreen__container {
+  --undefined-ink: var(--gv-ink);
+
+  --weight-normal: 400;
+  --weight-bold: 700;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.gvmaintenancescreen {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.gvmaintenancescreen__heading {
+  margin: 0;
+  color: var(--undefined-ink);
+  font-size: 48px;
+  line-height: 1.17;
+  font-weight: var(--weight-bold, 700);
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+}
+
+.gvmaintenancescreen__text {
+  margin: 12px 0 0;
+  color: var(--undefined-ink);
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: var(--weight-normal, 400);
+  font-stretch: normal;
+  font-style: normal;
+}
+
+@media only screen and (max-width: 767px) {
+  .gvmaintenancescreen__container {
+    padding: 0 16px;
+  }
+  .gvmaintenancescreen__heading {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .gvmaintenancescreen__heading {
+    font-size: 34px;
+  }
+}

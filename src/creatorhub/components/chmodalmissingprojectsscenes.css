@@ -1,0 +1,146 @@
+.chmodalmissingprojectsscenes__backdrop,
+.chmodalmissingprojectsscenes__paper {
+  --chmp-modal: #242129;
+  --chmp-white: #ffffff;
+  --chmp-dcl: var(--brand);
+  --chmp-dcl-dark: #9c1c34;
+  --chmp-light-gray: #5e5b67;
+  --chmp-silver: #a09ba8;
+  --chmp-radius: 6px;
+  font-family:
+    "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.chmodalmissingprojectsscenes__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.chmodalmissingprojectsscenes__paper {
+  width: 540px;
+  max-width: calc(100% - 32px);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 12px;
+  background-color: var(--chmp-modal);
+  color: var(--chmp-white);
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.chmodalmissingprojectsscenes__titlebox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 8px;
+}
+
+.chmodalmissingprojectsscenes__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 2em;
+  color: var(--chmp-white);
+}
+
+.chmodalmissingprojectsscenes__close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: -8px -8px -8px 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--chmp-silver);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.chmodalmissingprojectsscenes__close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--chmp-white);
+}
+
+.chmodalmissingprojectsscenes__content {
+  padding: 24px;
+}
+
+.chmodalmissingprojectsscenes__row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.chmodalmissingprojectsscenes__path {
+  min-width: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--chmp-white);
+}
+
+.chmodalmissingprojectsscenes__actions {
+  display: flex;
+  flex: 0 0 auto;
+}
+.chmodalmissingprojectsscenes__actions
+  > .chmodalmissingprojectsscenes__btn
+  + .chmodalmissingprojectsscenes__btn {
+  margin-left: 10px;
+}
+
+.chmodalmissingprojectsscenes__btn {
+  border: 1px solid transparent;
+  border-radius: var(--chmp-radius);
+  color: var(--chmp-white);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02857em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.12s ease;
+}
+
+.chmodalmissingprojectsscenes__btn--primary {
+  padding: 5px 20px;
+  background-color: var(--chmp-dcl);
+}
+.chmodalmissingprojectsscenes__btn--primary:hover {
+  background-color: var(--chmp-dcl-dark);
+}
+
+.chmodalmissingprojectsscenes__btn--info {
+  padding: 2px 10px;
+  background-color: initial;
+  border: 1px solid var(--chmp-white);
+}
+.chmodalmissingprojectsscenes__btn--info:hover {
+  background-color: var(--chmp-light-gray);
+}
+
+.chmodalmissingprojectsscenes__discard-all {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 30px;
+}
+
+.chmodalmissingprojectsscenes__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.chmodalmissingprojectsscenes__btn--info:disabled:hover {
+  background-color: initial;
+}

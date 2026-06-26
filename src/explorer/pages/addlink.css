@@ -1,0 +1,51 @@
+.modal__card--grad {
+  background: linear-gradient(180deg, #7a2db0 0%, #4b167c 55%, #45146f 100%);
+  border: none;
+  border-radius: 20px;
+  padding: 36px 36px 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+}
+
+.al { color: #fff; }
+.al__title { margin: 0 0 24px; font-size: 18px; font-weight: 800; }
+
+.al__sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.al__field { display: block; margin-bottom: 14px; }
+.al__input {
+  width: 100%; box-sizing: border-box;
+  background: #fff;
+  border: none; border-radius: 10px;
+  color: #2f004d; font-family: inherit; font-size: 14px;
+  padding: 13px 16px; outline: none;
+}
+.al__input::placeholder { color: rgba(47, 0, 77, .45); }
+.al__input:focus { box-shadow: 0 0 0 2px rgba(255, 255, 255, .55); }
+
+.al__actions { display: flex; gap: 12px; margin-top: 28px; }
+.al__cancel, .al__add {
+  flex: 1; border: none; cursor: pointer; font-family: inherit;
+  font-size: 13px; font-weight: 800; letter-spacing: .04em;
+  padding: 13px 0; border-radius: var(--r-pill);
+}
+.al__cancel { background: rgba(255, 255, 255, .12); color: #fff; }
+.al__cancel:hover { background: rgba(255, 255, 255, .2); }
+.al__add { background: linear-gradient(90deg, #c145c0, #a52d96); color: #fff; }
+.al__add:hover { filter: brightness(1.08); }
+
+@media (max-width: 760px) {
+  .modal__card--grad {
+    width: 100%; max-width: calc(100vw - 40px); box-sizing: border-box;
+    max-height: calc(100dvh - 40px); overflow-y: auto;
+    border-radius: 16px; padding: 28px 24px 24px;
+  }
+}
+@media (max-height: 700px) {
+  .modal__card--grad {
+    max-height: calc(100dvh - 24px); overflow-y: auto;
+    border-radius: 14px; padding: 20px 22px;
+  }
+}

@@ -1,0 +1,24 @@
+.modal__backdrop {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  background: rgba(0, 0, 0, .502);
+  display: flex;
+  padding: 20px; overflow: auto;
+  animation: u-fade-in .3s linear;
+}
+.modal__card {
+  margin: auto;
+  max-height: calc(100dvh - 40px); overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  outline: none;
+  border-radius: var(--modal-radius, 16px); padding: 28px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.45);
+  color: #fff;
+  max-width: 100%;
+  animation: u-fade-in .3s linear;
+}
+.modal__card:focus, .modal__card:focus-visible { outline: none; }
+@media (max-height: 540px) {
+  .modal__backdrop { padding: 8px; }
+  .modal__card { padding: 18px; border-radius: var(--modal-radius, 12px); max-height: calc(100dvh - 16px); }
+}

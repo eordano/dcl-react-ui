@@ -1,0 +1,488 @@
+.cie {
+  --cie-bg: var(--panel);
+  --cie-container: #242129;
+  --cie-input: #43404a;
+  --cie-title: #a09ba8;
+  --cie-label: #ffffff;
+  --cie-placeholder: #a0a0a0;
+  --cie-divider: #3c3c3c;
+  --cie-base06: #ccc;
+  --cie-base08: #bbb;
+  --cie-base12: #606060;
+  --cie-header-hover: #38222d;
+  --cie-chip: #3c3c3c;
+  --cie-primary: var(--brand);
+  --cie-primary-dark: #f70038;
+  --cie-warning: #ffc95b;
+  --cie-text: #fcfcfc;
+  --cie-font:
+    "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  font-family: var(--cie-font);
+  color: var(--cie-text);
+  background: #0e0d10;
+}
+
+.cie__context {
+  flex: 1 1 auto;
+  display: flex;
+  min-width: 0;
+  opacity: 0.62;
+  filter: saturate(0.85);
+  pointer-events: none;
+}
+
+.cie__hier {
+  flex: 0 0 224px;
+  background: var(--cie-bg);
+  border-right: 1px solid var(--cie-divider);
+  padding: 8px 0;
+  overflow: hidden;
+  font-size: 13px;
+}
+.cie__hierhead {
+  padding: 4px 12px 10px;
+  color: var(--cie-title);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 11px;
+}
+.cie__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  color: var(--cie-base06);
+}
+.cie__row.is-selected {
+  background: var(--cie-header-hover);
+  color: #fff;
+}
+.cie__row svg { width: 13px; height: 13px; flex: 0 0 auto; }
+.cie__row .cie__cube { color: var(--cie-title); }
+.cie__row .cie__cube.is-smart { color: #c640cd; }
+
+.cie__viewport {
+  flex: 1 1 auto;
+  min-width: 0;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(90, 110, 160, 0.12), transparent 60%),
+    linear-gradient(180deg, #1b2230 0%, #12161f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cie__viewport .cie__crate {
+  width: 120px;
+  height: 120px;
+  border: 2px solid rgba(120, 180, 255, 0.55);
+  border-radius: 6px;
+  background: rgba(120, 180, 255, 0.08);
+  transform: rotate(-8deg) skewY(4deg);
+}
+
+.cie__panel {
+  position: relative;
+  flex: 0 0 340px;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background: var(--cie-bg);
+  border-left: 1px solid var(--cie-divider);
+  overflow-y: auto;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.cie__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 4px;
+  padding-bottom: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+}
+.cie__titlewrap {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.cie__title {
+  flex: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cie__rightcontent {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.cie__add {
+  position: relative;
+}
+.cie__addtrigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--cie-primary);
+  border-radius: 4px;
+  padding: 4px;
+  cursor: pointer;
+  color: #fff;
+}
+.cie__addtrigger:hover { background: var(--cie-primary-dark); }
+.cie__addtrigger svg { width: 16px; height: 16px; }
+
+.cie__more {
+  position: relative;
+}
+.cie__morebtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  transform: rotate(90deg);
+}
+.cie__morebtn svg { width: 16px; height: 16px; }
+
+.cie__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 5;
+  border-radius: 4px;
+  background: var(--cie-input);
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.4);
+  padding: 4px 0;
+  min-width: 175px;
+}
+.cie__add .cie__menu { min-width: 200px; padding: 4px 0; }
+
+.cie__opthead {
+  padding: 6px 8px 4px;
+  color: var(--cie-base08);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--cie-base12);
+  margin-bottom: 2px;
+}
+.cie__opt {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px;
+  color: #f0f0f0;
+  cursor: pointer;
+}
+.cie__opt:hover { background: var(--cie-primary); }
+.cie__opt .cie__optname {
+  font-size: 13px;
+  font-weight: 500;
+}
+.cie__opt .cie__optdesc {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--cie-base08);
+  line-height: 1.2;
+  margin-top: 1px;
+}
+.cie__opt:hover .cie__optdesc { color: #fff; }
+.cie__opt.is-disabled {
+  color: var(--cie-title);
+  cursor: default;
+}
+.cie__opt.is-disabled:hover { background: transparent; }
+
+.cie__menuitem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+.cie__menuitem:hover { background: var(--cie-primary); }
+.cie__menuitem svg { width: 15px; height: 15px; flex: 0 0 auto; }
+.cie__menuitem.is-remove { color: #ff8a8a; }
+.cie__menuitem.is-remove:hover { color: #fff; }
+
+.cie__info {
+  width: 100%;
+  font-size: 11px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cie__instanceof {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.cie__chip {
+  font-weight: 500;
+  background: var(--cie-chip);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cie__chip svg { width: 13px; height: 13px; color: #c640cd; }
+.cie__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.cie__tag {
+  background: var(--cie-chip);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cie-base06);
+}
+
+.cie__container {
+  display: flex;
+  flex-direction: column;
+  background: var(--cie-container);
+  border-radius: 4px;
+}
+.cie__cttitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 4px;
+}
+.cie__cttitle:hover { background: var(--cie-header-hover); }
+.cie__container.is-open > .cie__cttitle {
+  border-radius: 4px 4px 0 0;
+  margin-bottom: 4px;
+}
+.cie__cttitle .cie__chev {
+  width: 14px;
+  height: 14px;
+  color: var(--cie-title);
+  flex: 0 0 auto;
+}
+.cie__cttitle .cie__ctname {
+  text-transform: uppercase;
+  color: var(--cie-title);
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+.cie__cttitle .cie__ctright {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+}
+.cie__cttitle .cie__help {
+  display: flex;
+  color: var(--cie-placeholder);
+}
+.cie__cttitle .cie__help svg { width: 13px; height: 13px; }
+.cie__cttitle .cie__warn { color: var(--cie-warning); display: flex; }
+.cie__cttitle .cie__warn svg { width: 15px; height: 15px; }
+
+.cie__ctbody {
+  padding: 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cie__block {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+.cie__blockcontent {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.cie__lbl {
+  display: flex;
+  align-items: end;
+  color: var(--cie-label);
+  font-size: 11px;
+  font-weight: 400;
+  margin-bottom: 4.5px;
+  gap: 2px;
+}
+.cie__lbl.is-header {
+  border-bottom: 1px solid var(--cie-divider);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+.cie__column { display: flex; flex-direction: column; }
+
+.cie__field {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.cie__input {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: var(--cie-input);
+  border-radius: 4px;
+  border: 1px solid var(--cie-input);
+  font-size: 13px;
+  overflow: hidden;
+}
+.cie__input.is-focus { border-color: #fff; }
+.cie__input .cie__leftlbl {
+  color: var(--cie-placeholder);
+  padding-left: 8px;
+  flex: 0 0 auto;
+  font-size: 13px;
+}
+.cie__input input,
+.cie__input .cie__inputtext {
+  flex: 1;
+  min-width: 0;
+  color: var(--cie-text);
+  background: transparent;
+  outline: none;
+  border: none;
+  padding: 4px 9px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+}
+.cie__input .cie__inputtext.is-placeholder { color: var(--cie-placeholder); }
+
+.cie__dropfield {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 24px;
+  background: var(--cie-input);
+  border-radius: 4px;
+  border: 1px solid var(--cie-input);
+  padding: 3px 8px;
+  gap: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+.cie__dropfield svg { width: 16px; height: 16px; color: var(--cie-placeholder); flex: 0 0 auto; }
+
+.cie__container.is-transform .cie__blockcontent {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.cie__container.is-transform .cie__block > .cie__lbl {
+  grid-column: 1;
+  margin-bottom: 0;
+}
+.cie__scalerow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  grid-column: 1;
+}
+.cie__link {
+  width: 15px;
+  height: 15px;
+  color: var(--cie-placeholder);
+  cursor: pointer;
+}
+
+.cie__divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 6px 0;
+}
+.cie__divider::before,
+.cie__divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--cie-divider);
+}
+.cie__divider .cie__divlabel {
+  padding: 0 12px;
+  color: var(--cie-divider);
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cie__file {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  background: var(--cie-input);
+  border-radius: 4px;
+  border: 1px solid var(--cie-input);
+  overflow: hidden;
+}
+.cie__file .cie__filepath {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 9px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cie__file .cie__filebtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 100%;
+  flex: 0 0 auto;
+  color: var(--cie-placeholder);
+  border-left: 1px solid #2c2933;
+}
+.cie__file .cie__filebtn svg { width: 14px; height: 14px; }

@@ -1,0 +1,53 @@
+.isg__stage {
+  position: fixed; inset: 0; overflow: hidden; color: #fff; font-family: inherit;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #4a2342 0%, #2a1830 42%, #181020 100%);
+}
+
+.isg {
+  width: 356px; max-width: 100%;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.isg__hint {
+  margin: 0 0 2px; padding-left: 4px;
+  font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+
+.isg__box {
+  background: rgba(14, 13, 16, .82); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-card);
+  box-shadow: 0 16px 44px rgba(0,0,0,.5); padding: 6px; overflow: hidden;
+}
+.isg__row {
+  width: 100%; display: flex; align-items: center; gap: 11px; text-align: left;
+  background: none; border: none; cursor: pointer; color: var(--text);
+  font-family: inherit; font-size: 14px; padding: 9px 10px; border-radius: 9px;
+}
+.isg__row.is-active { background: var(--fill-3); }
+.isg__row:hover { background: var(--fill-4); }
+.isg__name { font-weight: 700; }
+.isg__tag { color: rgba(255,255,255,.35); font-weight: 600; }
+
+.isg__input {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(14, 13, 16, .78); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-pill);
+  height: 46px; padding: 0 8px;
+}
+.isg__typed { flex: 1; font-size: 14px; color: #fff; display: inline-flex; align-items: center; }
+.isg__caret { display: inline-block; width: 1.5px; height: 18px; background: var(--brand); margin-left: 1px; animation: isg-blink 1s steps(1) infinite; }
+@keyframes isg-blink { 50% { opacity: 0; } }
+.isg__react, .isg__send {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+  background: transparent; color: rgba(255,255,255,.55);
+  display: flex; align-items: center; justify-content: center;
+}
+.isg__react:hover { background: var(--fill-5); color: #ff4f6d; }
+.isg__send:hover { background: var(--fill-5); color: #fff; }
+
+@media (max-width: 600px) {
+  .isg { width: 100%; }
+}

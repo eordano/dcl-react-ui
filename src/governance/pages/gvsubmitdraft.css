@@ -1,0 +1,57 @@
+.gvsubmitdraft {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 100%;
+  padding: 32px 24px 56px;
+  gap: 0 24px;
+}
+
+.gvsubmitdraft__h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
+  color: var(--gv-ink);
+}
+
+.gvsubmitdraft--gate {
+  align-items: center;
+  padding: 80px 24px;
+}
+.gvsubmitdraft__login {
+  flex: 0 1 560px;
+  max-width: 560px;
+  text-align: center;
+  background: var(--gv-surface);
+  border: 1px solid var(--gv-line);
+  border-radius: var(--r-card);
+  padding: 48px 40px;
+  box-shadow: 0 8px 24px rgba(22, 20, 26, 0.08);
+}
+.gvsubmitdraft__loginsub {
+  margin: 14px 0 28px;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--gv-muted);
+}
+.gvsubmitdraft__connect {
+  border: 0;
+  cursor: pointer;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  height: 48px;
+  padding: 0 30px;
+  border-radius: var(--r-pill);
+  transition: background 0.12s ease;
+}
+.gvsubmitdraft__connect:hover { background: var(--brand-hover); }
+
+@media (max-width: 760px) {
+  .gvsubmitdraft { padding: 20px 14px 40px; }
+  .gvsubmitdraft__h1 { font-size: 28px; }
+}

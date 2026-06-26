@@ -1,0 +1,213 @@
+.bdlandedit {
+  --bdle-divider: rgba(103, 99, 112, 0.2);
+  --bdle-secondary: #676370;
+  --bdle-primary: var(--brand);
+  --bdle-primary-hover: #ff3d61;
+  --bdle-button-secondary: #242129;
+  --bdle-button-secondary-hover: #28262c;
+
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: 24px 0 96px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+}
+.bdlandedit *,
+.bdlandedit *::before,
+.bdlandedit *::after { box-sizing: border-box; }
+
+.bdlandedit--loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-height: 60vh;
+}
+
+.bdlandedit__action {
+  position: relative;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.bdlandedit__backrow {
+  position: relative;
+  height: 48px;
+}
+.bdlandedit__back {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--fill-3);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.bdlandedit__back:hover { background: var(--fill-4); }
+
+.bdlandedit__main {
+  margin-top: 40px;
+}
+
+.bdlandedit__narrow {
+  position: relative;
+  width: 944px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.bdlandedit__atlascol {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.bdlandedit__atlas {
+  width: 240px;
+  height: 240px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #13101a;
+}
+.bdlandedit__atlassvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bdlandedit__content {
+  margin-left: 240px;
+  padding-left: 80px;
+}
+
+.bdlandedit__section {
+  margin-bottom: 24px;
+}
+.bdlandedit__title {
+  margin: 0;
+  font-size: 34px;
+  line-height: 42px;
+  font-weight: 600;
+  color: #fff;
+}
+.bdlandedit__subtitle {
+  margin-top: 8px;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--bdle-secondary);
+}
+.bdlandedit__subtitle strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.bdlandedit__form {
+  display: block;
+}
+
+.bdlandedit__field {
+  min-width: 400px;
+  max-width: 100%;
+  position: relative;
+  margin-bottom: 16px;
+}
+.bdlandedit__fieldlabel {
+  display: flex;
+  margin-bottom: 0;
+}
+.bdlandedit__fieldlabel label {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 700;
+  text-transform: none;
+  color: var(--bdle-secondary);
+}
+.bdlandedit__input {
+  width: 100%;
+}
+.bdlandedit__input input {
+  width: 100%;
+  margin: 0;
+  padding: 4px 0 12px;
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  color: #fff;
+  border: none;
+  border-bottom: 2px solid var(--bdle-divider);
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+}
+.bdlandedit__input input:focus,
+.bdlandedit__input input:active {
+  border-bottom: 2px solid #fff;
+}
+
+.bdlandedit__row {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+}
+.bdlandedit__cancel {
+  margin-right: 16px;
+  text-decoration: none;
+}
+
+.bdlandedit__btn {
+  margin: 0;
+  min-width: 128px;
+  padding: 13px 32px;
+  border: 0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: var(--bdle-button-secondary);
+  color: #fff;
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+.bdlandedit__btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--bdle-button-secondary-hover);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.06);
+}
+.bdlandedit__btn--primary {
+  background-color: var(--bdle-primary);
+}
+.bdlandedit__btn--primary:hover {
+  background-color: var(--bdle-primary-hover);
+}
+.bdlandedit__btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 991px) {
+  .bdlandedit__narrow { width: 600px; }
+}
+@media (max-width: 768px) {
+  .bdlandedit__narrow { width: 100%; }
+  .bdlandedit__atlascol { position: static; margin-bottom: 24px; }
+  .bdlandedit__content { margin-left: 0; padding-left: 0; }
+  .bdlandedit__field { min-width: 0; }
+}

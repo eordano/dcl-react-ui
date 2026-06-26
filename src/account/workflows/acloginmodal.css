@@ -1,0 +1,202 @@
+.acloginmodal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  color: #fff;
+
+  --undefined-card-on-modal: #211f24;
+  --undefined-card-hover: #2b282f;
+  --undefined-secondary-text: #a09ba8;
+  --undefined-option-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.acloginmodal__shellfill { padding: 40px 32px; }
+.acloginmodal__shellhint { margin: 0; font-size: 14px; color: var(--ink-45); }
+
+.acloginmodal__states {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: calc(var(--z-modal) + 1);
+  display: flex;
+  gap: 6px;
+  padding: 5px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.acloginmodal__statebtn {
+  border: none;
+  background: transparent;
+  color: var(--ink-7);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 13px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+}
+.acloginmodal__statebtn:hover { color: #fff; }
+.acloginmodal__statebtn.is-active { background: var(--brand); color: #fff; }
+
+.acloginmodal__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: auto;
+  background: var(--scrim);
+}
+
+.acloginmodal__card {
+  position: relative;
+  overflow: hidden;
+  width: 520px;
+  max-width: 100%;
+  margin: auto;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-modal);
+  color: #fff;
+}
+
+.acloginmodal__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 24px 0 24px;
+  position: relative;
+}
+.acloginmodal__navtitle {
+  color: var(--text);
+  font-size: 21px;
+  line-height: 30px;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+}
+.acloginmodal__navsubtitle {
+  color: var(--undefined-secondary-text);
+  font-size: 17px;
+  line-height: 26px;
+  letter-spacing: -0.2px;
+  text-align: center;
+}
+.acloginmodal__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  opacity: 0.85;
+}
+.acloginmodal__close:hover { opacity: 1; }
+
+.acloginmodal__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 28px 32px 28px 32px;
+}
+
+.acloginmodal__option {
+  width: 410px;
+  max-width: 100%;
+  height: 80px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--undefined-card-on-modal);
+  box-shadow: var(--undefined-option-shadow);
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.acloginmodal__option:hover { background: var(--undefined-card-hover); }
+.acloginmodal__option + .acloginmodal__option { margin-top: 16px; }
+
+.acloginmodal__optimage {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.acloginmodal__optimage svg { width: 40px; height: 40px; }
+
+.acloginmodal__optinfo {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+  min-width: 0;
+}
+.acloginmodal__opttitle { font-weight: bold; color: var(--text); }
+.acloginmodal__optsubtitle {
+  color: var(--undefined-secondary-text);
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.acloginmodal__message {
+  margin-top: 28px;
+  text-align: center;
+  display: block;
+  color: var(--text);
+  line-height: 1.5;
+  opacity: 0.9;
+  font-size: 14px;
+}
+.acloginmodal__message a { color: var(--brand); text-decoration: none; }
+.acloginmodal__message a:hover { text-decoration: underline; }
+
+.acloginmodal__error {
+  color: var(--brand);
+  margin: 20px 0;
+  text-align: center;
+  user-select: none;
+  opacity: 0;
+}
+.acloginmodal__error--visible {
+  opacity: 1;
+  user-select: auto;
+  transition: opacity 0.25s ease;
+}
+
+.acloginmodal__loaderbg {
+  position: absolute;
+  inset: 0;
+  background: var(--panel);
+  opacity: 0.5;
+}
+.acloginmodal__loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+@media (max-height: 700px) {
+  .acloginmodal__content { margin-top: 18px; margin-bottom: 18px; }
+}

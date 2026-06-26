@@ -1,0 +1,147 @@
+import { Avatar, Badge } from "../../atoms/primitives.jsx";
+import "./sidebar.css";
+
+function Ico({ d, viewBox = "0 0 24 24", children }) {
+  return (
+    <svg className="sb__icon" viewBox={viewBox} aria-hidden="true" focusable="false">
+      {d ? <path d={d} /> : children}
+    </svg>
+  );
+}
+
+const ICONS = {
+  overflow: <Ico><circle cx="5" cy="12" r="1.9" /><circle cx="12" cy="12" r="1.9" /><circle cx="19" cy="12" r="1.9" /></Ico>,
+  bell: <Ico d="M12 2a6 6 0 0 0-6 6c0 3.6-1 5.4-1.8 6.3-.5.6-.1 1.7.8 1.7h14c.9 0 1.3-1.1.8-1.7C19 13.4 18 11.6 18 8a6 6 0 0 0-6-6Zm0 20a2.6 2.6 0 0 0 2.6-2.4H9.4A2.6 2.6 0 0 0 12 22Z" />,
+  backpackRotate: (
+    <Ico>
+      <path d="M9 4.2A3 3 0 0 1 15 4.2V5h1.2a2.6 2.6 0 0 1 2.6 2.6V17a2.6 2.6 0 0 1-2.6 2.6H7.8A2.6 2.6 0 0 1 5.2 17V7.6A2.6 2.6 0 0 1 7.8 5H9v-.8Zm2 .8h2a1.5 1.5 0 0 0-2 0Zm-2.4 4.4v2.4h6.8V9.4H8.6Z" />
+      <path d="M14.6 14.2a2.4 2.4 0 0 1-4.5.6l1.1.5a1.3 1.3 0 0 0 2.3-.3l-.9.1.7-1.4 1.4.8-.1.1Zm-5.2-.6a2.4 2.4 0 0 1 4.5-.6l-1.1-.5a1.3 1.3 0 0 0-2.3.3l.9-.1-.7 1.4-1.4-.8.1-.1Z" />
+    </Ico>
+  ),
+  places: <Ico d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" />,
+  people: <Ico d="M8.5 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-7 1.5C5.5 12.5 2 14 2 16.5V19h8v-2.5c0-1 .5-2 1.4-2.7a7 7 0 0 0-2.9-.8Zm7 0c-.6 0-1.2.1-1.8.2 1 .8 1.8 1.8 1.8 3.3V19h6v-2.5c0-2.5-3.5-4-6-4Z" />,
+  backpack: (
+    <Ico>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.2 5.4a3.8 3.8 0 0 1 7.6 0v.3A3.2 3.2 0 0 1 18.4 8.8V18a2.6 2.6 0 0 1-2.6 2.6H8.2A2.6 2.6 0 0 1 5.6 18V8.8A3.2 3.2 0 0 1 8.2 5.7v-.3Zm5.8.2V5.4a2 2 0 0 0-4 0v.2a3.2 3.2 0 0 1 .8-.1h2.4c.27 0 .54.04.8.1ZM8.8 8.4a1.4 1.4 0 0 0-1.4 1.4v8.2a.8.8 0 0 0 .8.8h.6v-3.4a1.4 1.4 0 0 1 1.4-1.4h3.6a1.4 1.4 0 0 1 1.4 1.4v3.4h.6a.8.8 0 0 0 .8-.8V9.8a1.4 1.4 0 0 0-1.4-1.4H8.8Zm5 8.2H10.2v2.2h3.6v-2.2Z"
+      />
+    </Ico>
+  ),
+  marketplace: <Ico d="M7 7V6a5 5 0 0 1 10 0v1h2.2l.8 12.5a2 2 0 0 1-2 2.1H6a2 2 0 0 1-2-2.1L4.8 7H7Zm2 0h6V6a3 3 0 0 0-6 0v1Z" />,
+  gallery: <Ico d="M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v9.6l3.8-3.8 2.6 2.6 3.4-3.4L19 16.8V6H5Zm3.5 1.8a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4Z" />,
+  settings: <Ico d="M19.4 13a7.8 7.8 0 0 0 0-2l2-1.5-2-3.4-2.4 1a7.6 7.6 0 0 0-1.7-1l-.4-2.6H10l-.4 2.6c-.6.3-1.2.6-1.7 1l-2.4-1-2 3.4L3.6 11a7.8 7.8 0 0 0 0 2l-2 1.5 2 3.4 2.4-1c.5.4 1.1.7 1.7 1l.4 2.6h4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.4 1 2-3.4-2-1.5ZM12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4Z" />,
+  help: <Ico d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm.1 14.8a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Zm1.7-5.1c-.7.6-1 1-1 1.7v.4h-1.8v-.5c0-1.1.5-1.9 1.4-2.6.7-.5 1-.9 1-1.5 0-.7-.5-1.2-1.4-1.2-.8 0-1.4.5-1.6 1.3l-1.7-.4c.3-1.5 1.5-2.5 3.3-2.5 2 0 3.3 1.1 3.3 2.8 0 1-.5 1.7-1.5 2.5Z" />,
+  voice: (
+    <Ico>
+      <path d="M9.4 6.5a4.6 4.6 0 1 0 .2 8.8" />
+      <circle cx="10.2" cy="9.6" r="0.6" />
+      <path d="M8.2 11.4c.5.7 1.4 1 2.1.5" />
+      <path d="M14.2 8.6a3 3 0 0 1 0 5.2" />
+      <path d="M15.8 7a5 5 0 0 1 0 8.4" />
+    </Ico>
+  ),
+  wearables: <Ico d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" />,
+  skybox: (
+    <Ico>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 8a4 4 0 0 0 0 8Z" fill="currentColor" stroke="none" />
+      <path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M5.6 18.4l1.6-1.6M16.8 7.2l1.6-1.6" />
+    </Ico>
+  ),
+  camera: <Ico d="M9 4 7.5 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2.5L15 4H9Zm3 5a4.2 4.2 0 1 1 0 8.4A4.2 4.2 0 0 1 12 9Zm0 2a2.2 2.2 0 1 0 0 4.4A2.2 2.2 0 0 0 12 11Z" />,
+  emote: <Ico d="M13.5 4.2a1.7 1.7 0 1 1-3.4 0 1.7 1.7 0 0 1 3.4 0ZM10 7l-3.5 2 .8 1.7L9.5 9.4 9 12l-3 5.5 1.6 1L11 13l1.7 2.8L11 21h2l2-5-2-3.5.6-3 2.2 1.5 1-1.6L13.5 7H10Z" />,
+  friends: <Ico d="M9 11.5a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Zm0 1.4c-3 0-5.5 1.6-5.5 3.8V19H11v-2.3c0-1.4.7-2.6 1.8-3.4a9 9 0 0 0-3.8-.4Zm8.1-3.9c1 .9 2.5 2.3 2.5 3.6 0 1.1-1 2-2.5 3.4-1.5-1.4-2.5-2.3-2.5-3.4 0-1.3 1.5-2.7 2.5-3.6Z" />,
+  chat: <Ico d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 3.5V16H6a2 2 0 0 1-2-2V5Z" />,
+};
+
+const STROKE_ICONS = new Set(["skybox", "voice"]);
+
+function Btn({ icon, label, active, tile, badge, badgeKind, dot, notifDot, to }) {
+  return (
+    <button
+      className={
+        "sb__btn" +
+        (active ? " is-active" : "") +
+        (tile ? " is-tile" : "") +
+        (STROKE_ICONS.has(icon) ? " is-stroke" : "")
+      }
+      title={label}
+      aria-label={label}
+      data-sb-linkto={to || undefined}
+    >
+      {ICONS[icon]}
+      {dot ? <span className="sb__presence" /> : null}
+      {notifDot ? <span className="sb__notif" /> : null}
+      {badge != null ? (
+        <span className="sb__badge">
+          <Badge tone={badgeKind === "purple" ? "purple" : "ruby"}>{badge}</Badge>
+        </span>
+      ) : null}
+    </button>
+  );
+}
+
+// `to` = canonical destination story title (drives the Storybook experience
+// flow via the data-sb-linkto decorator in .storybook/preview.jsx).
+const UPPER = [
+  { icon: "backpackRotate", label: "Backpack", badge: 2, badgeKind: "purple", div: true, to: "Explorer/Pages/Backpack" },
+  { icon: "places", label: "Places", to: "Explorer/Pages/Places" },
+  { icon: "people", label: "Communities", to: "Explorer/Pages/Communities" },
+  { icon: "backpack", label: "Wearables", to: "Explorer/Pages/Backpack" },
+  { icon: "marketplace", label: "Marketplace" },
+  { icon: "gallery", label: "Camera Reel", to: "Explorer/Pages/Reel" },
+  { icon: "settings", label: "Settings", to: "Explorer/Pages/Settings" },
+  { icon: "help", label: "Help", div: true },
+];
+
+const LOWER = [
+  { icon: "voice", label: "Voice Chat", tile: true, dot: true, to: "Explorer/Components/VoiceChat" },
+  { icon: "wearables", label: "Smart Wearables", to: "Explorer/Components/SmartWearables" },
+  { icon: "skybox", label: "Skybox", div: true, to: "Explorer/Components/SkyboxHUD" },
+  { icon: "camera", label: "Camera", to: "Explorer/Pages/Camera" },
+  { icon: "emote", label: "Emotes", div: true, to: "Explorer/Components/EmoteWheel" },
+  { icon: "friends", label: "Friends", notifDot: true, to: "Explorer/Pages/Friends" },
+  // Chat -> Frames/Chat (canonical DM/chat target; ChatWindow is presentational).
+  { icon: "chat", label: "Chat", active: true, to: "Explorer/Frames/Chat" },
+];
+
+export default function Sidebar() {
+  return (
+    <div className="sb__stage">
+      <nav className="sb" aria-label="Main menu">
+        <button className="sb__cfg" title="More" aria-label="More options">
+          {ICONS.overflow}
+        </button>
+        <button className="sb__profile" title="Profile" aria-label="Profile" data-sb-linkto="Explorer/Pages/Passport">
+          <Avatar hue={320} size={38} className="sb__avatar" />
+        </button>
+        <button className="sb__btn" title="Notifications" aria-label="Notifications" data-sb-linkto="Explorer/Components/Notifications">
+          {ICONS.bell}
+          <span className="sb__notif" />
+        </button>
+
+        <div className="sb__group">
+          {UPPER.map((b) => (
+            <span key={b.icon} className="sb__item">
+              {b.div ? <span className="sb__divider" /> : null}
+              <Btn {...b} />
+            </span>
+          ))}
+        </div>
+
+        <div className="sb__spacer" />
+
+        <div className="sb__group">
+          {LOWER.map((b) => (
+            <span key={b.icon} className="sb__item">
+              {b.div ? <span className="sb__divider" /> : null}
+              <Btn {...b} />
+            </span>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+}

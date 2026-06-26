@@ -1,0 +1,233 @@
+:root {
+  --brand: #ff2d55;
+  --brand-hover: #ff4d70;
+  --panel: #161518;
+  --accent: #ff7439;
+  --online: #57df41;
+  --away: #ffa25a;
+  --offline: #a09ba8;
+  --live: #ff0000;
+  --error: #fb3b3b;
+  --gold: #ffc95b;
+  --purple: #982de2;
+  --progress: #31c11a;
+  --success: #34ce77;
+  --text: #fcfcfc;
+  --font-sans: Inter, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r-control: 10px; --r-card: 14px; --r-panel: 18px; --r-pill: 999px;
+  /* shared modal-family metrics (see DuplicateIdentityPopup reference) */
+  --modal-pad: 30px; --modal-gap: 20px; --modal-btn-h: 46px;
+  --fill-1: rgba(255,255,255,.04); --fill-2: rgba(255,255,255,.06);
+  --fill-3: rgba(255,255,255,.08); --fill-4: rgba(255,255,255,.1);
+  --fill-5: rgba(255,255,255,.12);
+  --line: rgba(255,255,255,.08);
+  --ink-85: rgba(255,255,255,.85); --ink-7: rgba(255,255,255,.7);
+  --ink-6: rgba(255,255,255,.6); --ink-45: rgba(255,255,255,.45);
+  --scrim: rgba(0,0,0,.5);
+  --shadow-modal: 0 30px 80px rgba(0,0,0,.5);
+  --explore-grad:
+    radial-gradient(120% 95% at 50% 118%, #7d1aa0 0%, #5e1486 28%, rgba(94,20,134,0) 62%),
+    radial-gradient(90% 80% at 8% 42%, #4f1178 0%, rgba(79,17,120,0) 58%),
+    linear-gradient(150deg, #45106a 0%, #380a5c 38%, #2c0750 64%, #220040 100%);
+  --explore-deep: #2f004d;
+  --modal-grad: linear-gradient(135deg, #3a0653 0%, #341a5c 34%, #2d3753 60%, #1f5b54 86%, #175e52 100%);
+  --modal-grad-purple: linear-gradient(180deg, #4a1170 0%, #340b55 100%);
+  --explore-nav: #161616;
+  --explore-orange: #ff7439;
+  --explore-orange-grad: linear-gradient(90deg, #ff7439 0%, #e85d56 100%);
+  --scene-photo:
+    radial-gradient(circle at 64% 32%, rgba(255, 246, 218, .45), transparent 32%),
+    linear-gradient(180deg, #2a3f6b 0%, #5b6f9e 52%, #c9a98a 64%, #3a5c3a 64%, #24381f 100%);
+  --explore-tab-active: #a524b2;
+  --z-panel: 50; --z-overlay: 60; --z-modal: 100; --z-dialog: 120; --z-toast: 200;
+  --rar-common: #73d3d3; --rar-uncommon: #ff8362; --rar-rare: #34ce76;
+  --rar-epic: #438fff; --rar-legendary: #a14bf3; --rar-mythic: #ff4bed;
+  --rar-unique: #fea217; --rar-exotic: #9bd141;
+  --rar-bg-common: url("/assets/rarity/common.png"); --rar-bg-uncommon: url("/assets/rarity/uncommon.png");
+  --rar-bg-rare: url("/assets/rarity/rare.png"); --rar-bg-epic: url("/assets/rarity/epic.png");
+  --rar-bg-legendary: url("/assets/rarity/legendary.png"); --rar-bg-mythic: url("/assets/rarity/mythic.png");
+  --rar-bg-unique: url("/assets/rarity/unique.png"); --rar-bg-exotic: url("/assets/rarity/exotic.png");
+  --lm-bg: #f3f2f5;
+  --lm-surface: #fff;
+  --lm-ink: #16141a;
+  --lm-ink-2: #3b3947;
+  --lm-ink-3: #676370;
+  --lm-line: #dcdae0;
+  --lm-field-bg: #fcfbfd;
+  --lm-danger: #fb3b3b;
+}
+/* ui2 design-system scope: dapp surfaces (marketplace/account/governance/builder
+   + pages) adopt ui2's rectangular controls. In-world HUD stays unscoped (pills).
+   See ui2 src/theme/components.ts (MuiButton) + index.ts shape.borderRadius:6. */
+.ui2 {
+  --ctl-radius: 6px;
+  --ctl-weight: 600;
+  --ctl-tracking: .46px;
+  --ctl-pad-sm: 4px 10px;
+  --ctl-pad-md: 6px 16px;
+  --ctl-pad-lg: 8px 22px;
+  /* ui3's generic small-radius -> ui2 shape default (6px). Safe: checkbox/slider/
+     toggle/.btn/textinput all bypass --r-control. */
+  --r-control: 6px;
+  /* ui2 controls/menus/Paper use the 6px shape default, but CARDS and the custom
+     Modal override bigger: CatalogCard 12px, EventCard 16px (theme.spacing(2)),
+     Modal 12px. So dapp cards/panels = 12px, dapp modals = 12px; --surface-radius
+     (6px) stays for true 6px surfaces (menus/dropdowns/Paper). */
+  --r-card: 12px;
+  --r-panel: 12px;
+  --modal-radius: 12px;
+  --surface-radius: 6px;
+}
+
+/* Global dark base: un-chromed routes (standalone modal routes like place/event
+   detail) and modal scrims (rgba black) previously sat on the browser-default
+   WHITE body — rendering light --text as faint and scrims as gray. Chromed pages
+   set their own background and override this; light sections use .u-light-* . */
+html,
+body {
+  background: #0e0a16;
+  color: var(--text);
+}
+
+.u-light-marketplace { background: var(--lm-bg); color: var(--lm-ink); }
+
+.mk {
+  --lm-bg: #0e0d10;
+  --lm-surface: #18171c;
+  --lm-ink: #fcfcfc;
+  --lm-ink-2: rgba(255, 255, 255, .78);
+  --lm-ink-3: rgba(255, 255, 255, .6);
+  --lm-line: rgba(255, 255, 255, .1);
+  --lm-field-bg: #201e25;
+}
+html.mp-light .mk {
+  --lm-bg: #f3f2f5;
+  --lm-surface: #fff;
+  --lm-ink: #16141a;
+  --lm-ink-2: #3b3947;
+  --lm-ink-3: #676370;
+  --lm-line: #dcdae0;
+  --lm-field-bg: #fcfbfd;
+  background: var(--lm-bg);
+}
+
+.u-rar-bg { background-image: var(--rb); background-size: cover; background-position: center; }
+
+.u-truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.u-mask-icon {
+  -webkit-mask: var(--i) center / contain no-repeat;
+  mask: var(--i) center / contain no-repeat;
+}
+
+html.still *, html.still *::before, html.still *::after {
+  animation-duration: 0s !important; animation-delay: 0s !important; transition: none !important;
+}
+
+.u-avatar {
+  position: relative; display: inline-block; flex: 0 0 auto; width: var(--sz, 40px); height: var(--sz, 40px);
+  border-radius: 50%;
+  background-color: hsl(var(--hue, 280) 65% 55%);
+  background-image: var(--avatar-img, linear-gradient(135deg, hsl(var(--hue, 280) 65% 55%), hsl(calc(var(--hue, 280) + 50) 60% 40%)));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* Image overlay — sits on top of the gradient and clips itself to the circle via
+   border-radius:inherit (so the avatar keeps overflow:visible for the status ring).
+   If the <img> fails to load the component drops it from the DOM, leaving the
+   gradient + initials underneath — the avatar is never blank. */
+.u-avatar__img {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  object-fit: cover; border-radius: inherit;
+}
+/* Initials fallback — centred, scales with avatar size, readable on the gradient. */
+.u-avatar__initials {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-family: var(--font-sans); font-weight: 700; line-height: 1;
+  font-size: calc(var(--sz, 40px) * .42); letter-spacing: -.02em; text-transform: uppercase;
+  user-select: none; text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+}
+
+.u-dot { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; display: inline-block; }
+.u-dot--online { background: var(--online); }
+.u-dot--away { background: var(--away); }
+.u-dot--offline { background: var(--offline); }
+.u-dot--ring { position: absolute; right: -1px; bottom: -1px; border: 2.5px solid var(--panel); }
+
+.u-badge {
+  background: var(--brand); color: #fff; font-size: 11px; font-weight: 800;
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.u-badge--purple { background: var(--explore-tab-active); }
+
+.u-pill { font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: var(--r-pill); }
+.u-pill--default { background: rgba(255, 255, 255, .08); color: rgba(255, 255, 255, .85); }
+.u-pill--accent { background: var(--accent); color: #fff; }
+.u-pill--live { background: var(--live); color: #fff; }
+.u-pill--online { background: rgba(87, 223, 65, .16); color: var(--online); }
+
+.u-wallet {
+  background: rgba(255, 255, 255, .298); border: none; color: #fff; cursor: pointer;
+  font-family: inherit; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: var(--r-pill);
+}
+.u-wallet:hover { background: rgba(255, 255, 255, .38); }
+
+.u-progress { display: block; width: 100%; height: 8px; border-radius: var(--r-pill); background: rgba(255, 255, 255, .1); overflow: hidden; }
+.u-progress > span { display: block; height: 100%; border-radius: var(--r-pill); background: var(--brand); }
+.u-progress > span.is-danger { background: var(--live); }
+
+.u-skel { display: inline-flex; flex-direction: column; gap: 8px; }
+.u-skel__line {
+  height: 12px; border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255,255,255,.06) 25%, rgba(255,255,255,.14) 37%, rgba(255,255,255,.06) 63%);
+  background-size: 400% 100%; animation: u-shimmer 1.3s ease infinite;
+}
+@keyframes u-shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+@keyframes u-spin { to { transform: rotate(360deg); } }
+@keyframes u-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.u-modal-overlay {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  background: var(--scrim);
+  display: flex; padding: 20px; overflow: auto;
+  animation: u-fade-in 0.3s linear;
+}
+
+/* Canonical modal backdrop. Lives here (globally loaded) so every .ep__backdrop
+   user gets the fixed full-screen centering scrim even if it doesn't import a
+   page stylesheet that redefines it (page CSS may still override). */
+.ep__backdrop {
+  position: fixed; inset: 0; z-index: var(--z-panel);
+  background: rgba(0, 0, 0, .502);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+
+.u-behind { pointer-events: none; }
+.u-behind .ep__backdrop { filter: brightness(0.62) saturate(0.85); animation: none; }
+
+.u-jumpin-card {
+  display: flex; height: 608px; width: 100%; max-width: 1448px;
+  overflow: hidden; border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+.u-spinner {
+  width: var(--sp-size, 28px); height: var(--sp-size, 28px); flex: 0 0 auto;
+  border-radius: 50%;
+  border: var(--sp-width, 3px) solid var(--sp-track, rgba(255, 255, 255, .14));
+  border-top-color: var(--sp-color, var(--brand));
+  animation: u-spin .8s linear infinite;
+}
+
+.u-tip { position: relative; cursor: default; }
+.u-tip__bubble {
+  position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); white-space: nowrap;
+  background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 5px 9px; border-radius: 7px;
+  opacity: 0; transition: opacity .12s ease; pointer-events: none;
+}
+.u-tip__bubble::after { content: ""; position: absolute; left: 50%; top: 100%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #000; }
+.u-tip:hover .u-tip__bubble { opacity: 1; }

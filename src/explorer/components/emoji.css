@@ -1,0 +1,95 @@
+.emj__backdrop {
+  position: fixed; inset: 0; z-index: var(--z-panel);
+  display: flex; align-items: flex-end; justify-content: flex-start;
+  padding: 24px;
+  background: #1b1620;
+}
+
+.emj__stack {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  width: 320px; max-width: calc(100vw - 48px);
+}
+
+.emj {
+  pointer-events: auto;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 10px 12px;
+  background: rgba(28, 28, 32, .96);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 14px;
+  color: #fff;
+  box-shadow: var(--shadow-modal);
+}
+
+.emj__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px;
+  padding: 0 2px;
+}
+.emj__title {
+  font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap;
+}
+
+.emj__toggle {
+  flex: 0 0 auto;
+  width: 34px; height: 18px; padding: 0;
+  border: none; cursor: pointer; border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  display: flex; align-items: center;
+  transition: background .12s ease;
+}
+.emj__knob {
+  width: 14px; height: 14px; margin: 0 2px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+}
+
+.emj__row {
+  display: flex; align-items: center; gap: 4px;
+}
+
+.emj__btn {
+  flex: 0 0 auto;
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; cursor: pointer; padding: 0;
+  background: none;
+  transition: background .1s ease, transform .1s ease;
+}
+.emj__btn:hover { background: rgba(255, 255, 255, .08); transform: scale(1.15); }
+
+.emj__more {
+  flex: 0 0 auto; margin-left: 2px;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: none; cursor: pointer; padding: 0;
+  background: rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .85); font-size: 19px; line-height: 1;
+  transition: background .1s ease, color .1s ease;
+}
+.emj__more:hover { background: rgba(255, 255, 255, .18); color: #fff; }
+
+.emj__inputrow {
+  align-self: stretch;
+  display: flex; align-items: center;
+}
+.emj__input {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;
+  height: 44px; padding: 0 14px 0 7px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, .35);
+  border: 1.5px solid rgba(255, 255, 255, .85);
+}
+.emj__inputavatar { flex: 0 0 auto; }
+.emj__field {
+  flex: 1; min-width: 0; height: 100%;
+  border: none; outline: none; background: transparent;
+  color: #fff; font-family: inherit; font-size: 13px;
+}
+.emj__field::placeholder { color: rgba(255, 255, 255, .55); }
+
+@media (max-width: 480px) {
+  .emj__backdrop { padding: 12px; }
+  .emj__stack { width: 100%; max-width: calc(100vw - 24px); }
+  .emj { max-width: 100%; }
+}

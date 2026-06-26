@@ -1,0 +1,102 @@
+.stsir {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 96px 24px 120px;
+  box-sizing: border-box;
+}
+
+.stsir__inner {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.stsir__gem {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 6px 22px rgba(255, 45, 85, 0.4));
+}
+
+.stsir__spinner {
+  display: inline-flex;
+  margin-top: 2px;
+}
+
+.stsir__title {
+  margin: 4px 0 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.2px;
+  color: #fff;
+}
+
+.stsir__target {
+  max-width: 100%;
+  margin-top: 8px;
+  padding: 9px 14px;
+  border-radius: var(--r-control);
+  background: rgba(255, 45, 85, 0.12);
+  border: 1px solid rgba(255, 45, 85, 0.45);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #fff;
+  word-break: break-all;
+  text-align: left;
+}
+
+.stsir__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  height: 44px;
+  padding: 0 24px;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(255, 45, 85, 0.32);
+  transition: background 0.12s ease, transform 0.12s ease;
+  /* No-JS-safe reveal: the button is ALWAYS in the DOM (clickable immediately
+     for no-JS users) but stays visually hidden until 3s via a pure-CSS
+     animation — no setTimeout, so the timeout works without JavaScript. */
+  opacity: 0;
+  animation: stsir-cta-in 0s linear 3s forwards;
+}
+
+/* Settled = JS-detected timeout / manual-fallback: the auto-redirect did not
+   fire, so show the button immediately instead of waiting out the 3s delay. */
+.stsir__inner--settled .stsir__cta {
+  opacity: 1;
+  animation: none;
+}
+
+@keyframes stsir-cta-in {
+  to {
+    opacity: 1;
+  }
+}
+.stsir__cta:hover {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+}
+.stsir__cta svg {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 560px) {
+  .stsir {
+    padding: 56px 18px 80px;
+  }
+}

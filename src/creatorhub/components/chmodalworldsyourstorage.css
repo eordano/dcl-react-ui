@@ -1,0 +1,198 @@
+.chmodalworldsyourstorage__backdrop,
+.chmodalworldsyourstorage__paper {
+  --chwys-modal: #242129;
+  --chwys-white: #ffffff;
+  --chwys-dcl: var(--brand);
+  --chwys-dcl-dark: #9c1c34;
+  --chwys-silver: #a09ba8;
+  --chwys-clear-divider: #a09ba8;
+  --chwys-divider: #67637033;
+  --chwys-success: #34ce77;
+  --chwys-radius: 6px;
+  font-family:
+    "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.chmodalworldsyourstorage__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.chmodalworldsyourstorage__paper {
+  width: 720px;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 12px;
+  background-color: var(--chwys-modal);
+  color: var(--chwys-white);
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.chmodalworldsyourstorage__titlebox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 8px;
+}
+
+.chmodalworldsyourstorage__title {
+  flex: 1;
+  margin: 0;
+  width: 100%;
+  padding-left: 3rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 2em;
+  text-align: center;
+  color: var(--chwys-white);
+}
+
+.chmodalworldsyourstorage__close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  color: var(--chwys-silver);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.chmodalworldsyourstorage__close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.chmodalworldsyourstorage__content {
+  padding: 24px;
+}
+
+.chmodalworldsyourstorage__total-storage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.chmodalworldsyourstorage__mbs {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.chmodalworldsyourstorage__asset {
+  margin: 3rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chmodalworldsyourstorage__texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.chmodalworldsyourstorage__name {
+  font-weight: 700;
+}
+
+.chmodalworldsyourstorage__subtitle {
+  color: var(--chwys-clear-divider);
+}
+
+.chmodalworldsyourstorage__amount {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.chmodalworldsyourstorage__check-icon {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--chwys-success);
+}
+
+.chmodalworldsyourstorage__btn {
+  flex: 0 0 auto;
+  min-width: 9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 5px 20px;
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: var(--chwys-radius);
+  background-color: var(--chwys-dcl);
+  color: var(--chwys-white);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02857em;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+.chmodalworldsyourstorage__btn:hover {
+  background-color: var(--chwys-dcl-dark);
+}
+.chmodalworldsyourstorage__btn svg {
+  color: var(--chwys-white);
+  fill: var(--chwys-white);
+}
+
+.chmodalworldsyourstorage__separator {
+  margin: 0;
+  border: none;
+  border-top: 1px solid var(--chwys-divider);
+}
+
+.chmodalworldsyourstorage__proposal {
+  margin: 3rem 0 0;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--chwys-white);
+}
+
+.chmodalworldsyourstorage__info-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  position: relative;
+  top: 0.25rem;
+  margin-right: 0.25rem;
+  color: var(--chwys-clear-divider);
+}
+
+.chmodalworldsyourstorage__learn-more {
+  padding: 0 0.4rem;
+  border: none;
+  background: none;
+  color: var(--chwys-dcl);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.chmodalworldsyourstorage__learn-more:hover {
+  background-color: rgba(255, 45, 85, 0.08);
+  border-radius: var(--chwys-radius);
+}

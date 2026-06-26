@@ -1,0 +1,541 @@
+.chiap {
+  --tree-bg: var(--panel);
+  --list-item-bg: #36343d;
+  --list-item-hover: #504e58;
+  --list-smart-bg: #472550;
+  --list-smart-hover: #5f326a;
+  --smart-icon-bg: #c640cd;
+  --primary: var(--brand);
+  --bg-gray: #3c3c3c;
+  --border-gray: #454545;
+  --b01: #ffffff;
+  --b05: #d4d4d4;
+  --b06: #ccc;
+  --b08: #bbb;
+  --b19: #242129;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: #1b1a1f;
+  color: var(--b01);
+  font-family: var(--font-sans);
+  box-sizing: border-box;
+}
+.chiap *, .chiap *::before, .chiap *::after { box-sizing: border-box; }
+
+.chiap__viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background:
+    radial-gradient(120% 120% at 50% 30%, #2c2b34 0%, #1a191e 70%);
+  overflow: hidden;
+}
+.chiap__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 46px 46px;
+  background-position: center;
+  mask-image: radial-gradient(120% 90% at 50% 35%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 35%, #000 30%, transparent 85%);
+}
+.chiap__vp-hint {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.28);
+  text-transform: uppercase;
+}
+
+.chiap__handle {
+  flex: none;
+  height: 5px;
+  background: var(--border-gray);
+  cursor: row-resize;
+}
+.chiap__handle:hover { background: var(--primary); }
+
+.chiap__panel {
+  flex: none;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--tree-bg);
+}
+
+.chiap__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 5px 0;
+  background: var(--tree-bg);
+}
+
+.chiap__barleft {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 9px;
+  gap: 12px;
+}
+
+.chiap__import {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 3px;
+  padding: 8px 9px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--b01);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.chiap__import svg { stroke-width: 3; }
+.chiap__import:hover { background: var(--b19); }
+
+.chiap__iconitem {
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--b01);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.chiap__iconitem:hover { background: var(--bg-gray); }
+.chiap__iconitem svg { width: 15px; height: 15px; }
+
+.chiap__tab {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.chiap__tab > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--b01);
+}
+.chiap__tab > div svg { color: var(--b06); }
+.chiap__tab > div span {
+  margin-left: 4px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  line-height: 13px;
+  font-weight: 500;
+}
+.chiap__tab > div::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--primary);
+}
+.chiap__tab:hover > div::after,
+.chiap__tab > div.is-underlined::after { width: 100%; }
+
+.chiap__content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--tree-bg);
+}
+
+.chiap__catalog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 8px;
+  gap: 16px;
+}
+
+.chiap__cathead {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
+.chiap__cattitle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  margin: 0;
+  color: var(--b01);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.chiap__cattitle.is-clickable { cursor: pointer; }
+.chiap__back {
+  display: inline-flex;
+  align-items: center;
+  color: var(--b06);
+}
+.chiap__catsearch {
+  display: flex;
+  min-width: 360px;
+}
+.chiap__catsearch .search,
+.chiap__treesearch .search {
+  width: 100%;
+  background: var(--b19);
+  border-radius: 6px;
+}
+.chiap__catsearch .search__input,
+.chiap__treesearch .search__input { color: var(--b01); }
+.chiap__catsearch .search__input::placeholder,
+.chiap__treesearch .search__input::placeholder { color: var(--b01); opacity: 0.85; }
+
+.chiap__themescroll {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.chiap__themes {
+  display: grid;
+  margin: 0 auto;
+  max-width: 1440px;
+  width: 100%;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: max-content;
+  gap: 12px;
+}
+@media (max-width: 1300px) {
+  .chiap__themes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+}
+.chiap__theme {
+  position: relative;
+  display: flex;
+  min-width: 200px;
+  height: 68px;
+  padding: 4px 8px;
+  gap: 8px;
+  align-items: center;
+  border-radius: 8px;
+  background: var(--list-item-bg);
+  cursor: pointer;
+  user-select: none;
+}
+.chiap__theme:hover { background: var(--list-item-hover); }
+.chiap__thumb {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, hsl(var(--hue) 60% 52%), hsl(calc(var(--hue) + 40) 55% 38%));
+}
+.chiap__themeinfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+.chiap__themename {
+  margin: 0;
+  color: var(--b01);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.chiap__themecount {
+  color: var(--b06);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: normal;
+}
+.chiap__chev {
+  margin-left: auto;
+  flex: none;
+  color: var(--b08);
+}
+
+.chiap__categories {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 24px 40px 0;
+  gap: 16px;
+}
+.chiap__category {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chiap__catname {
+  margin: 0;
+  color: var(--b01);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.chiap__assets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chiap__asset {
+  position: relative;
+  display: flex;
+  width: 80px;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--list-item-bg);
+  cursor: pointer;
+  user-select: none;
+}
+.chiap__asset:hover { background: var(--list-item-hover); }
+.chiap__asset.is-smart { background: var(--list-smart-bg); }
+.chiap__asset.is-smart:hover { background: var(--list-smart-hover); }
+.chiap__assetimg {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, hsl(var(--hue) 58% 55%), hsl(calc(var(--hue) + 36) 52% 40%));
+}
+.chiap__assetbadge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  bottom: 4px;
+  right: 4px;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--smart-icon-bg);
+}
+
+.chiap__project {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.chiap__tree {
+  width: 260px;
+  flex: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 0.1px solid var(--border-gray);
+  border-left: 0.1px solid var(--border-gray);
+}
+.chiap__treesearch {
+  flex: none;
+  height: 34px;
+  padding: 4px 8px;
+}
+.chiap__treelist {
+  flex: 1;
+  margin: 0;
+  padding: 0 8px 8px 8px;
+  list-style: none;
+  overflow-y: auto;
+}
+.chiap__treerow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--b05);
+  cursor: pointer;
+  border-radius: 4px;
+}
+.chiap__treerow:hover { background: var(--list-item-bg); }
+.chiap__twist {
+  flex: none;
+  color: var(--b08);
+  transition: transform 0.1s ease;
+}
+.chiap__twist[data-open="1"] { transform: rotate(90deg); }
+.chiap__twist--empty { width: 14px; height: 14px; }
+.chiap__treeicon { flex: none; color: var(--b08); }
+.chiap__treelabel { min-width: 0; }
+
+.chiap__folderview {
+  flex: 1;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+}
+.chiap__filetile {
+  width: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.chiap__filebox {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--list-item-bg);
+}
+.chiap__filetile:hover .chiap__filebox { background: var(--list-item-hover); }
+.chiap__fileglyph {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--hue) 55% 62%);
+}
+.chiap__fileext {
+  position: absolute;
+  bottom: -2px;
+  font-size: 8px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+.chiap__filelabel {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: var(--b06);
+}
+
+.chiap__customgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 4px;
+  padding: 8px;
+  height: 100%;
+  overflow-y: auto;
+}
+.chiap__customitem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.chiap__custombox {
+  width: 80px;
+  height: 80px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--list-item-bg);
+  cursor: grab;
+  background-image: linear-gradient(135deg, hsl(var(--hue) 55% 52%), hsl(calc(var(--hue) + 40) 52% 38%));
+  background-clip: content-box;
+}
+.chiap__customitem:hover .chiap__custombox { background-color: var(--list-item-hover); }
+.chiap__customlabel {
+  max-width: 100px;
+  font-size: 12px;
+  text-align: center;
+  word-break: break-word;
+  color: var(--b06);
+}
+
+.chiap__customempty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+}
+.chiap__customcard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 300px;
+  padding: 8px;
+  border-radius: 4px;
+  background: var(--bg-gray);
+}
+.chiap__customcardrow {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+.chiap__customglyph {
+  flex-shrink: 0;
+  width: 68px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--b08);
+}
+.chiap__customglyph svg { width: 56px; height: 46px; }
+.chiap__customcard p {
+  margin: 0;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.chiap__customcard a {
+  width: max-content;
+  align-self: flex-end;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.chiap__console {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 4px 12px;
+  overflow-y: auto;
+  background: var(--tree-bg);
+  font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", "Consolas", monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--b01);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.chiap__line { display: block; }
+.chiap__line.is-warn { color: var(--gold); }

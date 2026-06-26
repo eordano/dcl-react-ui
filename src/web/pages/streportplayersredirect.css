@@ -1,0 +1,360 @@
+.rpr {
+  --rpr-wash:
+    radial-gradient(120% 90% at 50% -10%, #3a0d57 0%, rgba(58, 13, 87, 0) 60%),
+    radial-gradient(90% 70% at 12% 30%, #2c0a48 0%, rgba(44, 10, 72, 0) 58%),
+    linear-gradient(160deg, #1c0730 0%, #14041f 60%, #0f0418 100%);
+  --rpr-card: rgba(22, 7, 35, 0.92);
+  --rpr-gray3: #a09ba8;
+  --rpr-field-line: rgba(255, 255, 255, 0.18);
+  --rpr-field-line-rest: rgba(255, 255, 255, 0.1);
+  --rpr-warning: #ed6c02;
+  --rpr-warning-bg: rgba(237, 108, 2, 0.12);
+
+  position: relative;
+  width: 100%;
+}
+
+.rpr__bg {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--rpr-wash);
+  padding: 128px 32px 96px;
+  box-sizing: border-box;
+}
+.rpr__bg--center {
+  justify-content: center;
+  padding-top: 32px;
+}
+
+.rpr__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rpr__card {
+  background: var(--rpr-card);
+  border-radius: 16px;
+  padding: 48px 64px;
+  max-width: 608px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  box-sizing: border-box;
+}
+
+.rpr__logowrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.rpr__logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(150deg, var(--brand) 0%, #c4174a 100%);
+}
+.rpr__title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.17;
+  color: var(--text);
+  text-align: center;
+}
+
+.rpr__card--gate {
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+.rpr__gate-text {
+  margin: 0;
+  max-width: 380px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--rpr-gray3);
+}
+.rpr__signin-btn {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 12px 36px;
+  cursor: pointer;
+}
+.rpr__signin-btn:hover { filter: brightness(1.08); }
+
+.rpr__card--gate {
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+.rpr__gate-text {
+  margin: 0;
+  max-width: 380px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--rpr-gray3);
+}
+.rpr__signin-btn {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 12px 36px;
+  cursor: pointer;
+}
+.rpr__signin-btn:hover { filter: brightness(1.08); }
+
+.rpr__field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rpr__flabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text);
+}
+.rpr__required { color: var(--error); }
+.rpr__optional { color: var(--rpr-gray3); font-weight: 400; }
+
+.rpr__fhelper {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--rpr-gray3);
+}
+
+.rpr__bullet {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  color: #14041f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.rpr__input,
+.rpr__textarea,
+.rpr__select {
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: 1px solid var(--rpr-field-line-rest);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.43;
+}
+.rpr__input {
+  height: 40px;
+  padding: 0 14px;
+}
+.rpr__input::placeholder,
+.rpr__textarea::placeholder {
+  color: var(--rpr-gray3);
+}
+.rpr__textarea {
+  padding: 9px 14px;
+  resize: none;
+}
+.rpr__input:hover,
+.rpr__textarea:hover,
+.rpr__select:hover {
+  border-color: var(--rpr-field-line);
+}
+
+.rpr__select {
+  height: 40px;
+  padding: 0 12px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.rpr__select-placeholder { color: var(--rpr-gray3); }
+.rpr__select-value { color: var(--text); }
+.rpr__caret { color: var(--rpr-gray3); flex-shrink: 0; }
+.rpr__select-hidden { display: none; }
+
+.rpr__inputgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.rpr__counter {
+  font-size: 12px;
+  line-height: 1.66;
+  color: var(--rpr-gray3);
+  text-align: right;
+}
+.rpr__hint {
+  font-size: 12px;
+  color: var(--rpr-gray3);
+  margin: 0 14px;
+}
+
+.rpr__addfile {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid var(--brand);
+  color: var(--brand);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 8px 22px;
+  cursor: pointer;
+}
+.rpr__addfile:hover { background: rgba(255, 45, 85, 0.08); }
+
+.rpr__confirm {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+.rpr__checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 2px solid var(--rpr-gray3);
+  flex-shrink: 0;
+  position: relative;
+}
+.rpr__checkbox.is-checked {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.rpr__checkbox.is-checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  width: 4px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.rpr__submit {
+  align-self: flex-start;
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  cursor: pointer;
+}
+.rpr__submit:hover { filter: brightness(1.08); }
+.rpr__submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.rpr__footer {
+  margin: 16px 0 0;
+  max-width: 608px;
+  font-size: 12px;
+  line-height: 1.66;
+  color: var(--rpr-gray3);
+  text-align: center;
+}
+.rpr__footlink {
+  color: var(--brand);
+  text-decoration: none;
+}
+.rpr__footlink:hover { text-decoration: underline; }
+
+.rpr__redir {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+.rpr__redir-label {
+  margin: 0;
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* The fallback link is a real <a href> always present in the DOM, so a no-JS
+   user can click it immediately. It is only visually hidden, then revealed
+   after 3s with a pure-CSS animation (no setTimeout needed). */
+.rpr__redir-continue {
+  margin-top: 8px;
+  display: inline-block;
+  background: var(--brand);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  text-decoration: none;
+  opacity: 0;
+  animation: rpr-reveal 0.4s ease 3s forwards;
+}
+.rpr__redir-continue:hover { filter: brightness(1.08); }
+
+@keyframes rpr-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .rpr__card {
+    padding: 40px 24px;
+    gap: 40px;
+  }
+  .rpr__title { font-size: 28px; }
+  .rpr__bg { padding: 96px 16px 64px; }
+}

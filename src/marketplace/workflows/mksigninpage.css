@@ -1,0 +1,231 @@
+.mksigninpage {
+  --mks-background: var(--lm-surface);
+  --mks-primary: var(--brand);
+  --mks-secondary: var(--lm-bg);
+  --mks-secondary-hover: #ecebed;
+  --mks-text: var(--lm-ink);
+  --mks-secondary-text: var(--lm-ink-3);
+  --mks-card-on-modal: var(--lm-surface);
+  --mks-outline: 1px solid var(--lm-line);
+
+  position: absolute;
+  inset: 0;
+  background: var(--mks-background);
+  color: var(--mks-text);
+  font-family: inherit;
+}
+
+.mksigninpage__signin {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+.mksigninpage__header {
+  margin: 40px 0 25px;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 500;
+  color: var(--mks-text);
+}
+
+.mksigninpage__walleticon {
+  flex: none;
+  margin-bottom: 25px;
+  width: 180px;
+  height: 180px;
+  background-color: var(--mks-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+
+.mksigninpage__staricon {
+  fill: none;
+  stroke: var(--mks-secondary-text);
+  stroke-width: 3.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--mks-secondary-text);
+}
+
+.mksigninpage__message {
+  margin: 0;
+  padding: 0 38px;
+  text-align: center;
+  color: var(--mks-secondary-text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.mksigninpage__message a {
+  color: var(--mks-primary);
+  text-decoration: none;
+}
+.mksigninpage__message a:hover { text-decoration: underline; }
+
+.mksigninpage__cta { margin-top: 40px; }
+
+.mksigninpage__error {
+  margin: 20px 0 0;
+  opacity: 0;
+  user-select: none;
+  color: var(--mks-primary);
+}
+.mksigninpage__error.is-visible {
+  transition: opacity 0.25s ease;
+  opacity: 1;
+  user-select: auto;
+}
+
+.mksigninpage__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--scrim);
+}
+
+.mksigninpage__modal {
+  position: relative;
+  width: 520px;
+  max-width: calc(100vw - 32px);
+  background: var(--mks-background);
+  color: var(--mks-text);
+  border-radius: var(--r-panel);
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+}
+
+.mksigninpage__modalnav {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 28px 32px 16px;
+}
+.mksigninpage__modaltitles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.mksigninpage__modaltitle {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--mks-text);
+}
+.mksigninpage__modalsubtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--mks-secondary-text);
+}
+.mksigninpage__close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--mks-secondary-text);
+  cursor: pointer;
+  border-radius: 50%;
+}
+.mksigninpage__close:hover {
+  background: var(--mks-secondary);
+  color: var(--mks-text);
+}
+
+.mksigninpage__modalcontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 32px;
+  margin-bottom: 28px;
+}
+
+.mksigninpage__option {
+  width: 410px;
+  max-width: 100%;
+  height: 80px;
+  box-shadow: 0 1px 4px rgba(22, 20, 26, 0.08);
+  border-radius: 8px;
+  border: var(--mks-outline);
+  background-color: var(--mks-card-on-modal);
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+.mksigninpage__option:hover { background-color: var(--mks-secondary-hover); }
+.mksigninpage__option + .mksigninpage__option { margin-top: 16px; }
+
+.mksigninpage__optionimage {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--hue, 280) 70% 58%),
+    hsl(calc(var(--hue, 280) + 28) 65% 46%)
+  );
+}
+
+.mksigninpage__optioninfo {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+  min-width: 0;
+}
+.mksigninpage__optiontitle {
+  font-weight: 700;
+  color: var(--mks-text);
+}
+.mksigninpage__optionsubtitle {
+  margin-top: 4px;
+  color: var(--mks-secondary-text);
+}
+
+.mksigninpage__modalerror {
+  width: 100%;
+  margin: 20px 0 0;
+  text-align: center;
+  color: var(--mks-primary);
+}
+.mksigninpage__modalerror.is-visible { opacity: 1; }
+
+.mksigninpage__loaderbg {
+  position: absolute;
+  inset: 0;
+  background-color: var(--mks-background);
+  opacity: 0.5;
+}
+.mksigninpage__loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  border: 4px solid var(--mks-secondary);
+  border-top-color: var(--mks-primary);
+  animation: u-spin 0.8s linear infinite;
+}

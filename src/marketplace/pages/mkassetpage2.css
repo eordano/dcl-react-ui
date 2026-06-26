@@ -1,0 +1,493 @@
+.mkassetpage2 {
+  --mk2-card: #1d1b21;
+  --mk2-cardhead: #43404a;
+  --mk2-muted: #5e5b67;
+  --mk2-label: var(--ink-7);
+  --mk2-divider: var(--line);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.mkassetpage2__page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 32px 64px;
+  box-sizing: border-box;
+}
+
+.mkassetpage2__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: none;
+  color: var(--ink-7);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
+}
+.mkassetpage2__back:hover { color: #fff; }
+
+.mkassetpage2__info {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+.mkassetpage2__imgcol {
+  width: 52.5%;
+  max-height: 655px;
+}
+.mkassetpage2__assetimg {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 655px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.mkassetpage2__assetimg .u-rar-bg {
+  position: absolute;
+  inset: 0;
+}
+.mkassetpage2__assetfig {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mkassetpage2__assetfig svg {
+  width: 46%;
+  height: 46%;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.45));
+}
+
+.mkassetpage2__showcasebtn {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: rgba(13, 12, 15, 0.7);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 13px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+}
+.mkassetpage2__showcasebtn:hover { background: rgba(13, 12, 15, 0.92); }
+
+.mkassetpage2__textcol {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  gap: 15px;
+}
+
+.mkassetpage2__title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+}
+
+.mkassetpage2__badges {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.mkassetpage2__rarity {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #fff;
+  background: var(--rar);
+}
+
+.mkassetpage2__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-85);
+  background: var(--fill-3);
+  border: 1px solid var(--line);
+}
+.mkassetpage2__badgeicon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink-7);
+}
+
+.mkassetpage2__attrrow {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  word-wrap: break-word;
+}
+.mkassetpage2__attrcol { flex-basis: 100%; min-width: 0; }
+
+.mkassetpage2__subhead {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--ink-6);
+  margin-bottom: 8px;
+}
+
+.mkassetpage2__desc {
+  font-size: 14px;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+}
+
+.mkassetpage2__creator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mkassetpage2__creatorname {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.mkassetpage2__collection {
+  display: flex;
+  align-items: center;
+}
+.mkassetpage2__collimg {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 30px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.mkassetpage2__collimg .u-rar-bg { position: absolute; inset: 0; }
+.mkassetpage2__collname {
+  margin-left: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: 0.31px;
+  color: var(--text);
+}
+
+.mkassetpage2__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.mkassetpage2__perms { display: flex; flex-direction: column; gap: 10px; }
+.mkassetpage2__permstitle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--ink-6);
+}
+.mkassetpage2__permschips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.mkassetpage2__permchip {
+  padding: 2px 12px;
+  min-width: min-content;
+  border-radius: 34px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-85);
+  background: var(--fill-3);
+  border: 1px solid var(--line);
+}
+
+.mkassetpage2__infodot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-45);
+  color: var(--ink-7);
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 700;
+  cursor: help;
+  flex: 0 0 auto;
+}
+
+.mkassetpage2__buycard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: var(--mk2-card);
+  width: 100%;
+  overflow: hidden;
+}
+.mkassetpage2__buycard--filled { align-items: stretch; }
+
+.mkassetpage2__buycardhead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: var(--text);
+  background-color: var(--mk2-cardhead);
+  padding: 8px 16px;
+}
+
+.mkassetpage2__buycardbody { padding: 16px; }
+
+.mkassetpage2__pricelabels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.mkassetpage2__plabel {
+  font-size: 13px;
+  color: var(--mk2-label);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.mkassetpage2__pricerow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.mkassetpage2__price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 30px;
+  font-weight: 700;
+}
+.mkassetpage2__managlyph { display: inline-flex; color: var(--brand); }
+.mkassetpage2__priceval { line-height: 1; }
+.mkassetpage2__fiat {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink-6);
+}
+
+.mkassetpage2__stock {
+  font-size: 18px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+.mkassetpage2__highestoffer { display: flex; align-items: center; }
+.mkassetpage2__nooffer { font-size: 16px; color: var(--ink-6); }
+
+.mkassetpage2__buybtns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mkassetpage2__buybtn {
+  width: 100%;
+  height: 42px;
+  padding: 0 18px;
+  font-size: 15px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.mkassetpage2__expires {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--ink-7);
+  margin-top: 2px;
+}
+
+.mkassetpage2__buycard--empty {
+  flex-direction: row;
+  gap: 16px;
+  padding: 36px;
+  justify-content: center;
+  align-items: center;
+}
+.mkassetpage2__emptyicon { flex: 0 0 auto; }
+.mkassetpage2__emptytext {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink-85);
+}
+.mkassetpage2__emptytitle { font-size: 18px; font-weight: 600; color: #fff; }
+.mkassetpage2__checkowners {
+  padding: 0 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mkassetpage2__listings { margin-top: 48px; }
+.mkassetpage2__listingstitle {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.mkassetpage2__table {
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: var(--mk2-card);
+}
+.mkassetpage2__thead,
+.mkassetpage2__trow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr 1.6fr;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+}
+.mkassetpage2__thead {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--ink-6);
+  background: var(--fill-2);
+  border-bottom: 1px solid var(--line);
+}
+.mkassetpage2__trow + .mkassetpage2__trow,
+.mkassetpage2__trow { border-top: 1px solid var(--line); }
+.mkassetpage2__thead + .mkassetpage2__trow { border-top: 0; }
+
+.mkassetpage2__towner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--brand);
+  font-weight: 600;
+}
+.mkassetpage2__tissue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+.mkassetpage2__tissue b { font-size: 15px; font-weight: 700; }
+.mkassetpage2__listedbadge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--online);
+  border: 1px solid var(--online);
+  border-radius: var(--r-pill);
+  padding: 1px 7px;
+}
+.mkassetpage2__tprice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+.mkassetpage2__tmana {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.mkassetpage2__tmana svg { color: var(--brand); }
+.mkassetpage2__viewbtn { flex: 0 0 auto; }
+
+.mkassetpage2__emptytable {
+  width: 100%;
+  height: 398px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+  color: var(--ink-7);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: var(--mk2-card);
+}
+
+.mkassetpage2__modalcard { padding: 20px; }
+.mkassetpage2__showcase { display: flex; flex-direction: column; gap: 16px; }
+.mkassetpage2__showcasehead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mkassetpage2__showcasetitle { margin: 0; font-size: 20px; font-weight: 700; }
+.mkassetpage2__close {
+  border: 0;
+  background: none;
+  color: var(--ink-7);
+  cursor: pointer;
+  padding: 4px;
+  display: inline-flex;
+}
+.mkassetpage2__close:hover { color: #fff; }
+.mkassetpage2__showcasevideo {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-card);
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1000px) {
+  .mkassetpage2__info { flex-wrap: wrap; }
+  .mkassetpage2__imgcol,
+  .mkassetpage2__textcol { width: 100%; }
+}
+@media (max-width: 768px) {
+  .mkassetpage2__page { padding: 16px 16px 48px; }
+  .mkassetpage2__attrrow { flex-direction: column; gap: 20px; }
+  .mkassetpage2__thead { display: none; }
+  .mkassetpage2__trow {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}

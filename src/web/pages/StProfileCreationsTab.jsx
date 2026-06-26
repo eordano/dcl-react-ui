@@ -1,0 +1,361 @@
+import { useMemo, useState } from "react";
+import SitesChrome from "../frames/SitesChrome.jsx";
+import "./stprofilecreationstab.css";
+
+const RARITY = {
+  unique: { color: "#FFB626", light: "#FFE617", label: "Unique" },
+  mythic: { color: "#FF63E1", light: "#FB7DE3", label: "Mythic" },
+  exotic: { color: "#CAFF73", light: "#E4FFB8", label: "Exotic" },
+  legendary: { color: "#842DDA", light: "#A657ED", label: "Legendary" },
+  epic: { color: "#3D85E6", light: "#6397F2", label: "Epic" },
+  rare: { color: "#36CF75", light: "#3AD682", label: "Rare" },
+  uncommon: { color: "#ED6D4F", light: "#FF8563", label: "Uncommon" },
+  common: { color: "#ABC1C1", light: "#D4E0E0", label: "Common" },
+};
+
+function rarityOf(id) {
+  return RARITY[id] || RARITY.common;
+}
+
+const PROFILE = {
+  address: "0x2fa1b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+  name: "PixelNomad",
+  accountUrl: "https://decentraland.org/marketplace/accounts/0x2fa1b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+};
+
+const WEARABLES = [
+  { id: "w1", name: "Cyber Halo", creator: "PixelNomad", price: "350", rarity: "epic", category: "hat", body: "unisex", smart: false },
+  { id: "w2", name: "Aurora Jacket", creator: "PixelNomad", price: "1,200", rarity: "legendary", category: "upper_body", body: "female", smart: false },
+  { id: "w3", name: "Glitch Sneakers", creator: "PixelNomad", price: "85", rarity: "rare", category: "feet", body: "unisex", smart: false },
+  { id: "w4", name: "Founders Crown", creator: "PixelNomad", price: null, rarity: "mythic", category: "tiara", body: "unisex", smart: false },
+  { id: "w5", name: "Neon Visor", creator: "PixelNomad", price: "640", rarity: "epic", category: "eyewear", body: "male", smart: true },
+  { id: "w6", name: "Polar Mittens", creator: "PixelNomad", price: "42", rarity: "uncommon", category: "hands_wear", body: "unisex", smart: false },
+  { id: "w7", name: "Static Mask", creator: "PixelNomad", price: null, rarity: "unique", category: "mask", body: "unisex", smart: false },
+  { id: "w8", name: "Plasma Trousers", creator: "PixelNomad", price: "210", rarity: "rare", category: "lower_body", body: "male", smart: false },
+];
+
+const EMOTES = [
+  { id: "e1", name: "Hover Spin", creator: "PixelNomad", price: "120", rarity: "epic", category: null, body: null, smart: false },
+  { id: "e2", name: "Pixel Bow", creator: "PixelNomad", price: "60", rarity: "rare", category: null, body: null, smart: false },
+  { id: "e3", name: "Glitch Wave", creator: "PixelNomad", price: null, rarity: "legendary", category: null, body: null, smart: false },
+  { id: "e4", name: "Synth Step", creator: "PixelNomad", price: "95", rarity: "uncommon", category: null, body: null, smart: false },
+];
+
+const COPY = {
+  filter_wearables: "Wearables",
+  filter_emotes: "Emotes",
+  view_all: "View all",
+  not_for_sale: "Not for sale",
+  view_in_marketplace: "View in marketplace",
+  buy: "Buy",
+  load_more: "Load more",
+  empty_member: "This account has not created anything yet.",
+  empty_owner: "Items you create will appear here.",
+};
+
+const TABS = [
+  { id: "overview", label: "Overview" },
+  { id: "creations", label: "Creations" },
+  { id: "communities", label: "Communities" },
+  { id: "places", label: "Places" },
+  { id: "photos", label: "Photos" },
+];
+
+const PAGE_SIZE = 6;
+
+function truncateAddress(addr) {
+  return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+}
+
+function formatCategoryLabel(category) {
+  return category
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+const CheckroomGlyph = () => (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="M12 6.5a2 2 0 1 1 1.4 1.9c-.2.1-.4.4-.4.7v.8l8 4.6c.6.4 1 1 1 1.7 0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2 0-.7.4-1.3 1-1.7l8-4.6v-.8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />
+  </svg>
+);
+const EmojiGlyph = () => (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.6" />
+    <circle cx="9" cy="10" r="1.1" fill="currentColor" />
+    <circle cx="15" cy="10" r="1.1" fill="currentColor" />
+    <path d="M8 14.5a5 5 0 0 0 8 0" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+  </svg>
+);
+const ChevronGlyph = () => (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const ManaGlyph = () => (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M12 2 4 12l8 10 8-10L12 2Z" fill="#a524b2" />
+    <path d="M12 2 4 12h16L12 2Z" fill="#ff2d55" opacity="0.85" />
+  </svg>
+);
+const BodyGlyph = ({ kind }) => (
+  <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+    <circle cx="10" cy="5" r="2.6" fill="none" stroke="currentColor" strokeWidth="1.4" />
+    {kind === "female" ? (
+      <path d="M7 10h6l1.5 6h-9L7 10Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    ) : kind === "male" ? (
+      <path d="M7 9.5h6v6.5H7V9.5Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    ) : (
+      <path d="M7 9.5h6v3l-1 3.5H8l-1-3.5v-3Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    )}
+  </svg>
+);
+const SmartGlyph = () => (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="M13 2 4 13h6l-1 9 9-11h-6l1-9Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+  </svg>
+);
+const CategoryGlyph = () => (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="M3 7l9-4 9 4-9 4-9-4Zm0 5 9 4 9-4M3 17l9 4 9-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+  </svg>
+);
+
+function CreationCard({ item }) {
+  const r = rarityOf(item.rarity);
+  const initial = item.name.charAt(0).toUpperCase();
+  const hasPrice = Boolean(item.price);
+  return (
+    <a
+      className="stpc__cardlink"
+      href={PROFILE.accountUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={item.name}
+    >
+      <div className="stpc__catalog">
+        <div className="stpc__cardimg" style={{ backgroundColor: r.color }}>
+          <span className="stpc__cardglyph" aria-hidden="true">{initial}</span>
+        </div>
+        <div className="stpc__cardinfo">
+          <div className="stpc__cardhead">
+            <span className="stpc__cardtitle">{item.name}</span>
+            <span className="stpc__cardby">By {item.creator}</span>
+          </div>
+
+          {hasPrice ? (
+            <div className="stpc__pricerow">
+              <ManaGlyph />
+              <span className="stpc__price">{item.price}</span>
+            </div>
+          ) : (
+            <span className="stpc__owners">{COPY.not_for_sale}</span>
+          )}
+
+          <div className="stpc__badgerow">
+            <span
+              className="stpc__raritychip"
+              style={{ background: hexToRgba(r.color, 0.3), color: r.light }}
+            >
+              {r.label}
+            </span>
+            <span className="stpc__infobadges">
+              {item.category ? (
+                <span className="u-tip" title={formatCategoryLabel(item.category)}>
+                  <CategoryGlyph />
+                </span>
+              ) : null}
+              {item.body ? (
+                <span className="u-tip" title={item.body === "unisex" ? "Unisex" : item.body === "male" ? "For male" : "For female"}>
+                  <BodyGlyph kind={item.body} />
+                </span>
+              ) : null}
+              {item.smart ? (
+                <span className="u-tip" title="Smart wearable">
+                  <SmartGlyph />
+                </span>
+              ) : null}
+            </span>
+          </div>
+
+          <div className="stpc__bottomaction">
+            <span className={"stpc__buy" + (hasPrice ? "" : " stpc__buy--outlined")}>
+              {hasPrice ? COPY.buy : COPY.view_in_marketplace}
+            </span>
+          </div>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function hexToRgba(hex, alpha) {
+  const n = parseInt(hex.slice(1), 16);
+  const rr = (n >> 16) & 255;
+  const gg = (n >> 8) & 255;
+  const bb = n & 255;
+  return `rgba(${rr}, ${gg}, ${bb}, ${alpha})`;
+}
+
+export default function StProfileCreationsTab({
+  profile = PROFILE,
+  tabs = TABS,
+  isOwnProfile = false,
+  loading = false,
+  empty = false,
+}) {
+  const [category, setCategory] = useState("wearable");
+  const [visible, setVisible] = useState(PAGE_SIZE);
+
+  const allItems = category === "wearable" ? WEARABLES : EMOTES;
+  const source = empty ? [] : allItems;
+  const items = useMemo(() => source.slice(0, visible), [source, visible]);
+  const canLoadMore = items.length < source.length;
+  const initial = (profile.name || profile.address).charAt(0).toUpperCase();
+
+  function selectCategory(next) {
+    if (next === category) return;
+    setCategory(next);
+    setVisible(PAGE_SIZE);
+  }
+
+  const header = (
+    <div className="stpc__chead">
+      <div className="stpc__filters">
+        <button
+          type="button"
+          className={"stpc__chip" + (category === "wearable" ? " is-active" : "")}
+          aria-pressed={category === "wearable"}
+          onClick={() => selectCategory("wearable")}
+        >
+          <span className="stpc__chipicon"><CheckroomGlyph /></span>
+          {COPY.filter_wearables}
+        </button>
+        <button
+          type="button"
+          className={"stpc__chip" + (category === "emote" ? " is-active" : "")}
+          aria-pressed={category === "emote"}
+          onClick={() => selectCategory("emote")}
+        >
+          <span className="stpc__chipicon"><EmojiGlyph /></span>
+          {COPY.filter_emotes}
+        </button>
+      </div>
+      <a
+        className="stpc__viewall"
+        href={profile.accountUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {COPY.view_all}
+        <ChevronGlyph />
+      </a>
+    </div>
+  );
+
+  return (
+    <SitesChrome active="legal" overlayNav>
+      <div className="stpc">
+        <div className="stpc__content">
+          <div className="stpc__card">
+            <header className="stpc__phead">
+              <div className="stpc__identity">
+                <span className="stpc__avatar" style={{ background: "#FF8362" }} aria-hidden="true">
+                  <span className="stpc__avatarinitial">{initial}</span>
+                </span>
+                <div className="stpc__nameblock">
+                  <div className="stpc__namerow">
+                    <span className="stpc__name" style={{ color: "#FF8362" }}>{profile.name}</span>
+                    <span className="stpc__verified" style={{ background: "#FF8362" }} title="Verified">
+                      <svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true">
+                        <path d="m6 12 4 4 8-9" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div className="stpc__addrrow">
+                    <span className="stpc__walleticon">
+                      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                        <path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1h1a1 1 0 0 1 1 1v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm14 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <span className="stpc__addr">{truncateAddress(profile.address)}</span>
+                    <button type="button" className="stpc__copy" aria-label="Copy address">
+                      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                        <rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                        <path d="M5 15V5a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="stpc__actions">
+                <button type="button" className="stpc__cta">
+                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                    <circle cx="9" cy="8" r="3.4" fill="none" stroke="currentColor" strokeWidth="1.7" />
+                    <path d="M3.5 19a5.5 5.5 0 0 1 11 0M18 8v6M15 11h6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+                  </svg>
+                  Add friend
+                </button>
+                <button type="button" className="stpc__more" aria-label="More actions">
+                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                    <circle cx="12" cy="5" r="1.6" fill="currentColor" />
+                    <circle cx="12" cy="12" r="1.6" fill="currentColor" />
+                    <circle cx="12" cy="19" r="1.6" fill="currentColor" />
+                  </svg>
+                </button>
+              </div>
+            </header>
+
+            <nav className="stpc__tabs" aria-label="Profile sections">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className={"stpc__tab" + (tab.id === "creations" ? " is-active" : "")}
+                  aria-current={tab.id === "creations" ? "page" : undefined}
+                >
+                  {tab.label}
+                  {tab.id === "creations" ? <span className="stpc__tabbar" aria-hidden="true" /> : null}
+                </button>
+              ))}
+            </nav>
+
+            <div className="stpc__body">
+              {header}
+
+              {loading ? (
+                <div className="stpc__loadingrow">
+                  <span className="stpc__spinner" aria-label="Loading" />
+                </div>
+              ) : items.length === 0 ? (
+                <p className="stpc__emptybio">
+                  {isOwnProfile ? COPY.empty_owner : COPY.empty_member}
+                </p>
+              ) : (
+                <>
+                  <div className="stpc__grid">
+                    {items.map((item) => (
+                      <CreationCard key={item.id} item={item} />
+                    ))}
+                  </div>
+                  {canLoadMore ? (
+                    <div className="stpc__loadmorerow">
+                      <button
+                        type="button"
+                        className="stpc__loadmore"
+                        onClick={() => setVisible((v) => v + PAGE_SIZE)}
+                      >
+                        {COPY.load_more}
+                      </button>
+                    </div>
+                  ) : null}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </SitesChrome>
+  );
+}

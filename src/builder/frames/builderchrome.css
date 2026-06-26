@@ -1,0 +1,15 @@
+.bd {
+  background: var(--panel);
+
+  --shell-nav-bg: var(--panel);
+  --shell-underline: var(--brand);
+  --shell-underline-glow: none;
+}
+.bd .dtb { background: var(--panel); }
+
+/* Light theme: flip the chrome body background to the light token, mirroring
+   `html.mp-light .mk` in atoms/primitives.css. Top bar + tabs nav stay dark
+   (var(--panel)) per upstream (dark chrome over a light page). */
+html.mp-light .bd {
+  background: var(--lm-bg);
+}

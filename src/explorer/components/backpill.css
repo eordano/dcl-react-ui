@@ -1,0 +1,11 @@
+.backpill {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 34px; padding: 0 16px 0 12px;
+  border-radius: var(--r-pill); cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .35);
+  background: var(--fill-4); color: #fff;
+  font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: .4px;
+  transition: background .12s ease;
+}
+.backpill:hover { background: rgba(255, 255, 255, .20); }
+.backpill svg { display: block; }

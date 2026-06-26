@@ -1,0 +1,136 @@
+.chmodaldeleteproject__backdrop,
+.chmodaldeleteproject__paper {
+  --chmdp-modal: #242129;
+  --chmdp-white: #ffffff;
+  --chmdp-dcl: var(--brand);
+  --chmdp-dcl-dark: #9c1c34;
+  --chmdp-dark-gray: #43404a;
+  --chmdp-darker-gray: #242129;
+  --chmdp-light-gray: #5e5b67;
+  --chmdp-error: #ff0000;
+  --chmdp-radius: 6px;
+  font-family:
+    "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.chmodaldeleteproject__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.chmodaldeleteproject__paper {
+  width: 540px;
+  max-width: calc(100% - 32px);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 12px;
+  background-color: var(--chmdp-modal);
+  color: var(--chmdp-white);
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.chmodaldeleteproject__titlebox {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 24px 8px;
+}
+
+.chmodaldeleteproject__title {
+  margin: 0 auto;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--chmdp-white);
+}
+
+.chmodaldeleteproject__content {
+  padding: 24px;
+}
+
+.chmodaldeleteproject__delete-files {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: max-content;
+  max-width: 100%;
+  gap: 9px;
+  font-size: 1rem;
+  color: var(--chmdp-white);
+  user-select: none;
+}
+
+.chmodaldeleteproject__checkbox {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 2px solid var(--chmdp-light-gray);
+  box-sizing: border-box;
+  color: var(--chmdp-white);
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+.chmodaldeleteproject__checkbox.is-checked {
+  background-color: var(--chmdp-dcl);
+  border-color: var(--chmdp-dcl);
+}
+
+.chmodaldeleteproject__delete-files-warning {
+  margin: 16px 0 0;
+  color: var(--chmdp-error);
+  font-size: 0.9rem;
+  text-align: center;
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+.chmodaldeleteproject__actions {
+  display: flex;
+  padding: 24px;
+}
+.chmodaldeleteproject__actions > * {
+  flex: 1;
+}
+.chmodaldeleteproject__actions > *:not(:last-child) {
+  margin-right: 16px;
+}
+
+.chmodaldeleteproject__btn {
+  padding: 5px 20px;
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: var(--chmdp-radius);
+  color: var(--chmdp-white);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02857em;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.chmodaldeleteproject__btn--primary {
+  background-color: var(--chmdp-dcl);
+}
+.chmodaldeleteproject__btn--primary:hover {
+  background-color: var(--chmdp-dcl-dark);
+}
+
+.chmodaldeleteproject__btn--secondary {
+  background-color: var(--chmdp-dark-gray);
+  border-color: var(--chmdp-light-gray);
+}
+.chmodaldeleteproject__btn--secondary:hover {
+  background-color: var(--chmdp-darker-gray);
+}

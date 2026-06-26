@@ -1,0 +1,69 @@
+.sw {
+  width: min(388px, 100%); max-height: 100%; overflow: auto;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  background: #4b167c; color: #fff; border-radius: var(--r-panel);
+  padding: 24px 28px 26px; box-shadow: var(--shadow-modal);
+}
+/* Recurring decision → a weightier dialog with room for four choices. */
+.sw--recurring { width: min(440px, 100%); padding: 28px 30px 28px; }
+
+.sw__head { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+.sw__preview {
+  position: relative; width: 64px; aspect-ratio: 1; border-radius: 10px;
+  background: #fff; overflow: hidden; display: block;
+}
+.sw__ribbon {
+  position: absolute; top: 0; left: 0; width: 26px; height: 26px;
+  background: linear-gradient(135deg, #3b7bff 50%, transparent 50%);
+}
+
+.sw__smart {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 800; letter-spacing: .04em; color: #fff;
+  background: linear-gradient(110deg, #ff4bed, #a855f7 55%, #7c5cff);
+}
+
+/* {name} — the headline: who is asking. */
+.sw__name { margin: 18px 0 0; font-size: 24px; font-weight: 800; line-height: 1.2; }
+.sw--recurring .sw__name { font-size: 27px; }
+
+/* Quiet connective copy. */
+.sw__detail { margin: 8px 0 0; font-size: 13px; color: rgba(255, 255, 255, .72); }
+
+/* The capability being granted — the thing the user must actually weigh. */
+.sw__capability {
+  margin: 6px 0 0; font-size: 17px; font-weight: 700; line-height: 1.35;
+  color: #fff;
+}
+.sw--recurring .sw__capability { font-size: 19px; }
+
+.sw__ask { margin: 14px 0 0; font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, .9); }
+
+.sw__note {
+  margin: 14px 0 0; font-size: 12px; line-height: 1.45; color: rgba(255, 255, 255, .55);
+}
+
+.sw__actions { display: flex; gap: 12px; width: 100%; margin-top: 22px; }
+.sw__actions--quad { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.sw__btn {
+  flex: 1; min-width: 0; height: 46px; padding: 0 16px;
+  border: none; cursor: pointer; font-family: inherit;
+  font-size: 14px; font-weight: 800; letter-spacing: .02em; border-radius: var(--r-pill);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .15s ease, opacity .15s ease;
+}
+.sw__btn--soft { background: rgba(0, 0, 0, .35); color: #fff; }
+.sw__btn--soft:hover { background: rgba(0, 0, 0, .5); }
+.sw__btn--primary { background: var(--brand); color: #fff; }
+.sw__btn--primary:hover { background: var(--brand-hover); }
+.sw__btn--deny { background: transparent; color: rgba(255, 255, 255, .72); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .22); }
+.sw__btn--deny:hover { background: rgba(0, 0, 0, .25); color: #fff; }
+
+@media (max-width: 480px) {
+  .sw { border-radius: var(--r-card); padding: 20px; }
+  .sw__actions { flex-direction: column-reverse; }
+  .sw__actions--quad { grid-template-columns: 1fr; }
+}

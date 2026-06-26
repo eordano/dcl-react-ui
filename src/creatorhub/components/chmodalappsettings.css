@@ -1,0 +1,585 @@
+.chmas {
+  --chmas-black: var(--panel);
+  --chmas-darker-gray: #242129;
+  --chmas-dark-gray: #43404a;
+  --chmas-light-gray: #5e5b67;
+  --chmas-dcl: var(--brand);
+  --chmas-dcl-dark: #9c1c34;
+  --chmas-dcl-silver: #a09ba8;
+  --chmas-white: #ffffff;
+  --chmas-text-on-secondary: #ffffffb2;
+  --chmas-error: #ff0000;
+  --chmas-input-border: rgba(255, 255, 255, 0.231);
+  --chmas-input-hover: rgba(255, 255, 255, 0.4);
+  --chmas-font: "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  font-family: var(--chmas-font);
+  color: var(--chmas-white);
+}
+
+.chmas__paper {
+  width: 625px;
+  height: 680px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  border-radius: 12px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.102), rgba(0, 0, 0, 0.102)),
+    var(--chmas-black);
+  display: flex;
+  flex-flow: column nowrap;
+  box-sizing: border-box;
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.chmas__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-bottom: 1px solid var(--chmas-light-gray);
+}
+.chmas__titlebox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  color: var(--chmas-light-gray);
+}
+.chmas__titleicon {
+  display: inline-flex;
+}
+.chmas__titleicon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.chmas__title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--chmas-light-gray);
+}
+.chmas__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--chmas-white);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.chmas__close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.chmas__close svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.chmas__layout {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+}
+
+.chmas__tabs {
+  flex-shrink: 0;
+  height: 100%;
+  min-width: 160px;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.chmas__tab {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  text-transform: uppercase;
+  min-height: 42px;
+  padding: 0 16px;
+  border: none;
+  background: transparent;
+  font-family: var(--chmas-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02857em;
+  color: var(--chmas-text-on-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.chmas__tab:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+.chmas__tab.is-selected {
+  color: var(--chmas-dcl);
+  background-color: var(--chmas-darker-gray);
+}
+
+.chmas__content {
+  flex: 1;
+  width: 100%;
+  background-color: var(--chmas-darker-gray);
+  padding: 24px 32px 0;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+.chmas__content > div:first-of-type {
+  padding-bottom: 24px;
+}
+
+.chmas__form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+.chmas__group {
+  display: flex;
+  flex-direction: column;
+}
+.chmas__group--scenes {
+  gap: 16px;
+}
+.chmas__group--deps {
+  gap: 16px;
+}
+.chmas__group--editor {
+  gap: 16px;
+}
+.chmas__group--preview {
+  gap: 4px;
+}
+.chmas__group--warnings {
+  gap: 16px;
+}
+
+.chmas__label {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--chmas-white);
+}
+
+.chmas__folderrow {
+  display: flex;
+  align-items: center;
+}
+.chmas__input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 1px solid var(--chmas-input-border);
+  border-radius: 6px;
+  transition: border-color 0.15s ease;
+}
+.chmas__input:hover {
+  border-color: var(--chmas-input-hover);
+}
+.chmas__input:focus-within {
+  border-color: var(--chmas-white);
+  box-shadow: inset 0 0 0 1px var(--chmas-white);
+}
+.chmas__input.is-error {
+  border-color: var(--chmas-error);
+}
+.chmas__input.is-error:focus-within {
+  box-shadow: inset 0 0 0 1px var(--chmas-error);
+}
+.chmas__field {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--chmas-white);
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  padding: 16.5px 14px;
+}
+.chmas__adornment {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.chmas__textbtn {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: var(--chmas-text-on-secondary);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.chmas__textbtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--chmas-white);
+}
+.chmas__iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.chmas__iconbtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--chmas-white);
+}
+.chmas__iconbtn svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.chmas__iconbtn--small {
+  width: 30px;
+  height: 30px;
+}
+.chmas__iconbtn--small svg {
+  width: 20px;
+  height: 20px;
+}
+
+.chmas__error {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--chmas-error);
+}
+
+.chmas__radiogroup {
+  display: flex;
+  flex-direction: column;
+}
+.chmas__option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+.chmas__option--checkbox {
+  gap: 9px;
+}
+.chmas__option--top {
+  align-items: flex-start;
+}
+.chmas__optlabel {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--chmas-white);
+}
+
+.chmas__radio {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--chmas-text-on-secondary);
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+.chmas__radio.is-on {
+  border-color: var(--chmas-dcl);
+}
+.chmas__radio-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--chmas-dcl);
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+.chmas__radio.is-on .chmas__radio-dot {
+  transform: scale(1);
+}
+
+.chmas__check {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin: 9px;
+  border-radius: 2px;
+  border: 2px solid var(--chmas-text-on-secondary);
+  box-sizing: border-box;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.chmas__check.is-on {
+  background: var(--chmas-dcl);
+  border-color: var(--chmas-dcl);
+}
+.chmas__check svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.chmas__option--top .chmas__check {
+  margin-top: 0;
+  align-self: flex-start;
+}
+
+.chmas__select-wrap {
+  position: relative;
+}
+.chmas__select {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 14px;
+  border: 1px solid var(--chmas-input-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--chmas-white);
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+.chmas__select:hover {
+  border-color: var(--chmas-input-hover);
+}
+.chmas__select-value {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chmas__select-value.is-placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+.chmas__select-arrow {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.54);
+}
+.chmas__select-arrow svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.chmas__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  background: var(--chmas-darker-gray);
+  border-radius: 6px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  z-index: 2;
+  max-height: 320px;
+  overflow: auto;
+}
+.chmas__menuitem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 6px 16px;
+  min-height: 36px;
+  font-size: 1rem;
+  color: var(--chmas-white);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.chmas__menuitem:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.chmas__menuname {
+  flex: 1;
+}
+.chmas__menuactions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.chmas__defaulticon {
+  display: inline-flex;
+  color: var(--chmas-dcl);
+}
+.chmas__defaulticon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.chmas__menuitem--custom {
+  color: var(--chmas-dcl);
+}
+
+.chmas__about {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+}
+.chmas__abouthead {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+.chmas__aboutlogo {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.chmas__aboutinfo {
+  display: flex;
+  flex-direction: column;
+}
+.chmas__abouttitle {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  font-weight: 500;
+  color: var(--chmas-white);
+}
+.chmas__aboutversion {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+.chmas__aboutver {
+  font-size: 0.875rem;
+  line-height: 1.43;
+  color: var(--chmas-white);
+}
+.chmas__changelog {
+  border: none;
+  background: transparent;
+  color: var(--chmas-dcl);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 0;
+}
+.chmas__changelog:hover {
+  text-decoration: underline;
+}
+
+.chmas__update {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  overflow: hidden;
+  min-height: 0;
+}
+.chmas__update-status {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  overflow: hidden;
+  min-height: 0;
+}
+.chmas__uptodate {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  font-weight: 400;
+  color: var(--chmas-dcl-silver);
+}
+.chmas__update-buttons {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chmas__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 5px 20px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  color: var(--chmas-white);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.chmas__btn--full {
+  width: 100%;
+}
+.chmas__btn--secondary {
+  background-color: var(--chmas-dark-gray);
+  border-color: var(--chmas-light-gray);
+}
+.chmas__btn--secondary:hover {
+  background-color: var(--chmas-darker-gray);
+}

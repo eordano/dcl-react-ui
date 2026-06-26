@@ -1,0 +1,234 @@
+.actmm__scrim {
+  --actmm-modal: #242129;
+  --actmm-divider: rgba(103, 99, 112, 0.4);
+  --actmm-muted: #736e7d;
+  --actmm-secondary-text: #676370;
+  --actmm-error: #ff0000;
+  --actmm-close-bg: #ffffff;
+
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.actmm {
+  position: relative;
+  width: 520px;
+  max-width: 100%;
+  padding: 26px;
+  border-radius: 12px;
+  background: var(--actmm-modal);
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.32);
+  font-size: 17px;
+  box-sizing: border-box;
+}
+
+.actmm__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 100%;
+  background: var(--actmm-close-bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  transition: filter 0.2s ease;
+}
+.actmm__close:hover { filter: brightness(0.92); }
+
+.actmm__header { padding-top: 6px; }
+.actmm__title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 30px;
+  letter-spacing: 0.3px;
+  color: #fff;
+}
+.actmm__subtitle {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: -0.2px;
+  color: #fff;
+}
+
+.actmm__content { margin-top: 8px; display: flex; flex-direction: column; }
+
+.actmm__field {
+  width: 100%;
+  min-width: 100%;
+  margin-top: 30px;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+}
+.actmm__flabel {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 4px;
+  text-align: left;
+}
+.actmm__inputwrap { position: relative; width: 100%; }
+.actmm__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 0 12px;
+  border: none;
+  border-bottom: 2px solid var(--actmm-divider);
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  outline: none;
+  text-align: center;
+}
+.actmm__input::placeholder { color: var(--actmm-secondary-text); }
+.actmm__input:focus { border-bottom-color: #fff; }
+
+.actmm__input--amount { text-align: center; font-weight: 600; font-size: 40px; line-height: 48px; }
+.actmm__input--wallet { text-align: center; font-weight: 600; font-size: 17px; line-height: 26px; }
+
+.actmm__field.is-error .actmm__input { border-bottom-color: var(--actmm-error); }
+
+.actmm__max {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  height: 44px;
+  min-width: 80px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(103, 99, 112, 0.2);
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: background-color 0.2s ease;
+}
+.actmm__max:hover { background: rgba(103, 99, 112, 0.34); }
+
+.actmm__message { margin-top: 8px; font-size: 15px; text-align: left; color: var(--actmm-secondary-text); }
+.actmm__field.is-error .actmm__message { color: var(--actmm-error); }
+
+.actmm__usd-amount {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  margin-top: -15px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--actmm-muted);
+}
+.actmm__amount-error {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  margin-top: -15px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: red;
+}
+
+.actmm__fees-warning {
+  min-height: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--actmm-muted);
+}
+
+.actmm__send {
+  margin-top: 20px;
+  width: 100%;
+  min-height: 44px;
+  padding: 13px 32px;
+  border: none;
+  border-radius: 6px;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background-color 0.2s ease, filter 0.12s ease;
+}
+.actmm__send:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.06);
+}
+.actmm__send--matic { background: var(--purple); }
+.actmm__send:disabled { opacity: 0.5; cursor: default; }
+.actmm__send.is-loading { cursor: default; }
+
+.actmm__spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  animation: u-spin 0.7s linear infinite;
+}
+@media (max-width: 700px) {
+  .actmm__scrim { padding: 0; }
+  .actmm {
+    width: 100%;
+    min-height: 100%;
+    border-radius: 0;
+    padding: 20px;
+  }
+}
+
+/* Light theme — the Transfer MANA modal is a web/dapp account surface, so it
+   follows "Theme: Light". Remap the local dark tokens + flip the hardcoded white
+   text. The brand/purple send CTA keeps its white label. */
+html.mp-light .actmm__scrim {
+  --actmm-modal: var(--lm-surface);
+  --actmm-close-bg: rgba(0, 0, 0, 0.06);
+  --actmm-muted: var(--lm-ink-3);
+  --actmm-secondary-text: var(--lm-ink-3);
+}
+html.mp-light .actmm {
+  color: var(--lm-ink);
+  border-color: var(--lm-line);
+}
+html.mp-light .actmm__title,
+html.mp-light .actmm__subtitle,
+html.mp-light .actmm__flabel,
+html.mp-light .actmm__input,
+html.mp-light .actmm__max { color: var(--lm-ink); }
+html.mp-light .actmm__input:focus { border-bottom-color: var(--lm-ink); }

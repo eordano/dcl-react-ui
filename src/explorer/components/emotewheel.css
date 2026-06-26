@@ -1,0 +1,80 @@
+.ew {
+  position: fixed; inset: 0; z-index: var(--z-overlay); color: #fff; font-family: inherit;
+  background: rgba(0, 0, 0, .949);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+}
+
+.ew__wheel {
+  position: relative; width: 440px; height: 440px; max-width: 86vw; max-height: 86vw;
+}
+
+.ew__ring {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .4));
+}
+
+.ew__wedge {
+  fill: url(#ewSlice);
+  stroke: rgba(255, 255, 255, .28); stroke-width: .5;
+  stroke-linejoin: round;
+  transition: fill .12s ease;
+}
+.ew__slot { cursor: pointer; }
+.ew__slot.is-active .ew__wedge {
+  fill: #8d8c92;
+  stroke: rgba(255, 255, 255, .25);
+}
+.ew__slot:active .ew__wedge { fill: #7c7b82; }
+
+.ew__fig circle { fill: #2a2930; }
+.ew__fig path { fill: #2a2930; stroke: none; }
+.ew__slot.is-active .ew__fig circle { fill: #f4f4f6; }
+.ew__slot.is-active .ew__fig path { fill: #f4f4f6; }
+
+.ew__num {
+  fill: rgba(40, 39, 46, .85); font-size: 13px; font-weight: 800; font-family: inherit;
+  text-anchor: middle; dominant-baseline: central; pointer-events: none;
+  transition: fill .12s ease;
+}
+.ew__num.is-active { fill: #fff; }
+
+.ew__hub {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 200px; height: 200px; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  padding: 0 22px; text-align: center;
+  background: radial-gradient(circle, #1c1b20, var(--panel) 78%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+}
+.ew__emotelabel {
+  font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(255, 255, 255, .45); margin-bottom: -4px;
+}
+.ew__emotename { font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, .92); }
+.ew__customise {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: none; cursor: pointer; color: rgba(255, 255, 255, .55);
+  font-family: inherit; font-size: 10px; font-weight: 700;
+}
+.ew__customise:hover { color: #fff; }
+.ew__hubhint {
+  margin-top: 4px; font-size: 9px; line-height: 1.4; color: rgba(255, 255, 255, .4);
+  max-width: 148px;
+}
+
+.ew kbd {
+  display: inline-block; min-width: 16px; padding: 1px 5px; border-radius: 5px; text-align: center;
+  background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .2);
+  font-family: inherit; font-size: 10px; font-weight: 700; color: var(--text);
+}
+
+@media (max-width: 520px) {
+  .ew__wheel { width: 320px; height: 320px; }
+  .ew__hub { width: 146px; height: 146px; padding: 0 14px; }
+  .ew__hubhint { font-size: 9px; max-width: 120px; }
+}
+
+@media (max-height: 600px) {
+  .ew { gap: 8px; }
+  .ew__wheel { transform: scale(.66); transform-origin: center; margin: -74px 0; }
+}

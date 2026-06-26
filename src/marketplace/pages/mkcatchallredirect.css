@@ -1,0 +1,86 @@
+.mkcar {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  box-sizing: border-box;
+}
+
+.mkcar__inner {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.mkcar__gem {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 6px 22px rgba(255, 45, 85, 0.4));
+}
+
+.mkcar__spinner {
+  display: inline-flex;
+  margin-top: 4px;
+}
+
+.mkcar__title {
+  margin: 4px 0 0;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.2px;
+  color: var(--lm-ink);
+}
+
+.mkcar__text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-7);
+}
+
+.mkcar__path {
+  max-width: 100%;
+  margin-top: 2px;
+  padding: 7px 14px;
+  border-radius: var(--r-control);
+  background: var(--fill-2);
+  border: 1px solid var(--line);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mkcar__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(255, 45, 85, 0.32);
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+.mkcar__cta:hover {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+}
+.mkcar__cta svg {
+  flex: 0 0 auto;
+}

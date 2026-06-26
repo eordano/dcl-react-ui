@@ -1,0 +1,6 @@
+.emojispr {
+  display: inline-block; flex: 0 0 auto; vertical-align: middle;
+  background-image: url("/assets/emojis32.png"); background-repeat: no-repeat;
+}
+.emojispr--flag { background-image: url("/assets/flags.png"); }
+.emojispr--text { line-height: 1; text-align: center; }

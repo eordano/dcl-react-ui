@@ -1,0 +1,260 @@
+.sh {
+  --sh-secondary: #242129;
+  --sh-secondary-text: var(--lm-ink-3);
+  --sh-icon-chip: #37333d;
+  --sh-active: #37333d;
+  --sh-active-hover: #3d3a45;
+
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  align-items: start;
+  min-height: 100%;
+  padding: 24px 24px 36px;
+  color: var(--lm-ink);
+  font-family: inherit;
+}
+
+.sh__sidebar {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 320px;
+}
+
+.sh__menu {
+  background: var(--sh-secondary);
+  border-radius: 10px;
+  padding-bottom: 12px;
+  overflow: hidden;
+}
+.sh__menuhead {
+  padding: 17px 24px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--sh-secondary-text);
+  text-transform: uppercase;
+}
+.sh__menulist { list-style: none; margin: 0; padding: 0; }
+
+.sh__menuitem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: none;
+  color: var(--lm-ink);
+  font: inherit;
+  font-size: 17px;
+  line-height: 26px;
+  padding: 9px 16px 9px 24px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.sh__menuitem:hover { background: var(--sh-active-hover); }
+.sh__menuitem.is-active {
+  background: var(--sh-active);
+  font-weight: 600;
+}
+
+.sh__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sh__headerrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 44px;
+}
+.sh__header {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--lm-ink);
+}
+
+.sh__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.sh__stat {
+  display: flex;
+  align-items: center;
+  background-color: var(--sh-secondary);
+  min-height: 96px;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.sh__loaderbox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sh__staticon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  background-color: var(--sh-icon-chip);
+  border-radius: 50%;
+  margin-right: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.sh__statglyph { display: inline-flex; }
+
+.sh__manacoin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+.sh__manacoin--ethereum { color: var(--brand); }
+.sh__manacoin--matic { color: #a524b2; }
+
+.sh__statdetails { min-width: 0; }
+.sh__statvalue {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 26px;
+}
+.sh__statsub {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--sh-secondary-text);
+}
+
+.sh__activity {
+  margin-top: 12px;
+  background-color: var(--sh-secondary);
+  border-radius: 10px;
+  padding: 24px;
+}
+.sh__header--activity { font-size: 24px; margin-bottom: 8px; }
+
+.sh__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.sh__th {
+  text-align: left;
+  padding: 11px 8px;
+  font-weight: 700;
+  color: var(--sh-secondary-text);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.sh__th--item { width: 40%; }
+.sh__td {
+  padding: 11px 8px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+  color: var(--lm-ink);
+}
+.sh__tr:last-child .sh__td { border-bottom: 0; }
+.sh__muted { color: var(--sh-secondary-text); }
+
+.sh__assetcell {
+  display: flex;
+  align-items: center;
+  color: var(--lm-ink);
+  text-decoration: none;
+}
+.sh__thumb {
+  display: block;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  margin-right: 16px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--sh-icon-chip);
+}
+.sh__assetnames { min-width: 0; display: flex; flex-direction: column; }
+.sh__assettitle { font-weight: 600; }
+.sh__assetsub { font-weight: 400; color: var(--sh-secondary-text); }
+
+.sh__buyer { color: var(--lm-ink); text-decoration: none; }
+.sh__buyer:hover { text-decoration: underline; }
+
+.sh__mana {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.sh__manamark { display: inline-flex; }
+.sh__mana--ethereum .sh__manamark { color: var(--brand); }
+.sh__mana--matic .sh__manamark { color: #a524b2; }
+
+.sh__empty {
+  margin-top: 40px;
+  font-size: 16px;
+  text-align: center;
+  color: var(--sh-secondary-text);
+}
+
+.sh__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-top: 18px;
+}
+.sh__pagebtn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--lm-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--r-control);
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.sh__pagebtn:hover:not(:disabled) { background: var(--fill-2); }
+.sh__pagebtn.is-active {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.sh__pagebtn:disabled { opacity: 0.4; cursor: default; }
+
+.sh__loaderbox--activity { margin: 18px 0; }
+.sh__loader {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid var(--fill-4);
+  border-top-color: var(--brand);
+  animation: u-spin 0.8s linear infinite;
+}
+@media (max-width: 1024px) {
+  .sh { grid-template-columns: 1fr; }
+  .sh__sidebar { position: static; width: auto; }
+}
+@media (max-width: 768px) {
+  .sh__stats { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,18 @@
+.dlg-actions { display: flex; align-items: center; gap: 12px; }
+/* Only the lead-note footer wraps (note above buttons on tight widths); equal
+   button rows must stay side by side. */
+.dlg-actions--lead { flex-wrap: wrap; }
+.dlg-actions__btn { flex: 1 1 0; }
+/* Equal buttons fill their column so a Cancel | Confirm pair stays balanced. */
+.dlg-actions__btn .btn { width: 100%; }
+.dlg-actions--column { flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
+.dlg-actions--column .dlg-actions__btn { flex: 0 0 auto; }
+/* Modal-family footer buttons share the modal button height (see good modals). */
+.dlg-actions .btn { min-height: var(--modal-btn-h); }
+/* Lead note + button group: note keeps a sensible min width and grows; the
+   button group stays glued together and right-aligned, wrapping below on tight
+   widths instead of crushing the note. */
+.dlg-actions__lead { flex: 1 1 16rem; min-width: 0; color: var(--ink-6); line-height: 1.45; }
+.dlg-actions__group { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; margin-left: auto; }
+.dlg-actions__btn--danger { background: var(--error); }
+.dlg-actions__btn--danger:not(:disabled):hover { background: var(--live); }

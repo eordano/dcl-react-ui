@@ -1,0 +1,160 @@
+.chat__stage {
+  width: 100vw; height: 100vh; overflow: hidden;
+  background: linear-gradient(160deg, #2a2433 0%, #15121b 100%);
+}
+
+.chat {
+  position: absolute; left: 58px; bottom: 16px;
+  width: 320px; max-width: calc(100vw - 74px);
+  display: flex; flex-direction: column;
+  color: #fff;
+}
+
+.chrail {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: 46px; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 8px 0 10px;
+  background: rgba(8, 6, 10, .9);
+  pointer-events: none;
+}
+.chrail__group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.chrail__spacer { flex: 1; }
+.chrail__icon { width: 19px; height: 19px; fill: rgba(255,255,255,.8); }
+.chrail__btn, .chrail__profile {
+  position: relative; width: 34px; height: 34px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+}
+.chrail__profile { padding: 0; }
+.chrail__btn.is-active { background: #e23b3b; }
+.chrail__btn.is-active .chrail__icon { fill: #fff; }
+.chrail__btn--tile { background: rgba(255,255,255,.06); }
+.chrail__dot {
+  position: absolute; top: 5px; right: 5px; width: 7px; height: 7px;
+  border-radius: 50%; background: #54d36a; border: 1.5px solid rgba(8,6,10,.9);
+}
+.chrail__badge {
+  position: absolute; top: 1px; right: -1px; min-width: 16px; height: 15px;
+  padding: 0 3px; border-radius: 8px; background: #e23b3b; color: #fff;
+  font-size: 9px; font-weight: 700; line-height: 15px; text-align: center;
+}
+
+.chmap {
+  position: absolute; top: 8px; left: 54px; z-index: 2;
+  width: 150px; padding: 6px 8px 8px;
+  border-radius: 12px; color: #fff;
+  background: rgba(14, 10, 16, .82);
+  border: 1px solid rgba(255,255,255,.07);
+  box-shadow: 0 6px 18px rgba(0,0,0,.4);
+  pointer-events: none;
+}
+.chmap__head { display: flex; align-items: center; gap: 4px; }
+.chmap__name { font-size: 11px; font-weight: 700; }
+.chmap__fav { color: rgba(255,255,255,.7); line-height: 0; }
+.chmap__kebab { margin-left: auto; color: rgba(255,255,255,.7); line-height: 0; }
+.chmap__kebab svg { fill: currentColor; }
+.chmap__coords {
+  display: flex; align-items: center; gap: 3px; margin-top: 1px;
+  font-size: 10px; color: rgba(255,255,255,.6);
+}
+.chmap__coords svg { fill: rgba(255,255,255,.6); }
+.chmap__map {
+  position: relative; margin: 6px auto 2px; width: 116px; max-width: 100%;
+  aspect-ratio: 1 / 1; border-radius: 50%;
+  background:
+    radial-gradient(120% 120% at 50% 35%, rgba(72,52,46,.95), rgba(26,16,18,.98));
+  overflow: hidden;
+}
+.chmap__arrow {
+  position: absolute; top: 50%; left: 50%; line-height: 0;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 3px rgba(210,74,138,.55));
+}
+.chmap__compass {
+  position: absolute; font-size: 9px; font-weight: 700;
+  color: rgba(255,255,255,.7); line-height: 1;
+}
+.chmap__compass--n { top: 5px; left: 50%; transform: translateX(-50%); }
+.chmap__compass--s { bottom: 5px; left: 50%; transform: translateX(-50%); }
+.chmap__compass--w { left: 6px; top: 50%; transform: translateY(-50%); }
+.chmap__compass--e { right: 6px; top: 50%; transform: translateY(-50%); }
+
+.chat__log {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 7px; padding-bottom: 12px;
+  max-height: min(50vh, 460px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+}
+.chat__log::-webkit-scrollbar { width: 6px; }
+.chat__log::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.22); border-radius: 3px; }
+.chat__log::-webkit-scrollbar-track { background: transparent; }
+
+.chat__day { align-self: center; }
+.chat__daypill {
+  display: inline-block; padding: 3px 12px; border-radius: 999px;
+  background: rgba(20,18,24,.78); color: rgba(255,255,255,.92);
+  font-size: 11px; font-weight: 600; letter-spacing: .2px;
+}
+
+.chat__msg { display: flex; align-items: flex-start; gap: 7px; max-width: 100%; }
+.chat__avatar { flex: 0 0 auto; margin-top: 1px; }
+
+.chat__line {
+  min-width: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,.6);
+}
+
+.chat__meta { display: flex; align-items: baseline; gap: 4px; }
+.chat__user {
+  font-size: 12.5px; font-weight: 700; color: #d24a8a;
+}
+.chat__user--system { color: #5fdc4a; }
+.chat__verified { align-self: center; display: inline-flex; line-height: 0; }
+.chat__time {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .2px;
+  color: rgba(255,255,255,.5);
+}
+
+.chat__text {
+  margin-top: 2px; font-size: 13px; font-weight: 600; line-height: 1.3;
+  color: rgba(255,255,255,.94); word-wrap: break-word;
+  display: inline-block; padding: 4px 9px; border-radius: 4px 9px 9px 9px;
+  background: rgba(28,22,36,.5);
+}
+
+.chat__input {
+  display: flex; align-items: center; gap: 8px; height: 40px;
+  border-radius: 8px; background: rgba(20,18,24,.82); padding: 0 12px;
+}
+.chat__rec {
+  flex: 0 0 auto; width: 9px; height: 9px; border-radius: 50%;
+  background: #e23b3b; box-shadow: 0 0 6px rgba(226,59,59,.6);
+}
+.chat__field {
+  flex: 1; height: 100%; border: none; outline: none; background: none;
+  color: #fff; font-family: inherit; font-size: 13px; padding: 0;
+}
+.chat__field::placeholder { color: rgba(255,255,255,.5); }
+
+@media (max-width: 600px) {
+  .chat { left: 50px; right: 8px; width: auto; bottom: 8px; }
+  .chmap { width: 130px; }
+}
+
+/* Bare mode — render ONLY the chat island (no rail / minimap / full-page stage).
+   Used by the ExplorerIslands/Chat story so it showcases just the chat panel,
+   on its native dark backdrop, instead of the whole HUD scene. */
+.chat__bare {
+  display: inline-block;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #2a2433 0%, #15121b 100%);
+}
+.chat__bare .chat {
+  position: static;
+  left: auto; bottom: auto;
+  width: 320px; max-width: 320px;
+}

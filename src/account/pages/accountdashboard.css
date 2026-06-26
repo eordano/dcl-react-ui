@@ -1,0 +1,355 @@
+.acd {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 28px 60px;
+  color: #fff;
+}
+
+.acd__title {
+  margin: 0 0 22px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.acd__layout {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.acd__content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.acd-total {
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(255, 45, 85, 0.1), transparent 55%),
+    var(--fill-1);
+}
+.acd-total__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-6);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.acd-total__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1;
+}
+.acd-total__manamark { display: inline-flex; color: var(--brand); }
+.acd-total__sub { margin-top: 8px; font-size: 13px; color: var(--ink-6); }
+
+.acd-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.acd-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: var(--panel);
+  overflow: hidden;
+}
+.acd-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.acd-card__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.acd-card__net {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: hsl(var(--hue, 280) 70% 58%);
+  box-shadow: 0 0 8px hsl(var(--hue, 280) 70% 58% / 0.6);
+}
+.acd-card__amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 22px;
+  font-weight: 800;
+}
+.acd-card__manamark { display: inline-flex; color: var(--brand); }
+
+.acd-card__actions {
+  display: flex;
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.acd-btn {
+  flex: 1 1 auto;
+  border: 1px solid var(--line);
+  background: var(--fill-3);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 12px;
+  border-radius: var(--r-control);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.acd-btn:hover { background: var(--fill-4); }
+.acd-btn--primary { background: var(--brand); border-color: var(--brand); }
+.acd-btn--primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+
+.acd-more { position: relative; flex: 0 0 auto; }
+.acd-more__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--fill-3);
+  color: #fff;
+  font-weight: 700;
+  padding: 9px 14px;
+  border-radius: var(--r-control);
+}
+.acd-more__btn::-webkit-details-marker { display: none; }
+.acd-more__btn:hover { background: var(--fill-4); }
+.acd-more__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 5;
+  min-width: 168px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+.acd-more__item {
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: var(--r-control);
+  cursor: pointer;
+}
+.acd-more__item:hover { background: var(--fill-3); }
+
+.acd-tx { padding: 8px 20px 18px; }
+.acd-tx__label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 0 4px;
+}
+.acd-tx__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.acd-tx__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 800;
+}
+.acd-tx__icon--in { background: rgba(87, 223, 65, 0.16); color: var(--online); }
+.acd-tx__icon--out { background: rgba(255, 45, 85, 0.16); color: var(--brand); }
+.acd-tx__info { flex: 1 1 auto; min-width: 0; }
+.acd-tx__desc {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.acd-tx__meta { font-size: 12px; color: var(--ink-6); margin-top: 2px; }
+.acd-tx__status { font-weight: 700; }
+.acd-tx__status.is-confirmed { color: var(--online); }
+.acd-tx__status.is-pending { color: var(--gold); }
+.acd-tx__dot { margin: 0 5px; }
+.acd-tx__amount {
+  font-size: 13px;
+  font-weight: 800;
+  flex: 0 0 auto;
+}
+.acd-tx__amount.is-in { color: var(--online); }
+.acd-tx__amount.is-out { color: var(--ink-85); }
+
+.acd-tx__seeall {
+  margin-top: 12px;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px;
+}
+.acd-tx__seeall:hover { color: var(--brand-hover); }
+
+.acd-panel {
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--fill-1);
+}
+.acd-panel__title { margin: 0; font-size: 20px; font-weight: 800; }
+.acd-panel__lede { margin: 6px 0 22px; font-size: 14px; color: var(--ink-6); }
+
+.acd-email { display: flex; flex-direction: column; gap: 20px; }
+.acd-email__field { display: flex; flex-direction: column; gap: 7px; }
+.acd-email__flabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.acd-email__input {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  padding: 11px 14px;
+  outline: none;
+  max-width: 420px;
+}
+.acd-email__input:focus { border-color: var(--accent); }
+.acd-email__input::placeholder { color: var(--ink-45); }
+
+.acd-email__groups {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+.acd-email__group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--fill-1);
+}
+.acd-email__group:last-child { border-bottom: 0; }
+.acd-email__gtitle { font-size: 14px; font-weight: 700; }
+.acd-email__gdesc { font-size: 12px; color: var(--ink-6); margin-top: 2px; }
+.acd-email__save { flex: 0 0 auto; align-self: flex-start; padding: 10px 22px; }
+
+.acd-credits { display: flex; flex-direction: column; gap: 18px; }
+.acd-credits__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  color: var(--ink-85);
+}
+.acd-credits__balance {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background:
+    radial-gradient(120% 120% at 100% 0%, rgba(255, 116, 58, 0.12), transparent 55%),
+    var(--panel);
+}
+.acd-credits__label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.acd-credits__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 8px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+}
+.acd-credits__manamark { display: inline-flex; color: var(--accent); }
+.acd-credits__exp { margin-top: 8px; font-size: 13px; color: var(--ink-6); }
+.acd-credits__info {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-7);
+  line-height: 1.5;
+}
+.acd-credits__leave { flex: 0 0 auto; align-self: flex-start; padding: 10px 22px; }
+
+@media (max-width: 860px) {
+  .acd__layout { grid-template-columns: 1fr; gap: 18px; }
+  .acd-cards { grid-template-columns: 1fr; }
+}
+
+/* Light theme — the account dashboard is a web/dapp surface, so it follows the
+   "Theme: Light" (faithful upstream web look). Remap the dark tokens this surface
+   consumes to the light marketplace palette, mirroring `html.mp-light .mk` in
+   atoms/primitives.css. The DclTopBar stays dark (see accountchrome.css). */
+html.mp-light .acd {
+  color: var(--lm-ink);
+  --text: var(--lm-ink);
+  --panel: var(--lm-surface);
+  --line: var(--lm-line);
+  --fill-1: rgba(0, 0, 0, 0.03);
+  --fill-3: rgba(0, 0, 0, 0.06);
+  --fill-4: rgba(0, 0, 0, 0.09);
+  --ink-85: rgba(0, 0, 0, 0.85);
+  --ink-7: rgba(0, 0, 0, 0.62);
+  --ink-6: rgba(0, 0, 0, 0.52);
+  --ink-45: rgba(0, 0, 0, 0.4);
+}
+html.mp-light .acd-btn,
+html.mp-light .acd-more__btn,
+html.mp-light .acd-more__item,
+html.mp-light .acd-email__input { color: var(--lm-ink); }
+html.mp-light .acd-btn--primary { color: #fff; }
+html.mp-light .acd-more__menu { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18); }

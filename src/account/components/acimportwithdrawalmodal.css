@@ -1,0 +1,162 @@
+.acimportwithdrawalmodal__card {
+  position: relative;
+  margin: auto;
+  width: 520px;
+  max-width: 100%;
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 32px 0 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-modal);
+  color: #fff;
+}
+
+.acimportwithdrawalmodal__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-6);
+  cursor: pointer;
+  transition: color .12s ease, background .12s ease;
+}
+.acimportwithdrawalmodal__close:hover { color: #fff; background: var(--fill-3); }
+
+.acimportwithdrawalmodal__header { padding: 0 40px; }
+.acimportwithdrawalmodal__title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: #fff;
+}
+
+.acimportwithdrawalmodal__content {
+  text-align: center;
+  padding: 0 40px;
+}
+
+.acimportwithdrawalmodal__description {
+  text-align: justify;
+  margin: 16px 0 4rem;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-85);
+}
+.acimportwithdrawalmodal__link { color: var(--brand); text-decoration: none; font-weight: 600; }
+.acimportwithdrawalmodal__link:hover { color: var(--brand-hover); text-decoration: underline; }
+
+.acimportwithdrawalmodal__field {
+  width: 100%;
+  min-width: 100%;
+  margin-top: 30px;
+  text-align: center;
+  letter-spacing: 0.4px;
+}
+.acimportwithdrawalmodal__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  color: var(--ink-7);
+}
+.acimportwithdrawalmodal__input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  background: var(--fill-2);
+  color: #fff;
+  text-align: center;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 26px;
+  outline: none;
+  transition: border-color .12s ease, background .12s ease;
+}
+.acimportwithdrawalmodal__input::placeholder { color: var(--ink-45); font-weight: 600; }
+.acimportwithdrawalmodal__input:focus { border-color: var(--ink-45); background: var(--fill-3); }
+
+.acimportwithdrawalmodal__field--error .acimportwithdrawalmodal__input { border-color: var(--error); background: rgba(255, 36, 36, 0.06); }
+.acimportwithdrawalmodal__message {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: normal;
+}
+.acimportwithdrawalmodal__field--error .acimportwithdrawalmodal__message { color: var(--error); }
+
+.acimportwithdrawalmodal__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  min-height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: var(--r-control);
+  background: var(--brand);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .12s ease, opacity .12s ease;
+}
+.acimportwithdrawalmodal__button:hover:not(:disabled) { background: var(--brand-hover); }
+.acimportwithdrawalmodal__button:disabled { opacity: 0.6; cursor: default; }
+
+.acimportwithdrawalmodal__spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  animation: u-spin .7s linear infinite;
+}
+@media (max-width: 560px) {
+  .acimportwithdrawalmodal__header,
+  .acimportwithdrawalmodal__content { padding: 0 22px; }
+  .acimportwithdrawalmodal__description { margin-bottom: 2.5rem; }
+}
+
+/* Light theme — the import-withdrawal modal is a web/dapp account surface, so it
+   follows "Theme: Light". Remap the shared dark tokens it consumes + flip the
+   hardcoded white text. The brand CTA keeps its white label. */
+html.mp-light .acimportwithdrawalmodal__card {
+  color: var(--lm-ink);
+  border-color: var(--lm-line);
+  --panel: var(--lm-surface);
+  --line: var(--lm-line);
+  --fill-2: rgba(0, 0, 0, 0.04);
+  --fill-3: rgba(0, 0, 0, 0.06);
+  --ink-6: var(--lm-ink-3);
+  --ink-7: var(--lm-ink-2);
+  --ink-45: rgba(0, 0, 0, 0.4);
+  --ink-85: var(--lm-ink-2);
+}
+html.mp-light .acimportwithdrawalmodal__title,
+html.mp-light .acimportwithdrawalmodal__input,
+html.mp-light .acimportwithdrawalmodal__close:hover { color: var(--lm-ink); }

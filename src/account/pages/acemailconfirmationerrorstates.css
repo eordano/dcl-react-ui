@@ -1,0 +1,79 @@
+.acemailconfirmationerrorstates {
+  --uec-grad: radial-gradient(circle at 50% 40%, #a326d5 0%, #691fa9 100%);
+  --uec-grad-mobile: #350f44;
+  --uec-card: #2d004d;
+
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--uec-grad);
+  font-family: inherit;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.acemailconfirmationerrorstates__logo { position: absolute; top: 32px; left: 32px; width: 48px; height: 48px; }
+
+.acemailconfirmationerrorstates__card {
+  background: var(--uec-card);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 576px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.acemailconfirmationerrorstates__title { color: #fff; font-size: 48px; font-weight: 700; margin: 0; text-align: center; line-height: 1.1; }
+
+.acemailconfirmationerrorstates__desc { color: #fff; font-size: 20px; text-align: center; margin: 0; line-height: 1.5; width: 100%; }
+
+.acemailconfirmationerrorstates__states {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 360px;
+  justify-content: flex-end;
+  z-index: 5;
+}
+.acemailconfirmationerrorstates__statebtn {
+  background: var(--fill-3);
+  color: var(--ink-85);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.acemailconfirmationerrorstates__statebtn.is-active { background: var(--brand); color: #fff; border-color: transparent; }
+
+@media (max-width: 600px) {
+  .acemailconfirmationerrorstates { background: var(--uec-grad-mobile); }
+  .acemailconfirmationerrorstates__card {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 24px;
+    max-width: 100vw;
+    gap: 20px;
+  }
+  .acemailconfirmationerrorstates__title { font-size: 32px; }
+  .acemailconfirmationerrorstates__desc {
+    font-size: 16px;
+    max-width: 328px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

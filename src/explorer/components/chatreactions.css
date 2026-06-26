@@ -1,0 +1,67 @@
+.rx__stage {
+  width: 100vw; height: 100vh; overflow: hidden;
+  background: #1b1620;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 0 0 6px;
+}
+
+.rx {
+  display: flex; align-items: center; gap: 8px;
+  padding: 2px 8px;
+  background: rgba(18, 18, 18, .72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 999px;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .45);
+  transform: scale(.82);
+  transform-origin: bottom center;
+}
+
+.rx__title {
+  font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, .85);
+  white-space: nowrap; padding-left: 4px;
+}
+
+.rx__row {
+  display: flex; align-items: center; gap: 1px;
+}
+
+.rx__btn {
+  flex: 0 0 auto;
+  width: 24px; height: 24px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; cursor: pointer; padding: 0;
+  background: none; color: rgba(255, 255, 255, .85);
+  transition: background .1s ease, transform .1s ease;
+}
+.rx__btn:hover { background: var(--fill-5); transform: scale(1.15); }
+
+.rx .toggle { transform: scale(.8); transform-origin: center; }
+
+.rx__more {
+  flex: 0 0 auto;
+  width: 24px; height: 24px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; cursor: pointer; padding: 0;
+  background: none; color: rgba(255, 255, 255, .55);
+  transition: background .1s ease, color .1s ease;
+}
+.rx__more:hover { background: var(--fill-5); color: #fff; }
+
+@media (max-width: 480px) {
+  .rx__stage { padding: 12px; }
+  .rx { max-width: calc(100vw - 24px); }
+}
+
+/* Story-only: center the reactions bar in the canvas instead of pinning it
+   to the bottom edge (where it sits as an in-world chat overlay). */
+.rx-story .rx__stage {
+  align-items: center;
+  padding: 24px;
+}
+.rx-story .rx {
+  transform: scale(1);
+  transform-origin: center;
+}

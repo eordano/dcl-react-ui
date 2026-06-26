@@ -1,0 +1,131 @@
+.acseealltransactionsmodal {
+  --acst-card: #18171c;
+  --acst-ink: #fcfcfc;
+  --acst-muted: rgba(255, 255, 255, .62);
+  --acst-rule: rgba(255, 255, 255, .1);
+  --acst-row-hover: rgba(255, 255, 255, .05);
+  --acst-checkpoint: #34ce77;
+  --acst-tile: rgba(255, 255, 255, .06);
+}
+
+.acseealltransactionsmodal__card {
+  position: relative;
+  margin: auto;
+  width: 540px;
+  max-width: 100%;
+  background: var(--acst-card);
+  color: var(--acst-ink);
+  border-radius: var(--r-panel);
+  box-shadow: var(--shadow-modal);
+  outline: none;
+  overflow: hidden;
+  font-family: inherit;
+  animation: u-fade-in 0.3s linear;
+}
+
+.acseealltransactionsmodal__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  margin-top: -5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--acst-ink);
+  cursor: pointer;
+  opacity: 0.75;
+}
+.acseealltransactionsmodal__close:hover { opacity: 1; }
+
+.acseealltransactionsmodal__header {
+  text-align: center;
+  border-bottom: 1px solid var(--acst-rule);
+  margin: 0;
+  padding: 20px 32px 28px 32px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--acst-ink);
+}
+
+.acseealltransactionsmodal__content { height: 567px; overflow: auto; }
+
+.acseealltransactionsmodal__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 24px 20px;
+  font-size: 17px;
+  line-height: 26px;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+}
+.acseealltransactionsmodal__row:hover { background: var(--acst-row-hover); opacity: 0.7; }
+
+.acseealltransactionsmodal__type,
+.acseealltransactionsmodal__desc { margin-right: 20px; }
+
+.acseealltransactionsmodal__desc {
+  width: 450px;
+  display: flex;
+  flex-grow: 2;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.acseealltransactionsmodal__status { font-size: 15px; line-height: 24px; color: var(--acst-muted); }
+.acseealltransactionsmodal__checkpoint { color: var(--acst-checkpoint); font-weight: 600; }
+
+.acseealltransactionsmodal__amount { margin-left: auto; font-weight: 600; white-space: nowrap; }
+
+.acseealltransactionsmodal__logo {
+  width: 34px;
+  height: 34px;
+  display: block;
+  color: var(--acst-ink);
+}
+.acseealltransactionsmodal__logo .acseealltransactionsmodal__glyph { color: var(--acst-ink); }
+.acseealltransactionsmodal__logo.is-pending { opacity: 0.5; color: var(--acst-muted); }
+
+.acseealltransactionsmodal__empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--acst-muted);
+}
+.acseealltransactionsmodal__watermelon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 24px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #57df41 0 50%, #ff5b6b 50% 100%);
+  position: relative;
+}
+.acseealltransactionsmodal__watermelon::after {
+  content: "";
+  position: absolute;
+  inset: 50% 18% 18% 18%;
+  background: radial-gradient(circle, var(--acst-ink) 1px, transparent 1.6px) 0 0 / 9px 9px;
+  opacity: 0.55;
+}
+.acseealltransactionsmodal__empty p { margin: 0; font-size: 16px; line-height: 18px; text-align: center; }
+
+/* Light theme — the all-transactions modal is a web/dapp account surface, so it
+   follows "Theme: Light". Remap this surface's local dark tokens. */
+html.mp-light .acseealltransactionsmodal {
+  --acst-card: var(--lm-surface);
+  --acst-ink: var(--lm-ink);
+  --acst-muted: var(--lm-ink-3);
+  --acst-rule: var(--lm-line);
+  --acst-row-hover: rgba(0, 0, 0, 0.04);
+  --acst-tile: rgba(0, 0, 0, 0.05);
+}
+html.mp-light .acseealltransactionsmodal__card { border: 1px solid var(--lm-line); }

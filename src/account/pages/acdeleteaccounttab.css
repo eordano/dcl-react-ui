@@ -1,0 +1,199 @@
+.acdel-page {
+  --undefined-warning-card: #331636;
+  --undefined-amber: #ffa500;
+  --undefined-amber-fill: rgba(255, 165, 0, 0.08);
+  --undefined-amber-border: rgba(255, 165, 0, 0.3);
+  --undefined-danger-fill: rgba(255, 45, 85, 0.1);
+  --undefined-danger-border: rgba(255, 45, 85, 0.3);
+  --undefined-delete-hover: #e0264b;
+  --undefined-ink-muted: #fcfcfc99;
+  --undefined-ink-faint: #fcfcfc66;
+  --undefined-ink-strong: #fcfcfc;
+
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 28px 60px;
+  color: #fff;
+}
+
+.acdel-page__layout {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.acdel-page__content { min-width: 0; }
+
+.acdel-page__placeholder {
+  padding: 40px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--fill-1);
+  color: var(--ink-6);
+  font-size: 14px;
+}
+
+.acdel { max-width: 660px; }
+
+.acdel__header { margin-top: 14px; }
+.acdel__title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+}
+
+.acdel__content {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.acdel__banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--undefined-danger-fill);
+  border: 1px solid var(--undefined-danger-border);
+}
+.acdel__banner-icon { color: var(--brand); flex-shrink: 0; }
+.acdel__banner-text { display: flex; flex-direction: column; gap: 2px; }
+.acdel__banner-title {
+  color: var(--brand);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 22px;
+}
+.acdel__banner-desc {
+  color: var(--undefined-ink-muted);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.acdel__card {
+  padding: 24px;
+  border-radius: 8px;
+  background-color: var(--undefined-warning-card);
+}
+.acdel__card-desc {
+  color: var(--undefined-ink-strong);
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 24px;
+}
+.acdel__list { list-style: none; padding: 0; margin: 0; }
+.acdel__item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: var(--undefined-ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+  align-items: flex-start;
+}
+.acdel__item:last-child { margin-bottom: 0; }
+.acdel__item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--undefined-ink-faint);
+}
+.acdel__item-icon svg { width: 18px; height: 18px; }
+.acdel__item-title { color: var(--undefined-ink-strong); font-weight: 600; }
+
+.acdel__asset {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--undefined-amber-fill);
+  border: 1px solid var(--undefined-amber-border);
+  align-items: flex-start;
+}
+.acdel__asset-icon { color: var(--undefined-amber); flex-shrink: 0; margin-top: 1px; }
+.acdel__asset-text { display: flex; flex-direction: column; gap: 4px; }
+.acdel__asset-title {
+  color: var(--undefined-amber);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+.acdel__asset-desc {
+  color: var(--undefined-ink-muted);
+  font-size: 13px;
+  line-height: 20px;
+}
+.acdel__export-desc {
+  color: var(--undefined-ink-muted);
+  font-size: 13px;
+  line-height: 20px;
+  margin-top: 4px;
+}
+.acdel__export-link {
+  color: var(--undefined-amber);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+  padding: 0;
+  min-width: auto;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-transform: none;
+  align-self: flex-start;
+  font-family: inherit;
+}
+.acdel__export-link:hover { text-decoration: underline; background-color: transparent; }
+
+.acdel__delete-btn {
+  margin-top: 24px;
+  align-self: flex-start;
+  background-color: var(--brand);
+  color: #fff;
+  border: 0;
+  border-radius: var(--r-control);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  padding: 12px 22px;
+  cursor: pointer;
+  text-transform: none;
+  transition: background-color 0.12s ease;
+}
+.acdel__delete-btn:hover { background-color: var(--undefined-delete-hover); }
+.acdel__delete-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background-color: var(--brand);
+}
+
+@media (max-width: 860px) {
+  .acdel-page__layout { grid-template-columns: 1fr; gap: 18px; }
+  .acdel { max-width: 100%; }
+  .acdel__header { margin-top: 0; }
+}
+
+/* Light theme — the delete-account settings tab is a web/dapp account surface, so
+   it follows "Theme: Light". Remap this surface's local dark tokens + the shared
+   tokens it consumes; the amber/danger tint banners read fine on the light card. */
+html.mp-light .acdel-page {
+  color: var(--lm-ink);
+  --undefined-warning-card: var(--lm-surface);
+  --undefined-ink-strong: var(--lm-ink);
+  --undefined-ink-muted: var(--lm-ink-3);
+  --undefined-ink-faint: var(--lm-ink-3);
+  --line: var(--lm-line);
+  --fill-1: rgba(0, 0, 0, 0.03);
+  --ink-6: var(--lm-ink-3);
+}
+html.mp-light .acdel__card { border: 1px solid var(--lm-line); }

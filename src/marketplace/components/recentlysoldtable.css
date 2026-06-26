@@ -1,0 +1,96 @@
+.rs {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  padding: 22px 22px 8px;
+}
+
+.rs__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.rs__title { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+.rs__updated { font-size: 12px; font-weight: 600; color: var(--ink-45); }
+
+.rs__tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+.rs__tab {
+  position: relative;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-6);
+  padding: 10px 16px;
+  transition: color 0.12s ease;
+}
+.rs__tab:hover { color: #fff; }
+.rs__tab.is-active { color: #fff; }
+.rs__tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--brand);
+}
+
+.rs__row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.2fr 0.9fr 1fr 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.rs__row:last-child { border-bottom: 0; }
+.rs__row--head {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+.rs__row:not(.rs__row--head):hover { background: var(--fill-1); }
+.rs__cell { min-width: 0; font-size: 14px; color: var(--ink-85); }
+.rs__cell--num { justify-self: end; text-align: right; font-variant-numeric: tabular-nums; }
+
+.rs__cell--item { display: flex; align-items: center; gap: 12px; }
+.rs__thumb {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: var(--rar, var(--rar-common));
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.12));
+}
+.rs__name { font-size: 14px; font-weight: 700; color: #fff; }
+.rs__addr { font-variant-numeric: tabular-nums; color: var(--ink-7); }
+.rs__muted { color: var(--ink-45); }
+
+.rs__type {
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--ink-7);
+  background: var(--fill-3);
+  border: 1px solid var(--line);
+  padding: 2px 9px;
+  border-radius: var(--r-pill);
+}
+
+.rs__cell--price { display: inline-flex; align-items: center; justify-content: flex-end; gap: 4px; font-weight: 800; color: #fff; }
+.rs__manamark { color: var(--brand); flex: 0 0 auto; }

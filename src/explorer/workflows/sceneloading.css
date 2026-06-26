@@ -1,0 +1,110 @@
+.sl {
+  position: relative; width: 100vw; height: 100vh; overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 60%, #bf28e0 0%, #ab1fd2 70%, #9d1bc6 100%);
+}
+
+.sl__header {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(16px, 1.9vw, 36px); background: #141319; z-index: 4;
+}
+.sl__brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; color: #fff; }
+.sl__brand img { width: 26px; height: 26px; }
+.sl__pct { font-weight: 700; font-size: 13px; letter-spacing: .6px; color: #fff; }
+
+.sl__bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 9px;
+  background: rgba(0,0,0,.4); z-index: 6;
+}
+.sl__bar-fill { height: 100%; background: linear-gradient(90deg, #ff8a1f 0%, #ffb52e 60%, #ffc93c 100%); }
+
+.sl__cards {
+  position: absolute; left: 4vw; top: 50%; transform: translateY(-50%);
+  width: 36vw; max-width: 480px; height: 60vh; z-index: 2;
+}
+.sl__card {
+  position: absolute; border-radius: 18px; overflow: hidden;
+  background: #fff; box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  width: 230px;
+}
+.sl__card--back {
+  left: 0; top: 6%; transform: rotate(-9deg);
+  z-index: 1; width: 220px;
+}
+.sl__card--front {
+  left: 26%; top: 22%; transform: rotate(-3deg);
+  z-index: 2;
+}
+.sl__thumb {
+  height: 130px; width: 100%;
+  background: linear-gradient(135deg, #ff4d6d 0%, #c81d52 50%, #7a1530 100%);
+}
+.sl__card--back .sl__thumb {
+  background: linear-gradient(135deg, #2a1b5e 0%, #6a2bb5 60%, #b03ad0 100%);
+}
+.sl__meta { padding: 10px 12px 14px; color: #1b1b1f; }
+.sl__card-title { font-size: 14px; font-weight: 700; margin: 0; line-height: 1.2; }
+.sl__card-author { font-size: 11px; color: #6b6b73; margin: 3px 0 0; }
+.sl__card-time {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: #4a4a52; margin: 8px 0 0;
+}
+.sl__card-actions { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.sl__remind {
+  display: flex; align-items: center; gap: 6px; flex: 1;
+  background: #f3f0f7; border: none; border-radius: 10px; cursor: pointer;
+  padding: 9px 10px; font-size: 11px; font-weight: 700; letter-spacing: .4px; color: #2b2b30;
+}
+.sl__iconbtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; flex: none;
+  background: #f3f0f7; border: none; border-radius: 10px; cursor: pointer; color: #2b2b30;
+}
+
+.sl__tip {
+  position: absolute; left: 52%; top: 50%; transform: translateY(-50%);
+  width: min(420px, 40vw); z-index: 2;
+}
+.sl__title {
+  font-weight: 900; font-size: clamp(42px, 4.6vw, 76px); line-height: 1.0;
+  letter-spacing: -1px; color: #fff; margin: 0;
+}
+.sl__body {
+  margin-top: 16px; font-weight: 400; font-size: clamp(13px, .95vw, 17px); line-height: 1.5;
+  color: #fff;
+}
+.sl__dots { display: flex; align-items: center; flex-wrap: wrap; gap: 11px; margin-top: 30px; }
+.sl__dot { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.55); }
+.sl__dot.is-active {
+  width: 14px; height: 14px;
+  background: #ffd23c; box-shadow: 0 0 10px rgba(255,210,60,.95);
+}
+
+.sl__arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,255,255,.22); color: #fff; font-size: 30px; line-height: 1;
+  display: flex; align-items: center; justify-content: center; z-index: 4;
+}
+.sl__arrow--left { left: 22px; }
+.sl__arrow--right { right: 22px; }
+
+@media (max-width: 900px) {
+  .sl {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 5vh; padding: 64px 7vw 6vh;
+  }
+  .sl__cards {
+    position: static; left: auto; top: auto; transform: none;
+    width: 260px; height: 280px; margin: 0 auto;
+  }
+  .sl__card--back { transform: rotate(-9deg); }
+  .sl__card--front { transform: rotate(-3deg); }
+  .sl__tip {
+    position: static; left: auto; top: auto; transform: none;
+    width: min(440px, 86vw); text-align: center;
+  }
+  .sl__dots { justify-content: center; }
+  .sl__arrow { display: none; }
+}

@@ -1,0 +1,135 @@
+.bh {
+  min-height: 100%;
+  padding: 0 26px 64px;
+}
+
+.bh__container {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bh__title {
+  margin: 60px 0;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.bh__cards {
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.bh__card {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background: var(--fill-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.bh__card:hover {
+  transform: translateY(-3px);
+  border-color: var(--fill-5);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+}
+
+.bh__cardbody {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bh__cardtitle {
+  flex: 0 0 auto;
+  margin: 32px 0 8px;
+  height: 30px;
+  font-size: 21px;
+  line-height: 30px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.bh__carddesc {
+  margin: 0 24px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+  color: var(--ink-6);
+}
+
+.bh__cardimage {
+  height: 240px;
+  width: 280px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.bh__cardimg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.bh__cardimage--scenes .bh__cardimg { max-width: 90%; max-height: 90%; }
+.bh__cardimage--names .bh__cardimg { max-width: 60%; }
+
+.bh__cardextra {
+  flex: 0 0 auto;
+  padding: 0 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.bh__cta {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: #fff;
+  background: var(--brand);
+  padding: 13px 0;
+  margin-bottom: 21px;
+  border-radius: var(--r-control);
+  transition: background 0.12s ease;
+}
+.bh__cta:hover { background: var(--brand-hover); }
+
+.bh__learn {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: var(--ink-7);
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+.bh__learn:hover { color: #fff; }
+
+@media (max-width: 1080px) {
+  .bh__cards { max-width: 632px; }
+}
+@media (max-width: 640px) {
+  .bh { padding: 0 16px 40px; }
+  .bh__title { margin: 40px 0; font-size: 24px; line-height: 30px; }
+  .bh__card { width: 100%; max-width: 340px; }
+  .bh__cardimage { width: 100%; }
+}

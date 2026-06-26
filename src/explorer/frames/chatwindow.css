@@ -1,0 +1,185 @@
+.cw__stage {
+  width: 100vw; height: 100vh; overflow: hidden; position: relative;
+  background:
+    linear-gradient(180deg, #b9cfe0 0%, #9fb6cb 16%, #8aa3b6 34%, #7d8c8a 56%, #837363 78%, #6e5f50 100%);
+  display: flex; align-items: stretch; justify-content: flex-start;
+  font-family: inherit;
+}
+
+.cw__toolbar {
+  flex: 0 0 auto; width: 52px; height: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 14px 0;
+  background: rgba(14, 7, 8, .55);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.cw__tool {
+  position: relative; flex: 0 0 auto;
+  width: 38px; height: 38px; border-radius: 11px;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; color: rgba(255, 255, 255, .92);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .55));
+}
+.cw__tool:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+.cw__tool.is-active { background: rgba(255, 255, 255, .14); color: #fff; }
+.cw__toolbadge {
+  position: absolute; top: -2px; right: -2px;
+  min-width: 16px; height: 16px; padding: 0 3px;
+  border-radius: var(--r-pill);
+  background: var(--brand); color: #fff;
+  font-size: 9px; font-weight: 800; line-height: 16px; text-align: center;
+}
+
+.cw__dock {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: 320px; max-width: calc(100% - 76px);
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 14px 0 14px 14px;
+}
+
+.cw__loc {
+  flex: 0 0 auto;
+  border-radius: 14px; overflow: hidden;
+  background: rgba(18, 16, 20, .72);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-modal);
+}
+.cw__locbar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 10px 4px;
+}
+.cw__locname { font-size: 13px; font-weight: 800; color: var(--text); }
+.cw__locchevron { color: rgba(255, 255, 255, .85); }
+.cw__locspacer { flex: 1; }
+.cw__locheart { color: rgba(255, 255, 255, .85); }
+.cw__loccoords {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 0 10px 8px;
+  font-size: 11px; font-weight: 700; color: rgba(255, 255, 255, .88);
+}
+.cw__loccoords svg { filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .5)); }
+.cw__minimap {
+  position: relative; height: 96px;
+  background-color: #6f8a5e;
+  background-image:
+    linear-gradient(90deg, rgba(214, 198, 160, .9) 0 14%, transparent 14% 50%, rgba(214, 198, 160, .9) 50% 64%, transparent 64%),
+    linear-gradient(0deg, rgba(214, 198, 160, .9) 0 14%, transparent 14% 50%, rgba(214, 198, 160, .9) 50% 64%, transparent 64%),
+    linear-gradient(135deg, #7c9668 0%, #6b8557 45%, #5d7a4d 100%);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
+}
+.cw__minimapstar {
+  position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+  width: 22px; height: 22px; border-radius: 6px;
+  background: #f4a32a; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+}
+.cw__minimaplabel {
+  position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+  font-size: 13px; font-weight: 800; color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .7); white-space: nowrap;
+}
+.cw__minimapself {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  width: 14px; height: 14px;
+  background: #ff2d6f; border: 2px solid #fff; border-radius: 50% 50% 50% 0;
+  rotate: 45deg; box-shadow: 0 0 0 4px rgba(255, 45, 111, .3);
+}
+
+.cw {
+  position: relative;
+  width: 100%; flex: 1; min-height: 0;
+  display: flex; flex-direction: column;
+  border-radius: 16px; overflow: hidden; color: var(--text);
+  background: rgba(16, 14, 18, .78);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-modal);
+}
+
+.cw__titlebar {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
+  padding: 10px 8px 10px 12px;
+  background: rgba(0, 0, 0, .25);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 16px 16px 0 0;
+}
+.cw__titleavatar { flex: 0 0 auto; }
+
+.cw__title { font-size: 14px; font-weight: 800; color: var(--text); }
+.cw__statusdot {
+  flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ok, #3fe07a); box-shadow: 0 0 0 2px rgba(63, 224, 122, .25);
+}
+.cw__status { flex: 1; }
+.cw__iconbtn {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px;
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  background: transparent; color: rgba(255, 255, 255, .8);
+}
+.cw__iconbtn:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+
+.cw__feed {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 12px 12px 8px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 13px;
+  background: transparent;
+}
+
+.cw__row { display: flex; gap: 8px; align-items: flex-start; }
+.cw__msgavatar { flex: 0 0 auto; margin-top: 18px; }
+.cw__msgcol { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.cw__msgmeta { display: flex; align-items: center; gap: 4px; padding-left: 2px; }
+.cw__msguser { font-size: 12.5px; font-weight: 800; color: #3fe07a; }
+.cw__verified { color: #a05cff; flex: 0 0 auto; }
+.cw__bubble {
+  min-width: 0; align-self: flex-start; max-width: 100%;
+  background: rgba(0, 0, 0, .42);
+  border-radius: 10px; padding: 7px 11px 6px;
+}
+.cw__msgtext { font-size: 12.5px; font-weight: 600; line-height: 1.32; color: var(--text); word-wrap: break-word; }
+.cw__msgtime { margin-top: 3px; font-size: 10px; color: rgba(255, 255, 255, .42); }
+
+.cw__inputrow {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px 12px;
+  background: transparent;
+  border-radius: 0 0 16px 16px;
+}
+.cw__input {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;
+  height: 44px; padding: 0 14px 0 7px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, .35);
+  border: 1.5px solid rgba(255, 255, 255, .85);
+}
+.cw__inputavatar { flex: 0 0 auto; }
+.cw__field {
+  flex: 1; min-width: 0; height: 100%;
+  border: none; outline: none; background: transparent;
+  color: #fff; font-family: inherit; font-size: 13px;
+}
+.cw__field::placeholder { color: rgba(255, 255, 255, .55); }
+
+@media (max-width: 420px) {
+  .cw__toolbar { width: 46px; }
+  .cw__dock { width: auto; flex: 1; padding-left: 10px; padding-right: 10px; }
+}
+
+/* Bare mode — render ONLY the chat window (no toolbar / location card / minimap).
+   Used by the ExplorerIslands/ChatWindow story so it showcases just the window,
+   over its native sky backdrop, instead of the whole HUD scene. */
+.cw__stage--bare {
+  width: auto; height: auto;
+  display: inline-flex;
+  padding: 22px;
+  overflow: visible;
+  border-radius: 18px;
+}
+.cw__stage--bare .cw__dock {
+  width: 320px; max-width: none;
+  padding: 0;
+}
+.cw__stage--bare .cw {
+  height: 520px; flex: 0 0 auto;
+}

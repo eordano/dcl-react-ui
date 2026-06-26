@@ -1,0 +1,16 @@
+.viewchip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 28px;
+  padding: 4px;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(96, 109, 130, 0.64);
+}
+.viewchip--grid { border-radius: 4px 0 0 4px; }
+.viewchip--list { border-radius: 0 4px 4px 0; }
+.viewchip:hover { background: rgba(96, 109, 130, 0.85); }
+.viewchip.is-active { background: rgba(96, 109, 130, 0.32); }

@@ -1,0 +1,160 @@
+.chsignin {
+  --signin-violet: #491975;
+  --signin-text: #ffffff;
+  --signin-text-dim: rgba(255, 255, 255, 0.78);
+  --signin-back-bg: rgba(255, 255, 255, 0.14);
+  --signin-back-bg-hover: rgba(255, 255, 255, 0.22);
+
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  color: var(--signin-text);
+  font-family: inherit;
+}
+
+.chsignin__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg) no-repeat center center;
+  background-size: cover;
+}
+
+.chsignin__background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    transparent 45%,
+    var(--signin-violet) 85%
+  );
+}
+
+.chsignin__content {
+  position: relative;
+  z-index: 1;
+  margin-left: 128px;
+  width: 33.333%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chsignin__back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 40px;
+  padding: 8px 16px 8px 10px;
+  border: none;
+  border-radius: var(--r-control);
+  background: var(--signin-back-bg);
+  color: var(--signin-text);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.chsignin__back:hover {
+  background: var(--signin-back-bg-hover);
+}
+.chsignin__back svg {
+  margin-right: 2px;
+}
+
+.chsignin__title {
+  margin: 0 0 0.35em 0;
+  font-size: 2.125rem;
+  font-weight: 400;
+  line-height: 1.235;
+  letter-spacing: 0.00735em;
+}
+
+.chsignin__body {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: var(--signin-text-dim);
+}
+
+.chsignin__code {
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.chsignin__verificationcode {
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-right: 24px;
+  letter-spacing: 0.04em;
+}
+
+.chsignin__tooltip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--signin-text-dim);
+  cursor: default;
+  outline: none;
+}
+.chsignin__tooltip:hover,
+.chsignin__tooltip:focus-visible {
+  color: var(--signin-text);
+}
+
+.chsignin__tipbubble {
+  left: calc(100% + 10px);
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: normal;
+  width: 220px;
+  text-align: left;
+  line-height: 1.4;
+}
+.chsignin__tipbubble::after {
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: #000;
+  border-top-color: transparent;
+}
+
+.chsignin__expiration {
+  margin: 4px 0 0 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  color: var(--signin-text-dim);
+}
+
+@media (max-width: 1100px) {
+  .chsignin__content {
+    margin-left: 64px;
+    width: auto;
+    max-width: calc(100vw - 128px);
+  }
+}
+@media (max-width: 720px) {
+  .chsignin__content {
+    margin-left: 32px;
+    max-width: calc(100vw - 64px);
+  }
+  .chsignin__verificationcode {
+    font-size: 4.5rem;
+  }
+}

@@ -1,0 +1,35 @@
+.pmm {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #5054d4;
+  overflow: hidden;
+}
+.pmm__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(to right, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 12.5%),
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 12.5%);
+}
+.pmm__road { position: absolute; background: #716c7a; }
+.pmm__road--v { top: 0; bottom: 0; width: 5%; }
+.pmm__road--h { left: 0; right: 0; height: 5%; }
+.pmm__owned {
+  position: absolute;
+  background: #3d3a46;
+  border-radius: 1px;
+}
+.pmm__plaza {
+  position: absolute;
+  width: 15%;
+  height: 13%;
+  background: #70ac76;
+  border-radius: 1px;
+}
+.pmm__hl {
+  position: absolute;
+  background: #ff9990;
+  border-radius: 1px;
+}

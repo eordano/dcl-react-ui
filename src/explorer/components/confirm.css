@@ -1,0 +1,60 @@
+.confirm-screen {
+  position: relative;
+  min-height: 100vh;
+}
+
+.confirm-screen__backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.confirm-screen .cfd__scrim {
+  align-items: flex-start;
+  padding-top: 30vh;
+  background: rgba(18, 8, 26, .58);
+  backdrop-filter: blur(2px);
+}
+
+.confirm-screen--bare .cfd__scrim {
+  align-items: center;
+  padding-top: 24px;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.confirm-screen .cfd--gradient {
+  width: min(320px, 100%);
+  padding: 20px 26px 20px;
+  background: linear-gradient(180deg, #5d2188 0%, #401464 100%);
+}
+
+.confirm-screen .cfd--gradient .cfd__title {
+  margin-bottom: 2px;
+}
+
+.confirm-screen .cfd--gradient .cfd__actions {
+  margin-top: 18px;
+  gap: 10px;
+}
+
+.confirm-screen .cfd--gradient .cfd__cancel,
+.confirm-screen .cfd--gradient .cfd__confirm {
+  min-width: 0;
+  padding: 12px 22px;
+}
+
+.confirm-screen .cfd--gradient .cfd__cancel {
+  background: rgba(255, 255, 255, .1);
+}
+.confirm-screen .cfd--gradient .cfd__cancel:hover {
+  background: rgba(255, 255, 255, .17);
+}
+
+.confirm-screen .cfd__confirm.is-primary {
+  background: linear-gradient(90deg, #f0613f 0%, #e2504e 100%);
+}
+.confirm-screen .cfd__confirm.is-primary:hover {
+  background: linear-gradient(90deg, #f0613f 0%, #e2504e 100%);
+  filter: brightness(1.06);
+}

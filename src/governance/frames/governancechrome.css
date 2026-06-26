@@ -1,0 +1,122 @@
+.gv {
+  --gv-ink: #fcfcfc;
+  --gv-muted: rgba(255, 255, 255, .62);
+  --gv-faint: rgba(255, 255, 255, .4);
+  --gv-line: rgba(255, 255, 255, .1);
+  --gv-line-soft: rgba(255, 255, 255, .06);
+  --gv-surface: #18171c;
+  --gv-page: #0e0d11;
+  --gv-wash: #201e25;
+  --gv-tint: color-mix(in srgb, var(--brand) 16%, transparent);
+
+  --chip-line: var(--gv-line);
+  --chip-bg: var(--gv-surface);
+  --chip-bg-hover: var(--gv-wash);
+  --chip-ink: var(--gv-ink);
+  --chip-caret: var(--gv-faint);
+  --chip-avatar-ring: var(--gv-surface);
+
+  --shell-nav-h: 64px;
+  --shell-nav-pad: 0 24px;
+  --shell-nav-bg: var(--gv-surface);
+  --shell-nav-line: var(--gv-line);
+  --shell-nav-shadow: 0 1px 3px rgba(22, 20, 26, 0.05);
+  --shell-ink: var(--gv-ink);
+  --shell-tab-ink: var(--gv-muted);
+  --shell-tab-ink-active: var(--gv-ink);
+  --shell-underline: var(--brand);
+  --shell-underline-glow: none;
+  --shell-tabs-gap: 2px;
+
+  color: var(--gv-ink);
+  background: var(--gv-page);
+}
+
+.gv__vp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: var(--gv-wash);
+  border: 1px solid var(--gv-line);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--gv-ink);
+  white-space: nowrap;
+}
+.gv__vpmark {
+  display: inline-flex;
+  color: var(--brand);
+}
+.gv__vplabel {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: var(--gv-muted);
+}
+
+/* Unify the two topbar action buttons (Download + Sign in) onto one button
+   system: same pill shape, sizing and type. Download is primary (filled),
+   Sign in is the secondary variant. Scoped to .gv so the shared DclTopBar
+   styles are left untouched. */
+.gv .dtb__download,
+.gv .dtb__signin {
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 9px 20px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+/* primary */
+.gv .dtb__download {
+  color: #fff;
+  background: var(--brand);
+}
+.gv .dtb__download:hover { background: var(--brand-hover); }
+
+/* secondary */
+.gv .dtb__signin {
+  color: var(--gv-ink);
+  background: transparent;
+  border-color: var(--gv-line);
+}
+.gv .dtb__signin:hover { background: var(--gv-wash); border-color: var(--gv-faint); }
+
+.gv__search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 220px;
+  max-width: 40vw;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  background: var(--fill-2);
+  border-radius: var(--r-pill);
+  color: var(--ink-6);
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.gv__search:focus-within { border-color: var(--ink-45); background: var(--fill-3); }
+.gv__searchicon { flex: 0 0 auto; color: var(--ink-6); }
+.gv__searchfield {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+.gv__searchfield::placeholder { color: var(--ink-45); }
+
+@media (max-width: 600px) {
+  .gv__search { width: 160px; }
+}

@@ -211,3 +211,25 @@
   }
   .mh__cell { width: 60vw; max-width: 230px; }
 }
+
+html.mp-light .mh {
+  --mh-statscard: var(--lm-surface);
+  --mh-staticon: #ececed;
+  --mh-statsub: var(--lm-ink-3);
+}
+html.mp-light .mh__voltitle,
+html.mp-light .mh__sectitle,
+html.mp-light .mh__statvalue,
+html.mp-light .mh__staticon,
+html.mp-light .mh__tf:hover { color: var(--lm-ink); }
+html.mp-light .mh__tf { color: var(--lm-ink-2); }
+html.mp-light .mh__volsub,
+html.mp-light .mh__secsub,
+html.mp-light .mh__statlabel,
+html.mp-light .mh__statinfo { color: var(--lm-ink-3); }
+html.mp-light .mh__statscard { border: 1px solid var(--lm-line); }
+html.mp-light .mh__empty {
+  color: var(--lm-ink-3);
+  background: var(--lm-bg);
+  border-color: var(--lm-line);
+}

@@ -413,3 +413,24 @@
   .mkassetpage__table tbody td:nth-child(3) { display: none; }
   .mkassetpage__viewlisting { display: none !important; }
 }
+
+html.mp-light .mkassetpage {
+  --mkasset-bg: var(--lm-bg);
+  --mkasset-secondary: var(--lm-surface);
+  --mkasset-secondary-hover: #e7e5ea;
+  --mkasset-text: var(--lm-ink);
+  --mkasset-text-2: var(--lm-ink-2);
+  --mkasset-secondary-text: var(--lm-ink-3);
+  --mkasset-divider: var(--lm-line);
+  --mkasset-card: var(--lm-surface);
+  --mkasset-field: var(--lm-field-bg);
+}
+html.mp-light .mkassetpage__image { background: var(--lm-bg); }
+html.mp-light .mkassetpage__buybox { border-color: var(--lm-line); }
+html.mp-light .mkassetpage__badge--meta {
+  background: #ececed;
+  color: var(--lm-ink);
+}
+html.mp-light .mkassetpage__buybtn--card { border: 1px solid var(--lm-line) !important; }
+html.mp-light .mkassetpage__offerbtn:hover { background: rgba(0, 0, 0, 0.04) !important; }
+html.mp-light .mkassetpage__emptyicon { background: rgba(0, 0, 0, 0.05); }

@@ -326,10 +326,6 @@
   .acconvertmanamodal__input { font-size: 32px; line-height: 40px; padding: 8px 60px; }
 }
 
-/* Light theme — the Convert MANA modal is a web/dapp account surface, so it
-   follows "Theme: Light". Remap the shared dark tokens it consumes + flip the
-   hardcoded white text. The brand/purple primary CTAs keep their white labels;
-   the secondary (light-fill) CTA flips to dark ink. */
 html.mp-light .acconvertmanamodal { color: var(--lm-ink); }
 html.mp-light .acconvertmanamodal__card {
   color: var(--lm-ink);

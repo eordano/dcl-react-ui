@@ -1,15 +1,12 @@
 .chmodalwarning__backdrop,
 .chmodalwarning__paper {
-  --chmw-modal: #242129;
+  --chmw-modal: var(--panel);
   --chmw-white: #ffffff;
-  --chmw-silver: #a09ba8;
+  --chmw-silver: var(--offline);
   --chmw-dcl: var(--brand);
-  --chmw-dcl-dark: #9c1c34;
-  --chmw-light-gray: #5e5b67;
-  --chmw-radius: 6px;
-  font-family:
-    "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --chmw-dcl-dark: var(--brand-hover);
+  --chmw-light-gray: var(--ink-45);
+  --chmw-radius: var(--r-control);
 }
 
 .chmodalwarning__backdrop {
@@ -19,7 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--scrim);
 }
 
 .chmodalwarning__paper {
@@ -27,7 +24,7 @@
   max-width: calc(100% - 32px);
   max-height: 90vh;
   overflow: auto;
-  border-radius: 12px;
+  border-radius: var(--r-card);
   background-color: var(--chmw-modal);
   color: var(--chmw-white);
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
@@ -44,16 +41,16 @@
 
 .chmodalwarning__title {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: 2em;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.5;
   color: var(--chmw-white);
 }
 
 .chmodalwarning__message {
   margin: 0;
   text-align: center;
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--chmw-silver);
 }
@@ -73,7 +70,7 @@
   color: var(--chmw-white);
 }
 .chmodalwarning__form-label-text {
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -109,7 +106,7 @@
   border: 1px solid transparent;
   border-radius: var(--chmw-radius);
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.75;
   letter-spacing: 0.02857em;

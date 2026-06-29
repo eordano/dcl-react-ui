@@ -96,9 +96,6 @@
 .stpar__cta:hover { background: var(--brand-hover); transform: translateY(-1px); }
 .stpar__cta svg { flex: 0 0 auto; }
 
-/* Progressive enhancement: hidden only on the client until the 3s fallback
-   timer fires. Server-rendered / no-JS output never gets this class, so the
-   manual link stays visible and clickable without JavaScript. */
 .stpar__cta--hidden { display: none; }
 
 @media (max-width: 560px) {

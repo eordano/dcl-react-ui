@@ -3,8 +3,6 @@ import BuilderChrome from "../frames/BuilderChrome.jsx";
 import "./bdcuration.css";
 import { Caret } from "../../atoms/icons.jsx";
 
-// non-members fall through to <NotFound/>). Composed here inside BuilderChrome's
-
 const SORT_OPTIONS = [
   { value: "MOST_RELEVANT", text: "Most relevant" },
   { value: "CREATED_AT_DESC", text: "Newest" },
@@ -306,6 +304,7 @@ function CollectionRow({ collection }) {
 export default function BdCuration({
   collections = COLLECTIONS,
   loading = false,
+  embedded = false,
 }) {
   const [navTab, setNavTab] = useState("curation");
   const [search, setSearch] = useState("");
@@ -322,8 +321,7 @@ export default function BdCuration({
     [total]
   );
 
-  return (
-    <BuilderChrome active={navTab} onTab={setNavTab}>
+  const body = (
       <div className="bdcur">
         <div className="bdcur__filters">
           <div className="bdcur__searchrow">
@@ -401,6 +399,13 @@ export default function BdCuration({
           </>
         )}
       </div>
+  );
+
+  return embedded ? (
+    body
+  ) : (
+    <BuilderChrome active={navTab} onTab={setNavTab}>
+      {body}
     </BuilderChrome>
   );
 }

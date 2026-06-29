@@ -1,10 +1,9 @@
 import NinePatch from "./NinePatch.jsx";
 import { asset } from "../../asset.js";
 
-// Nine-patch (9-slice): slices one tiny frame into a 3x3 grid — corners fixed, edges stretch one axis, center both — so it scales without distorting corners.
-const FILL = asset("assets/progress-fill-9slice.png"); // 57x20 orange pill
-const CONTAINER = asset("assets/progress-container-9slice.png"); // 57x20 frame
-const LOADING = asset("assets/loading-bar-9slice.png"); // 411x60 bar
+const FILL = asset("assets/progress-fill-9slice.png");
+const CONTAINER = asset("assets/progress-container-9slice.png");
+const LOADING = asset("assets/loading-bar-9slice.png");
 
 const caption = {
   fontSize: 13,
@@ -26,7 +25,6 @@ export default {
   parameters: { layout: "padded" },
 };
 
-// Same 57x20 source at growing widths: corners pixel-identical, only the middle stretches.
 export const WhatIsNinePatch = {
   name: "What nine-patch does",
   render: () => (
@@ -54,7 +52,6 @@ export const WhatIsNinePatch = {
   ),
 };
 
-// Nine-patch vs. a plain stretched <img>: the naive image smears its corners into ellipses.
 export const VersusNaiveStretch = {
   name: "vs. naive image stretch",
   render: () => {
@@ -93,7 +90,6 @@ export const VersusNaiveStretch = {
   },
 };
 
-// Stretching is independent per axis: same frame as a wide bar, tall column, and large panel.
 export const StretchesOnBothAxes = {
   name: "stretches on both axes",
   render: () => (
@@ -136,7 +132,6 @@ export const StretchesOnBothAxes = {
   ),
 };
 
-// Real-world usage: a progress bar built from two nine-patches (track + fill).
 export const RealWorldProgressBar = {
   name: "real-world: progress bar",
   render: () => (
@@ -171,7 +166,6 @@ export const RealWorldProgressBar = {
   ),
 };
 
-// The component also supports `tint` (background bleed-through) and `as`.
 export const Tinted = {
   args: {
     src: asset("assets/progress-fill-9slice.png"),

@@ -6,8 +6,8 @@ import "./dcltopbar.css";
 const LINK_DEFS = {
   explore: { id: "explore", label: "Explore", href: "/discover" },
   whatson: { id: "whatson", label: "What's On", href: "/discover" },
-  shop: { id: "shop", label: "Shop", caret: true, href: "/marketplace" },
-  create: { id: "create", label: "Create", caret: true, href: "/create" },
+  shop: { id: "shop", label: "Shop", href: "/marketplace" },
+  create: { id: "create", label: "Create", href: "/create" },
   learn: { id: "learn", label: "Learn", href: "/blog" },
   vote: { id: "vote", label: "Vote", href: "/governance" },
   events: { id: "events", label: "Events", href: "/discover" },
@@ -43,6 +43,8 @@ export default function DclTopBar({
   mana = "2,480.55",
   account = "0x9f3c…7a21",
   transparent = false,
+  onSignIn =(undefined),
+  signInHref = "/marketplace/account",
 }) {
   const links = DCL_LINKS_BY_VARIANT[variant] ?? DCL_LINKS_BY_VARIANT.default;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -89,8 +91,10 @@ export default function DclTopBar({
               <span className="dtb__avatar u-avatar" style={{ "--sz": "40px", "--hue": 268 }} />
             </button>
           </>
+        ) : onSignIn ? (
+          <button type="button" className="dtb__signin" onClick={() => onSignIn()}>SIGN IN</button>
         ) : (
-          <button type="button" className="dtb__signin">SIGN IN</button>
+          <a className="dtb__signin" href={signInHref} style={{ textDecoration: "none" }}>SIGN IN</a>
         )}
       </div>
 

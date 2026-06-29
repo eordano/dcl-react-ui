@@ -23,8 +23,6 @@ function FormField({ n, label, required, optional, helper, children }) {
 
 const REASONS = ["Scam/Phishing", "Illegal Content", "Harassment", "Cheating", "Impersonation"];
 
-// Sample data mirrored from sites/app/fixtures/landings-report-abuse.json so the
-// signed-in form looks like a real in-progress report.
 const PREFILL = {
   reporterAddress: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b",
   reportedAddress: "0x6d7e3b6e5e3c3f3d4f5a6b7c8d9e0f1a2b3c4d5e",
@@ -68,8 +66,6 @@ function Caret() {
   );
 }
 
-// Logged-out: the user is redirected to /report but has no wallet connected, so
-// the form is gated behind a single clean Sign In button.
 function ReportFormGate() {
   return (
     <div className="rpr__bg">
@@ -90,8 +86,6 @@ function ReportFormGate() {
   );
 }
 
-// Logged-in: the full report form, pre-filled so it reads like a real
-// in-progress report ready to submit.
 function ReportFormFilled() {
   const p = PREFILL;
   return (
@@ -189,9 +183,6 @@ function ReportFormFilled() {
   );
 }
 
-// The /report/players redirect splash. While the redirect happens the user sees
-// a loading title; a real <a href="/report"> fallback is revealed after 3s with
-// pure CSS, so it still works with JavaScript disabled.
 function RedirectSplash() {
   return (
     <div className="rpr__bg rpr__bg--center">

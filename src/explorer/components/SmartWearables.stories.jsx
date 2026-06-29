@@ -16,10 +16,8 @@ export default {
   },
 };
 
-// First request: a simple yes/no.
 export const Default = {};
 
-// Seen before: a heavier dialog with persistent-decision options.
 export const Recurring = {
   args: { recurring: true },
 };

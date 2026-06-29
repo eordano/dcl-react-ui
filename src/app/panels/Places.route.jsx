@@ -1,20 +1,17 @@
-// Places panel — route id "places" (nav PLACES [Z]).
-//
-// The LIST companion to the Map: the SAME live catalyrst places (catalyrst-places
-// via /places/api), rendered as the reused Places page's cards. The PLACES tab
-// was previously dead (no route → empty HUD). We pass live rows only (never the
-// page's built-in fixture CARDS) so the list stays consistent with the Map's
-// pins; while loading / empty it renders the page's own empty state.
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 
 import Places from "../../explorer/pages/Places.jsx";
+import PlaceDetail from "../../explorer/pages/PlaceDetail.jsx";
+import JumpLoading from "../../explorer/components/JumpLoading.jsx";
 import { usePlaces } from "../../data/hooks/usePlaces.js";
-import { fetchPlaces } from "../../data/catalyst/places.js";
+import { fetchPlaces, toPlaceDetail } from "../../data/catalyst/places.js";
+import { sendBridge } from "../../overlay/bridge.js";
 import { qk, STALE } from "../../data/queryKeys.js";
 
 const LIST_PARAMS = { limit: 60 };
+const PARCEL_SIZE = 16;
 
-// Warm the cache on hover/focus intent (the shell calls this).
 export function prefetch(queryClient) {
   try {
     queryClient.prefetchQuery({
@@ -23,19 +20,14 @@ export function prefetch(queryClient) {
       staleTime: STALE.places,
     });
   } catch {
-    /* prefetch is best-effort */
   }
 }
 
 export default function PlacesPanel() {
+  const navigate = useNavigate();
+  const [jumping, setJumping] = useState(null);
   const q = usePlaces(LIST_PARAMS);
-  // fetchPlaces returns toPlaceView objects whose fields already match PlaceCard
-  // (players, rating, creator, coords, title, image, featured) — pass them
-  // straight through. My earlier adapter re-mapped from RAW field names
-  // (user_count/like_rate) that don't exist on the view, zeroing every card.
-  // Only normalize `live`: toPlaceView gives a boolean, but PlaceCard shows the
-  // LIVE badge whenever `live != null`, so `false` would wrongly badge non-live
-  // places — coerce to the player count (truthy) or undefined.
+  const [selected, setSelected] = useState(null);
   const places = useMemo(
     () =>
       (Array.isArray(q.data) ? q.data : []).map((p) => ({
@@ -46,7 +38,77 @@ export default function PlacesPanel() {
     [q.data],
   );
 
-  // Always pass the live array (even empty) so we never render the page's fake
-  // fixture CARDS — the list matches the Map's live data.
-  return <Places places={places} />;
+  const onGridClick = useCallback(
+    (e) => {
+      const card = e.target?.closest?.(".pl__card");
+      const grid = card?.parentElement;
+      if (!card || !grid) return;
+      const idx = Array.prototype.indexOf.call(
+        grid.querySelectorAll(".pl__card"),
+        card,
+      );
+      const place = idx >= 0 ? places[idx] : null;
+      if (!place) return;
+      setSelected(place);
+    },
+    [places],
+  );
+
+  const onJumpIn = useCallback(() => {
+    const place = selected;
+    setSelected(null);
+    if (!place) return;
+    let jumped = false;
+    if (place.world) {
+      if (place.worldName && typeof window !== "undefined") {
+        window.engine?.changerealm?.(place.worldName);
+        jumped = true;
+      }
+    } else {
+      const px = Number(place.x);
+      const py = Number(place.y);
+      if (Number.isFinite(px) && Number.isFinite(py)) {
+        sendBridge("Teleport", {
+          x: px * PARCEL_SIZE + PARCEL_SIZE / 2,
+          y: 0,
+          z: py * PARCEL_SIZE + PARCEL_SIZE / 2,
+          duration: 0,
+        });
+        jumped = true;
+      }
+    }
+    if (!jumped) return;
+    setJumping(place.title || place.name || "destination");
+    setTimeout(() => {
+      setJumping(null);
+      navigate("/");
+    }, 3500);
+  }, [selected, navigate]);
+
+  return (
+    <div
+      style={{ display: "contents" }}
+      onClick={onGridClick}
+      onKeyDown={(e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        const card = e.target?.closest?.(".pl__card");
+        const grid = card?.parentElement;
+        if (!card || !grid) return;
+        e.preventDefault();
+        const idx = Array.prototype.indexOf.call(grid.querySelectorAll(".pl__card"), card);
+        const place = idx >= 0 ? places[idx] : null;
+        if (place) setSelected(place);
+      }}
+    >
+      <Places places={places} loading={q.isLoading} error={q.isError} />
+      {selected ? (
+        <PlaceDetail
+          place={toPlaceDetail(selected)}
+          onClose={() => setSelected(null)}
+          onJumpIn={onJumpIn}
+        />
+      ) : null}
+      {jumping && <JumpLoading name={jumping} />}
+    </div>
+  );
 }

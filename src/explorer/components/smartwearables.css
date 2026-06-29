@@ -4,7 +4,6 @@
   background: #4b167c; color: #fff; border-radius: var(--r-panel);
   padding: 24px 28px 26px; box-shadow: var(--shadow-modal);
 }
-/* Recurring decision → a weightier dialog with room for four choices. */
 .sw--recurring { width: min(440px, 100%); padding: 28px 30px 28px; }
 
 .sw__head { display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -25,14 +24,11 @@
   background: linear-gradient(110deg, #ff4bed, #a855f7 55%, #7c5cff);
 }
 
-/* {name} — the headline: who is asking. */
 .sw__name { margin: 18px 0 0; font-size: 24px; font-weight: 800; line-height: 1.2; }
 .sw--recurring .sw__name { font-size: 27px; }
 
-/* Quiet connective copy. */
 .sw__detail { margin: 8px 0 0; font-size: 13px; color: rgba(255, 255, 255, .72); }
 
-/* The capability being granted — the thing the user must actually weigh. */
 .sw__capability {
   margin: 6px 0 0; font-size: 17px; font-weight: 700; line-height: 1.35;
   color: #fff;

@@ -65,7 +65,6 @@
   align-items: center;
   justify-content: center;
 }
-/* Gold backdrop glow behind the circular avatar portrait. */
 .bpo__stage::before {
   content: "";
   position: absolute;
@@ -221,6 +220,11 @@
   font-size: 13px;
 }
 .bpo__search input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.bpo__search:focus-within {
+  border-color: color-mix(in srgb, var(--brand) 45%, rgba(255, 255, 255, 0.14));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent);
+}
+.bpo__search input:focus-visible { outline: none; }
 
 .bpo__slots {
   display: grid;

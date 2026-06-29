@@ -275,3 +275,21 @@
   .cp__title { font-size: 22px; }
   .cp__tbl th, .cp__tbl td { padding: 12px; }
 }
+
+html.mp-light .cp {
+  --secondary: var(--lm-surface);
+  --divider: var(--lm-line);
+  --secondary-text: var(--lm-ink-3);
+  color: var(--lm-ink);
+}
+html.mp-light .cp__back {
+  background: var(--lm-field-bg);
+  color: var(--lm-ink);
+}
+html.mp-light .cp__back:hover { background: rgba(0, 0, 0, 0.06); }
+html.mp-light .cp__title { color: var(--lm-ink); }
+html.mp-light .cp__tab.is-active { color: var(--lm-ink); }
+html.mp-light .cp__tbl { color: var(--lm-ink); }
+html.mp-light .cp__tbl th { color: var(--lm-ink); }
+html.mp-light .cp__assetcell { color: var(--lm-ink); }
+html.mp-light .cp__assetcell:hover { color: var(--lm-ink); }

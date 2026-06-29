@@ -1,7 +1,10 @@
 :root {
-  --brand: #ff2d55;
-  --brand-hover: #ff4d70;
+  --brand: #821dbb;
+  --brand-hover: #9626d4;
+  --brand-dark: #6a1799;
+  --brand-light: #b06fd6;
   --panel: #161518;
+  --panel-2: #242129;
   --accent: #ff7439;
   --online: #57df41;
   --away: #ffa25a;
@@ -16,7 +19,6 @@
   --font-sans: Inter, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --r-control: 10px; --r-card: 14px; --r-panel: 18px; --r-pill: 999px;
-  /* shared modal-family metrics (see DuplicateIdentityPopup reference) */
   --modal-pad: 30px; --modal-gap: 20px; --modal-btn-h: 46px;
   --fill-1: rgba(255,255,255,.04); --fill-2: rgba(255,255,255,.06);
   --fill-3: rgba(255,255,255,.08); --fill-4: rgba(255,255,255,.1);
@@ -57,9 +59,6 @@
   --lm-field-bg: #fcfbfd;
   --lm-danger: #fb3b3b;
 }
-/* ui2 design-system scope: dapp surfaces (marketplace/account/governance/builder
-   + pages) adopt ui2's rectangular controls. In-world HUD stays unscoped (pills).
-   See ui2 src/theme/components.ts (MuiButton) + index.ts shape.borderRadius:6. */
 .ui2 {
   --ctl-radius: 6px;
   --ctl-weight: 600;
@@ -67,27 +66,18 @@
   --ctl-pad-sm: 4px 10px;
   --ctl-pad-md: 6px 16px;
   --ctl-pad-lg: 8px 22px;
-  /* ui3's generic small-radius -> ui2 shape default (6px). Safe: checkbox/slider/
-     toggle/.btn/textinput all bypass --r-control. */
   --r-control: 6px;
-  /* ui2 controls/menus/Paper use the 6px shape default, but CARDS and the custom
-     Modal override bigger: CatalogCard 12px, EventCard 16px (theme.spacing(2)),
-     Modal 12px. So dapp cards/panels = 12px, dapp modals = 12px; --surface-radius
-     (6px) stays for true 6px surfaces (menus/dropdowns/Paper). */
   --r-card: 12px;
   --r-panel: 12px;
   --modal-radius: 12px;
   --surface-radius: 6px;
 }
 
-/* Global dark base: un-chromed routes (standalone modal routes like place/event
-   detail) and modal scrims (rgba black) previously sat on the browser-default
-   WHITE body — rendering light --text as faint and scrims as gray. Chromed pages
-   set their own background and override this; light sections use .u-light-* . */
 html,
 body {
   background: #0e0a16;
   color: var(--text);
+  font-family: var(--font-sans);
 }
 
 .u-light-marketplace { background: var(--lm-bg); color: var(--lm-ink); }
@@ -134,15 +124,10 @@ html.still *, html.still *::before, html.still *::after {
   background-position: center;
   background-repeat: no-repeat;
 }
-/* Image overlay — sits on top of the gradient and clips itself to the circle via
-   border-radius:inherit (so the avatar keeps overflow:visible for the status ring).
-   If the <img> fails to load the component drops it from the DOM, leaving the
-   gradient + initials underneath — the avatar is never blank. */
 .u-avatar__img {
   position: absolute; inset: 0; width: 100%; height: 100%; display: block;
   object-fit: cover; border-radius: inherit;
 }
-/* Initials fallback — centred, scales with avatar size, readable on the gradient. */
 .u-avatar__initials {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   color: #fff; font-family: var(--font-sans); font-weight: 700; line-height: 1;
@@ -190,6 +175,14 @@ html.still *, html.still *::before, html.still *::after {
 @keyframes u-spin { to { transform: rotate(360deg); } }
 @keyframes u-fade-in { from { opacity: 0; } to { opacity: 1; } }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
 .u-modal-overlay {
   position: fixed; inset: 0; z-index: var(--z-modal);
   background: var(--scrim);
@@ -197,9 +190,6 @@ html.still *, html.still *::before, html.still *::after {
   animation: u-fade-in 0.3s linear;
 }
 
-/* Canonical modal backdrop. Lives here (globally loaded) so every .ep__backdrop
-   user gets the fixed full-screen centering scrim even if it doesn't import a
-   page stylesheet that redefines it (page CSS may still override). */
 .ep__backdrop {
   position: fixed; inset: 0; z-index: var(--z-panel);
   background: rgba(0, 0, 0, .502);

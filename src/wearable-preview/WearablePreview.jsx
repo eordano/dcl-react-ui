@@ -1,17 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-/**
- * Size-aware Decentraland avatar preview as a plain React component (no iframe).
- *
- *   <WearablePreview profile="0x..." />
- *   <WearablePreview urns={[...]} body="urn:...:BaseFemale" />
- *   <WearablePreview model="https://.../model.glb" />
- *
- * three.js is loaded lazily (dynamic import of ./avatar.js) the first time a
- * preview mounts, so it's a separate chunk and never weighs down the host's main
- * bundle. SSR-safe: the WebGL scene is only created in an effect (client-only);
- * the server just renders the sized container.
- */
 export default function WearablePreview({
   profile,
   urns,
@@ -19,8 +7,8 @@ export default function WearablePreview({
   outfit,
   model,
   emote,
+  emoteNonce = 0,
   base,
-  // camera / view
   zoom,
   yaw,
   pitch,
@@ -30,18 +18,17 @@ export default function WearablePreview({
   pan = false,
   spin = true,
   spinSpeed,
-  // a CSS color makes the canvas opaque; omit for a transparent background
   background,
   className,
   style,
   onStatus,
 }) {
   const ref = useRef(null);
+  const sceneRef = useRef(null);
   const [status, setStatus] = useState("loading");
 
-  // re-init only when the avatar identity / view changes
   const key = JSON.stringify([
-    profile, Array.isArray(urns) ? urns : urns ?? null, body, outfit ?? null, model, emote, base,
+    profile, Array.isArray(urns) ? urns : urns ?? null, body, outfit ?? null, model, base,
     zoom, yaw, pitch, fov, targetY, controls, pan, spin, spinSpeed, background,
   ]);
 
@@ -80,6 +67,7 @@ export default function WearablePreview({
             onStatus?.(s);
           },
         });
+        sceneRef.current = scene;
         ro = new ResizeObserver(() => scene && scene.resize());
         ro.observe(ref.current);
       })
@@ -94,9 +82,13 @@ export default function WearablePreview({
       cancelled = true;
       if (ro) ro.disconnect();
       if (scene) scene.dispose();
+      sceneRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
+
+  useEffect(() => {
+    sceneRef.current?.setEmote?.(emote);
+  }, [emote, emoteNonce]);
 
   return (
     <div

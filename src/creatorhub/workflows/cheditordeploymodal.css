@@ -1,10 +1,10 @@
 .cheditordeploymodal {
-  --cheditordeploymodal-modal: #242129;
+  --cheditordeploymodal-modal: var(--panel);
   --cheditordeploymodal-black: var(--panel);
-  --cheditordeploymodal-silver: #a09ba8;
-  --cheditordeploymodal-light-gray: #5e5b67;
-  --cheditordeploymodal-dark-gray: #43404a;
-  --cheditordeploymodal-darker-gray: #242129;
+  --cheditordeploymodal-silver: var(--ink-7);
+  --cheditordeploymodal-light-gray: var(--ink-45);
+  --cheditordeploymodal-dark-gray: var(--line);
+  --cheditordeploymodal-darker-gray: var(--panel-2);
   --cheditordeploymodal-primary: var(--brand);
   --cheditordeploymodal-fill: rgba(255, 255, 255, 0.05);
   --cheditordeploymodal-twitter: #1da1f2;
@@ -30,7 +30,7 @@
 .cheditordeploymodal__paper {
   position: relative;
   background: var(--cheditordeploymodal-modal);
-  border-radius: 12px;
+  border-radius: var(--r-card);
   max-height: 90vh;
   overflow: auto;
   box-shadow: var(--shadow-modal);
@@ -503,7 +503,6 @@ html.still .cheditordeploymodal__loader { animation: none; }
 }
 .cheditordeploymodal__optdesc { font-size: 14px; color: var(--cheditordeploymodal-silver); }
 .cheditordeploymodal__learnmore {
-  text-transform: uppercase;
   text-decoration: underline;
   color: #fff;
   font-size: 14px;
@@ -513,7 +512,6 @@ html.still .cheditordeploymodal__loader { animation: none; }
 .cheditordeploymodal__altservers {
   text-align: center;
   text-decoration: underline;
-  text-transform: uppercase;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;

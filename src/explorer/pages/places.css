@@ -152,8 +152,6 @@
 .pl__thumb {
   position: absolute;
   inset: 0;
-  /* Real scene thumbnail (when --thumb-img is set by PlaceCard) layered over the
-     --hue gradient, so the gradient is the load/error/no-image fallback. */
   background:
     var(--thumb-img, none) center / cover no-repeat,
     linear-gradient(160deg, hsl(var(--hue, 280) 60% 52%) 0%, hsl(calc(var(--hue, 280) + 40) 55% 30%) 100%);

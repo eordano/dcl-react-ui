@@ -13,7 +13,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Real event poster (when --thumb-img is set) over the --hue gradient fallback. */
   background:
     var(--thumb-img, none) center / cover no-repeat,
     radial-gradient(90% 110% at 50% 0%, hsl(var(--hue, 280) 88% 60%), transparent 62%),

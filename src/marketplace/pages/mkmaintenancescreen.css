@@ -22,7 +22,6 @@
   overflow: hidden;
 }
 
-/* Ambient brand glow washed across the page background. */
 .mkmaintenancescreen__page::before {
   content: "";
   position: absolute;
@@ -44,7 +43,6 @@
   text-align: center;
 }
 
-/* ── Emblem ──────────────────────────────────────────────── */
 .mkmaintenancescreen__emblem {
   position: relative;
   width: 112px;
@@ -117,7 +115,6 @@
   }
 }
 
-/* ── Copy ────────────────────────────────────────────────── */
 .mkmaintenancescreen__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -173,7 +170,6 @@
   color: var(--mkm-text);
 }
 
-/* ── Actions ─────────────────────────────────────────────── */
 .mkmaintenancescreen__actions {
   margin-top: 30px;
   display: flex;
@@ -230,7 +226,6 @@
   color: var(--mkm-primary);
 }
 
-/* ── Footer ──────────────────────────────────────────────── */
 .mkmaintenancescreen__footer {
   flex: 0 0 auto;
   display: flex;
@@ -279,7 +274,6 @@
   color: var(--mkm-primary);
 }
 
-/* .secondary-footer — social icons + copyright */
 .mkmaintenancescreen__footersecondary {
   display: flex;
   align-items: center;
@@ -306,7 +300,6 @@
   background: var(--mkm-primary);
 }
 
-/* .copyright — secondary-text */
 .mkmaintenancescreen__copyright {
   color: var(--mkm-secondary-text);
   font-size: 14px;

@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import CreatorHubChrome from "../frames/CreatorHubChrome.jsx";
+import { useDialogKeys } from "../../components/useDialogKeys.js";
 import "./chmodalworldsyourstorage.css";
 
 const COPY = {
@@ -97,20 +99,41 @@ function InfoIcon() {
   );
 }
 
-function LinkButton({ label, onClick }) {
-  return (
-    <button
-      type="button"
-      className="chmodalworldsyourstorage__btn"
-      onClick={onClick}
-    >
-      {label}
-      <OpenInNewIcon />
-    </button>
-  );
+function isExternalHref(href) {
+  return /^(https?:)?\/\//i.test(href);
 }
 
-function AssetRow({ name, subtitle, holdingsLine, buyLabel, onBuy }) {
+function LinkButton({ label, href, onClick }) {
+  if (href) {
+    return (
+      <a
+        className="chmodalworldsyourstorage__btn"
+        href={href}
+        {...(isExternalHref(href)
+          ? { target: "_blank", rel: "noreferrer" }
+          : {})}
+      >
+        {label}
+        <OpenInNewIcon />
+      </a>
+    );
+  }
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        className="chmodalworldsyourstorage__btn"
+        onClick={onClick}
+      >
+        {label}
+        <OpenInNewIcon />
+      </button>
+    );
+  }
+  return null;
+}
+
+function AssetRow({ name, subtitle, holdingsLine, buyLabel, buyHref, onBuy }) {
   return (
     <div className="chmodalworldsyourstorage__asset">
       <div className="chmodalworldsyourstorage__texts">
@@ -123,23 +146,31 @@ function AssetRow({ name, subtitle, holdingsLine, buyLabel, onBuy }) {
           </span>
         ) : null}
       </div>
-      <LinkButton label={buyLabel} onClick={onBuy} />
+      <LinkButton label={buyLabel} href={buyHref} onClick={onBuy} />
     </div>
   );
 }
 
 export default function ChModalWorldsYourStorage({
   open = true,
+  embedded = false,
   stats = SAMPLE_STATS,
   accountHoldings = SAMPLE_HOLDINGS,
   onClose = () => {},
-  onBuyMana = () => {},
-  onBuyLand = () => {},
-  onBuyName = () => {},
-  onLearnMore = () => {},
+  manaHref = "",
+  landHref = "",
+  nameHref = "",
+  learnMoreHref = "",
+  onBuyMana = undefined,
+  onBuyLand = undefined,
+  onBuyName = undefined,
+  onLearnMore = undefined,
 }) {
+  const paperRef = useRef(null);
+  useDialogKeys(paperRef, onClose);
+
   if (!open) {
-    return <CreatorHubChrome active="manage" />;
+    return embedded ? null : <CreatorHubChrome active="manage" />;
   }
 
   const totalAvailable = formatSize(
@@ -147,14 +178,15 @@ export default function ChModalWorldsYourStorage({
   );
   const mbs = accountHoldings ? getMbsFromAccountHoldings(accountHoldings) : null;
 
-  return (
-    <CreatorHubChrome active="manage">
-      <div className="chmodalworldsyourstorage__backdrop" onClick={onClose}>
+  const overlay = (
+    <div className="chmodalworldsyourstorage__backdrop" onClick={onClose}>
         <div
           className="chmodalworldsyourstorage__paper"
           role="dialog"
           aria-modal="true"
           aria-label={COPY.yourStorage}
+          tabIndex={-1}
+          ref={paperRef}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="chmodalworldsyourstorage__titlebox">
@@ -196,6 +228,7 @@ export default function ChModalWorldsYourStorage({
                   : null
               }
               buyLabel={COPY.manaBuy}
+              buyHref={manaHref}
               onBuy={onBuyMana}
             />
             <hr className="chmodalworldsyourstorage__separator" />
@@ -208,6 +241,7 @@ export default function ChModalWorldsYourStorage({
                   : null
               }
               buyLabel={COPY.landsBuy}
+              buyHref={landHref}
               onBuy={onBuyLand}
             />
             <hr className="chmodalworldsyourstorage__separator" />
@@ -220,23 +254,41 @@ export default function ChModalWorldsYourStorage({
                   : null
               }
               buyLabel={COPY.namesBuy}
+              buyHref={nameHref}
               onBuy={onBuyName}
             />
 
             <p className="chmodalworldsyourstorage__proposal">
               <InfoIcon />
               <span>{COPY.proposal}</span>{" "}
-              <button
-                type="button"
-                className="chmodalworldsyourstorage__learn-more"
-                onClick={onLearnMore}
-              >
-                {COPY.learnMore}
-              </button>
+              {learnMoreHref ? (
+                <a
+                  className="chmodalworldsyourstorage__learn-more"
+                  href={learnMoreHref}
+                  {...(isExternalHref(learnMoreHref)
+                    ? { target: "_blank", rel: "noreferrer" }
+                    : {})}
+                >
+                  {COPY.learnMore}
+                </a>
+              ) : onLearnMore ? (
+                <button
+                  type="button"
+                  className="chmodalworldsyourstorage__learn-more"
+                  onClick={onLearnMore}
+                >
+                  {COPY.learnMore}
+                </button>
+              ) : null}
             </p>
           </div>
         </div>
       </div>
-    </CreatorHubChrome>
+  );
+
+  return embedded ? (
+    overlay
+  ) : (
+    <CreatorHubChrome active="manage">{overlay}</CreatorHubChrome>
   );
 }

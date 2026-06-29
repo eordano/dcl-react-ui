@@ -1,24 +1,7 @@
-// Browser twin of sites/app/lib/catalyst/backpack(.server).ts + backpack-emotes.ts.
-// Pure / browser-safe: no node, no *.server.ts, no fs/pg. LIVE reads go over the
-// public catalyst origin via getJSON; catalog / categories / equipped / emote
-// loadout SEED comes from the captured fixtures (src/data/fixtures.js) — those
-// catalyst endpoints return 200-but-[] for empty wallets, so the fixture is the
-// browsable inventory until a wallet with items is wired. WRITE (save) is the
-// signed POST /content/entities deploy path and is STUBBED this reads-only
-// milestone (the wallet key never crosses into JS; it routes through the bridge
-// SignRequest chokepoint).
-//
-// zod schemas are ported from the SSR lib (zod is isomorphic) so parsing stays
-// identical between server + browser without importing the .ts source cross-root.
-
 import { z } from "zod";
 
-import { getJSON } from "./client.js";
-import { backpackEquipFixture, backpackEmotesFixture } from "../fixtures.js";
+import { getJSON, catalystBase } from "./client.js";
 
-// ---------------------------------------------------------------------------
-// address helpers
-// ---------------------------------------------------------------------------
 export function normalizeAddress(addr) {
   return (addr ?? "").trim().toLowerCase();
 }
@@ -27,9 +10,13 @@ export function isEthAddress(addr) {
   return /^0x[0-9a-fA-F]{40}$/.test((addr ?? "").trim());
 }
 
-// ---------------------------------------------------------------------------
-// enums (ported from decentraland/schemas via backpack.ts / backpack-emotes.ts)
-// ---------------------------------------------------------------------------
+export function baseItemUrn(urn) {
+  const p = String(urn).split(":");
+  return p.length === 7 && /^collections-v[12]$/.test(p[3])
+    ? p.slice(0, 6).join(":")
+    : urn;
+}
+
 export const RARITIES = [
   "unique",
   "mythic",
@@ -79,9 +66,6 @@ export function isSlotNumber(n) {
   return Number.isInteger(n) && n >= 0 && n <= 9;
 }
 
-// ---------------------------------------------------------------------------
-// schemas
-// ---------------------------------------------------------------------------
 export const WearableSchema = z.object({
   urn: z.string().min(1),
   name: z.string().default(""),
@@ -114,7 +98,9 @@ export const EquippedSchema = z.object({
   skinColor: z.string().default("#c98c63"),
   hairColor: z.string().default("#5c3824"),
   eyeColor: z.string().default("#3a6ea5"),
+  name: z.string().default(""),
   wearables: z.array(z.string()).default([]),
+  emotes: z.array(z.string()).default([]),
 });
 
 export const OwnedElementSchema = z
@@ -158,9 +144,6 @@ export const OwnedEmoteElementSchema = z
   })
   .passthrough();
 
-// ---------------------------------------------------------------------------
-// parsers
-// ---------------------------------------------------------------------------
 export function parseCatalog(raw) {
   if (!Array.isArray(raw)) return [];
   const out = [];
@@ -238,9 +221,6 @@ export function parseLoadout(raw) {
   return out;
 }
 
-// ---------------------------------------------------------------------------
-// pure view helpers
-// ---------------------------------------------------------------------------
 export function findWearable(catalog, urn) {
   return catalog.find((w) => w.urn === urn);
 }
@@ -270,36 +250,372 @@ export function rarityLabel(rarity) {
   return rarity.charAt(0).toUpperCase() + rarity.slice(1);
 }
 
-// ---------------------------------------------------------------------------
-// fixture seed accessors
-// ---------------------------------------------------------------------------
-export const WEARABLE_FIXTURE_ADDRESS = backpackEquipFixture.address;
-export const EMOTE_FIXTURE_ADDRESS = backpackEmotesFixture.address;
-
-function fixtureWearableCatalog() {
-  return parseCatalog(backpackEquipFixture.catalog);
-}
-function fixtureWearableCategories() {
-  return parseCategories(backpackEquipFixture.categories);
-}
-function fixtureEquipped() {
-  return EquippedSchema.parse(backpackEquipFixture.equipped);
-}
-function fixtureEmoteCatalog() {
-  return parseEmoteCatalog(backpackEmotesFixture.ownedEmotes);
-}
-function fixtureEmoteLoadout() {
-  return sortLoadout(parseLoadout(backpackEmotesFixture.defaultLoadout));
-}
-function fixtureSlotOrder() {
-  return Array.isArray(backpackEmotesFixture.slotOrder)
-    ? backpackEmotesFixture.slotOrder
-    : [...SLOT_ORDER];
+function contentUrl(hash, base) {
+  return `${catalystBase(base)}/content/contents/${hash}`;
 }
 
-// ---------------------------------------------------------------------------
-// LIVE fetchers (owned URNs only — catalyst returns 200 [] for empty wallets)
-// ---------------------------------------------------------------------------
+function urnNetwork(urn) {
+  if (typeof urn !== "string") return null;
+  const m = urn.match(/^urn:decentraland:([a-z-]+):/i);
+  const chain = m?.[1]?.toLowerCase();
+  if (!chain || chain === "off-chain") return null;
+  return chain;
+}
+
+function prettyWearableName(urn, category) {
+  let seg = String(urn ?? "").split(":").pop() || "";
+  if (category !== "body_shape") seg = seg.replace(/^[fmu]_/i, "");
+  return seg
+    .replace(/[-_]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/([a-zA-Z])(\d)/g, "$1 $2")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function looksLikeRawWearableName(name) {
+  const s = String(name ?? "");
+  return s !== "" && !/\s/.test(s) && (/[_-]/.test(s) || s === s.toLowerCase());
+}
+
+export function mapExplorerWearable(el, base) {
+  const ent = el?.entity ?? {};
+  const md = ent.metadata ?? {};
+  const data = md.data ?? {};
+  const content = Array.isArray(ent.content) ? ent.content : [];
+  const hashOf = (file) => content.find((c) => c.file === file)?.hash;
+  const thumbHash = hashOf(md.thumbnail || "thumbnail.png") ?? hashOf(md.image);
+  const bodyShapes = [
+    ...new Set(
+      (Array.isArray(data.representations) ? data.representations : []).flatMap(
+        (r) => (Array.isArray(r?.bodyShapes) ? r.bodyShapes : []),
+      ),
+    ),
+  ];
+  const urn = el?.urn || md.id || ent.id;
+  if (!urn) return null;
+  const category = el?.category || data.category || "upper_body";
+  const rawName = el?.name || md.name || "";
+  const name =
+    !rawName || looksLikeRawWearableName(rawName) || category === "body_shape"
+      ? prettyWearableName(urn, category)
+      : rawName;
+  const candidate = {
+    urn,
+    name,
+    thumbnail: thumbHash ? contentUrl(thumbHash, base) : "",
+    rarity: md.rarity || (el?.type === "base-wearable" ? "base" : "common"),
+    category,
+    bodyShapes,
+    description: md.description || "",
+    isSmart:
+      Array.isArray(data.requiredPermissions) && data.requiredPermissions.length > 0,
+    creator: null,
+    network: urnNetwork(urn),
+  };
+  const r = WearableSchema.safeParse(candidate);
+  return r.success ? r.data : null;
+}
+
+function deriveCategories(catalog) {
+  const seen = new Set();
+  const out = [];
+  for (const w of catalog) {
+    if (seen.has(w.category)) continue;
+    seen.add(w.category);
+    out.push({ id: w.category, label: w.category, slot: w.category });
+  }
+  return out;
+}
+
+function color3ToHex(c) {
+  if (!c || typeof c !== "object") return undefined;
+  const to255 = (n) => Math.max(0, Math.min(255, Math.round((n ?? 0) * 255)));
+  const hx = (n) => n.toString(16).padStart(2, "0");
+  return `#${hx(to255(c.r))}${hx(to255(c.g))}${hx(to255(c.b))}`;
+}
+
+export function hexToColor3(hex) {
+  const fallback = { r: 0, g: 0, b: 0 };
+  if (typeof hex !== "string") return fallback;
+  let s = hex.trim().replace(/^#/, "");
+  if (s.length === 3) s = s.split("").map((ch) => ch + ch).join("");
+  if (s.length !== 6) return fallback;
+  const n = parseInt(s, 16);
+  if (!Number.isFinite(n)) return fallback;
+  return {
+    r: ((n >> 16) & 255) / 255,
+    g: ((n >> 8) & 255) / 255,
+    b: (n & 255) / 255,
+  };
+}
+
+async function fetchEquipped(address, opts = {}) {
+  try {
+    const raw = await getJSON(
+      `/lambdas/profile/${encodeURIComponent(normalizeAddress(address))}`,
+      opts,
+    );
+    const av = raw?.avatars?.[0]?.avatar;
+    if (!av) return EquippedSchema.parse({});
+    return EquippedSchema.parse({
+      bodyShape: av.bodyShape || undefined,
+      skinColor: color3ToHex(av.skin?.color),
+      hairColor: color3ToHex(av.hair?.color),
+      eyeColor: color3ToHex(av.eyes?.color),
+      name: raw?.avatars?.[0]?.name || undefined,
+      wearables: Array.isArray(av.wearables) ? av.wearables : [],
+      emotes: Array.isArray(av.emotes)
+        ? av.emotes.map((e) => (typeof e === "string" ? e : e?.urn)).filter(Boolean)
+        : [],
+    });
+  } catch (err) {
+    if (opts.signal?.aborted) throw err;
+    return EquippedSchema.parse({});
+  }
+}
+
+async function fetchAllExplorerWearables(address, opts = {}) {
+  const addr = normalizeAddress(address);
+  const pageSize = 1000;
+  let pageNum = 1;
+  let total = Infinity;
+  const all = [];
+  while (all.length < total) {
+    const raw = await getJSON(
+      `/lambdas/explorer/${encodeURIComponent(addr)}/wearables`,
+      { ...opts, query: { pageSize, pageNum } },
+    );
+    const els = Array.isArray(raw?.elements) ? raw.elements : [];
+    total = Number.isFinite(raw?.totalAmount)
+      ? raw.totalAmount
+      : all.length + els.length;
+    all.push(...els);
+    if (!els.length || els.length < pageSize) break;
+    pageNum += 1;
+    if (pageNum > 25) break;
+  }
+  return all;
+}
+
+export const BASE_EMOTE_COLLECTION = "urn:decentraland:off-chain:base-emotes";
+
+export const BASE_EMOTE_IDS = [
+  "handsair",
+  "wave",
+  "fistpump",
+  "dance",
+  "raiseHand",
+  "clap",
+  "money",
+  "kiss",
+  "headexplode",
+  "shrug",
+  "dab",
+  "robot",
+  "hammer",
+  "tik",
+  "tektonik",
+  "dontsee",
+  "disco",
+  "snowfall",
+  "hohoho",
+  "cry",
+  "confettipopper",
+];
+
+function baseEmoteUrn(id) {
+  return `${BASE_EMOTE_COLLECTION}:${id}`;
+}
+
+function prettyEmoteName(id) {
+  return String(id ?? "")
+    .replace(/[-_]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/^./, (c) => c.toUpperCase());
+}
+
+function i18nName(md) {
+  if (!Array.isArray(md?.i18n)) return null;
+  return md.i18n.find((t) => t?.code === "en")?.text ?? md.i18n[0]?.text ?? null;
+}
+
+function projectEmoteEntity(ent, { urn, rarity, base } = {}) {
+  const md = ent?.metadata ?? {};
+  const data = md.emoteDataADR74 ?? {};
+  const content = Array.isArray(ent?.content) ? ent.content : [];
+  const thumbHash = content.find(
+    (c) => c.file === (md.thumbnail || "thumbnail.png"),
+  )?.hash;
+  const resolvedUrn =
+    urn || md.id || (Array.isArray(ent?.pointers) ? ent.pointers[0] : null) || ent?.id;
+  if (!resolvedUrn) return null;
+  return projectRawEmote({
+    urn: resolvedUrn,
+    name: i18nName(md) || md.name || prettyEmoteName(String(resolvedUrn).split(":").pop()),
+    description: md.description,
+    thumbnail: thumbHash ? contentUrl(thumbHash, base) : "",
+    rarity: rarity || md.rarity,
+    emoteDataADR74: { category: data.category, loop: data.loop },
+  });
+}
+
+export function mapExplorerEmote(el, base) {
+  const e = projectEmoteEntity(el?.entity, {
+    urn: el?.urn || el?.entity?.metadata?.id,
+    rarity: el?.entity?.metadata?.rarity || (el?.type === "base-emote" ? "base" : "common"),
+    base,
+  });
+  return e;
+}
+
+export async function fetchEmoteGlbUrl(urn, opts = {}) {
+  const base = catalystBase(opts.base);
+  const res = await (opts.fetchImpl ?? fetch)(`${base}/content/entities/active`, {
+    method: "POST",
+    signal: opts.signal,
+    headers: { "content-type": "application/json", accept: "application/json" },
+    body: JSON.stringify({ pointers: [urn] }),
+  });
+  if (!res.ok) return null;
+  const entities = await res.json();
+  const ent = Array.isArray(entities) ? entities[0] : null;
+  const content = Array.isArray(ent?.content) ? ent.content : [];
+  const reps = ent?.metadata?.emoteDataADR74?.representations ?? [];
+  const main = reps[0]?.mainFile;
+  const hash =
+    (main && content.find((c) => c.file === main)?.hash) ||
+    content.find((c) => /\.glb$/i.test(c.file))?.hash;
+  return hash ? contentUrl(hash, opts.base) : null;
+}
+
+async function fetchBaseEmotes(opts = {}) {
+  const byUrn = new Map();
+  for (const id of BASE_EMOTE_IDS) {
+    const urn = baseEmoteUrn(id);
+    const e = projectRawEmote({
+      urn,
+      name: prettyEmoteName(id),
+      rarity: "base",
+      emoteDataADR74: { category: "miscellaneous", loop: false },
+    });
+    if (e) byUrn.set(urn.toLowerCase(), e);
+  }
+
+  try {
+    const base = catalystBase(opts.base);
+    const res = await (opts.fetchImpl ?? fetch)(`${base}/content/entities/active`, {
+      method: "POST",
+      signal: opts.signal,
+      headers: { "content-type": "application/json", accept: "application/json" },
+      body: JSON.stringify({ pointers: BASE_EMOTE_IDS.map(baseEmoteUrn) }),
+    });
+    if (res.ok) {
+      const entities = await res.json();
+      if (Array.isArray(entities)) {
+        for (const ent of entities) {
+          const e = projectEmoteEntity(ent, { rarity: "base", base: opts.base });
+          if (e) byUrn.set(e.urn.toLowerCase(), e);
+        }
+      }
+    }
+  } catch (err) {
+    if (opts.signal?.aborted) throw err;
+  }
+
+  return BASE_EMOTE_IDS.map((id) => byUrn.get(baseEmoteUrn(id).toLowerCase())).filter(
+    Boolean,
+  );
+}
+
+async function fetchAllExplorerEmotes(address, opts = {}) {
+  const addr = normalizeAddress(address);
+  const pageSize = 1000;
+  let pageNum = 1;
+  let total = Infinity;
+  const all = [];
+  while (all.length < total) {
+    const raw = await getJSON(`/lambdas/explorer/${encodeURIComponent(addr)}/emotes`, {
+      ...opts,
+      query: { collectionType: "on-chain", pageSize, pageNum },
+    });
+    const els = Array.isArray(raw?.elements) ? raw.elements : [];
+    total = Number.isFinite(raw?.totalAmount)
+      ? raw.totalAmount
+      : all.length + els.length;
+    all.push(...els);
+    if (!els.length || els.length < pageSize) break;
+    pageNum += 1;
+    if (pageNum > 25) break;
+  }
+  return all;
+}
+
+export async function loadOutfits(address, opts = {}) {
+  const addr = normalizeAddress(address);
+  if (!isEthAddress(addr)) return [];
+  try {
+    const env = await getJSON(
+      `/lambdas/outfits/${encodeURIComponent(addr)}`,
+      opts,
+    );
+    const list = env?.metadata?.outfits || env?.outfits || [];
+    return list
+      .map((o) => ({
+        slot: o.slot,
+        bodyShape: o.outfit?.bodyShape,
+        wearables: Array.isArray(o.outfit?.wearables) ? o.outfit.wearables : [],
+        skinColor: color3ToHex(o.outfit?.skin?.color),
+        hairColor: color3ToHex(o.outfit?.hair?.color),
+        eyeColor: color3ToHex(o.outfit?.eyes?.color),
+      }))
+      .filter((o) => Number.isInteger(o.slot));
+  } catch (err) {
+    if (opts.signal?.aborted) throw err;
+    return [];
+  }
+}
+
+export async function loadRecentOutfits(count = 4, opts = {}) {
+  try {
+    const raw = await getJSON(`/content/deployments`, {
+      ...opts,
+      query: {
+        entityType: "profile",
+        limit: 60,
+        sortingField: "local_timestamp",
+        sortingOrder: "DESC",
+      },
+    });
+    const ds = Array.isArray(raw?.deployments) ? raw.deployments : [];
+    const seen = new Set();
+    const out = [];
+    for (const d of ds) {
+      const av = d?.metadata?.avatars?.[0]?.avatar;
+      const addr = (d?.pointers?.[0] || "").toLowerCase();
+      const wearables = Array.isArray(av?.wearables) ? av.wearables : [];
+      if (!av || !addr || seen.has(addr) || wearables.length < 4) continue;
+      seen.add(addr);
+      out.push({
+        slot: out.length,
+        address: addr,
+        name: d?.metadata?.avatars?.[0]?.name || "",
+        bodyShape: av.bodyShape,
+        wearables,
+        skinColor: color3ToHex(av.skin?.color),
+        hairColor: color3ToHex(av.hair?.color),
+        eyeColor: color3ToHex(av.eyes?.color),
+      });
+      if (out.length >= count) break;
+    }
+    return out;
+  } catch (err) {
+    if (opts.signal?.aborted) throw err;
+    return [];
+  }
+}
+
 export async function fetchOwnedWearableUrns(address, opts = {}) {
   const raw = await getJSON(
     `/lambdas/collections/wearables-by-owner/${encodeURIComponent(
@@ -320,89 +636,95 @@ export async function fetchOwnedEmoteUrns(address, opts = {}) {
   return parseOwnedEmotes(raw);
 }
 
-// ---------------------------------------------------------------------------
-// combined loaders — what the hooks call. Always resolve with the fixture seed
-// so the panel renders even for guests / before identity / on transient error;
-// overlay live owned URNs when the address is a real wallet. AbortError is
-// re-thrown so panel switches cancel cleanly.
-// ---------------------------------------------------------------------------
 export async function loadBackpack(address, opts = {}) {
   const addr = normalizeAddress(address);
-  const catalog = fixtureWearableCatalog();
-  const categories = fixtureWearableCategories();
-  const equipped = fixtureEquipped();
+  const fetchAddr = isEthAddress(addr)
+    ? addr
+    : "0x0000000000000000000000000000000000000000";
 
-  let ownedUrns = [];
-  let source = "fixture";
-  if (isEthAddress(addr)) {
-    try {
-      ownedUrns = await fetchOwnedWearableUrns(addr, opts);
-      source = "live";
-    } catch (err) {
-      if (opts.signal?.aborted) throw err;
-      ownedUrns = [];
-      source = "fixture";
-    }
+  const elements = await fetchAllExplorerWearables(fetchAddr, opts);
+
+  const catalog = [];
+  const ownedUrns = [];
+  for (const el of elements) {
+    const w = mapExplorerWearable(el, opts.base);
+    if (!w) continue;
+    catalog.push(w);
+    if (el?.type && el.type !== "base-wearable") ownedUrns.push(w.urn);
   }
+
+  const categories = deriveCategories(catalog);
+  const equipped = await fetchEquipped(addr, opts);
 
   const ownedSet = new Set(ownedUrns);
   const owned = catalog.filter((w) => ownedSet.has(w.urn));
 
   return {
-    address: addr || WEARABLE_FIXTURE_ADDRESS,
+    address: addr,
     owned,
     ownedUrns,
     catalog,
     categories,
     equipped,
     ownedEmpty: owned.length === 0,
-    source,
+    source: "live",
   };
 }
 
 export async function loadBackpackEmotes(address, opts = {}) {
   const addr = normalizeAddress(address);
-  const catalog = fixtureEmoteCatalog();
-  const loadout = fixtureEmoteLoadout();
-  const slotOrder = fixtureSlotOrder();
 
-  let ownedUrns = [];
-  let source = "fixture";
+  const baseEmotes = await fetchBaseEmotes(opts);
+
+  let ownedEmotes = [];
   if (isEthAddress(addr)) {
     try {
-      ownedUrns = await fetchOwnedEmoteUrns(addr, opts);
-      source = "live";
+      const els = await fetchAllExplorerEmotes(addr, opts);
+      const seen = new Set();
+      for (const el of els) {
+        const e = mapExplorerEmote(el, opts.base);
+        if (!e || seen.has(e.urn)) continue;
+        seen.add(e.urn);
+        ownedEmotes.push(e);
+      }
     } catch (err) {
       if (opts.signal?.aborted) throw err;
-      ownedUrns = [];
-      source = "fixture";
+      ownedEmotes = [];
     }
   }
 
-  const ownedSet = new Set(ownedUrns);
-  // When the wallet has live emotes, surface those; otherwise fall back to the
-  // seed catalog so the grid is never empty.
-  const owned = ownedUrns.length ? catalog.filter((e) => ownedSet.has(e.urn)) : catalog;
+  const catalog = [];
+  const inCatalog = new Set();
+  for (const e of [...baseEmotes, ...ownedEmotes]) {
+    if (inCatalog.has(e.urn)) continue;
+    inCatalog.add(e.urn);
+    catalog.push(e);
+  }
+
+  const ownedUrns = ownedEmotes.map((e) => e.urn);
+
+  const loadout = sortLoadout(
+    parseLoadout(
+      baseEmotes.slice(0, SLOT_ORDER.length).map((e, i) => ({
+        slot: SLOT_ORDER[i],
+        urn: e.urn,
+        name: e.name,
+      })),
+    ),
+  );
 
   return {
-    address: addr || EMOTE_FIXTURE_ADDRESS,
+    address: addr || "anon",
     catalog,
-    owned,
+    owned: ownedEmotes,
     ownedUrns,
     loadout,
-    slotOrder,
+    slotOrder: [...SLOT_ORDER],
     liveEmpty: ownedUrns.length === 0,
-    source,
+    source: "live",
   };
 }
 
-// ---------------------------------------------------------------------------
-// WRITE (signed) — STUBBED. The real save deploys a new avatar profile entity
-// via POST /content/entities under a signed auth-chain. The wallet key never
-// crosses into JS, so the write routes through the bridge SignRequest
-// chokepoint. Reads-only milestone: this records intent and returns a marker
-// without deploying. Never throws.
-// ---------------------------------------------------------------------------
 export function saveBackpack(payload) {
   try {
     if (typeof window !== "undefined") {
@@ -413,7 +735,6 @@ export function saveBackpack(payload) {
       });
     }
   } catch {
-    /* bridge optional; the signed write path is not wired this milestone */
   }
   return {
     ok: false,

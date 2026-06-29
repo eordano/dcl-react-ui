@@ -269,7 +269,7 @@ function ProjectCard({ p }) {
   const pillLabel = CATEGORY_PILL_LABEL[p.category] || p.category;
   const oneTime = p.vestedPct >= 100 && p.releasedPct >= 100;
   return (
-    <a className="gvpl__card" href="#" onClick={(e) => e.preventDefault()}>
+    <a className="gvpl__card" href={`/governance/projects/${p.id}`}>
       <div className="gvpl__cardbody">
         <div className="gvpl__cardhead">
           <div className="gvpl__cfg">
@@ -340,12 +340,17 @@ function ProjectCard({ p }) {
 }
 
 function MetricsCard({ category, title, description, href }) {
-  return (
-    <a className="gvpl__metric" href={href ? "#" : undefined} onClick={href ? (e) => e.preventDefault() : undefined}>
+  const inner = (
+    <>
       <p className="gvpl__metric-cat">{category}</p>
       <h2 className="gvpl__metric-title">{title}</h2>
       {description && <p className="gvpl__metric-desc">{description}</p>}
-    </a>
+    </>
+  );
+  return href ? (
+    <button type="button" className="gvpl__metric">{inner}</button>
+  ) : (
+    <a className="gvpl__metric">{inner}</a>
   );
 }
 
@@ -419,13 +424,13 @@ export default function GvProjectsList({ projects = PROJECTS }) {
               { title: "FAQ", desc: "Learn more about our Grants System" },
             ].map((it, i, arr) => (
               <div className="gvpl__bitemwrap" key={it.title}>
-                <a className="gvpl__bitem" href="#" onClick={(e) => e.preventDefault()}>
+                <button type="button" className="gvpl__bitem" onClick={(e) => e.preventDefault()}>
                   <div>
                     <h3 className="gvpl__bitem-title">{it.title}</h3>
                     <p className="gvpl__bitem-desc">{it.desc}</p>
                   </div>
                   <ChevronRight color="#fff" />
-                </a>
+                </button>
                 {i !== arr.length - 1 && <div className="gvpl__bitem-divider" />}
               </div>
             ))}
@@ -471,9 +476,9 @@ export default function GvProjectsList({ projects = PROJECTS }) {
                   {GRANT_SUBTYPES.map((g) => {
                     const active = type === "grants" && (subtype || "all") === g.id;
                     return (
-                      <a
+                      <button
                         key={g.id}
-                        href="#"
+                        type="button"
                         className={"gvpl__subcat" + (active ? " is-active" : "")}
                         onClick={(e) => {
                           e.preventDefault();
@@ -483,7 +488,7 @@ export default function GvProjectsList({ projects = PROJECTS }) {
                       >
                         <SubItem />
                         {g.label}
-                      </a>
+                      </button>
                     );
                   })}
                 </div>
@@ -513,9 +518,9 @@ export default function GvProjectsList({ projects = PROJECTS }) {
               <div className="gvpl__fc-title">Filter by Status</div>
               <div className="gvpl__fc-content">
                 {STATUSES.map((s) => (
-                  <a
+                  <button
                     key={s.id}
-                    href="#"
+                    type="button"
                     className={"gvpl__flabel" + (status === s.id ? " is-active" : "")}
                     onClick={(e) => {
                       e.preventDefault();
@@ -523,7 +528,7 @@ export default function GvProjectsList({ projects = PROJECTS }) {
                     }}
                   >
                     <span className="gvpl__flabel-text">{s.label}</span>
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>

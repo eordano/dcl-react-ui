@@ -97,7 +97,6 @@ export default function ChModalMobileQRCode({
       setLiveSessions([{ id: 1, messageCount: 1284 }]);
     }, 1600);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, simulateLive]);
 
   if (!open) return null;

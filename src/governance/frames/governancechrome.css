@@ -57,10 +57,6 @@
   color: var(--gv-muted);
 }
 
-/* Unify the two topbar action buttons (Download + Sign in) onto one button
-   system: same pill shape, sizing and type. Download is primary (filled),
-   Sign in is the secondary variant. Scoped to .gv so the shared DclTopBar
-   styles are left untouched. */
 .gv .dtb__download,
 .gv .dtb__signin {
   cursor: pointer;
@@ -75,14 +71,12 @@
   transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 }
 
-/* primary */
 .gv .dtb__download {
   color: #fff;
   background: var(--brand);
 }
 .gv .dtb__download:hover { background: var(--brand-hover); }
 
-/* secondary */
 .gv .dtb__signin {
   color: var(--gv-ink);
   background: transparent;

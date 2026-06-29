@@ -1,20 +1,18 @@
 .chmws {
   --chmws-black: var(--panel);
-  --chmws-darker-gray: #242129;
-  --chmws-dark-gray: #43404a;
-  --chmws-light-gray: #5e5b67;
-  --chmws-dcl-silver: #a09ba8;
+  --chmws-darker-gray: var(--fill-2);
+  --chmws-dark-gray: var(--fill-4);
+  --chmws-light-gray: var(--ink-45);
+  --chmws-dcl-silver: var(--offline);
   --chmws-dcl: var(--brand);
-  --chmws-dcl-dark: #9c1c34;
+  --chmws-dcl-dark: var(--brand-hover);
   --chmws-white: #ffffff;
   --chmws-text: #ffffff;
-  --chmws-text-on-secondary: #ffffffb2;
-  --chmws-dropdown: #716b7c;
-  --chmws-danger: #ffa900;
+  --chmws-text-on-secondary: var(--ink-7);
+  --chmws-dropdown: var(--ink-6);
+  --chmws-danger: var(--gold);
   --chmws-gray-dark: rgba(255, 255, 255, 0.05);
-  --chmws-gray-light: rgba(255, 255, 255, 0.23);
-  --chmws-font: "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --chmws-gray-light: var(--line);
 
   position: fixed;
   inset: 0;
@@ -22,8 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  font-family: var(--chmws-font);
+  background: var(--scrim);
   color: var(--chmws-white);
 }
 
@@ -33,7 +30,7 @@
   max-width: calc(100vw - 32px);
   max-height: 90vh;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: var(--r-card);
   background: var(--chmws-black);
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
     0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
@@ -112,7 +109,7 @@
   border: none;
   background: transparent;
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.02857em;
   text-transform: uppercase;
@@ -158,19 +155,19 @@
   animation: u-spin 0.9s linear infinite;
 }
 .chmws__body2 {
-  font-size: 0.875rem;
+  font-size: 14px;
   line-height: 1.43;
 }
 .chmws__h6 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.6;
 }
 .chmws__h5 {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
   line-height: 1.334;
 }
 
@@ -181,7 +178,7 @@
 }
 .chmws__labeltext {
   color: var(--chmws-text);
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -189,12 +186,12 @@
   display: flex;
   width: 100%;
   border: 1px solid var(--chmws-gray-light);
-  border-radius: 6px;
+  border-radius: var(--r-control);
   color: var(--chmws-text-on-secondary);
   transition: border-color 0.15s ease;
 }
 .chmws__textfield:focus-within {
-  border-color: var(--chmws-white);
+  border-color: var(--brand);
 }
 .chmws__input,
 .chmws__textarea {
@@ -205,8 +202,8 @@
   outline: none;
   color: var(--chmws-text-on-secondary);
   font-family: inherit;
-  font-size: 1rem;
-  line-height: 1.4375em;
+  font-size: 14px;
+  line-height: 1.5;
   padding: 12px 14px;
 }
 .chmws__textarea {
@@ -234,8 +231,8 @@
 }
 .chmws__thumbbg {
   width: 100%;
-  height: 8rem;
-  border-radius: 8px;
+  height: 128px;
+  border-radius: var(--r-control);
   background-color: var(--chmws-gray-dark);
   border: 1px solid var(--chmws-gray-light);
   overflow: hidden;
@@ -245,7 +242,7 @@
 }
 .chmws__noimage {
   color: var(--chmws-text-on-secondary);
-  font-size: 0.875rem;
+  font-size: 14px;
 }
 .chmws__thumbimg {
   width: 100%;
@@ -265,11 +262,11 @@
   height: 40px;
   padding: 0 12px;
   border: 1px solid var(--chmws-gray-light);
-  border-radius: 6px;
+  border-radius: var(--r-control);
   background: transparent;
   color: var(--chmws-white);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 400;
   cursor: pointer;
   transition: border-color 0.15s ease;
@@ -327,11 +324,11 @@
 .chmws__coordfield {
   display: flex;
   align-items: center;
-  width: 8rem;
-  height: 2.5rem;
+  width: 128px;
+  height: 40px;
   padding: 0 12px;
   border: 1px solid var(--chmws-gray-light);
-  border-radius: 6px;
+  border-radius: var(--r-control);
 }
 .chmws__coordlabel {
   color: var(--chmws-light-gray);
@@ -345,7 +342,7 @@
   outline: none;
   color: var(--chmws-white);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -354,7 +351,7 @@
   align-items: center;
   gap: 9px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.5;
 }
 .chmws__checkbox {
@@ -391,7 +388,7 @@
   margin: -8px 0 0;
   padding-left: 32px;
   color: var(--chmws-dcl-silver);
-  font-size: 0.875rem;
+  font-size: 14px;
   line-height: 1.43;
 }
 .chmws__playernote svg {
@@ -425,7 +422,7 @@
 }
 .chmws__multiscene {
   background-color: var(--chmws-dark-gray);
-  border-radius: 6px;
+  border-radius: var(--r-control);
   padding: 12px 16px;
   display: flex;
   flex-flow: row nowrap;
@@ -442,11 +439,11 @@
   gap: 4px;
 }
 .chmws__togglehead {
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.5;
 }
 .chmws__toggledesc {
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.43;
   white-space: pre-line;
@@ -464,7 +461,7 @@
 }
 .chmws__emptydesc {
   color: var(--chmws-text-on-secondary);
-  font-size: 0.875rem;
+  font-size: 14px;
   margin-bottom: 24px;
 }
 
@@ -485,7 +482,7 @@
   display: flex;
   gap: 16px;
   background-color: var(--chmws-black);
-  border-radius: 6px;
+  border-radius: var(--r-control);
   overflow: hidden;
 }
 .chmws__worldthumb {
@@ -507,7 +504,7 @@
 }
 .chmws__worldtitle {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: 600;
   color: var(--chmws-white);
   overflow: hidden;
@@ -539,7 +536,7 @@
   gap: 16px;
   padding-right: 8px;
   background-color: var(--chmws-black);
-  border-radius: 6px;
+  border-radius: var(--r-control);
   align-items: center;
   overflow: hidden;
 }
@@ -592,7 +589,7 @@
   gap: 16px;
   padding: 32px;
   background-color: var(--chmws-black);
-  border-radius: 8px;
+  border-radius: var(--r-control);
   margin: auto;
 }
 .chmws__unpublish .chmws__h5 b {
@@ -602,10 +599,11 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  background-color: #ec71223d;
+  background-color: color-mix(in srgb, var(--gold) 16%, transparent);
   padding: 12px 16px;
-  border-radius: 8px;
-  color: #ffcf89;
+  border-radius: var(--r-control);
+  color: var(--gold);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
 }
 .chmws__warningbox svg {
   flex-shrink: 0;
@@ -629,7 +627,7 @@
   align-items: center;
   padding: 12px;
   background-color: var(--chmws-black);
-  border-radius: 8px;
+  border-radius: var(--r-control);
 }
 .chmws__unsavedtext {
   color: var(--chmws-text-on-secondary);
@@ -638,7 +636,7 @@
 .chmws__actionscontainer .chmws__btn {
   width: max-content;
   flex-shrink: 0;
-  min-width: 5rem;
+  min-width: 80px;
 }
 
 .chmws__btn {
@@ -649,9 +647,9 @@
   min-height: 36px;
   padding: 5px 20px;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: var(--r-control);
   font-family: inherit;
-  font-size: 0.9375rem;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.75;
   letter-spacing: 0.02857em;

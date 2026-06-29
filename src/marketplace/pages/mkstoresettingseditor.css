@@ -257,3 +257,35 @@
     gap: 10px 24px;
   }
 }
+
+html.mp-light .mkss {
+  --secondary: var(--lm-line);
+  --secondary-text: var(--lm-ink-3);
+  color: var(--lm-ink);
+}
+html.mp-light .mkss__sidebar {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+}
+html.mp-light .mkss__menuhead { color: var(--lm-ink-3); }
+html.mp-light .mkss__menuitem { color: var(--lm-ink-2); }
+html.mp-light .mkss__menuitem:hover { background: rgba(0, 0, 0, 0.04); color: var(--lm-ink); }
+html.mp-light .mkss__menuitem.is-active { background: rgba(0, 0, 0, 0.06); color: var(--lm-ink); }
+html.mp-light .mkss__title { color: var(--lm-ink); }
+html.mp-light .mkss__input {
+  color: var(--lm-ink);
+  background: var(--lm-field-bg);
+}
+html.mp-light .mkss__input::placeholder { color: var(--lm-ink-3); }
+html.mp-light .mkss__empty { background: var(--lm-field-bg); }
+html.mp-light .mkss__btn {
+  border-color: var(--lm-line);
+  background: var(--lm-field-bg);
+  color: var(--lm-ink);
+}
+html.mp-light .mkss__btn:hover:not(:disabled) { background: rgba(0, 0, 0, 0.06); }
+html.mp-light .mkss__btn--primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}

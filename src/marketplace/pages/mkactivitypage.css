@@ -222,3 +222,10 @@
     display: none;
   }
 }
+
+html.mp-light .mkactivitypage {
+  --text: var(--lm-ink);
+  --ink-7: var(--lm-ink-2);
+  --ink-6: var(--lm-ink-3);
+  --fill-2: rgba(0, 0, 0, 0.05);
+}

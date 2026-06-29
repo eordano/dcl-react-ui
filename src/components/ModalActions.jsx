@@ -1,9 +1,6 @@
 import { Children, isValidElement, Fragment } from "react";
 import "./dialogactions.css";
 
-// Flatten children, unwrapping fragments, so `equal` mode produces one column per
-// button even when actions are passed as <>…</> (which React reports as a single
-// child). Without this a fragment collapses into one column and the buttons stack.
 function flattenChildren(children) {
   const out = [];
   Children.forEach(children, (child) => {
@@ -39,8 +36,6 @@ export default function ModalActions({
         ))
       : children;
 
-  // With a lead note the buttons must stay grouped so they wrap together (and
-  // stay right-aligned) instead of the note being crushed into a thin column.
   const actions =
     lead != null && !isColumn ? (
       <div className="dlg-actions__group">{wrapped}</div>

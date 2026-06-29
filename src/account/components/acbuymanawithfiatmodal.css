@@ -406,9 +406,6 @@
   .acbf { padding: 8px; }
 }
 
-/* Light theme — the Buy MANA with Fiat modal is a web/dapp account surface, so it
-   follows "Theme: Light". Remap the local dark tokens; the provider logo tiles
-   (MoonPay/Transak) stay white by design and the brand CTAs keep white labels. */
 html.mp-light .acbf {
   --acbf-card: var(--lm-surface);
   --acbf-card-on-modal: var(--lm-bg);

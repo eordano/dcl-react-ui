@@ -4,6 +4,7 @@ import Chat from "../explorer/frames/Chat.jsx";
 import Notifications from "../explorer/components/Notifications.jsx";
 import ProfileWidget from "../explorer/components/ProfileWidget.jsx";
 import ConnectionStatus from "../explorer/components/ConnectionStatus.jsx";
+import LoginCodeModal from "../explorer/components/LoginCodeModal.jsx";
 import { useBridgeState } from "./bridge.js";
 import "./overlay.css";
 
@@ -26,6 +27,9 @@ export default function Overlay() {
           name={identity.name}
           tag={identity.tag}
           wallet={identity.wallet}
+          address={identity.address}
+          avatarSrc={state.avatarPreview}
+          isGuest={identity.isGuest}
         />
       </div>
 
@@ -40,6 +44,8 @@ export default function Overlay() {
       <div className="ui3-overlay__widget ui3-overlay__connection">
         <ConnectionStatus />
       </div>
+
+      <LoginCodeModal />
     </div>
   );
 }

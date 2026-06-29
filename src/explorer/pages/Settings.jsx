@@ -3,9 +3,29 @@ import ExploreChrome from "../frames/ExploreChrome.jsx";
 import Toggle from "../../atoms/Toggle.jsx";
 import Slider from "../../atoms/Slider.jsx";
 import Dropdown from "../../components/Dropdown.jsx";
+import { sendBridge } from "../../overlay/bridge.js";
 import "./settings.css";
 
 const pct = (v) => Math.round(v) + "%";
+
+function emitSetting(m, raw) {
+  if (m.fullscreen) {
+    try {
+      if (raw) document.documentElement.requestFullscreen?.();
+      else if (document.fullscreenElement) document.exitFullscreen?.();
+    } catch {
+    }
+    return;
+  }
+  if (!m.setting) return;
+  let value;
+  if (m.kind === "toggle") value = raw ? (m.on ?? 1) : (m.off ?? 0);
+  else if (m.kind === "dropdown") {
+    const i = m.options.indexOf(raw);
+    value = m.values ? m.values[i] ?? 0 : i;
+  } else value = Number(raw) * (m.scale ?? 1);
+  sendBridge("SetSetting", { name: m.setting, value });
+}
 
 const PILL_ICONS = {
   graphics: (
@@ -42,62 +62,48 @@ const PILLS = [
 
 const CONTENT = {
   graphics: [
-    { title: "General", modules: [
-      { kind: "dropdown", title: "Graphics Preset", options: ["Low", "Medium", "High", "Custom"], defaultValue: "Custom" },
-    ]},
     { title: "Display", modules: [
-      { kind: "dropdown", title: "Resolution", options: ["1280x720", "1920x1080", "2560x1440", "3840x2160"], defaultValue: "3840x2160" },
-      { kind: "slider", title: "Resolution Scale", defaultValue: 120, min: 50, max: 200, format: pct },
-      { kind: "toggle", title: "Fullscreen" },
-      { kind: "dropdown", title: "FPS Limit", options: ["30", "60", "120", "144", "Unlimited"], defaultValue: "144" },
-      { kind: "toggle", title: "VSync", defaultChecked: true },
+      { kind: "toggle", title: "Fullscreen", fullscreen: true },
+      { kind: "dropdown", title: "FPS Limit", setting: "Target Frame Rate",
+        options: ["30", "60", "120", "144", "Unlimited"], values: [3, 4, 5, 6, 7], defaultValue: "144" },
     ]},
     { title: "Post Processing", modules: [
-      { kind: "dropdown", title: "MSAA", options: ["Off", "X2", "X4", "X8"], defaultValue: "X8" },
-      { kind: "toggle", title: "HDR", defaultChecked: true },
-      { kind: "toggle", title: "Bloom", defaultChecked: true },
-      { kind: "toggle", title: "Avatar Outline", defaultChecked: true },
+      { kind: "dropdown", title: "Anti-aliasing", setting: "Anti-aliasing",
+        options: ["Off", "FXAA Low", "FXAA High"], values: [0, 1, 2], defaultValue: "FXAA High" },
+      { kind: "toggle", title: "Bloom", setting: "Bloom", on: 2, off: 0, defaultChecked: true },
+      { kind: "dropdown", title: "Depth of Field", setting: "Depth of Field",
+        options: ["Off", "Low", "High"], values: [0, 1, 2], defaultValue: "High" },
+      { kind: "dropdown", title: "Fog", setting: "Fog",
+        options: ["Off", "Basic", "Atmospheric"], values: [0, 1, 2], defaultValue: "Atmospheric" },
     ]},
-    { title: "Landscape and Foilage", modules: [
-      { kind: "slider", title: "Detail density", defaultValue: 60, format: pct },
-      { kind: "slider", title: "Draw distance", defaultValue: 80, format: pct },
+    { title: "Lighting", modules: [
+      { kind: "slider", title: "Ambient brightness", setting: "Ambient Brightness", defaultValue: 50, format: pct },
     ]},
     { title: "Shadows", modules: [
-      { kind: "dropdown", title: "Shadow quality", options: ["Off", "Low", "Medium", "High"], defaultValue: "Medium" },
-      { kind: "slider", title: "Shadow distance", defaultValue: 70, format: pct },
+      { kind: "dropdown", title: "Shadow quality", setting: "Shadow settings",
+        options: ["Off", "Low", "High"], values: [0, 1, 2], defaultValue: "High" },
+      { kind: "slider", title: "Shadow distance", setting: "Shadow Distance", scale: 3, defaultValue: 67, format: pct },
     ]},
   ],
   sounds: [
     { title: "Volume", modules: [
-      { kind: "slider", title: "Master volume", defaultValue: 90, format: pct },
-      { kind: "slider", title: "Music", defaultValue: 75, format: pct },
-      { kind: "slider", title: "World sounds", defaultValue: 80, format: pct },
-      { kind: "slider", title: "Avatar sounds", defaultValue: 80, format: pct },
-      { kind: "slider", title: "UI sounds", defaultValue: 60, format: pct },
+      { kind: "slider", title: "Master volume", setting: "Master Volume", defaultValue: 90, format: pct },
+      { kind: "slider", title: "World sounds", setting: "Scene Volume", defaultValue: 80, format: pct },
+      { kind: "slider", title: "Avatar sounds", setting: "Avatar Volume", defaultValue: 80, format: pct },
+      { kind: "slider", title: "UI sounds", setting: "System Volume", defaultValue: 60, format: pct },
     ]},
-    { title: "Voice Chat & Streams", modules: [
-      { kind: "slider", title: "Voice chat volume", defaultValue: 85, format: pct },
-      { kind: "toggle", title: "Mute mic in background", defaultChecked: true },
-      { kind: "toggle", title: "Play current scene stream" },
+    { title: "Voice Chat", modules: [
+      { kind: "slider", title: "Voice chat volume", setting: "Voice Volume", defaultValue: 85, format: pct },
     ]},
   ],
   controls: [
     { title: "Mouse", modules: [
-      { kind: "slider", title: "Horizontal sensitivity", defaultValue: 50, format: pct },
-      { kind: "slider", title: "Vertical sensitivity", defaultValue: 50, format: pct },
-      { kind: "dropdown", title: "Input device", options: ["Keyboard & Mouse", "Gamepad"] },
+      { kind: "slider", title: "Look sensitivity", setting: "Pointer and Locked Camera sensitivity", defaultValue: 50, format: pct },
+      { kind: "slider", title: "Camera sensitivity", setting: "Camera Sensitivity", defaultValue: 50, format: pct },
     ]},
     { title: "Point At", modules: [
-      { kind: "dropdown", title: "Point-at marker", options: ["Everyone", "Friends", "Off"], defaultValue: "Everyone" },
-    ]},
-  ],
-  chat: [
-    { title: "General", modules: [
-      { kind: "dropdown", title: "Chat sounds", options: ["All", "Mentions only", "Off"], defaultValue: "All" },
-      { kind: "toggle", title: "Chat reactions", defaultChecked: true },
-      { kind: "dropdown", title: "Chat privacy", options: ["Everyone", "Friends", "Nobody"], defaultValue: "Friends" },
-      { kind: "toggle", title: "Hide blocked users", defaultChecked: true },
-      { kind: "toggle", title: "Chat translation" },
+      { kind: "dropdown", title: "Point-at marker", setting: "Point at marker visibility",
+        options: ["Everyone", "Friends", "Off"], values: [0, 1, 2], defaultValue: "Everyone" },
     ]},
   ],
 };
@@ -107,11 +113,22 @@ function Module({ m }) {
     <div className="set__module">
       <div className="set__modtitle">{m.title}</div>
       <div className="set__modctl">
-        {m.kind === "toggle" && <Toggle defaultChecked={m.defaultChecked} />}
-        {m.kind === "slider" && (
-          <Slider defaultValue={m.defaultValue} min={m.min} max={m.max} format={m.format} />
+        {m.kind === "toggle" && (
+          <Toggle ariaLabel={m.title} defaultChecked={m.defaultChecked} onChange={(v) => emitSetting(m, v)} />
         )}
-        {m.kind === "dropdown" && <Dropdown options={m.options} defaultValue={m.defaultValue} />}
+        {m.kind === "slider" && (
+          <Slider
+            ariaLabel={m.title}
+            defaultValue={m.defaultValue}
+            min={m.min}
+            max={m.max}
+            format={m.format}
+            onChange={(v) => emitSetting(m, v)}
+          />
+        )}
+        {m.kind === "dropdown" && (
+          <Dropdown ariaLabel={m.title} options={m.options} defaultValue={m.defaultValue} onChange={(v) => emitSetting(m, v)} />
+        )}
       </div>
     </div>
   );

@@ -2,8 +2,6 @@ import MarketplaceChrome from "../frames/MarketplaceChrome.jsx";
 import ManaMark from "../../atoms/ManaMark.jsx";
 import "./mkbuystatuspage.css";
 
-// every other status falls through to title + description with no loader/CTA.
-
 const STATUS_COPY = {
   pending: {
     title: "Your item is on its way!",
@@ -94,7 +92,7 @@ export default function MkBuyStatusPage({
               {descBefore}
               {descAfter !== undefined ? (
                 <>
-                  <a className="mkbuystatuspage__link" href="#my-assets">
+                  <a className="mkbuystatuspage__link" href="/marketplace/account">
                     My Assets
                   </a>
                   {descAfter}

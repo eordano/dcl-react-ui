@@ -218,3 +218,44 @@
   .mb { padding: 14px; }
   .mb__grid--grid { gap: 12px; }
 }
+
+html.mp-light .mb__cattop { color: var(--lm-ink-2); }
+html.mp-light .mb__cattop:hover { color: var(--lm-ink); }
+html.mp-light .mb__cattop.is-active { color: var(--lm-ink); background: rgba(0, 0, 0, 0.06); }
+html.mp-light .mb__catopt { color: var(--lm-ink-2); }
+html.mp-light .mb__catopt:hover { background: rgba(0, 0, 0, 0.04); color: var(--lm-ink); }
+html.mp-light .mb__chip {
+  border-color: var(--lm-line);
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--lm-ink-2);
+}
+html.mp-light .mb__chip:hover { background: rgba(0, 0, 0, 0.08); color: var(--lm-ink); }
+html.mp-light .mb__chip.is-active {
+  color: var(--lm-ink);
+  border-color: var(--lm-line);
+  background: #ececed;
+}
+html.mp-light .mb__smartbadge { background: #ececed; color: var(--lm-ink); }
+html.mp-light .mb__togglelabel { color: var(--lm-ink-2); }
+html.mp-light .mb__switch { background: rgba(0, 0, 0, 0.18); }
+html.mp-light .mb__pill {
+  border-color: var(--lm-line);
+  background: #ececed;
+  color: var(--lm-ink);
+}
+html.mp-light .mb__pill:hover { background: #e1dfe6; }
+html.mp-light .mb__pill svg { color: var(--lm-ink-3); }
+html.mp-light .mb__loadbtn {
+  border-color: var(--lm-line);
+  background: var(--lm-surface);
+  color: var(--lm-ink);
+}
+html.mp-light .mb__loadbtn:hover { background: rgba(0, 0, 0, 0.04); border-color: var(--lm-line); }
+html.mp-light .mb__noresults { color: var(--lm-ink-3); }
+html.mp-light .mb__noicon {
+  color: var(--lm-ink-3);
+  background: rgba(0, 0, 0, 0.04);
+  border-color: var(--lm-line);
+}
+html.mp-light .mb__notitle { color: var(--lm-ink); }
+html.mp-light .mb__nosub { color: var(--lm-ink-3); }

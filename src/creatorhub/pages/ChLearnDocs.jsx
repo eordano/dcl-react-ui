@@ -106,7 +106,7 @@ const EMOTES = [
 
 export default function ChLearnDocs() {
   return (
-    <CreatorHubChrome active="home">
+    <CreatorHubChrome active="learn">
       <main className="chld">
         <div className="chld__container">
           <div className="chld__title" role="button" tabIndex={0}>

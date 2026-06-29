@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Toggle from "../../atoms/Toggle.jsx";
+import { sendBridge } from "../../overlay/bridge.js";
 import "./skybox.css";
 
 const fmt = (min) => {
@@ -12,6 +13,18 @@ export default function SkyboxHUD() {
   const [minutes, setMinutes] = useState(990);
   const [auto, setAuto] = useState(true);
 
+  function setTime(min, isAuto) {
+    sendBridge("SetTimeOfDay", { minutes: min, auto: isAuto });
+  }
+  function onAuto(v) {
+    setAuto(v);
+    setTime(minutes, v);
+  }
+  function onSlide(min) {
+    setMinutes(min);
+    setTime(min, false);
+  }
+
   return (
     <div className="sky__backdrop">
       <div className="sky">
@@ -21,7 +34,7 @@ export default function SkyboxHUD() {
 
         <div className="sky__row sky__row--auto">
           <span className="sky__label">Auto</span>
-          <Toggle checked={auto} onChange={setAuto} />
+          <Toggle checked={auto} onChange={onAuto} />
         </div>
 
         <div className={"sky__group" + (auto ? " is-dim" : "")}>
@@ -36,7 +49,7 @@ export default function SkyboxHUD() {
                 type="range" className="sky__range"
                 min="0" max="1439" step="1" value={minutes}
                 disabled={auto}
-                onChange={(e) => setMinutes(Number(e.target.value))}
+                onChange={(e) => onSlide(Number(e.target.value))}
                 style={{ "--pct": (minutes / 1439) * 100 + "%" }}
               />
             </div>

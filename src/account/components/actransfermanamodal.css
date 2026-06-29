@@ -213,9 +213,6 @@
   }
 }
 
-/* Light theme — the Transfer MANA modal is a web/dapp account surface, so it
-   follows "Theme: Light". Remap the local dark tokens + flip the hardcoded white
-   text. The brand/purple send CTA keeps its white label. */
 html.mp-light .actmm__scrim {
   --actmm-modal: var(--lm-surface);
   --actmm-close-bg: rgba(0, 0, 0, 0.06);

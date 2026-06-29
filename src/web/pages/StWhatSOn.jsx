@@ -7,7 +7,6 @@ const poster = (hue, image) => {
   const gradient = `linear-gradient(150deg, hsl(${hue} 70% 52%) 0%, hsl(${(hue + 40) % 360} 60% 28%) 100%)`;
   return {
     "--hue": hue,
-    // Real event poster over the hue gradient (gradient = load/error/no-image fallback).
     backgroundImage: image ? `url("${image}"), ${gradient}` : gradient,
     ...(image ? { backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" } : null),
   };
@@ -360,7 +359,7 @@ export default function StWhatSOn({
   allDays = ALL_DAYS,
   dayLabels = DAY_LABELS,
   loading = false,
-  filterBar = null,
+  filterBar =(null),
 }) {
   const deferred = useMemo(() => loading, [loading]);
 

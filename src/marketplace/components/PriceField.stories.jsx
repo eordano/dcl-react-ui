@@ -7,7 +7,6 @@ export default {
   parameters: { layout: "centered" },
 };
 
-// .mk scopes the marketplace --lm-* tokens so the field follows the Theme toolbar (dark<->light); --lm-bg gives it a page surface.
 const Frame = ({ children }) => (
   <div
     className="mk"

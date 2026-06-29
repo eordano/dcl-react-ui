@@ -2,11 +2,6 @@ import { createContext, useContext } from "react";
 import { asset } from "../../asset.js";
 import "./explorechrome.css";
 
-// Reused explorer pages (Backpack, Communities, Events, Settings, …) each embed
-// their own <ExploreChrome> because they were authored as standalone pages. When
-// the SPA renders them inside AppLayout's ExploreChrome, the inner instance must
-// NOT draw a second nav/frame (double-chrome + a stale "Evaristo" identity).
-// A nested instance (context=true) renders only its children.
 const ChromeNestedContext = createContext(false);
 
 export const EXPLORE_TABS = [
@@ -66,8 +61,7 @@ const ICONS = {
   ),
 };
 
-export default function ExploreChrome({ active, children, onTab, user = "Evaristo" }) {
-  // Inside an outer ExploreChrome (the SPA shell): render content only.
+export default function ExploreChrome({ active, children, onTab, user = "Guest", onClose = () => {} }) {
   if (useContext(ChromeNestedContext)) return <>{children}</>;
   return (
     <ChromeNestedContext.Provider value={true}>
@@ -106,6 +100,18 @@ export default function ExploreChrome({ active, children, onTab, user = "Evarist
           <button type="button" className="xc__user" data-sb-linkto="Explorer/Pages/Passport">
             <span className="xc__avatar u-avatar" style={{ "--sz": "28px", "--hue": 300 }} />
             <span className="xc__uname">{user}</span>
+          </button>
+          <button
+            type="button"
+            className="xc__close"
+            aria-label="Back to world"
+            title="Back to world (Esc)"
+            onClick={onClose}
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor"
+                strokeWidth="2.2" strokeLinecap="round" />
+            </svg>
           </button>
         </div>
       </header>

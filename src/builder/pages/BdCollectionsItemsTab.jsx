@@ -80,7 +80,7 @@ function ItemCard({ item }) {
       <button type="button" className="bditems__cardopts" aria-label="Item options">
         <KebabGlyph />
       </button>
-      <a className="bditems__cardlink" href="#item">
+      <a className="bditems__cardlink" href={`/builder/item/${item.id}`}>
         <div className="bditems__image">
           <span className="bditems__imgcell" style={{ background: item.grad }} />
         </div>

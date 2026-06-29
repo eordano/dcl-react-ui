@@ -320,32 +320,24 @@ export default function AcBuyMANAWithFiatModal({
                 <button type="button" className="acbf__btn" onClick={onClose}>
                   {i18n.cta}
                 </button>
-                <a
+                <span
                   className="acbf__view-transaction"
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.preventDefault()}
+                  role="button"
+                  tabIndex={0}
                 >
                   {i18n.viewTransaction}
                   <span className="acbf__external" aria-hidden="true">
                     ↗
                   </span>
-                </a>
+                </span>
               </>
             ) : null}
             {feedbackStatus === "pending" ? (
               <div className="acbf__pending-loader">
                 <span className="acbf__spinner" aria-hidden="true" />
-                <a
-                  className="acbf__go-to"
-                  href="#"
-                  target="_blank"
-                  rel="external"
-                  onClick={(e) => e.preventDefault()}
-                >
+                <span className="acbf__go-to" role="button" tabIndex={0}>
                   {i18n.goToText}
-                </a>
+                </span>
               </div>
             ) : null}
             {feedbackStatus === "failure" ? (

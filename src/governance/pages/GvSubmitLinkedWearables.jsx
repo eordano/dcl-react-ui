@@ -136,7 +136,7 @@ export default function GvSubmitLinkedWearables({ signedIn = true }) {
     <GovernanceChrome active={tab} onTab={setTab}>
       <div className="gvsubmitlinkedwearables">
         <div className="gvsubmitlinkedwearables__layout">
-          <a className="gvsubmitlinkedwearables__back" href="#" aria-label="Back to submit">
+          <a className="gvsubmitlinkedwearables__back" href="/governance/submit" aria-label="Back to submit">
             <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M10 4l-4 4 4 4" />
             </svg>

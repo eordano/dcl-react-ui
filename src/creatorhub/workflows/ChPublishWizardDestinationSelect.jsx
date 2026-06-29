@@ -85,10 +85,17 @@ function OptionBox({ thumbnail, title, description, buttonText, onClickPublish }
   );
 }
 
-const PROJECT = { title: "Neon Night Market" };
-
-export default function ChPublishWizardDestinationSelect({ state = "select" }) {
+export default function ChPublishWizardDestinationSelect({
+  state = "select",
+  projectTitle =(undefined),
+  onPublishWorld =(undefined),
+  onPublishLand =(undefined),
+  onAltServers =(undefined),
+  onBack =(undefined),
+  onClose =(undefined),
+}) {
   const isSignIn = state === "signin";
+  const heading = projectTitle ? `Publish "${projectTitle}"` : "Publish your scene";
 
   return (
     <div className="cpwds__backdrop">
@@ -96,16 +103,20 @@ export default function ChPublishWizardDestinationSelect({ state = "select" }) {
         className={"cpwds__modal" + (isSignIn ? " cpwds__modal--tiny" : "")}
         role="dialog"
         aria-modal="true"
-        aria-label={isSignIn ? "Sign In" : `Publish "${PROJECT.title}"`}
+        aria-label={isSignIn ? "Sign In" : heading}
       >
         <header className="cpwds__header">
-          <button type="button" className="cpwds__iconbtn cpwds__back" aria-label="back">
-            <ChevronLeft size={22} />
-          </button>
-          <h2 className="cpwds__title">{isSignIn ? "Sign In" : `Publish "${PROJECT.title}"`}</h2>
-          <button type="button" className="cpwds__iconbtn cpwds__close" aria-label="close">
-            <Close size={20} />
-          </button>
+          {onBack ? (
+            <button type="button" className="cpwds__iconbtn cpwds__back" aria-label="back" onClick={onBack}>
+              <ChevronLeft size={22} />
+            </button>
+          ) : null}
+          <h2 className="cpwds__title">{isSignIn ? "Sign In" : heading}</h2>
+          {onClose ? (
+            <button type="button" className="cpwds__iconbtn cpwds__close" aria-label="close" onClick={onClose}>
+              <Close size={20} />
+            </button>
+          ) : null}
         </header>
 
         <p className="cpwds__subtitle">
@@ -127,15 +138,23 @@ export default function ChPublishWizardDestinationSelect({ state = "select" }) {
                   title="Worlds"
                   description="Your own virtual space, separate from Genesis City. Claim yours when you get a NAME."
                   buttonText="Publish to a World"
+                  onClickPublish={onPublishWorld}
                 />
                 <OptionBox
                   thumbnail={<LandThumb />}
                   title="My Land"
                   description="The parcels that make up Decentraland's Genesis City map. Buy or rent your own in the Marketplace."
                   buttonText="Publish to Land"
+                  onClickPublish={onPublishLand}
                 />
               </div>
-              <span className="cpwds__altservers">Publish to a different server</span>
+              {onAltServers ? (
+                <button type="button" className="cpwds__altservers" onClick={onAltServers}>
+                  Publish to a different server
+                </button>
+              ) : (
+                <span className="cpwds__altservers">Publish to a different server</span>
+              )}
             </div>
           )}
         </div>

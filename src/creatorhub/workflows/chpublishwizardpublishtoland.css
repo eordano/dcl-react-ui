@@ -11,9 +11,9 @@
     radial-gradient(90% 60% at 100% 100%, rgba(152, 45, 226, 0.06), transparent 62%),
     rgba(0, 0, 0, 0.6);
 
-  --cptl-paper: #18141b;
+  --cptl-paper: var(--panel);
   --cptl-black: #000000;
-  --cptl-grey: grey;
+  --cptl-grey: var(--line);
   font-family: inherit;
   color: var(--text);
 }
@@ -158,7 +158,7 @@
   border: none;
   border-radius: 8px;
   background: var(--brand);
-  color: #fff;
+  color: #0d0c11;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;

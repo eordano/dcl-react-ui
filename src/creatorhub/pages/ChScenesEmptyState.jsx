@@ -1,4 +1,5 @@
 import CreatorHubChrome from "../frames/CreatorHubChrome.jsx";
+import EmptyStateCard from "../../components/EmptyStateCard.jsx";
 import "./chscenesemptystate.css";
 
 const ImportIcon = () => (
@@ -16,13 +17,13 @@ const TemplateIcon = () => (
   </svg>
 );
 
-function EmptyStateButton() {
+function EmptyStateButton({ onCreateScene }) {
   return (
-    <div
+    <button
+      type="button"
       className="chscenesemptystate__nobutton"
-      role="button"
-      tabIndex={0}
       aria-label="Create your first scene"
+      onClick={() => onCreateScene?.()}
     >
       <svg
         className="chscenesemptystate__nobtnsvg"
@@ -35,12 +36,12 @@ function EmptyStateButton() {
       >
         <defs>
           <linearGradient id="chesGrad" x1="128" y1="0" x2="128" y2="234" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#FF2D55" />
-            <stop offset="1" stopColor="#C640CD" />
+            <stop stopColor="var(--brand)" />
+            <stop offset="1" stopColor="var(--purple)" />
           </linearGradient>
           <linearGradient id="chesFill" x1="128" y1="0" x2="128" y2="234" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#C640CD" />
-            <stop offset="1" stopColor="#691FA9" />
+            <stop stopColor="var(--purple)" />
+            <stop offset="1" stopColor="var(--purple)" />
           </linearGradient>
         </defs>
         <rect
@@ -76,25 +77,41 @@ function EmptyStateButton() {
           BUILDING
         </text>
       </svg>
-    </div>
+    </button>
   );
 }
 
-export default function ChScenesEmptyState() {
+export default function ChScenesEmptyState({
+  signedIn = false,
+  account = "",
+  name = "",
+  onSignIn =(undefined),
+  onCreateScene =(undefined),
+  onImport =(undefined),
+  onTemplates =(undefined),
+}) {
   return (
-    <CreatorHubChrome active="scenes">
-      <main className="chscenesemptystate">
+    <CreatorHubChrome active="scenes" signedIn={signedIn} account={account} name={name} onSignIn={onSignIn}>
+      <section className="chscenesemptystate">
         <div className="chscenesemptystate__container">
           <div className="chscenesemptystate__list-wrap">
             <div className="chscenesemptystate__menu">
               <div className="chscenesemptystate__header">
-                <h3 className="chscenesemptystate__heading">My Scenes</h3>
+                <h1 className="chscenesemptystate__heading">My Scenes</h1>
                 <div className="chscenesemptystate__actions">
-                  <button type="button" className="chscenesemptystate__actionbtn chscenesemptystate__actionbtn--secondary">
+                  <button
+                    type="button"
+                    className="chscenesemptystate__actionbtn chscenesemptystate__actionbtn--secondary"
+                    onClick={() => onImport?.()}
+                  >
                     <ImportIcon />
                     Import Scene
                   </button>
-                  <button type="button" className="chscenesemptystate__actionbtn chscenesemptystate__actionbtn--primary">
+                  <button
+                    type="button"
+                    className="chscenesemptystate__actionbtn chscenesemptystate__actionbtn--primary"
+                    onClick={() => onTemplates?.()}
+                  >
                     <TemplateIcon />
                     Templates
                   </button>
@@ -103,27 +120,38 @@ export default function ChScenesEmptyState() {
             </div>
 
             <div className="chscenesemptystate__nocontainer">
-              <div className="chscenesemptystate__nocard">
-                <div className="chscenesemptystate__notext">
-                  <h3 className="chscenesemptystate__notitle">Create your first scene</h3>
-                  <span className="chscenesemptystate__nodesc">
-                    Unleash your creativity. Start building scenes for your LANDs and
-                    Worlds and share with the community.{" "}
-                    <a
-                      href="https://docs.decentraland.org/creator/scenes-sdk7/getting-started/sdk-101"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Learn more about creating Scenes.
-                    </a>
-                  </span>
-                </div>
-                <EmptyStateButton />
-              </div>
+              {signedIn ? (
+                <EmptyStateCard
+                  className="chscenesemptystate__card"
+                  title="Create your first scene"
+                  subtitle={
+                    <>
+                      Unleash your creativity. Start building scenes for your LANDs and
+                      Worlds and share with the community.{" "}
+                      <a
+                        href="https://docs.decentraland.org/creator/scenes-sdk7/getting-started/sdk-101"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Learn more about creating Scenes.
+                      </a>
+                    </>
+                  }
+                  actionsGap={48}
+                  actions={<EmptyStateButton onCreateScene={onCreateScene} />}
+                />
+              ) : (
+                <EmptyStateCard
+                  className="chscenesemptystate__card"
+                  title="Connect wallet to see your scenes"
+                  subtitle="Your scenes will appear here once your wallet is connected."
+                  actions={[{ label: "Connect wallet", onClick: onSignIn }]}
+                />
+              )}
             </div>
           </div>
         </div>
-      </main>
+      </section>
     </CreatorHubChrome>
   );
 }

@@ -55,8 +55,8 @@ export default function Lobby() {
         </Checkbox>
         <Checkbox>
           I agree with Decentraland&rsquo;s{" "}
-          <a className="lobby__link" href="#terms">Terms of Use</a> and{" "}
-          <a className="lobby__link" href="#privacy">Privacy Policy</a> *
+          <a className="lobby__link" href="https://decentraland.org/terms" target="_blank" rel="noopener noreferrer">Terms of Use</a> and{" "}
+          <a className="lobby__link" href="https://decentraland.org/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *
         </Checkbox>
       </div>
 

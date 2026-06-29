@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHideMinimapWhileMounted } from "../../overlay/minimapVisibility.jsx";
 import "./notifications.css";
 
 function Name({ name, tag }) {
@@ -40,9 +41,6 @@ const RAIL_BOTTOM = [
   { key: "help", icon: R(<><circle cx="10" cy="10" r="7" /><path d="M8 8a2 2 0 1 1 3 1.7c-.7.5-1 .9-1 1.8" /><circle cx="10" cy="14" r=".5" fill="currentColor" stroke="none" /></>) },
 ];
 
-// `actions`: each entry { label, primary? } renders a button. Clicking any
-// action (or the per-item dismiss) resolves the notification in local state —
-// this is a static mock, so there is no backend; the affordances are visual.
 const ITEMS = [
   {
     id: "friend-morat", type: "friends", title: "Friend Request Received", time: "Just Now",
@@ -72,10 +70,6 @@ const ITEMS = [
     actions: [{ label: "View in Backpack", to: "Explorer/Pages/Backpack" }] },
 ];
 
-// `items` (optional): live notification cards supplied by a route wrapper. When
-// omitted (or undefined — e.g. while loading, or the prop-less Overlay usage),
-// the built-in ITEMS mock renders as the placeholder. An explicit [] shows the
-// empty state. Dismiss/clear stay local (mark-read is simulated; writes stubbed).
 function Panel({ items: itemsProp }) {
   const [items, setItems] = useState(itemsProp ?? ITEMS);
 
@@ -150,10 +144,12 @@ function Panel({ items: itemsProp }) {
   );
 }
 
-export default function Notifications({ bare = false, items }) {
+export default function Notifications({ bare = false, items, floating = false }) {
+  useHideMinimapWhileMounted(floating);
+
   if (bare) {
     return (
-      <div className="nf__bare">
+      <div className={"nf__bare" + (floating ? " nf__bare--floating" : "")}>
         <Panel items={items} />
       </div>
     );

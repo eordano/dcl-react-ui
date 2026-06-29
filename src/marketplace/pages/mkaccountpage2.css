@@ -349,3 +349,45 @@
   .ap2__grid--grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .ap2__name { font-size: 24px; line-height: 30px; }
 }
+
+html.mp-light .ap2 {
+  --ap2-card: var(--lm-surface);
+  --ap2-sel: rgba(0, 0, 0, 0.06);
+  color: var(--lm-ink);
+}
+html.mp-light .ap2__namelink { color: var(--lm-ink); }
+html.mp-light .ap2__hash { color: var(--lm-ink-2); }
+html.mp-light .ap2__copy { color: var(--lm-ink-3); }
+html.mp-light .ap2__copy:hover { color: var(--lm-ink); }
+html.mp-light .ap2__desc { color: var(--lm-ink-2); }
+html.mp-light .ap2__alt { color: var(--lm-ink); }
+html.mp-light .ap2__altdetail { color: var(--lm-ink-3); }
+html.mp-light .ap2__subhead { color: var(--lm-ink-3); }
+html.mp-light .ap2__secitem { color: var(--lm-ink-2); }
+html.mp-light .ap2__secitem:hover { background: rgba(0, 0, 0, 0.04); color: var(--lm-ink); }
+html.mp-light .ap2__secitem.is-active { color: var(--lm-ink); }
+html.mp-light .ap2__fsection { border-top-color: var(--lm-line); }
+html.mp-light .ap2__fhead { color: var(--lm-ink); }
+html.mp-light .ap2__fhead:hover { background: rgba(0, 0, 0, 0.04); }
+html.mp-light .ap2__caret { color: var(--lm-ink-3); }
+html.mp-light .ap2__chip {
+  border-color: var(--lm-line);
+  background: var(--lm-field-bg);
+  color: var(--lm-ink-2);
+}
+html.mp-light .ap2__chip:hover { background: rgba(0, 0, 0, 0.06); color: var(--lm-ink); }
+html.mp-light .ap2__loadbtn {
+  border-color: var(--lm-line);
+  background: var(--lm-field-bg);
+  color: var(--lm-ink);
+}
+html.mp-light .ap2__loadbtn:hover { background: rgba(0, 0, 0, 0.06); border-color: var(--lm-line); }
+html.mp-light .ap2__loader,
+html.mp-light .ap2__state { color: var(--lm-ink-3); }
+html.mp-light .ap2__noicon {
+  color: var(--lm-ink-3);
+  background: var(--lm-field-bg);
+  border-color: var(--lm-line);
+}
+html.mp-light .ap2__statetitle { color: var(--lm-ink); }
+html.mp-light .ap2__statesub { color: var(--lm-ink-3); }

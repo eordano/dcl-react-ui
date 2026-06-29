@@ -98,7 +98,6 @@
 .nf__name { color: var(--gold); font-weight: 600; }
 .nf__tag { color: var(--offline); }
 
-/* Per-item actions (accept / view / claim …). Static-mock buttons. */
 .nf__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .nf__action {
   font: inherit; font-size: 12px; font-weight: 600; letter-spacing: .2px;
@@ -115,7 +114,6 @@
 }
 .nf__action--primary:hover { background: linear-gradient(135deg, #d268ff, #7a35bf); border-color: transparent; }
 
-/* Empty state — shown after Clear all / dismissing every item. */
 .nf__empty {
   flex: 1; min-height: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -130,8 +128,6 @@
 .nf__empty-title { font-size: 14px; font-weight: 700; }
 .nf__empty-sub { font-size: 12px; color: rgba(255,255,255,.5); }
 
-/* Bare wrapper — story showcase of just the notification panel, no HUD rail.
-   Mirrors the Chat island `bare` pattern (see Chat/ChatWindow). */
 .nf__bare {
   display: inline-block;
   padding: 18px 20px; border-radius: 14px;
@@ -142,8 +138,16 @@
   height: 560px; max-height: 70vh;
 }
 
+.nf__bare--floating {
+  opacity: 0.5;
+  transition: opacity 0.12s ease;
+}
+.nf__bare--floating:hover,
+.nf__bare--floating:focus-within {
+  opacity: 1;
+}
+
 @media (max-width: 600px) {
   .nf__rail { width: 42px; }
   .nf { left: 50px; right: 8px; width: auto; }
 }
-

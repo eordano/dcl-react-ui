@@ -39,6 +39,7 @@ export default function EmptyState({
   icon,
   iconWash = false,
   title,
+  titleAs: TitleTag = "h2",
   subtitle,
   actions,
   variant,
@@ -71,7 +72,7 @@ export default function EmptyState({
         </div>
       ) : null}
 
-      {title != null ? <p className="es__title">{title}</p> : null}
+      {title != null ? <TitleTag className="es__title">{title}</TitleTag> : null}
       {subtitle != null ? <p className="es__sub">{subtitle}</p> : null}
 
       {isActionList ? (

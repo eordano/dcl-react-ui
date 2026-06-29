@@ -84,3 +84,9 @@
     aspect-ratio: 1 / 1;
   }
 }
+
+html.mp-light .assetpreviewtile { background: var(--lm-bg); }
+html.mp-light .assetpreviewtile__rarity {
+  background: #ececed;
+  color: #16141a;
+}

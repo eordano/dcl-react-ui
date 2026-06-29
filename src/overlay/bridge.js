@@ -50,37 +50,42 @@ export function emoteUrnForName(name) {
   return BASE_EMOTE_URNS[raw.toLowerCase()] ?? null;
 }
 
+export function stopEmote() {
+  sendBridge("StopEmote", {});
+}
+
 export const FALLBACK_STATE = {
   identity: {
-    name: "Evaristo",
-    tag: "#b6c7",
-    address: "0x3fe27e8c6d2bd3a2e0d6f3a9b0c1d2e3f4a5b6c7",
-    wallet: "0x3fe…b6c7",
-    isGuest: false,
+    name: "Guest",
+    tag: null,
+    address: null,
+    wallet: null,
+    isGuest: true,
   },
   scene: {
-    title: "Genesis Plaza",
-    coords: "0,12",
-    realm: "main",
+    title: null,
+    coords: null,
+    realm: null,
   },
-  chat: [
-    { senderName: "Morat", senderAddress: "0x9911…1r56", message: "welcome to Genesis Plaza", channel: "nearby" },
-    { senderName: "pixelwitch", senderAddress: "0x0c2d…0c2d", message: "anyone heading to the casino?", channel: "nearby" },
-  ],
+  chat: [],
   friends: {
-    onlineCount: 9,
+    onlineCount: 0,
     friends: [],
   },
   mic: {
     enabled: false,
     available: true,
   },
+  loginCode: null,
+  avatarPreview: null,
+  avatarLoadout: null,
 };
 
 function applyState(prev, push) {
   if (!push || typeof push !== "object") return prev;
   switch (push.kind) {
-    case "identity":
+    case "identity": {
+      const isGuest = push.isGuest ?? prev.identity.isGuest;
       return {
         ...prev,
         identity: {
@@ -91,9 +96,11 @@ function applyState(prev, push) {
           wallet: push.address
             ? `${push.address.slice(0, 5)}…${push.address.slice(-4)}`
             : prev.identity.wallet,
-          isGuest: push.isGuest ?? prev.identity.isGuest,
+          isGuest,
         },
+        loginCode: isGuest ? prev.loginCode : null,
       };
+    }
     case "scene":
       return {
         ...prev,
@@ -129,6 +136,26 @@ function applyState(prev, push) {
           available: push.available ?? prev.mic.available,
         },
       };
+    case "loginCode":
+      return {
+        ...prev,
+        loginCode: {
+          code: push.code != null && push.code !== -1 ? push.code : null,
+          url: push.url ?? null,
+          error: push.error ?? null,
+        },
+      };
+    case "avatarPreview":
+      return { ...prev, avatarPreview: push.dataUrl ?? prev.avatarPreview };
+    case "avatar":
+      return {
+        ...prev,
+        avatarLoadout: {
+          bodyShape: push.bodyShape ?? prev.avatarLoadout?.bodyShape ?? null,
+          wearables: push.wearables ?? prev.avatarLoadout?.wearables ?? [],
+          emotes: push.emotes ?? prev.avatarLoadout?.emotes ?? [],
+        },
+      };
     default:
       return prev;
   }
@@ -143,10 +170,6 @@ export function useBridgeState() {
     let cancelled = false;
     let iv = null;
     let to = null;
-    // window.dclBridge is installed by the engine's setupDclBridge IIFE, whose
-    // load order vs this SPA bundle is not guaranteed. Retry until it appears
-    // (the engine replays the last per-kind state to new subscribers, so a late
-    // subscription still rebuilds the current identity/scene/friends/mic).
     const attach = () => {
       const bridge = getBridge();
       if (!bridge) return false;

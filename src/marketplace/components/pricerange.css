@@ -40,3 +40,13 @@
   background: var(--brand);
   border-radius: 1px 1px 0 0;
 }
+
+html.mp-light .pricerange__label,
+html.mp-light .pricerange__dash { color: var(--lm-ink-3); }
+html.mp-light .pricerange__input {
+  border-color: var(--lm-line);
+  background: var(--lm-field-bg);
+  color: var(--lm-ink);
+}
+html.mp-light .pricerange__input::placeholder { color: var(--lm-ink-3); }
+html.mp-light .pricerange__chart { background: var(--lm-bg); }

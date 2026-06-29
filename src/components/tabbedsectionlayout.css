@@ -94,8 +94,6 @@ span.tsl__titletext { line-height: 1; }
   overflow: hidden;
 }
 
-/* Native rail treatment: retint VerticalTabRail's exposed vars to ui3 tokens
-   and give the active tab the rounded ui3 pill look (cf. .tabs molecule). */
 .tsl .vtr {
   --vtr-idle: var(--ink-6);
   --vtr-hover: var(--text);

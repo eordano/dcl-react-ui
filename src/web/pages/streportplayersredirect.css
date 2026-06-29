@@ -325,9 +325,6 @@
   font-weight: 600;
 }
 
-/* The fallback link is a real <a href> always present in the DOM, so a no-JS
-   user can click it immediately. It is only visually hidden, then revealed
-   after 3s with a pure-CSS animation (no setTimeout needed). */
 .rpr__redir-continue {
   margin-top: 8px;
   display: inline-block;

@@ -130,3 +130,37 @@
 
 .rk__cell--vol { display: inline-flex; align-items: center; justify-content: flex-end; gap: 4px; font-weight: 800; color: #fff; }
 .rk__manamark { color: var(--brand); flex: 0 0 auto; }
+
+html.mp-light .rk {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+}
+html.mp-light .rk__title,
+html.mp-light .rk__name,
+html.mp-light .rk__cell--vol { color: var(--lm-ink); }
+html.mp-light .rk__cell { color: var(--lm-ink-2); }
+html.mp-light .rk__subtitle,
+html.mp-light .rk__dropdown-label,
+html.mp-light .rk__row--head,
+html.mp-light .rk__rank,
+html.mp-light .rk__creator,
+html.mp-light .rk__tf,
+html.mp-light .rk__tab { color: var(--lm-ink-3); }
+html.mp-light .rk__tf:not(.is-active):hover,
+html.mp-light .rk__tab:hover,
+html.mp-light .rk__tab.is-active { color: var(--lm-ink); }
+html.mp-light .rk__timeframe { background: rgba(0, 0, 0, 0.05); }
+html.mp-light .rk__tabs,
+html.mp-light .rk__row { border-color: var(--lm-line); }
+html.mp-light .rk__dropdown {
+  border-color: var(--lm-line);
+  background: var(--lm-field-bg);
+  color: var(--lm-ink);
+}
+html.mp-light .rk__dropdown:hover { background: rgba(0, 0, 0, 0.05); }
+html.mp-light .rk__row:not(.rk__row--head):hover { background: rgba(0, 0, 0, 0.03); }
+html.mp-light .rk__rarity {
+  color: var(--lm-ink);
+  background: #ececed;
+  border-color: var(--lm-line);
+}

@@ -308,7 +308,6 @@ export default function StJumpInEvents({
     );
   }
 
-  // "reminded" is upcoming with the bell pre-toggled.
   const cardState = state === "reminded" ? "upcoming" : state;
   const reminded = isReminded || state === "reminded";
 

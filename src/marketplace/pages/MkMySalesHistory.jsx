@@ -269,7 +269,7 @@ export default function MkMySalesHistory({
                     {sales.map((sale) => (
                       <tr className="sh__tr" key={sale.id}>
                         <td className="sh__td sh__td--item">
-                          <a className="sh__assetcell" href="#sale">
+                          <span role="button" tabIndex={0} className="sh__assetcell">
                             <span
                               className="sh__thumb u-rar-bg"
                               style={{ "--rb": `var(--rar-bg-${sale.rarity})` }}
@@ -281,11 +281,11 @@ export default function MkMySalesHistory({
                                 <span className="sh__assetsub u-truncate">{sale.subtitle}</span>
                               ) : null}
                             </span>
-                          </a>
+                          </span>
                         </td>
                         <td className="sh__td sh__muted">{sale.time}</td>
                         <td className="sh__td">
-                          <a className="sh__buyer" href="#buyer">{sale.buyer}</a>
+                          <span role="button" tabIndex={0} className="sh__buyer">{sale.buyer}</span>
                         </td>
                         <td className="sh__td">{typeLabel(sale.type)}</td>
                         <td className="sh__td">

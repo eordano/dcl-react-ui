@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./dropdown.css";
 
-export default function Dropdown({ options = [], value, defaultValue, onChange }) {
+export default function Dropdown({ options = [], value, defaultValue, onChange, ariaLabel }) {
   const [internal, setInternal] = useState(defaultValue ?? options[0]);
   const isControlled = value !== undefined;
   const cur = isControlled ? value : internal;
@@ -20,7 +20,7 @@ export default function Dropdown({ options = [], value, defaultValue, onChange }
 
   useEffect(() => {
     if (open) setActive(Math.max(0, options.indexOf(cur)));
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open]);
 
   function pick(opt) {
     if (!isControlled) setInternal(opt);
@@ -51,6 +51,7 @@ export default function Dropdown({ options = [], value, defaultValue, onChange }
     <div className={"dropdown" + (open ? " is-open" : "")} ref={ref} onKeyDown={onKey}>
       <button
         type="button" className="dropdown__btn" ref={btnRef}
+        aria-label={ariaLabel}
         aria-haspopup="listbox" aria-expanded={open}
         aria-activedescendant={open && active >= 0 ? id + "-" + active : undefined}
         onClick={() => setOpen((o) => !o)}

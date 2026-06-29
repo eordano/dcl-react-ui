@@ -1,7 +1,16 @@
 .cam {
-  position: fixed; inset: 0; overflow: hidden; color: #fff;
-  font-family: inherit; background: #0c0c12;
+  position: absolute; inset: 0; overflow: hidden; color: #fff;
+  font-family: inherit;
+  background: transparent;
 }
+
+body.camera-open .xc__body { background: transparent; }
+
+.cam__flash {
+  position: absolute; inset: 0; z-index: 50; pointer-events: none;
+  background: #fff; animation: cam-flash 220ms ease-out forwards;
+}
+@keyframes cam-flash { from { opacity: 0.85; } to { opacity: 0; } }
 
 .cam__view { position: absolute; inset: 0; }
 .cam__sky {
@@ -108,4 +117,29 @@
     max-height: calc(100% - 124px);
     overflow-y: auto;
   }
+}
+
+.cam__status {
+  position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 6; padding: 7px 16px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #fff;
+  background: rgba(22,21,24,.86); border: 1px solid var(--fill-5);
+  backdrop-filter: blur(6px); pointer-events: none; white-space: nowrap;
+}
+.cam__status--saved { background: rgba(28,96,52,.92); border-color: rgba(80,200,120,.5); }
+.cam__status--error { background: rgba(120,32,40,.92); border-color: rgba(220,90,100,.5); }
+.cam__status--noauth { background: rgba(120,88,24,.92); border-color: rgba(230,180,80,.5); }
+
+.cam__reelstrip {
+  position: absolute; left: 16px; right: auto; bottom: 84px; z-index: 7;
+  display: flex; gap: 6px; max-width: 42%; overflow-x: auto;
+  padding: 6px; border-radius: 12px;
+  background: rgba(22,21,24,.7); border: 1px solid var(--fill-5); backdrop-filter: blur(6px);
+}
+.cam__reelthumb {
+  width: 64px; height: 40px; object-fit: cover; border-radius: 6px;
+  border: 1px solid var(--fill-5); flex: 0 0 auto; background: #111;
+}
+@media (max-width: 620px) {
+  .cam__reelstrip { left: 12px; right: 12px; max-width: none; bottom: 130px; }
 }

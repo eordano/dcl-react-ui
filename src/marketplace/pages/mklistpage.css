@@ -394,3 +394,24 @@
   }
   .mklistpage__browse, .mklistpage__error { margin-left: 16px; margin-right: 16px; }
 }
+
+html.mp-light .mklistpage {
+  --mklistpage-secondary: var(--lm-bg);
+  --text: var(--lm-ink);
+  --panel: var(--lm-surface);
+  --line: var(--lm-line);
+  --fill-2: rgba(0, 0, 0, 0.04);
+  --fill-3: rgba(0, 0, 0, 0.06);
+  --fill-4: rgba(0, 0, 0, 0.1);
+  --ink-85: var(--lm-ink-2);
+  --ink-7: var(--lm-ink-2);
+  --ink-6: var(--lm-ink-3);
+  --ink-45: var(--lm-ink-3);
+}
+html.mp-light .mklistpage__private {
+  background-color: var(--lm-ink);
+  color: var(--lm-surface);
+  border-color: var(--lm-ink);
+}
+html.mp-light .mklistpage__iconbtn--share:hover { background-color: var(--lm-ink-2); }
+html.mp-light .mklistpage__error { color: var(--lm-ink); }

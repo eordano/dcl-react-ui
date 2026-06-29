@@ -1,6 +1,7 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CreatorHubChrome from "../frames/CreatorHubChrome.jsx";
-import { ChevronLeft, ChevronDownAlt, Close } from "../../atoms/icons.jsx";
+import Dropdown from "../../components/Dropdown.jsx";
+import { ChevronLeft, Close } from "../../atoms/icons.jsx";
 import "./chtemplates.css";
 
 const Difficulty = { EASY: "Easy", INTERMEDIATE: "Intermediate", HARD: "Hard" };
@@ -11,11 +12,6 @@ const ThreeDots = () => (
     <circle cx="12" cy="5" r="1.7" fill="currentColor" />
     <circle cx="12" cy="12" r="1.7" fill="currentColor" />
     <circle cx="12" cy="19" r="1.7" fill="currentColor" />
-  </svg>
-);
-const FolderIcon = () => (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-    <path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.5h7A1.5 1.5 0 0 1 19 9v8.5A1.5 1.5 0 0 1 17.5 19h-13A1.5 1.5 0 0 1 3 17.5v-11Z" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinejoin="round" />
   </svg>
 );
 
@@ -34,6 +30,7 @@ function Filters({ value, onClick }) {
           key={d}
           type="button"
           className={"chtpl__chip chtpl__chip--clickable" + (value === d ? " is-filled" : "")}
+          aria-pressed={value === d}
           onClick={handleClick(d)}
         >
           {label}
@@ -43,110 +40,115 @@ function Filters({ value, onClick }) {
   );
 }
 
-function Sort({ value, onChange }) {
-  const [open, setOpen] = useState(false);
-  const options = [
-    [SortBy.DEFAULT, "Default"],
-    [SortBy.NEWEST, "Newest"],
-  ];
-  return (
-    <>
-      <p className="chtpl__sortlabel">Sort by:</p>
-      <div className="chtpl__select">
-        <button
-          type="button"
-          className={"chtpl__selecttrigger" + (open ? " is-open" : "")}
-          onClick={() => setOpen((o) => !o)}
-        >
-          <span className="chtpl__selectval">{value}</span>
-          <ChevronDownAlt />
-        </button>
-        {open && (
-          <div className="chtpl__selectmenu" role="listbox">
-            {options.map(([v, label]) => (
-              <button
-                key={v}
-                type="button"
-                role="option"
-                aria-selected={v === value}
-                className={"chtpl__sortitem" + (v === value ? " is-selected" : "")}
-                onClick={() => {
-                  onChange(v);
-                  setOpen(false);
-                }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </>
-  );
-}
-
 function ProjectCard({ title, description, thumb, tags, dropdownOptions, onClick, isNewScene }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuWrapRef = useRef(null);
+  const menuBtnRef = useRef(null);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onPointerDown = (e) => {
+      if (menuWrapRef.current && !menuWrapRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setMenuOpen(false);
+        menuBtnRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpen]);
+
   return (
-    <div className="chtpl__card" onClick={onClick}>
-      <div
-        className={"chtpl__thumb" + (isNewScene ? " chtpl__thumb--newscene" : "")}
-        style={thumb ? { backgroundImage: thumb } : undefined}
-      />
-      <div className="chtpl__info">
-        <div className="chtpl__cardtitle">
-          <span className="chtpl__cardtitletext u-truncate">{title}</span>
-          {dropdownOptions?.length ? (
-            <div className="chtpl__menu">
-              <button
-                type="button"
-                className="chtpl__iconbtn"
-                aria-label="options"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setMenuOpen((o) => !o);
-                }}
-              >
-                <ThreeDots />
-              </button>
-              {menuOpen && (
-                <div className="chtpl__dropdown" role="menu">
-                  {dropdownOptions.map((opt) => (
-                    <button
-                      key={opt.text}
-                      type="button"
-                      role="menuitem"
-                      className="chtpl__dropitem"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setMenuOpen(false);
-                        opt.handler?.();
-                      }}
-                    >
-                      {opt.text}
-                    </button>
-                  ))}
-                </div>
-              )}
+    <div className="chtpl__card">
+      <button type="button" className="chtpl__open" aria-label={`Open ${title}`} onClick={onClick}>
+        <div
+          className={"chtpl__thumb" + (isNewScene ? " chtpl__thumb--newscene" : "")}
+          style={thumb ? { backgroundImage: thumb } : undefined}
+        />
+        <div className="chtpl__info">
+          <div className="chtpl__cardtitle">
+            <span className="chtpl__cardtitletext u-truncate">{title}</span>
+          </div>
+          {description ? <p className="chtpl__desc">{description}</p> : null}
+          {tags?.length ? (
+            <div className="chtpl__tags">
+              {tags.map((tag) => (
+                <span key={tag} className="chtpl__chip chtpl__chip--tag">
+                  {tag}
+                </span>
+              ))}
             </div>
           ) : null}
         </div>
-        {description ? <p className="chtpl__desc">{description}</p> : null}
-        {tags?.length ? (
-          <div className="chtpl__tags">
-            {tags.map((tag) => (
-              <span key={tag} className="chtpl__chip chtpl__chip--tag">
-                {tag}
-              </span>
-            ))}
-          </div>
-        ) : null}
-      </div>
+      </button>
+      {dropdownOptions?.length ? (
+        <div className="chtpl__menu" ref={menuWrapRef}>
+          <button
+            ref={menuBtnRef}
+            type="button"
+            className="chtpl__iconbtn"
+            aria-label="options"
+            aria-haspopup="menu"
+            aria-expanded={menuOpen}
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuOpen((o) => !o);
+            }}
+          >
+            <ThreeDots />
+          </button>
+          {menuOpen && (
+            <div className="chtpl__dropdown" role="menu">
+              {dropdownOptions.map((opt) =>
+                opt.href ? (
+                  <a
+                    key={opt.text}
+                    role="menuitem"
+                    className="chtpl__dropitem"
+                    href={opt.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuOpen(false);
+                      opt.handler?.();
+                    }}
+                  >
+                    {opt.text}
+                  </a>
+                ) : (
+                  <button
+                    key={opt.text}
+                    type="button"
+                    role="menuitem"
+                    className="chtpl__dropitem"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuOpen(false);
+                      opt.handler?.();
+                    }}
+                  >
+                    {opt.text}
+                  </button>
+                ),
+              )}
+            </div>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function CreateProjectModal({ value, onClose }) {
+function CreateProjectModal({ value, onClose, onCreate }) {
+  const submit = () => onCreate?.({ template: value.template ?? null });
   return (
     <div className="chtpl__backdrop" onClick={onClose}>
       <div className="chtpl__modal" role="dialog" aria-modal="true" aria-label="Create Project" onClick={(e) => e.stopPropagation()}>
@@ -157,25 +159,18 @@ function CreateProjectModal({ value, onClose }) {
           </button>
         </header>
         <div className="chtpl__modalbody">
-          <label className="chtpl__field">
-            <span className="chtpl__fieldlabel">Project Name</span>
-            <input className="chtpl__input" defaultValue={value.name} />
-          </label>
-          <label className="chtpl__field">
-            <span className="chtpl__fieldlabel">Project Path</span>
-            <div className="chtpl__inputwrap">
-              <input className="chtpl__input" defaultValue={value.path} />
-              <button type="button" className="chtpl__iconbtn" aria-label="choose folder">
-                <FolderIcon />
-              </button>
-            </div>
-          </label>
+          <p className="chtpl__desc">
+            You&apos;re starting a new project from <strong>{value.name}</strong>.
+          </p>
+          <p className="chtpl__desc">
+            Continue to name your project and choose where to save it.
+          </p>
         </div>
         <footer className="chtpl__modalactions">
           <button type="button" className="chtpl__btn chtpl__btn--secondary" onClick={onClose}>
             Cancel
           </button>
-          <button type="button" className="chtpl__btn chtpl__btn--primary">
+          <button type="button" className="chtpl__btn chtpl__btn--primary" onClick={submit}>
             Create
           </button>
         </footer>
@@ -186,61 +181,63 @@ function CreateProjectModal({ value, onClose }) {
 
 const TEMPLATES = [
   {
-    id: 1,
-    title: "Casino Royale",
-    description: "A full-featured casino scene with slot machines, a roulette table and ambient lighting to get you started fast.",
+    id: "tower-defense",
+    title: "Tower Defense",
+    description: "A wave-based tower defense game: place turrets, fend off waves of enemies and learn scene systems, triggers and game state.",
     tags: ["Game", "Multiplayer"],
     difficulty_level: Difficulty.HARD,
     date_created: "2024-11-02",
-    play_link: "https://play.decentraland.org",
-    github_link: "https://github.com/decentraland/sdk7-template-casino",
-    grad: "linear-gradient(135deg, #ff2d55 0%, #350447 100%)",
+    play_link: null,
+    github_link: "https://github.com/decentraland-scenes/Tower-defense",
+    grad: "linear-gradient(135deg, #00c2ff 0%, #052149 100%)",
   },
   {
-    id: 2,
-    title: "Art Gallery",
-    description: "A clean exhibition space with framed picture frames and NFT pedestals — drop in your collection and publish.",
-    tags: ["Showcase"],
+    id: "memory-game",
+    title: "Memory Game",
+    description: "A classic flip-and-match memory game — a compact example of UI, click events and score tracking.",
+    tags: ["Game"],
     difficulty_level: Difficulty.EASY,
     date_created: "2025-03-18",
-    play_link: "https://play.decentraland.org",
-    github_link: "https://github.com/decentraland/sdk7-template-gallery",
-    grad: "linear-gradient(135deg, #438fff 0%, #1f2937 100%)",
-  },
-  {
-    id: 3,
-    title: "Interactive Quiz",
-    description: "Trivia smart-item template with score tracking, a leaderboard UI and reward emotes for the winners.",
-    tags: ["Game", "Education"],
-    difficulty_level: Difficulty.INTERMEDIATE,
-    date_created: "2025-01-09",
     play_link: null,
-    github_link: "https://github.com/decentraland/sdk7-template-quiz",
+    github_link: "https://github.com/decentraland-scenes/Memory-game",
     grad: "linear-gradient(135deg, #34ce77 0%, #0f2419 100%)",
   },
   {
-    id: 4,
-    title: "Conference Stage",
-    description: "An auditorium with a video screen, seating and a speaker stage — ideal for live events and meetups.",
-    tags: ["Events", "Video"],
+    id: "castaway-2048",
+    title: "Castaway 2048",
+    description: "The 2048 sliding-tile puzzle rebuilt in-world — grid logic, input handling and a win/lose state machine.",
+    tags: ["Game", "Puzzle"],
     difficulty_level: Difficulty.INTERMEDIATE,
-    date_created: "2024-08-22",
-    play_link: "https://play.decentraland.org",
-    github_link: "https://github.com/decentraland/sdk7-template-conference",
-    grad: "linear-gradient(135deg, #b05cff 0%, #2a0c52 100%)",
-  },
-  {
-    id: 5,
-    title: "Obstacle Course",
-    description: "A parkour challenge with moving platforms, checkpoints and a finish-line trigger to learn tweens & triggers.",
-    tags: ["Game"],
-    difficulty_level: Difficulty.HARD,
-    date_created: "2025-04-30",
-    play_link: "https://play.decentraland.org",
-    github_link: "https://github.com/decentraland/sdk7-template-parkour",
+    date_created: "2025-01-09",
+    play_link: null,
+    github_link: "https://github.com/decentraland-scenes/Castaway-2048",
     grad: "linear-gradient(135deg, #ff7439 0%, #3a1006 100%)",
   },
+  {
+    id: "nft-art-wall",
+    title: "NFT Art Wall",
+    description: "Display your NFT collection on an in-world gallery wall — drop in token IDs and publish.",
+    tags: ["Showcase"],
+    difficulty_level: Difficulty.EASY,
+    date_created: "2024-08-22",
+    play_link: null,
+    github_link: "https://github.com/decentraland-scenes/nft-wall-example-scene",
+    grad: "linear-gradient(135deg, #438fff 0%, #1f2937 100%)",
+  },
+  {
+    id: "escape-room",
+    title: "Escape Room",
+    description: "A puzzle escape-room scene with locks, clues and sequential triggers to learn scene state and interactions.",
+    tags: ["Game", "Puzzle"],
+    difficulty_level: Difficulty.HARD,
+    date_created: "2025-04-30",
+    play_link: null,
+    github_link: "https://github.com/decentraland-scenes/Escape-Room",
+    grad: "linear-gradient(135deg, #b05cff 0%, #2a0c52 100%)",
+  },
 ];
+
+export const STARTER_TEMPLATES = TEMPLATES;
 
 function sortTemplatesBy(templates, type) {
   if (type === SortBy.NEWEST) {
@@ -251,14 +248,41 @@ function sortTemplatesBy(templates, type) {
 
 export default function ChTemplates({
   templates: allTemplates = TEMPLATES,
+  sample = false,
+  signedIn = false,
+  account = "",
+  name = "",
+  onSignIn =(undefined),
   difficulty: initialDifficulty,
+  sort,
   sortBy: initialSortBy = SortBy.DEFAULT,
   modalOpen: initialModalOpen = false,
+  onBack =(undefined),
+  onDifficultyChange =(undefined),
+  onSortChange =(undefined),
+  onSelectTemplate =(undefined),
+  onCreate =(undefined),
+  onPreview =(undefined),
+  onViewCode =(undefined),
 }) {
-  const [difficulty, setDifficulty] = useState(initialDifficulty);
-  const [sortBy, setSortBy] = useState(initialSortBy);
+  const isControlled = typeof onDifficultyChange === "function";
+  const [localDifficulty, setLocalDifficulty] = useState(initialDifficulty);
+  const difficulty = isControlled ? initialDifficulty : localDifficulty;
+  const changeDifficulty = useCallback(
+    (next) => (isControlled ? onDifficultyChange(next) : setLocalDifficulty(next)),
+    [isControlled, onDifficultyChange],
+  );
+
+  const sortControlled = typeof onSortChange === "function";
+  const [localSort, setLocalSort] = useState(initialSortBy);
+  const sortBy = sortControlled ? sort ?? initialSortBy : localSort;
+  const changeSort = useCallback(
+    (next) => (sortControlled ? onSortChange(next) : setLocalSort(next)),
+    [sortControlled, onSortChange],
+  );
+
   const [modal, setModal] = useState(
-    initialModalOpen ? { name: "Casino Royale", path: "~/Documents/Decentraland/" } : null,
+    initialModalOpen ? { template: null, name: "Tower Defense" } : null,
   );
 
   const templates = useMemo(
@@ -270,32 +294,45 @@ export default function ChTemplates({
   const count = templates.length + 1;
 
   const openCreate = useCallback(
-    (name) => () => setModal({ name, path: "~/Documents/Decentraland/" }),
-    [],
+    (template, name) => () => {
+      onSelectTemplate?.(template);
+      setModal({ template, name });
+    },
+    [onSelectTemplate],
   );
 
   return (
-    <CreatorHubChrome active="templates">
-      <main className="chtpl">
+    <CreatorHubChrome active="templates" signedIn={signedIn} account={account} name={name} onSignIn={onSignIn}>
+      <section className="chtpl">
         <div className="chtpl__container">
           <h1 className="chtpl__title">
-            <button type="button" className="chtpl__back" aria-label="Back">
-              <i className="chtpl__backicon">
-                <ChevronLeft size={22} />
-              </i>
-            </button>
+            {onBack ? (
+              <button type="button" className="chtpl__back" aria-label="Back" onClick={() => onBack()}>
+                <i className="chtpl__backicon">
+                  <ChevronLeft size={22} />
+                </i>
+              </button>
+            ) : null}
             <span className="chtpl__titletext">Choose a Template</span>
           </h1>
+
+          {sample ? (
+            <p className="chtpl__sample" role="note">
+              <strong>Sample templates.</strong> These are example starters; a
+              live template catalog isn&apos;t connected yet.
+            </p>
+          ) : null}
 
           <div className="chtpl__filters">
             <div className="chtpl__filtersleft">
               <span className="chtpl__count">
                 {count} {count === 1 ? "template" : "templates"}
               </span>
-              <Filters value={difficulty} onClick={setDifficulty} />
+              <Filters value={difficulty} onClick={changeDifficulty} />
             </div>
             <div className="chtpl__filtersright">
-              <Sort value={sortBy} onChange={setSortBy} />
+              <p className="chtpl__sortlabel">Sort by:</p>
+              <Dropdown options={[SortBy.DEFAULT, SortBy.NEWEST]} value={sortBy} onChange={changeSort} />
             </div>
           </div>
 
@@ -304,7 +341,7 @@ export default function ChTemplates({
               title="Empty Scene"
               description="Start your own scene from scratch"
               isNewScene
-              onClick={openCreate("Empty Scene")}
+              onClick={openCreate(null, "Empty Scene")}
             />
             {sorted.map((tpl) => (
               <ProjectCard
@@ -313,18 +350,29 @@ export default function ChTemplates({
                 description={tpl.description}
                 thumb={tpl.grad}
                 tags={tpl.tags}
-                onClick={openCreate(tpl.title)}
+                onClick={openCreate(tpl, tpl.title)}
                 dropdownOptions={[
-                  ...(tpl.play_link ? [{ text: "Preview Template", handler: () => {} }] : []),
-                  { text: "View Code", handler: () => {} },
+                  ...(tpl.play_link
+                    ? [{ text: "Preview Template", href: tpl.play_link, handler: () => onPreview?.(tpl) }]
+                    : []),
+                  { text: "View Code", href: tpl.github_link, handler: () => onViewCode?.(tpl) },
                 ]}
               />
             ))}
           </div>
         </div>
 
-        {modal && <CreateProjectModal value={modal} onClose={() => setModal(null)} />}
-      </main>
+        {modal && (
+          <CreateProjectModal
+            value={modal}
+            onClose={() => setModal(null)}
+            onCreate={(values) => {
+              onCreate?.(values);
+              setModal(null);
+            }}
+          />
+        )}
+      </section>
     </CreatorHubChrome>
   );
 }

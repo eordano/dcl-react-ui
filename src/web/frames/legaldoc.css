@@ -9,8 +9,6 @@
 
   display: flex;
   justify-content: center;
-  /* Top padding clears SitesChrome's ~92px overlay nav (DclTopBar) plus a
-     small gap. Was 160px, which left a ~68px empty band above the title. */
   padding: 120px 24px 64px;
   min-height: 100vh;
 }
@@ -188,9 +186,6 @@
 
 @media (max-width: 990.95px) {
   .legaldoc {
-    /* SitesChrome's overlay nav (DclTopBar) is position:absolute and 64px tall
-       below 991px, so the page must keep enough top padding to clear it.
-       The old 32px sat the title/sidebar underneath the nav. */
     padding: 88px 16px 48px;
   }
   .legaldoc__sidelink {

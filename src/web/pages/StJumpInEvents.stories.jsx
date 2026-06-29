@@ -33,5 +33,4 @@ export default {
   },
 };
 
-// Single story; flip `state` in Controls to walk the lifecycle, or pick `invalid` for the fallback.
 export const Events = {};

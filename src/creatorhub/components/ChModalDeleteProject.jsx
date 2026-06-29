@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CreatorHubChrome from "../frames/CreatorHubChrome.jsx";
+import { useDialogKeys } from "../../components/useDialogKeys.js";
 import "./chmodaldeleteproject.css";
 
 const COPY = {
@@ -50,6 +51,8 @@ export default function ChModalDeleteProject({
   onSubmit = () => {},
 }) {
   const [shouldDeleteFiles, setShouldDeleteFiles] = useState(deleteFiles);
+  const paperRef = useRef(null);
+  useDialogKeys(paperRef, onClose);
 
   if (!open) {
     return <CreatorHubChrome active="scenes" />;
@@ -68,6 +71,8 @@ export default function ChModalDeleteProject({
           role="dialog"
           aria-modal="true"
           aria-label={COPY.title(project.title)}
+          tabIndex={-1}
+          ref={paperRef}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="chmodaldeleteproject__titlebox">

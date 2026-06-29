@@ -3,7 +3,6 @@ import Chat from "./Chat.jsx";
 export default {
   title: "Explorer/Frames/Chat",
   component: Chat,
-  // Render `bare` (no HUD scene) and opt out of the scene backdrop decorator (sceneBackdrop: false).
   parameters: {
     layout: "centered",
     sceneBackdrop: false,

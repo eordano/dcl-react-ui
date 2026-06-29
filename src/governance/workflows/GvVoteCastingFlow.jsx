@@ -282,8 +282,9 @@ function SnapshotStep({ onClose }) {
       <div className="gvvc__snapactions">
         <a
           className="gvvc__snapbutton"
-          href="#snapshot"
-          onClick={(e) => e.preventDefault()}
+          href="https://snapshot.org/#/dao-council.dcl.eth"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {COPY.snapshot_button}
           <ExternalIcon />

@@ -1,0 +1,88 @@
+.ai-generate { display: contents; }
+
+.ai-generate__controls {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: var(--z-modal, 100);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: calc(100vw - 32px);
+  padding: 12px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+.ai-generate__files {
+  font-size: 12px;
+  color: var(--ink-45);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.ai-generate__btn {
+  padding: 9px 18px;
+  background: var(--fill-2);
+  color: var(--ink-85);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.ai-generate__btn:hover { background: var(--fill-3); border-color: var(--ink-45); }
+.ai-generate__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ai-generate__btn--primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #0d0c11;
+  border-radius: var(--r-pill);
+}
+.ai-generate__btn--primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+
+.ai-generate__btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.ai-generate__prompt {
+  width: 420px;
+  max-width: 100%;
+  min-height: 64px;
+  padding: 9px 12px;
+  background: var(--fill-2);
+  color: var(--ink-85);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+.ai-generate__prompt::placeholder { color: var(--ink-45); }
+.ai-generate__prompt:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.ai-generate__sim {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-modal, 100);
+  margin: 0;
+  max-width: calc(100vw - 32px);
+  padding: 6px 14px;
+  background: color-mix(in srgb, var(--brand, #ff2d55) 12%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--brand, #ff2d55) 45%, transparent);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.78);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}

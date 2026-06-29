@@ -262,7 +262,7 @@ function ProposalPreviewCard({ p }) {
 
 function ProjectCard({ g }) {
   return (
-    <a className="gh__gcard" href="#project">
+    <a className="gh__gcard" href={`/governance/projects/${g.id}`}>
       <div className="gh__gtop">
         <div className="gh__ghead">
           <span className="gh__gavatar u-avatar" style={{ "--sz": "30px", "--hue": g.hue }} aria-hidden="true" />

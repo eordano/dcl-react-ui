@@ -9,14 +9,21 @@
   background:
     radial-gradient(70% 50% at 0% 0%, rgba(67, 143, 255, 0.08), transparent 60%),
     radial-gradient(90% 60% at 100% 100%, rgba(152, 45, 226, 0.06), transparent 62%),
-    rgba(0, 0, 0, 0.6);
+    var(--scrim);
+}
 
-  --cpd-paper: #18141a;
+.cpd__modal {
+  width: 980px;
+  max-width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border-radius: var(--modal-radius);
+  box-shadow: var(--shadow-modal);
+  overflow: auto;
+
   --cpd-black: var(--panel);
-  --cpd-dark-gray: #43404a;
-  --cpd-darker-gray: #242129;
-  --cpd-light-gray: #5e5b67;
-  --cpd-silver: #a09ba8;
   --cpd-dropdown: #716b7c;
   --cpd-primary: var(--brand);
   --cpd-dcl-dark: #9c1c34;
@@ -31,16 +38,23 @@
   color: var(--text);
 }
 
-.cpd__modal {
-  width: 980px;
-  max-width: 100%;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  background: var(--cpd-paper);
-  border-radius: 16px;
-  box-shadow: var(--shadow-modal);
-  overflow: auto;
+.cpd__modal--inline {
+  width: 100%;
+  max-height: none;
+  box-shadow: none;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+}
+
+.cpd__sample-ribbon {
+  margin: 0 32px 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-7);
+  background: var(--fill-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
 }
 
 .cpd__header-bar {
@@ -97,7 +111,7 @@
 .cpd__chips { display: flex; gap: 8px; }
 .cpd__chip {
   min-height: 24px;
-  border-radius: 16px;
+  border-radius: var(--r-pill);
   padding: 4px 10px;
   font-size: 13px;
   line-height: 18px;
@@ -146,12 +160,12 @@
   flex-direction: column;
   gap: 16px;
   padding-right: 24px;
-  border-right: 1px solid var(--cpd-dark-gray);
+  border-right: 1px solid var(--line);
 }
 .cpd__projthumb {
   width: 100%;
   height: 160px;
-  border-radius: 8px;
+  border-radius: var(--r-card);
   background-size: cover;
   background-position: center;
 }
@@ -163,7 +177,7 @@
   gap: 4px;
   font-weight: 500;
   font-size: 12px;
-  color: var(--cpd-silver);
+  color: var(--ink-6);
 }
 
 .cpd__content {
@@ -191,7 +205,7 @@
   flex: 0 0 auto;
   justify-content: space-between;
   align-items: center;
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   background-color: var(--cpd-transparent-gray-dark);
   height: 48px;
   padding: 0 16px;
@@ -215,7 +229,7 @@
   gap: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   padding: 6px 16px;
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   font-size: 14px;
 }
 .cpd__file.is-invalid { color: var(--cpd-error); }
@@ -252,7 +266,7 @@
 }
 
 .cpd__header {
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -281,10 +295,10 @@
   align-items: center;
   gap: 8px;
   background-color: var(--cpd-info-bg);
-  border-radius: 8px;
+  border-radius: var(--r-card);
   padding: 20px;
   width: 450px;
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   margin-bottom: auto;
   font-size: 14px;
   line-height: 1.4;
@@ -306,16 +320,16 @@
 }
 .cpd__steps .cpd__step:not(:last-child)::after {
   content: "";
-  background-color: var(--cpd-silver);
+  background-color: var(--ink-6);
   width: 90px;
   height: 1px;
   position: absolute;
   left: 105%;
 }
 .cpd__step-bullet {
-  background-color: var(--cpd-light-gray);
+  background-color: var(--fill-4);
   border-radius: 50%;
-  color: var(--cpd-darker-gray);
+  color: var(--ink-6);
   width: 30px;
   height: 30px;
   display: flex;
@@ -330,7 +344,7 @@
   background-color: var(--cpd-primary);
   color: #fff;
 }
-.cpd__step--idle { color: var(--cpd-silver); }
+.cpd__step--idle { color: var(--ink-6); }
 .cpd__step--failed { color: var(--cpd-primary); }
 .cpd__step-body { display: flex; flex-direction: column; }
 .cpd__step-body h4 { margin: 0; line-height: 20px; font-weight: 700; }
@@ -339,7 +353,7 @@
 .cpd__jump { margin-bottom: auto; }
 .cpd__jump-in-url { margin-bottom: 20px; }
 .cpd__jump-in-url label {
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   line-height: 20px;
   font-size: 14px;
   letter-spacing: 0.17px;
@@ -348,8 +362,8 @@
   display: block;
 }
 .cpd__url {
-  color: var(--cpd-light-gray);
-  border: 1px solid var(--cpd-dark-gray);
+  color: var(--ink-6);
+  border: 1px solid var(--line);
   font-size: 13px;
   font-weight: 600;
   line-height: 24px;
@@ -362,6 +376,14 @@
   margin-top: 5px;
 }
 .cpd__copy-icon { margin-left: 8px; cursor: pointer; }
+.cpd__copybtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
 
 .cpd__success-content {
   flex: 1 1 auto;
@@ -375,7 +397,7 @@
 }
 .cpd__success-icon { width: 80px; height: 80px; }
 .cpd__success-message {
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   font-size: 20px;
   font-weight: 500;
   text-transform: uppercase;
@@ -391,7 +413,7 @@
 .cpd__error-state .cpd__header,
 .cpd__error-state .cpd__actions { margin-top: auto; }
 .cpd__error-description {
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   font-weight: 500;
   font-size: 14px;
   white-space: pre-wrap;
@@ -405,7 +427,7 @@
   margin-right: 4px;
   border: none;
   background: transparent;
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   cursor: pointer;
   display: inline-flex;
   transform: rotate(-90deg);
@@ -413,15 +435,15 @@
 }
 .cpd__expand-btn.is-open { transform: rotate(0deg); }
 .cpd__expand-title {
-  color: var(--cpd-silver);
+  color: var(--ink-6);
   font-size: 1rem;
   font-weight: 400;
 }
 .cpd__expand-text {
-  background-color: var(--cpd-paper);
-  color: var(--cpd-silver);
+  background-color: var(--panel);
+  color: var(--ink-6);
   padding: 12px;
-  border-radius: 8px;
+  border-radius: var(--r-card);
   font-size: 13px;
   font-weight: 600;
   font-family: "Courier New", Courier, monospace;
@@ -445,7 +467,7 @@
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--r-control);
   font-size: 15px;
   font-weight: 400;
   cursor: pointer;
@@ -459,9 +481,9 @@
 .cpd__btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .cpd__btn--secondary {
   background-color: transparent;
-  border: 1px solid var(--cpd-light-gray);
+  border: 1px solid var(--line);
 }
-.cpd__btn--secondary:hover { background-color: var(--cpd-darker-gray); }
+.cpd__btn--secondary:hover { background-color: var(--panel-2); }
 
 .cpd__loader {
   display: inline-flex;

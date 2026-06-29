@@ -2,8 +2,6 @@ import "./dappfooter.css";
 import { Caret } from "../atoms/icons.jsx";
 import SocialIcon from "../atoms/SocialIcons.jsx";
 
-// and a `.secondary-footer` (Discord / Reddit / GitHub / X + copyright) on the
-
 const LINKS = [
   { label: "Home", href: "https://decentraland.org" },
   { label: "Privacy Policy", href: "https://decentraland.org/privacy" },

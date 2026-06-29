@@ -5,21 +5,12 @@ export const rarityColor = (r) => `var(--rar-${r})`;
 export const rarityBg = (r) => `var(--rar-bg-${r})`;
 export const rarityVars = (r) => ({ "--r": rarityColor(r), "--rb": rarityBg(r) });
 
-// Deterministic hue (0-359) from an arbitrary seed (name/address/etc.) so a
-// missing-image avatar still gets a stable, distinct colour instead of nothing.
 export function hueFromSeed(seed = "") {
   let h = 0;
   for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) % 360;
   return h;
 }
 
-// Avatar ALWAYS renders a sensible visual. Layering, back-to-front:
-//   1. gradient/colour disc (CSS .u-avatar background — never blank)
-//   2. initials, when a name/initials/seed is supplied
-//   3. the image, when a non-broken `src` is supplied (hidden on load error,
-//      revealing the gradient + initials underneath)
-//   4. caller `children` + status dot
-// With no props it is still a coloured gradient disc, so it can never be empty.
 export function Avatar({
   hue,
   size = 40,

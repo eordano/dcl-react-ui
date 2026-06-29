@@ -1,17 +1,14 @@
 .chmodaldeleteproject__backdrop,
 .chmodaldeleteproject__paper {
-  --chmdp-modal: #242129;
+  --chmdp-modal: var(--panel);
   --chmdp-white: #ffffff;
   --chmdp-dcl: var(--brand);
-  --chmdp-dcl-dark: #9c1c34;
-  --chmdp-dark-gray: #43404a;
-  --chmdp-darker-gray: #242129;
-  --chmdp-light-gray: #5e5b67;
-  --chmdp-error: #ff0000;
-  --chmdp-radius: 6px;
-  font-family:
-    "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --chmdp-dcl-dark: var(--brand-hover);
+  --chmdp-dark-gray: var(--line);
+  --chmdp-darker-gray: var(--panel-2);
+  --chmdp-light-gray: var(--ink-45);
+  --chmdp-error: var(--error);
+  --chmdp-radius: var(--r-control);
 }
 
 .chmodaldeleteproject__backdrop {
@@ -21,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--scrim);
 }
 
 .chmodaldeleteproject__paper {
@@ -29,7 +26,7 @@
   max-width: calc(100% - 32px);
   max-height: 90vh;
   overflow: auto;
-  border-radius: 12px;
+  border-radius: var(--r-card);
   background-color: var(--chmdp-modal);
   color: var(--chmdp-white);
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
@@ -45,8 +42,8 @@
 
 .chmodaldeleteproject__title {
   margin: 0 auto;
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
   line-height: 1.5;
   text-align: center;
   color: var(--chmdp-white);
@@ -63,7 +60,7 @@
   width: max-content;
   max-width: 100%;
   gap: 9px;
-  font-size: 1rem;
+  font-size: 14px;
   color: var(--chmdp-white);
   user-select: none;
 }
@@ -89,7 +86,7 @@
 .chmodaldeleteproject__delete-files-warning {
   margin: 16px 0 0;
   color: var(--chmdp-error);
-  font-size: 0.9rem;
+  font-size: 14px;
   text-align: center;
   white-space: pre-line;
   line-height: 1.5;
@@ -113,7 +110,7 @@
   border-radius: var(--chmdp-radius);
   color: var(--chmdp-white);
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.02857em;
   cursor: pointer;

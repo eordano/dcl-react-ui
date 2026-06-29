@@ -1,6 +1,5 @@
 import StCatchAllRedirect from "./StCatchAllRedirect.jsx";
 
-// Unmatched paths fall through to a client-side <Navigate> redirect
 export default {
   title: "Web/Pages/Redirects/Catch-all",
   component: StCatchAllRedirect,

@@ -7,9 +7,7 @@ export default {
   parameters: { layout: "fullscreen" },
 };
 
-// Default fixtures use placeholder addresses; this real one renders an actual catalyst profile.
 const SHOWCASE_ADDRESS = "0xf12c21d3edb2c0e68935a3bbe5d68ae4bf9dcd7c";
-// Fill the column and zoom in so the avatar reads as a hero, not a lost figure.
 const avatar = (emote = "wave") => (
   <div style={{ width: "100%", height: "100%" }}>
     <WearablePreview profile={SHOWCASE_ADDRESS} emote={emote} zoom={1.2} />

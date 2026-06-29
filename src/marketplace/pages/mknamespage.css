@@ -142,3 +142,17 @@
 @media (max-width: 760px) {
   .mknamespage { padding: 14px; }
 }
+
+html.mp-light .mknamespage {
+  --ink-7: var(--lm-ink-2);
+  --ink-6: var(--lm-ink-3);
+  --line: var(--lm-line);
+  --fill-2: rgba(0, 0, 0, 0.04);
+  --fill-3: rgba(0, 0, 0, 0.06);
+  --fill-4: rgba(0, 0, 0, 0.1);
+}
+html.mp-light .mknamespage__catopt:hover { color: var(--lm-ink); }
+html.mp-light .mknamespage__switch:not(.is-on) { background: rgba(0, 0, 0, 0.18); }
+html.mp-light .mknamespage__loadbtn { color: var(--lm-ink); }
+html.mp-light .mknamespage__loadbtn:hover { border-color: var(--lm-line); }
+html.mp-light .mknamespage__emptytitle { color: var(--lm-ink); }

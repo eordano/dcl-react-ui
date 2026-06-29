@@ -191,7 +191,6 @@
   width: 100%;
   height: 100%;
 }
-/* Soft gold backdrop glow behind the circular avatar portrait. */
 .bpe__stage::before {
   content: "";
   position: absolute;

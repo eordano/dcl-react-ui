@@ -137,20 +137,24 @@ function ConnectedSteps({ steps }) {
   );
 }
 
-function JumpUrl({ inProgress, isWorld, url }) {
+function JumpUrl({ inProgress, isWorld, url, onCopy }) {
   return (
     <div className="cpd__jump-in-url">
       {inProgress && <label>You can now access your scene even while it's still processing.</label>}
       <label>The URL to jump in your {isWorld ? "World" : "Land"} is:</label>
       <div className="cpd__url">
         {url}
-        <CopyIcon />
+        {onCopy ? (
+          <button type="button" className="cpd__copybtn" aria-label="Copy URL" onClick={() => onCopy(url)}>
+            <CopyIcon />
+          </button>
+        ) : null}
       </div>
     </div>
   );
 }
 
-function Idle({ files, exceeded }) {
+function Idle({ files, exceeded, onPublish }) {
   const totalBytes = files.reduce((t, f) => t + f.size, 0);
   const errorMessage = exceeded
     ? `One or more assets exceed the allowed limit (${MAX_FILE_SIZE_MB}MB).\nOptimize or remove large files and try again.`
@@ -183,16 +187,23 @@ function Idle({ files, exceeded }) {
       </div>
       <div className="cpd__files-actions">
         <p className="cpd__error">{errorMessage}</p>
-        <button type="button" className="cpd__btn cpd__btn--primary cpd__btn--lg" disabled={exceeded}>
-          Publish
-          <DeployIcon />
-        </button>
+        {onPublish ? (
+          <button
+            type="button"
+            className="cpd__btn cpd__btn--primary cpd__btn--lg"
+            disabled={exceeded}
+            onClick={onPublish}
+          >
+            Publish
+            <DeployIcon />
+          </button>
+        ) : null}
       </div>
     </div>
   );
 }
 
-function Deploying({ steps, finishing, isWorld, url }) {
+function Deploying({ steps, finishing, isWorld, url, onJumpIn, onCopy }) {
   return (
     <div className="cpd__deploying">
       <div className="cpd__header">
@@ -203,14 +214,16 @@ function Deploying({ steps, finishing, isWorld, url }) {
       {finishing ? (
         <>
           <div className="cpd__jump">
-            <JumpUrl inProgress isWorld={isWorld} url={url} />
+            <JumpUrl inProgress isWorld={isWorld} url={url} onCopy={onCopy} />
           </div>
-          <div className="cpd__actions">
-            <button type="button" className="cpd__btn cpd__btn--primary cpd__btn--lg">
-              Jump In
-              <JumpInIcon />
-            </button>
-          </div>
+          {onJumpIn ? (
+            <div className="cpd__actions">
+              <button type="button" className="cpd__btn cpd__btn--primary cpd__btn--lg" onClick={onJumpIn}>
+                Jump In
+                <JumpInIcon />
+              </button>
+            </div>
+          ) : null}
         </>
       ) : (
         <div className="cpd__deploy-info">
@@ -223,20 +236,22 @@ function Deploying({ steps, finishing, isWorld, url }) {
   );
 }
 
-function Success({ isWorld, url }) {
+function Success({ isWorld, url, onJumpIn, onCopy }) {
   return (
     <div className="cpd__success">
       <div className="cpd__success-content">
         <SuccessIcon />
-        <div className="cpd__success-message">You scene is successfully published</div>
-        <JumpUrl isWorld={isWorld} url={url} />
+        <div className="cpd__success-message">Your scene is successfully published</div>
+        <JumpUrl isWorld={isWorld} url={url} onCopy={onCopy} />
       </div>
-      <div className="cpd__actions">
-        <button type="button" className="cpd__btn cpd__btn--primary cpd__btn--lg">
-          Jump In
-          <JumpInIcon />
-        </button>
-      </div>
+      {onJumpIn ? (
+        <div className="cpd__actions">
+          <button type="button" className="cpd__btn cpd__btn--primary cpd__btn--lg" onClick={onJumpIn}>
+            Jump In
+            <JumpInIcon />
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -262,7 +277,7 @@ function ExpandMore({ title, text }) {
   );
 }
 
-function ErrorState({ message, cause, steps }) {
+function ErrorState({ message, cause, steps, onRetry, onReport }) {
   return (
     <div className="cpd__error-state">
       <div className="cpd__header">
@@ -272,17 +287,30 @@ function ErrorState({ message, cause, steps }) {
       <p className="cpd__error-description">{message}</p>
       {cause && <ExpandMore title="Details" text={cause} />}
       <ConnectedSteps steps={steps} />
-      <div className="cpd__actions cpd__actions--split">
-        <button type="button" className="cpd__btn cpd__btn--secondary cpd__btn--lg">
-          Report an issue
-        </button>
-        <button type="button" className="cpd__btn cpd__btn--primary cpd__btn--lg">
-          Retry
-        </button>
-      </div>
+      {onReport || onRetry ? (
+        <div className="cpd__actions cpd__actions--split">
+          {onReport ? (
+            <button type="button" className="cpd__btn cpd__btn--secondary cpd__btn--lg" onClick={onReport}>
+              Report an issue
+            </button>
+          ) : null}
+          {onRetry ? (
+            <button type="button" className="cpd__btn cpd__btn--primary cpd__btn--lg" onClick={onRetry}>
+              Retry
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
+
+const CHIPS = {
+  network: "Mainnet",
+  address: "0x9f3c…7a21",
+  parcel: "12,42",
+  role: "Owner",
+};
 
 const PROJECT = {
   title: "Neon Night Market",
@@ -326,6 +354,15 @@ const STEPS_FAILED = [
 
 const JUMP_URL = "decentraland://?position=12,42&dclenv=org";
 
+const ERROR = {
+  message: "Deployment to the Catalyst nodes failed.\nPlease retry or check your internet connection.",
+  cause:
+    "Error: request to https://peer.decentraland.org/content/entities failed\n" +
+    "  reason: connect ETIMEDOUT 104.18.x.x:443\n" +
+    "    at ClientRequest.<anonymous> (deploy.ts:214:18)\n" +
+    "    at TLSSocket.emit (node:events:519:28)",
+};
+
 function formatSize(size) {
   const KB = 1e3;
   const MB = 1e6;
@@ -336,69 +373,104 @@ function formatSize(size) {
   return `${(size / GB).toFixed(2)} GB`;
 }
 
-export default function ChPublishWizardDeployProgressResult({ state = "idle" }) {
+export default function ChPublishWizardDeployProgressResult({
+  state = "idle",
+  chips = undefined,
+  project = undefined,
+  files = undefined,
+  url = undefined,
+  isWorld = false,
+  steps = undefined,
+  error = undefined,
+  sample = undefined,
+  inline = true,
+  onBack = undefined,
+  onClose = undefined,
+  onPublish = undefined,
+  onJumpIn = undefined,
+  onCopy = undefined,
+  onRetry = undefined,
+  onReport = undefined,
+}) {
   const isComplete = state === "complete";
   const isError = state === "error";
+  const isExceeded = state === "exceeded";
+
+  const isSample = sample !== undefined ? sample : !project && !files && !url;
+
+  const resolvedChips = chips || CHIPS;
+  const resolvedProject = project || PROJECT;
+  const resolvedFiles = files || (isExceeded ? FILES_EXCEEDED : FILES);
+  const resolvedUrl = url || JUMP_URL;
+  const resolvedSteps =
+    steps || (state === "finishing" ? STEPS_FINISHING : isError ? STEPS_FAILED : STEPS_PENDING);
+  const resolvedError = error || ERROR;
 
   const title =
     state === "deploying" || state === "finishing"
       ? "Publishing..."
-      : "Publish to your Land";
+      : `Publish to your ${isWorld ? "World" : "Land"}`;
 
-  return (
-    <div className="cpd__backdrop">
-      <div className="cpd__modal" role="dialog" aria-modal="true" aria-label="Deploy">
-        <header className="cpd__header-bar">
-          <button
-            type="button"
-            className={"cpd__iconbtn cpd__back" + (isComplete ? " is-hidden" : "")}
-            aria-label="back"
-          >
+  const panel = (
+    <div
+      className={"cpd__modal" + (inline ? " cpd__modal--inline" : "")}
+      {...(inline ? {} : { role: "dialog", "aria-modal": "true", "aria-label": "Deploy" })}
+    >
+      <header className="cpd__header-bar">
+        {onBack && !isComplete ? (
+          <button type="button" className="cpd__iconbtn cpd__back" aria-label="back" onClick={onBack}>
             <ChevronLeft size={22} />
           </button>
-          <h2 className="cpd__titletext">{title}</h2>
-          <button type="button" className="cpd__iconbtn cpd__close" aria-label="close">
+        ) : null}
+        <h2 className="cpd__titletext">{title}</h2>
+        {onClose ? (
+          <button type="button" className="cpd__iconbtn cpd__close" aria-label="close" onClick={onClose}>
             <Close size={20} />
           </button>
-        </header>
+        ) : null}
+      </header>
 
-        <div className="cpd__body">
-          <div className="cpd__stepwrapper">
-            <ChipsRow
-              network="Mainnet"
-              address="0x9f3c…7a21"
-              parcel="12,42"
-              role="Owner"
-            />
-            <div className="cpd__projcontainer">
-              <ProjectInfo project={PROJECT} />
-              <div className="cpd__content cpd__deploy">
-                {state === "idle" && <Idle files={FILES} exceeded={false} />}
-                {state === "exceeded" && <Idle files={FILES_EXCEEDED} exceeded />}
-                {state === "deploying" && (
-                  <Deploying steps={STEPS_PENDING} finishing={false} isWorld={false} url={JUMP_URL} />
-                )}
-                {state === "finishing" && (
-                  <Deploying steps={STEPS_FINISHING} finishing isWorld={false} url={JUMP_URL} />
-                )}
-                {isComplete && <Success isWorld={false} url={JUMP_URL} />}
-                {isError && (
-                  <ErrorState
-                    message={"Deployment to the Catalyst nodes failed.\nPlease retry or check your internet connection."}
-                    cause={
-                      "Error: request to https://peer.decentraland.org/content/entities failed\n" +
-                      "  reason: connect ETIMEDOUT 104.18.x.x:443\n" +
-                      "    at ClientRequest.<anonymous> (deploy.ts:214:18)\n" +
-                      "    at TLSSocket.emit (node:events:519:28)"
-                    }
-                    steps={STEPS_FAILED}
-                  />
-                )}
-              </div>
+      {isSample ? (
+        <div className="cpd__sample-ribbon">Sample preview — not your deployment</div>
+      ) : null}
+
+      <div className="cpd__body">
+        <div className="cpd__stepwrapper">
+          <ChipsRow {...resolvedChips} />
+          <div className="cpd__projcontainer">
+            <ProjectInfo project={resolvedProject} />
+            <div className="cpd__content cpd__deploy">
+              {(state === "idle" || isExceeded) && (
+                <Idle files={resolvedFiles} exceeded={isExceeded} onPublish={onPublish} />
+              )}
+              {(state === "deploying" || state === "finishing") && (
+                <Deploying
+                  steps={resolvedSteps}
+                  finishing={state === "finishing"}
+                  isWorld={isWorld}
+                  url={resolvedUrl}
+                  onJumpIn={onJumpIn}
+                  onCopy={onCopy}
+                />
+              )}
+              {isComplete && (
+                <Success isWorld={isWorld} url={resolvedUrl} onJumpIn={onJumpIn} onCopy={onCopy} />
+              )}
+              {isError && (
+                <ErrorState
+                  message={resolvedError.message}
+                  cause={resolvedError.cause}
+                  steps={resolvedSteps}
+                  onRetry={onRetry}
+                  onReport={onReport}
+                />
+              )}
             </div>
           </div>
         </div>
       </div>
     </div>
   );
+
+  return inline ? panel : <div className="cpd__backdrop">{panel}</div>;
 }

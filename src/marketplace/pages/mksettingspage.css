@@ -181,3 +181,10 @@
   }
   .mks__auth { margin: 24px 0; }
 }
+
+html.mp-light .mks { --mks-secondary: var(--lm-ink-3); }
+html.mp-light .mks__radiomark {
+  border-color: var(--lm-line);
+  background: var(--lm-field-bg);
+}
+html.mp-light .mks__radio:hover .mks__radiomark { border-color: var(--lm-ink-3); }

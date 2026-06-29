@@ -80,8 +80,6 @@
   .actd__card { max-height: calc(100dvh - 16px); }
 }
 
-/* Light theme — the transaction-detail modal is a web/dapp account surface, so it
-   follows "Theme: Light". Remap this surface's local dark tokens. */
 html.mp-light .actd {
   --actd-card: var(--lm-surface);
   --actd-text: var(--lm-ink);

@@ -1,6 +1,7 @@
 import Toggle from "../../atoms/Toggle.jsx";
 import Slider from "../../atoms/Slider.jsx";
 import { Mute } from "../../atoms/icons.jsx";
+import { useBridgeState, sendBridge } from "../../overlay/bridge.js";
 import "./voicechat.css";
 
 const RAIL_TOP = [
@@ -34,6 +35,9 @@ function RailBtn({ item }) {
 }
 
 export function VoicePanel({ className = "" }) {
+  const { mic } = useBridgeState();
+  const micOn = !!mic?.enabled;
+  const toggleMic = () => sendBridge("SetMic", { enabled: !micOn });
   return (
     <div className={"vc" + (className ? " " + className : "")}>
       <div className="vc__head">NEARBY VOICE</div>
@@ -43,8 +47,8 @@ export function VoicePanel({ className = "" }) {
           <path d="M8 9a4 4 0 1 1 8 0c0 2.3-2 3.2-2.6 4.6-.5 1.1-.4 2-.4 2.7 0 1.6-1.2 2.7-2.7 2.7-1.7 0-2.9-1.3-2.9-3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           <path d="M9.8 9.5a2.2 2.2 0 0 1 4.2.9c0 1.3-1.5 1.7-1.9 2.7" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-        <span className="vc__label">Hear others</span>
-        <span className="vc__ctl"><Toggle defaultChecked /></span>
+        <span className="vc__label">Microphone</span>
+        <span className="vc__ctl"><Toggle checked={micOn} onChange={toggleMic} /></span>
       </div>
 
       <div className="vc__row vc__row--slider">
@@ -52,17 +56,22 @@ export function VoicePanel({ className = "" }) {
         <Slider defaultValue={95} ariaLabel="Nearby voice volume" />
       </div>
 
-      <button className="vc__speak" type="button">
+      <button
+        className={"vc__speak" + (micOn ? " is-active" : "")}
+        type="button"
+        aria-pressed={micOn}
+        onClick={toggleMic}
+      >
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
           <rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" strokeWidth="1.8"/>
           <circle cx="9" cy="10" r="1.2" fill="currentColor"/>
           <circle cx="15" cy="10" r="1.2" fill="currentColor"/>
           <path d="M9 14a3.2 3.2 0 0 0 6 0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
         </svg>
-        <span>Speak</span>
+        <span>{micOn ? "Mic on — click to mute" : "Speak"}</span>
       </button>
 
-      <div className="vc__hint">Hold <b>[T]</b> to speak momentarily</div>
+      <div className="vc__hint">Click <b>Microphone</b> to talk to people nearby</div>
     </div>
   );
 }

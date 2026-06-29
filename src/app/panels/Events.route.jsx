@@ -1,14 +1,7 @@
-// Events panel route module (auto-discovered by router.jsx via import.meta.glob).
-// id = "events" -> #/events -> highlights the "Events" tab in ExploreChrome.
-//
-// Reuses the ui3 Events visual system (events.css) and the props-driven
-// EventDetail.jsx page; data comes live from catalyst via the useEvents hooks.
-// AppLayout already wraps the Outlet in ExploreChrome, so this panel renders the
-// page BODY only (no second chrome). Jump-in is an outbound engine action.
-
 import { useMemo, useState } from "react";
 
 import EventDetail from "../../explorer/pages/EventDetail.jsx";
+import { sendBridge, getBridge } from "../../overlay/bridge.js";
 import "../../explorer/pages/events.css";
 
 import { useEvents, useEventCategories } from "../../data/hooks/useEvents.js";
@@ -27,7 +20,6 @@ const DEFAULT_PARAMS = { limit: 100 };
 const DAY_MS = 86400000;
 const DAY_COUNT = 5;
 
-// --- Optional cache warming on hover/focus intent (best-effort) ---------------
 export function prefetch(queryClient) {
   try {
     queryClient.prefetchQuery({
@@ -41,11 +33,9 @@ export function prefetch(queryClient) {
       staleTime: STALE.eventCategories,
     });
   } catch {
-    /* prefetch is best-effort */
   }
 }
 
-// --- pure helpers -------------------------------------------------------------
 function startOfUtcDay(t) {
   const d = new Date(t);
   return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
@@ -80,8 +70,6 @@ function hostOf(e) {
   return e?.user_name ?? e?.scene_name ?? e?.estate_name ?? "Decentraland";
 }
 
-// Group events into DAY_COUNT day-columns starting today (UTC); live events that
-// began before today are surfaced in the "Today" column.
 function buildDayColumns(events) {
   const today0 = startOfUtcDay(Date.now());
   const cols = [];
@@ -126,22 +114,37 @@ function scheduleText(e) {
   return finish ? `${start} – ${finish} (UTC)` : `${start} (UTC)`;
 }
 
+const PARCEL_SIZE = 16;
+
 function teleportTo(e, domEvent) {
+  if (typeof window === "undefined" || !getBridge()) return false;
   const { x, y } = eventXY(e);
-  if (typeof window !== "undefined" && window.engine?.teleport) {
-    domEvent?.preventDefault?.();
-    try {
-      window.engine.teleport(x, y);
-    } catch {
-      /* outbound only; ignore */
-    }
-    return true;
-  }
-  return false; // no engine -> let any href fallback proceed
+  domEvent?.preventDefault?.();
+  sendBridge("Teleport", {
+    x: x * PARCEL_SIZE + PARCEL_SIZE / 2,
+    y: 0,
+    z: y * PARCEL_SIZE + PARCEL_SIZE / 2,
+    duration: 0,
+  });
+  return true;
 }
 
-// --- presentational pieces (reuse events.css classnames) ----------------------
-function EventCard({ ev, featured, onOpen }) {
+const CARD_JUMP_STYLE = {
+  marginTop: 4,
+  alignSelf: "flex-start",
+  border: 0,
+  borderRadius: "var(--r-pill)",
+  background: "linear-gradient(90deg, #ff4d8d, #ec2e7a)",
+  color: "#fff",
+  font: "inherit",
+  fontSize: 9.5,
+  fontWeight: 800,
+  letterSpacing: 0.4,
+  padding: "4px 12px",
+  cursor: "pointer",
+};
+
+function EventCard({ ev, featured, onOpen, onJump }) {
   const live = !!ev.live;
   const badge = live ? `${ev.total_attendees || 0} LIVE` : ev.trending ? "TRENDING" : null;
   const thumbStyle = { "--hue": hueFor(ev.id) };
@@ -174,6 +177,19 @@ function EventCard({ ev, featured, onOpen }) {
           <span className="ev__clock" aria-hidden="true">🕑</span>
           {formatClock(eventStart(ev))}
         </p>
+        <button
+          type="button"
+          style={CARD_JUMP_STYLE}
+          data-sb-linkto="Explorer/Workflows/SceneLoading"
+          aria-label={`Jump in to ${ev.name || "event"}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!onJump(ev, e)) onOpen(ev);
+          }}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          JUMP IN
+        </button>
       </div>
     </div>
   );
@@ -219,7 +235,6 @@ function Notice({ children }) {
   );
 }
 
-// --- panel --------------------------------------------------------------------
 export default function EventsPanel() {
   const [category, setCategory] = useState("");
   const [selected, setSelected] = useState(null);
@@ -233,8 +248,11 @@ export default function EventsPanel() {
   const catq = useEventCategories();
 
   const events = evq.data?.data ?? [];
-  const columns = useMemo(() => buildDayColumns(events), [events]);
   const featured = useMemo(() => pickFeatured(events), [events]);
+  const columns = useMemo(
+    () => buildDayColumns(featured ? events.filter((e) => e.id !== featured.id) : events),
+    [events, featured],
+  );
   const categories = catq.data ?? [];
 
   const onOpen = (ev) => setSelected(ev);
@@ -242,6 +260,7 @@ export default function EventsPanel() {
 
   const detail = selected
     ? {
+        id: selected.id,
         title: selected.name ?? "Untitled event",
         when: formatEventWhen(eventStart(selected)),
         host: hostOf(selected),
@@ -249,6 +268,9 @@ export default function EventsPanel() {
         schedule: scheduleText(selected),
         location: eventCoords(selected),
         image: selected.image_vertical ?? selected.image ?? undefined,
+        start: eventStart(selected),
+        finish: selected.finish_at ?? undefined,
+        url: selected.url ?? undefined,
       }
     : null;
 
@@ -323,7 +345,7 @@ export default function EventsPanel() {
               {columns.map((c) => (
                 <div key={c.key} className="ev__gridcol">
                   {c.items.map((ev) => (
-                    <EventCard key={ev.id} ev={ev} onOpen={onOpen} />
+                    <EventCard key={ev.id} ev={ev} onOpen={onOpen} onJump={teleportTo} />
                   ))}
                 </div>
               ))}

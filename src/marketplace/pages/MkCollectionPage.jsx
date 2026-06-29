@@ -55,7 +55,7 @@ const ITEMS = [
 function AssetCell({ item }) {
   const r = RARITY[item.rarity];
   return (
-    <a className="cp__assetcell" href="#asset" onClick={(e) => e.preventDefault()}>
+    <a className="cp__assetcell" href={`/marketplace/${item.id}`}>
       <span
         className="cp__thumb u-rar-bg"
         style={{ "--rb": `var(--rar-bg-${item.rarity})` }}
@@ -140,12 +140,12 @@ export default function MkCollectionPage({
 
                   {isOwner ? (
                     <div className="cp__owneractions">
-                      <a className="cp__obtn" href="#builder" onClick={(e) => e.preventDefault()}>
+                      <button type="button" className="cp__obtn">
                         Edit in builder
-                      </a>
-                      <a className="cp__obtn" href="#builder" onClick={(e) => e.preventDefault()}>
+                      </button>
+                      <button type="button" className="cp__obtn">
                         {collection.isOnSale ? "Unlist from market" : "List on market"}
-                      </a>
+                      </button>
                     </div>
                   ) : null}
                 </div>

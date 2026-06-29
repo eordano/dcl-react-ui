@@ -13,9 +13,6 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* Solid dark base under the scene image: keeps the hero on-theme (and the light
-     --text legible) before/if the scene background-image hasn't painted, instead of
-     a white flash with invisible text where the gradients fade to transparent. */
   background-color: var(--undefined-purple);
   background-image:
     linear-gradient(150deg, var(--undefined-purple) 0%, var(--undefined-purple) 25%, transparent 100%),

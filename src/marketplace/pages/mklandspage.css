@@ -427,3 +427,27 @@
   .ml__filters { display: none; }
   .ml__map { height: 70vh; }
 }
+
+html.mp-light .ml__cats { background: var(--lm-surface); border-color: var(--lm-line); }
+html.mp-light .ml__catstitle { color: var(--lm-ink-3); }
+html.mp-light .ml__cat { color: var(--lm-ink-2); }
+html.mp-light .ml__cat:hover { color: var(--lm-ink); }
+html.mp-light .ml__cat.is-active { color: var(--lm-ink); background: #ececed; }
+html.mp-light .ml__radio,
+html.mp-light .ml__check { color: var(--lm-ink-2); }
+html.mp-light .ml__radiomark,
+html.mp-light .ml__checkmark { border-color: #c4c2cc; }
+html.mp-light .ml__rangeline { color: var(--lm-ink-2); }
+html.mp-light .ml__track { background: #e1dfe6; }
+html.mp-light .ml__toggle { background: var(--lm-bg); border-color: var(--lm-line); }
+html.mp-light .ml__toggle .ml__chip { color: var(--lm-ink-3); }
+html.mp-light .ml__toggle .ml__chip:hover { color: var(--lm-ink); }
+html.mp-light .ml__loadbtn {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .ml__loadbtn:hover { background: #ececed; }
+html.mp-light .ml__emptyicon { color: var(--lm-ink-3); }
+html.mp-light .ml__emptytitle { color: var(--lm-ink); }
+html.mp-light .ml__emptysub { color: var(--lm-ink-3); }

@@ -203,11 +203,13 @@ export default function StProfileCreationsTab({
   isOwnProfile = false,
   loading = false,
   empty = false,
+  wearables = WEARABLES,
+  emotes = EMOTES,
 }) {
   const [category, setCategory] = useState("wearable");
   const [visible, setVisible] = useState(PAGE_SIZE);
 
-  const allItems = category === "wearable" ? WEARABLES : EMOTES;
+  const allItems = category === "wearable" ? wearables : emotes;
   const source = empty ? [] : allItems;
   const items = useMemo(() => source.slice(0, visible), [source, visible]);
   const canLoadMore = items.length < source.length;

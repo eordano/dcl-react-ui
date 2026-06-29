@@ -275,7 +275,7 @@ export default function BdNameDetail({
           <ENSEmptyState name={ens?.name} error={error} />
         ) : ens ? (
           <>
-            <a className="bdnamedetail__return" href="#names">
+            <a className="bdnamedetail__return" href="/builder/names">
               <ChevronLeft />
               Return
             </a>
@@ -302,7 +302,7 @@ export default function BdNameDetail({
                     </span>
                   </div>
                   <div className="bdnamedetail__actions">
-                    <a className="bdnamedetail__transfer" href="#transfer" target="_blank" rel="noopener noreferrer">
+                    <a className="bdnamedetail__transfer" href={`https://decentraland.org/marketplace/contracts/0x2a187453064356c898cae034eaed119e1663acb8/tokens/${ens.tokenId}/transfer`} target="_blank" rel="noopener noreferrer">
                       Transfer
                     </a>
                     {shouldReclaim ? (

@@ -1,9 +1,5 @@
 .ct { padding: 22px 28px 28px; color: #fff; }
 
-/* `bare` Panel story: no ExploreChrome wrapper, so the panel must position
-   itself as a full-screen overlay above the scene backdrop (which is a
-   position:fixed z-index:0 element and would otherwise paint over a
-   statically-positioned panel). Transparent fill lets the scene show through. */
 .ct--bare {
   position: fixed;
   inset: 0;

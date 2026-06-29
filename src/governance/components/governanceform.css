@@ -5,7 +5,6 @@
   padding: 44px 40px 80px;
 }
 
-/* The back button sits in its own slim rail to the left of the form. */
 .gvf--withback {
   display: flex;
   align-items: flex-start;
@@ -31,9 +30,6 @@
 }
 .gvf__backbtn:hover { background: var(--gv-wash); border-color: var(--gv-faint); }
 
-/* Desktop layout: a sticky intro/requirements rail on the left, the actual
-   form fields in the main column on the right. Collapses to a single column
-   on narrow / mobile widths. */
 .gvf__form {
   flex: 1 1 auto;
   min-width: 0;

@@ -250,3 +250,21 @@
     width: 100%;
   }
 }
+
+html.mp-light .mktransferpage {
+  --line: var(--lm-line);
+  --ink-85: var(--lm-ink-2);
+  --ink-7: var(--lm-ink-2);
+  --ink-6: var(--lm-ink-3);
+  --ink-45: var(--lm-ink-3);
+  --fill-2: rgba(0, 0, 0, 0.04);
+  --fill-3: rgba(0, 0, 0, 0.06);
+  --fill-4: rgba(0, 0, 0, 0.1);
+  --fill-5: rgba(0, 0, 0, 0.14);
+}
+html.mp-light .mktransferpage__input { background: var(--lm-field-bg); }
+html.mp-light .mktransferpage__back:hover {
+  border-color: var(--lm-ink-3);
+  color: var(--lm-ink);
+}
+html.mp-light .mktransferpage__btn--secondary { color: var(--lm-ink); }

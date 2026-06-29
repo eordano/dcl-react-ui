@@ -11,7 +11,11 @@ export default function PlaceCard({
   to,
 }) {
   return (
-    <article className="pl__card" data-sb-linkto={to || undefined}>
+    <article
+      className="pl__card"
+      data-sb-linkto={to || undefined}
+      {...(title ? { role: "button", tabIndex: 0, "aria-label": title } : null)}
+    >
       <div
         className="pl__thumb"
         style={{

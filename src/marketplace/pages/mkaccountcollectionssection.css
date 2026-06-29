@@ -270,3 +270,19 @@
   .cl { grid-template-columns: 1fr; }
   .cl__sidebar { position: static; width: auto; }
 }
+
+html.mp-light .cl {
+  --cl-secondary: var(--lm-surface);
+  --cl-tile: #ececed;
+  --cl-active: #ececed;
+  --cl-active-hover: #e3e1e6;
+}
+html.mp-light .cl__card:hover { background: #f0eef3; }
+html.mp-light .cl__sortmenu { border-color: var(--lm-line); }
+html.mp-light .cl__pagebtn:not(.is-active) { border-color: var(--lm-line); }
+html.mp-light .cl__sortopt:hover,
+html.mp-light .cl__pagebtn:hover:not(:disabled) { background: rgba(0, 0, 0, 0.05); }
+html.mp-light .cl__loader {
+  border-color: rgba(0, 0, 0, 0.1);
+  border-top-color: var(--brand);
+}

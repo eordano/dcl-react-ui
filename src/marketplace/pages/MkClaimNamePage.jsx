@@ -8,9 +8,7 @@ import "./mkclaimnamepage.css";
 const MAX_NAME_SIZE = 15;
 const PLACEHOLDER_NAME = "yourName";
 
-const TAKEN_NAMES = ["decentraland", "metaverse", "vitalik", "satoshi"];
-
-function classifyName(raw) {
+function classifyName(raw, takenSet) {
   const name = raw.trim();
   if (name === "" || name === PLACEHOLDER_NAME) return { kind: "idle" };
   if (/\s/.test(name)) return { kind: "invalid", message: "NAMEs can't contain spaces." };
@@ -24,7 +22,7 @@ function classifyName(raw) {
     return { kind: "invalid", message: "NAMEs can contain up to 15 characters." };
   if (!/^[a-zA-Z0-9]+$/.test(name))
     return { kind: "invalid", message: "NAMEs can only contain alphanumeric characters." };
-  if (TAKEN_NAMES.includes(name.toLowerCase())) return { kind: "unavailable" };
+  if (takenSet.has(name.toLowerCase())) return { kind: "unavailable" };
   return { kind: "available" };
 }
 
@@ -164,6 +162,8 @@ export default function MkClaimNamePage({
   forceStatus,
   initialFocused,
   insufficientMana = false,
+  takenNames = [],
+  onClaim: onClaimProp,
 }) {
   const [active, setActive] = useState("names");
   const [name, setName] = useState(initialName);
@@ -172,16 +172,25 @@ export default function MkClaimNamePage({
   );
   const [showModal, setShowModal] = useState(false);
 
+  const takenSet = useMemo(
+    () => new Set((takenNames || []).map((n) => String(n).toLowerCase())),
+    [takenNames],
+  );
+
   const status = useMemo(() => {
     if (forceStatus) return forceStatus;
-    return classifyName(name);
-  }, [forceStatus, name]);
+    return classifyName(name, takenSet);
+  }, [forceStatus, name, takenSet]);
 
   const canClaim = status.kind === "available" && !insufficientMana;
   const charCount = name === PLACEHOLDER_NAME ? 0 : name.length;
 
   function onClaim() {
     if (!canClaim) return;
+    if (onClaimProp) {
+      onClaimProp(name.trim());
+      return;
+    }
     setShowModal(true);
   }
 

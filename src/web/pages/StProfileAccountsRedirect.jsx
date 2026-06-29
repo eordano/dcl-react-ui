@@ -35,18 +35,12 @@ export default function StProfileAccountsRedirect({
     [effectiveAddress, effectiveTab]
   );
 
-  // Progressive enhancement: the manual link is rendered VISIBLE by default so
-  // the server-rendered / no-JS output always exposes a clickable fallback. When
-  // JS is present we hide it immediately (the auto-redirect handles navigation)
-  // and reveal it again after 3s as a fallback in case the redirect stalls.
   const [manualHidden, setManualHidden] = useState(false);
   useEffect(() => {
     setManualHidden(true);
     const t = setTimeout(() => setManualHidden(false), 3000);
     return () => clearTimeout(t);
   }, []);
-  // `settled` is the Storybook/explicit "manual fallback already shown" state —
-  // in that state the link must stay visible regardless of the timer.
   const ctaHidden = !settled && manualHidden;
 
   const title = isFallback
@@ -58,10 +52,6 @@ export default function StProfileAccountsRedirect({
 
   return (
     <SitesChrome active={undefined}>
-      {/* No-JS redirect: emitted into the static HTML and (React 19) hoisted to
-          <head>, so unknown/legacy /profile/accounts links auto-forward without
-          any JavaScript. The visible <a> below is the always-present manual
-          fallback for the same no-JS path. */}
       <meta httpEquiv="refresh" content={`3;url=${toPath}`} />
       <div className="stpar">
         <div className="stpar__inner" role="status" aria-live="polite">

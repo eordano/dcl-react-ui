@@ -1,13 +1,3 @@
-// Framework-agnostic three.js avatar scene. createAvatarScene(container, opts)
-// builds a renderer inside `container`, loads + composes the avatar, optionally
-// plays an emote, and returns a controller { resize, dispose }. three is imported
-// here (statically), so this module is the code-split chunk WearablePreview.jsx
-// lazy-imports — keeping three out of the host's main bundle.
-//
-// Lighting / materials / camera intentionally mirror decentraland/wearable-preview's
-// avatar look (even top+bottom hemispheric light, matte/no-specular materials,
-// front-facing camera ~(0,1,3.5)), but in three instead of babylon.
-
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -60,7 +50,6 @@ export function createAvatarScene(container, opts = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  // transparent canvas by default; opaque if a background color is given
   if (opts.background) renderer.setClearColor(new THREE.Color(opts.background), 1);
   else renderer.setClearColor(0x000000, 0);
   Object.assign(renderer.domElement.style, { width: "100%", height: "100%", display: "block" });
@@ -70,8 +59,6 @@ export function createAvatarScene(container, opts = {}) {
   const camera = new THREE.PerspectiveCamera(opts.fov ?? 34, 1, 0.05, 100);
   camera.position.set(0, 1, 3.5);
 
-  // Even soft lighting (≈ upstream's top+bottom HemisphericLights) + a gentle front
-  // light for a touch of form. No harsh key — avatars read flat/matte.
   scene.add(new THREE.HemisphereLight(0xffffff, 0xdadae2, 2.0));
   const fill = new THREE.HemisphereLight(0xeef2ff, 0xffffff, 0.7);
   fill.position.set(0, -1, 0);
@@ -80,7 +67,7 @@ export function createAvatarScene(container, opts = {}) {
   front.position.set(0.4, 1.4, 3);
   scene.add(front);
 
-  const interactive = opts.controls !== false; // drag to rotate / scroll to zoom
+  const interactive = opts.controls !== false;
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enablePan = !!opts.pan;
   controls.enableDamping = true;
@@ -88,7 +75,7 @@ export function createAvatarScene(container, opts = {}) {
   controls.enabled = interactive;
   controls.enableZoom = interactive;
   controls.enableRotate = interactive;
-  controls.autoRotate = opts.spin !== false; // autoRotate still works with controls disabled
+  controls.autoRotate = opts.spin !== false;
   controls.autoRotateSpeed = opts.spinSpeed ?? 0.9;
   controls.minDistance = 0.6;
   controls.maxDistance = 8;
@@ -96,7 +83,7 @@ export function createAvatarScene(container, opts = {}) {
   const avatarGroup = new THREE.Group();
   scene.add(avatarGroup);
 
-  const parts = []; // loaded part scenes (body + wearables) — emote mixers attach per part
+  const parts = [];
   const mixers = [];
   const clock = new THREE.Clock();
 
@@ -127,16 +114,13 @@ export function createAvatarScene(container, opts = {}) {
     avatarGroup.position.y -= box.min.y;
     const h = size.y || 1.8;
     const ty = h * (opts.targetY ?? 0.5);
-    const dist = (h * 2.15) / Math.max(0.2, opts.zoom ?? 1); // zoom>1 = closer; margin keeps emotes in frame
+    const dist = (h * 2.15) / Math.max(0.2, opts.zoom ?? 1);
     controls.target.set(0, ty, 0);
     controls.minDistance = dist * 0.35;
     controls.maxDistance = dist * 3.5;
     camera.near = h / 100;
     camera.far = h * 40;
     camera.updateProjectionMatrix();
-    // view: yaw (azimuth, 0 = front) + pitch (elevation, deg) at the framing distance.
-    // Re-fit on every call so parallel-loaded parts (which arrive in any order) always
-    // end up correctly framed; auto-rotate / user drag take over once loading settles.
     const yaw = THREE.MathUtils.degToRad(opts.yaw ?? 0);
     const pitch = THREE.MathUtils.degToRad(opts.pitch ?? 20);
     const horiz = dist * Math.cos(pitch);
@@ -157,7 +141,6 @@ export function createAvatarScene(container, opts = {}) {
     });
   }
 
-  // upstream removes specular (StandardMaterial specularColor=black) → matte avatar
   function mattify() {
     avatarGroup.traverse((o) => {
       if (!o.isMesh) return;
@@ -172,15 +155,12 @@ export function createAvatarScene(container, opts = {}) {
   }
 
   async function resolveAvatar() {
-    // baseline: explicit urns + body
     let bodyShape = opts.body || DEFAULT_BODY;
     let wearables = Array.isArray(opts.urns)
       ? opts.urns.slice()
       : String(opts.urns || "").split(",").map((s) => s.trim()).filter(Boolean);
     let colors = { skin: null, hair: null, eyes: null };
 
-    // an outfit: either an inline outfit object {bodyShape,wearables,eyes,hair,skin}
-    // or a saved-outfit reference {address, slot} fetched from /lambdas/outfits
     let outfit = opts.outfit && typeof opts.outfit === "object" ? opts.outfit : null;
     if (outfit && outfit.address) {
       try {
@@ -233,22 +213,28 @@ export function createAvatarScene(container, opts = {}) {
     return EMOTES[e] || null;
   }
 
+  async function setEmote(input) {
+    const url = emoteUrlFor(input);
+    if (!url || disposed || !parts.length) return;
+    for (const m of mixers) m.stopAllAction();
+    mixers.length = 0;
+    await playEmote(url);
+  }
+
   async function playEmote(url) {
     try {
       const gltf = await new GLTFLoader().loadAsync(url);
       const clips = gltf.animations || [];
       if (!clips.length || disposed) return;
-      // pick the avatar clip (tracks targeting Avatar_* bones); else the longest
       const avatarClip =
         clips.find((c) => c.tracks.some((t) => t.name.startsWith("Avatar_"))) ||
         clips.slice().sort((a, b) => b.duration - a.duration)[0];
-      // play it on every loaded part (each shares the Avatar_* skeleton) so they move in sync
       for (const part of parts) {
         const mixer = new THREE.AnimationMixer(part);
         mixer.clipAction(avatarClip).play();
         mixers.push(mixer);
       }
-      clock.getDelta(); // reset delta so the first frame isn't a huge jump
+      clock.getDelta();
     } catch (err) {
       console.warn("[wearable-preview] emote failed", err);
     }
@@ -281,18 +267,67 @@ export function createAvatarScene(container, opts = {}) {
       const byPointer = new Map();
       for (const e of entities) for (const p of e.pointers || []) byPointer.set(String(p).toLowerCase(), e);
 
-      // load every part concurrently; one slow/broken asset can't block the rest
+      const bodyLc = String(bodyShape).toLowerCase();
+      const catOf = (e) => e?.metadata?.data?.category || null;
+      const equippedCats = new Set();
+      const hidden = new Set();
+      let skinEquipped = false;
+      for (const urn of wearables) {
+        const e = byPointer.get(urn.toLowerCase());
+        const cat = catOf(e);
+        if (!cat) continue;
+        equippedCats.add(cat);
+        if (cat === "skin") skinEquipped = true;
+        const d = e.metadata?.data || {};
+        for (const h of [...(d.hides || []), ...(d.replaces || [])])
+          if (h !== cat) hidden.add(h);
+      }
+      if (skinEquipped)
+        for (const c of [
+          "eyes", "mouth", "eyebrows", "hair", "facial_hair",
+          "upper_body", "lower_body", "feet", "hands_wear", "hands", "head",
+        ])
+          hidden.add(c);
+
+      const HIDERS = [
+        ["ubody_basemesh", () => equippedCats.has("upper_body") || hidden.has("upper_body")],
+        ["lbody_basemesh", () => equippedCats.has("lower_body") || hidden.has("lower_body")],
+        ["feet_basemesh", () => equippedCats.has("feet") || hidden.has("feet")],
+        ["hands_basemesh", () => equippedCats.has("hands_wear") || hidden.has("hands") || hidden.has("hands_wear")],
+        ["head_basemesh", () => hidden.has("head")],
+        ["mask_eyes", () => hidden.has("eyes")],
+        ["mask_eyebrows", () => hidden.has("eyebrows")],
+        ["mask_mouth", () => hidden.has("mouth")],
+      ];
+      const hideBaseMeshes = (root) => {
+        root.traverse((o) => {
+          if (!o.isMesh) return;
+          const names = [o.name, o.parent?.name]
+            .filter(Boolean)
+            .map((s) => s.toLowerCase());
+          for (const [suffix, pred] of HIDERS) {
+            if (names.some((n) => n.endsWith(suffix)) && (skinEquipped || pred())) {
+              o.visible = false;
+              break;
+            }
+          }
+        });
+      };
+
       let loaded = 0;
       await Promise.allSettled(
         pointers.map(async (urn) => {
           const e = byPointer.get(urn.toLowerCase());
           if (!e) return;
+          const isBody = urn.toLowerCase() === bodyLc;
+          if (!isBody && hidden.has(catOf(e))) return;
           try {
             const obj = await Promise.race([
               loadEntityGlb(e, bodyShape),
               new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 20000)),
             ]);
             if (obj && !disposed) {
+              if (isBody) hideBaseMeshes(obj);
               avatarGroup.add(obj);
               parts.push(obj);
               mattify();
@@ -342,5 +377,5 @@ export function createAvatarScene(container, opts = {}) {
     if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
   }
 
-  return { resize, dispose };
+  return { resize, dispose, setEmote };
 }

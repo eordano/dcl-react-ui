@@ -94,3 +94,27 @@
 
 .rs__cell--price { display: inline-flex; align-items: center; justify-content: flex-end; gap: 4px; font-weight: 800; color: #fff; }
 .rs__manamark { color: var(--brand); flex: 0 0 auto; }
+
+html.mp-light .rs {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+}
+html.mp-light .rs__title { color: var(--lm-ink); }
+html.mp-light .rs__updated,
+html.mp-light .rs__row--head,
+html.mp-light .rs__muted { color: var(--lm-ink-3); }
+html.mp-light .rs__tabs { border-bottom-color: var(--lm-line); }
+html.mp-light .rs__tab { color: var(--lm-ink-3); }
+html.mp-light .rs__tab:hover,
+html.mp-light .rs__tab.is-active { color: var(--lm-ink); }
+html.mp-light .rs__row { border-bottom-color: var(--lm-line); }
+html.mp-light .rs__row:not(.rs__row--head):hover { background: rgba(0, 0, 0, 0.04); }
+html.mp-light .rs__cell { color: var(--lm-ink-2); }
+html.mp-light .rs__name { color: var(--lm-ink); }
+html.mp-light .rs__addr { color: var(--lm-ink-2); }
+html.mp-light .rs__type {
+  color: var(--lm-ink);
+  background: #ececed;
+  border-color: var(--lm-line);
+}
+html.mp-light .rs__cell--price { color: var(--lm-ink); }

@@ -186,7 +186,7 @@ export default function BdLandAssignENS({
                   <h1 className="bdlandassignens__title">Use {ens.subdomain} as link</h1>
                   <span className="bdlandassignens__subtitle">
                     This link will take you to{" "}
-                    <a className="bdlandassignens__landlink" href="#land">
+                    <a className="bdlandassignens__landlink" href={`/builder/land/${land.id}`}>
                       {land.name}
                     </a>
                   </span>

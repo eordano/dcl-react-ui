@@ -1,26 +1,9 @@
-// useFriends — TanStack Query hook for the Friends panel.
-//
-// DATA SOURCE: friendships are dcl-rpc-over-WebSocket only. catalyrst-social-rpc
-// binds a single HTTP route ("/") that is a WebSocket upgrade; the friendship
-// RPCs (GetFriends / GetPendingFriendshipRequests / GetSentFriendshipRequests /
-// GetBlockedUsers / UpsertFriendship / GetFriendshipStatus) are dispatched only
-// over that authenticated WS stream and are NOT reachable over plain HTTP GET.
-// In the live client they arrive via window.dclBridge; here the bridge is absent,
-// so reads degrade to the captured fixture (bevy-overlay-friend-request.json).
-// This is the reads-only milestone — flips live by feeding bridge state through
-// this same hook with no structural change. WRITES are stubbed behind the
-// bridge's future single SignRequest chokepoint (see requestFriendAction).
-
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { qk, STALE } from "../queryKeys.js";
-import { friendsFixture } from "../fixtures.js";
-import { sendBridge } from "../../overlay/bridge.js";
+import { getBridge, sendBridge, subscribeBridge } from "../../overlay/bridge.js";
 
-// Friendships are always "mine" — there is exactly one logged-in subject, so the
-// cache key is identity-independent. Using a stable sentinel keeps the hook's
-// useQuery key and the route's prefetch key identical (hover-prefetch hits).
 const SELF_KEY = "self";
 
 const MONTHS = [
@@ -28,9 +11,6 @@ const MONTHS = [
   "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
 ];
 
-// upsert_friendship action set + transition_valid() state machine
-// (catalyrst-social-rpc/src/service.rs). Kept here so the stubbed write path
-// rejects obviously-invalid actions early once it is wired to a signer.
 export const FRIEND_ACTIONS = Object.freeze({
   REQUEST: "request",
   ACCEPT: "accept",
@@ -47,8 +27,6 @@ function shortTag(address) {
   return "#" + hex.slice(-4);
 }
 
-// nameColor arrives as linear {r,g,b} in 0..1 (protocol Color3). Derive an HSL
-// hue so the reused page's <Avatar hue=… /> renders a stable per-user color.
 function hueFromNameColor(color) {
   if (!color) return 210;
   const r = Number(color.r) || 0;
@@ -117,7 +95,6 @@ function normalizeBlocked(b) {
   };
 }
 
-// Map the captured RPC shapes onto the flat props the reused Friends page reads.
 export function normalizeFriends(raw) {
   const friends = (raw?.friends ?? []).map(normalizeFriend).filter(Boolean);
   const received = (raw?.received ?? []).map(normalizeRequest).filter(Boolean);
@@ -133,22 +110,66 @@ export function normalizeFriends(raw) {
   };
 }
 
-// queryFn: signal-aware so a panel switch cancels the in-flight read, even though
-// the source is a bundled fixture (kept async-shaped for the live-WS swap later).
+function adaptBridgeFriends(push) {
+  if (!push) return null;
+  return {
+    friends: (push.friends ?? []).map((f) => ({
+      address: f.address,
+      name: f.name,
+      hasClaimedName: f.hasClaimedName,
+      profilePictureUrl: f.profilePictureUrl,
+      online: f.status === "online",
+    })),
+    received: push.received ?? [],
+    sent: push.sent ?? [],
+    blocked: [],
+  };
+}
+
+function useBridgeFriendsPush() {
+  const [push, setPush] = useState(null);
+  useEffect(() => {
+    let unsub = () => {};
+    let cancelled = false;
+    let iv = null;
+    let to = null;
+    const attach = () => {
+      if (!getBridge()) return false;
+      unsub = subscribeBridge((p) => {
+        if (p && p.kind === "friends") setPush(p);
+      });
+      return true;
+    };
+    if (!attach()) {
+      iv = setInterval(() => {
+        if (cancelled) return;
+        if (attach() && iv) {
+          clearInterval(iv);
+          iv = null;
+        }
+      }, 250);
+      to = setTimeout(() => iv && clearInterval(iv), 10000);
+    }
+    return () => {
+      cancelled = true;
+      if (iv) clearInterval(iv);
+      if (to) clearTimeout(to);
+      try {
+        unsub();
+      } catch {
+      }
+    };
+  }, []);
+  return push;
+}
+
 export async function fetchFriends({ signal } = {}) {
   if (signal?.aborted) {
     throw new DOMException("Friends read aborted", "AbortError");
   }
-  // social-service is dcl-rpc (WebSocket) only — not browser-HTTP reachable — so
-  // the overlay cannot read the friend graph yet. Return an honest EMPTY set
-  // instead of fabricated friends; this flips to live data when a WS bridge
-  // lands. (friendsFixture is retained for that wiring + tests.)
-  void friendsFixture;
   return normalizeFriends({});
 }
 
-// Shared by the route's exported prefetch(queryClient): warms the exact cache
-// entry the hook reads, so the click renders instantly from memory.
 export function prefetchFriends(queryClient) {
   return queryClient.prefetchQuery({
     queryKey: qk.friends(SELF_KEY),
@@ -166,7 +187,11 @@ export function useFriends() {
     staleTime: STALE.friends,
   });
 
-  const data = query.data;
+  const push = useBridgeFriendsPush();
+  const data = useMemo(
+    () => (push ? normalizeFriends(adaptBridgeFriends(push)) : query.data),
+    [push, query.data],
+  );
   const friends = data?.friends ?? EMPTY;
   const received = data?.received ?? EMPTY;
   const sent = data?.sent ?? EMPTY;
@@ -195,9 +220,6 @@ export function useFriends() {
   };
 }
 
-// WRITE PATH (stubbed). The wallet key never crosses into JS, so every signed
-// mutation routes through the bridge's future single SignRequest chokepoint.
-// No-op (best-effort) when the bridge is absent — reads-only milestone.
 export function requestFriendAction(action, address, extra = {}) {
   const valid = Object.values(FRIEND_ACTIONS).includes(action);
   if (!valid) {

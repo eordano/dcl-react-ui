@@ -10,7 +10,6 @@ export const Default = {
   render: () => <StStorageEnvironment />,
 };
 
-// Empty list — KeyTable falls through to the centered Paper
 export const Empty = {
   render: () => <StStorageEnvironment envKeys={[]} />,
 };

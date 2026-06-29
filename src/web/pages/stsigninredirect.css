@@ -68,15 +68,10 @@
   text-decoration: none;
   box-shadow: 0 8px 24px rgba(255, 45, 85, 0.32);
   transition: background 0.12s ease, transform 0.12s ease;
-  /* No-JS-safe reveal: the button is ALWAYS in the DOM (clickable immediately
-     for no-JS users) but stays visually hidden until 3s via a pure-CSS
-     animation — no setTimeout, so the timeout works without JavaScript. */
   opacity: 0;
   animation: stsir-cta-in 0s linear 3s forwards;
 }
 
-/* Settled = JS-detected timeout / manual-fallback: the auto-redirect did not
-   fire, so show the button immediately instead of waiting out the 3s delay. */
 .stsir__inner--settled .stsir__cta {
   opacity: 1;
   animation: none;

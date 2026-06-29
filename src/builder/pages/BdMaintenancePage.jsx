@@ -2,10 +2,6 @@ import BuilderChrome from "../frames/BuilderChrome.jsx";
 import "./bdmaintenancepage.css";
 import { Caret } from "../../atoms/icons.jsx";
 
-//   • Notice text uses the body --text color; the footer links/copyright use the
-//     links) over a secondary row (social icons + "© Decentraland" copyright).
-
-// over a secondary-footer (social-links + copyright). Labels are the component's
 const FOOTER_LINKS = [
   { label: "Home", href: "https://decentraland.org" },
   { label: "Privacy Policy", href: "https://decentraland.org/privacy" },

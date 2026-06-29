@@ -13,11 +13,6 @@
   --undefined-warn-bg: #fff3e0;
   --undefined-warn-line: #ffd28a;
   --undefined-warn-ink: #8a5a00;
-  /* Secondary/cancel button surface. Must flip with theme: dark is the default
-     marketplace look, so default to a subtle translucent fill (readable behind
-     the light --undefined-ink-2 text), and restore the light grey under
-     html.mp-light. (Previously this button hardcoded #eceaef, which left
-     near-white text on a near-white button in dark mode.) */
   --mksell-cancel-bg: var(--fill-3);
   --mksell-cancel-bg-hover: var(--fill-4);
   background: var(--undefined-bg);

@@ -122,8 +122,6 @@
   .acrm { padding: 8px; }
 }
 
-/* Light theme — the Receive MANA modal is a web/dapp account surface, so it
-   follows "Theme: Light". Remap this surface's local dark tokens. */
 html.mp-light .acrm {
   --acrm-card: var(--lm-surface);
   --acrm-ink: var(--lm-ink);

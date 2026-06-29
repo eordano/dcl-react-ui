@@ -6,7 +6,6 @@ export default {
   parameters: { layout: "fullscreen" },
 };
 
-// Default — Turnstile OFF: the legacy link falls through to <CreditsEmail/>.
 export const Default = {
   args: { branch: "confirmed" },
 };

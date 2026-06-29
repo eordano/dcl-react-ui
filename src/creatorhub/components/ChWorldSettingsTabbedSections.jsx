@@ -241,12 +241,19 @@ function DetailsTab() {
                     key={o.value}
                     role="option"
                     aria-selected={isSel}
+                    tabIndex={capped ? -1 : 0}
                     className={
                       "chwsts__menuitem" +
                       (isSel ? " is-selected" : "") +
                       (capped ? " is-disabled" : "")
                     }
                     onClick={() => !capped && toggle(o.value)}
+                    onKeyDown={(e) => {
+                      if (!capped && (e.key === "Enter" || e.key === " ")) {
+                        e.preventDefault();
+                        toggle(o.value);
+                      }
+                    }}
                   >
                     <span className="chwsts__menucheck">{isSel && <CheckMark />}</span>
                     <span>{o.label}</span>
@@ -341,6 +348,12 @@ function GeneralTab() {
             tabIndex={0}
             className={"chwsts__checkbox" + (auto ? " is-checked" : "")}
             onClick={() => setAuto(!auto)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setAuto(!auto);
+              }
+            }}
           />
           <span>{COPY.general.auto_skybox}</span>
         </label>
@@ -358,6 +371,12 @@ function GeneralTab() {
               tabIndex={0}
               className={"chwsts__checkbox" + (single ? " is-checked" : "")}
               onClick={() => setSingle(!single)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSingle(!single);
+                }
+              }}
             />
             <span>{COPY.general.single_player}</span>
           </label>
@@ -375,6 +394,12 @@ function GeneralTab() {
             tabIndex={0}
             className={"chwsts__checkbox" + (places ? " is-checked" : "")}
             onClick={() => setPlaces(!places)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setPlaces(!places);
+              }
+            }}
           />
           <span>{COPY.general.show_in_places}</span>
         </label>
@@ -534,6 +559,7 @@ export default function ChWorldSettingsTabbedSections({
   isLoading = false,
   hasChanges = false,
   layoutView = "scenes",
+  worldName = "",
 }) {
   const [active, setActive] = useState(tab);
   const activeTab = isOwner ? active : "layout";
@@ -545,13 +571,13 @@ export default function ChWorldSettingsTabbedSections({
         className={"chwsts__paper" + (isOwner ? "" : " chwsts__paper--collab")}
         role="dialog"
         aria-modal="true"
-        aria-label={COPY.title + " - " + WORLD.name}
+        aria-label={COPY.title + " - " + (worldName || WORLD.name)}
       >
         <header className="chwsts__header">
           <div className="chwsts__headtitle">
             <DashboardIcon />
             <h6 className="chwsts__titletext">
-              {COPY.title} - {WORLD.name}
+              {COPY.title} - {worldName || WORLD.name}
             </h6>
           </div>
           <button type="button" className="chwsts__close" aria-label="close">

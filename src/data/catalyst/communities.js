@@ -1,14 +1,6 @@
-// Browser-only twin of sites/app/lib/catalyst/communities.ts.
-// Schemas + projectNode + loadCommunity are ported (minus TS types). The LIST is
-// served from the curated fixture: the LIVE `GET /v1/communities` IS routed on
-// catalyst.dcl.one today but returns feed-gated / unmoderated junk (test rows,
-// XSS payloads, membersCount:1), so this reads-only milestone shows the fixture
-// browse grid. DETAIL + members are fetched LIVE with the fixture as fallback.
-// No node/server imports.
-
 import { z } from "zod";
 
-import { getJSON } from "./client.js";
+import { CatalystError, getJSON, sendSignedJSON } from "./client.js";
 import fixtureRaw from "../../../../sites/app/fixtures/landings-community-detail.json";
 
 const nullableStr = z.string().nullish().transform((v) => v ?? null);
@@ -80,8 +72,6 @@ export function fixtureCommunityIds() {
   return Object.keys(fixture.communities ?? {});
 }
 
-// Browse list derived from the detail fixture — each node validated through
-// CommunitySchema so the grid sees the exact shape a live enriched row carries.
 export function fixtureCommunities() {
   return Object.values(fixture.communities ?? {})
     .map((node) => {
@@ -95,22 +85,18 @@ function unwrapData(env) {
   return env?.data ?? env;
 }
 
-// LIST. Returns the curated fixture grid (see header note on the junk feed).
-// `params`/`opts` are accepted for forward-compat with the live path: flip to
-// live by `getJSON("/v1/communities", { ...opts, query: params })` and returning
-// `unwrapData(raw).results` once the feed is moderated — no caller change needed.
-export async function loadCommunities(_params = {}, _opts = {}) {
-  // The LIVE GET /v1/communities is empty / feed-gated (test rows + XSS payloads)
-  // today, so the curated fixture grid would be fabricated data. Return an honest
-  // EMPTY browse list instead; wire the live feed here once it's populated and
-  // sanitized. fixtureCommunities is kept for the detail/members fallback + tests.
-  void fixtureCommunities;
-  return [];
+export async function loadCommunities(params = {}, opts = {}) {
+  const raw = await getJSON("/v1/communities", { ...opts, query: params });
+  const results = unwrapData(raw)?.results;
+  if (!Array.isArray(results)) return [];
+  return results
+    .map((node) => {
+      const parsed = CommunitySchema.safeParse(node ?? {});
+      return parsed.success ? parsed.data : null;
+    })
+    .filter(Boolean);
 }
 
-// DETAIL. Fetches GET /v1/communities/{id} + /members LIVE in parallel (signal
-// forwarded so a panel switch cancels both), falling back to the fixture when
-// the endpoint 404s / returns an unparseable body.
 export async function loadCommunity(id, opts = {}) {
   if (!id) return null;
   try {
@@ -132,4 +118,35 @@ export async function loadCommunity(id, opts = {}) {
   } catch {
     return fixtureCommunity(id);
   }
+}
+
+export async function joinCommunity(id, opts = {}) {
+  if (!id) throw new CatalystError("Missing community id", "", 0);
+  const { privacy, ...rest } = opts;
+  if (privacy === "private") {
+    await sendSignedJSON(`/v1/communities/${encodeURIComponent(id)}/requests`, {
+      ...rest,
+      method: "POST",
+      body: { type: "request_to_join" },
+    });
+    return { id, status: "requested" };
+  }
+  await sendSignedJSON(`/v1/communities/${encodeURIComponent(id)}/members`, {
+    ...rest,
+    method: "POST",
+  });
+  return { id, status: "joined" };
+}
+
+export async function leaveCommunity(id, opts = {}) {
+  if (!id) throw new CatalystError("Missing community id", "", 0);
+  const { address, ...rest } = opts;
+  if (!address) {
+    throw new CatalystError("Sign in to manage this community", "", 401);
+  }
+  await sendSignedJSON(
+    `/v1/communities/${encodeURIComponent(id)}/members/${encodeURIComponent(address)}`,
+    { ...rest, method: "DELETE" },
+  );
+  return { id, status: "left" };
 }

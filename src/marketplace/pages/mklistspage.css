@@ -413,3 +413,56 @@
   .mklistspage__createIcon { display: none; }
   .mklistspage__launch .mklistspage__btnFluid { width: 100%; }
 }
+
+html.mp-light .mklistspage {
+  --undefined-secondary: var(--lm-surface);
+  --undefined-card: var(--lm-surface);
+  --undefined-empty: var(--lm-bg);
+  --undefined-menu: var(--lm-surface);
+  color: var(--lm-ink);
+}
+html.mp-light .mklistspage__header { color: var(--lm-ink); }
+html.mp-light .mklistspage__left { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__sortBy { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__dropdownBtn {
+  background: var(--lm-field-bg);
+  border-color: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .mklistspage__dropdownBtn:hover { background: rgba(0, 0, 0, 0.04); }
+html.mp-light .mklistspage__caret { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__dropdownMenu { border-color: var(--lm-line); }
+html.mp-light .mklistspage__dropdownItem { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__dropdownItem:hover { background: rgba(0, 0, 0, 0.04); color: var(--lm-ink); }
+html.mp-light .mklistspage__empty { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__emptyIcon { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__cardName { color: var(--lm-ink); }
+html.mp-light .mklistspage__meta { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__countIcon { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__actionsBtn { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__actionsBtn:hover { background: rgba(0, 0, 0, 0.04); color: var(--lm-ink); }
+html.mp-light .mklistspage__menu { border-color: var(--lm-line); }
+html.mp-light .mklistspage__menuItem { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__menuItem:hover { background: rgba(0, 0, 0, 0.04); color: var(--lm-ink); }
+html.mp-light .mklistspage__emptyStateIcon { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__emptyStateTitle { color: var(--lm-ink); }
+html.mp-light .mklistspage__emptyStateSub { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__errorContainer { color: var(--lm-ink); }
+html.mp-light .mklistspage__errorImage { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__errorSub { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__modalContent--text { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__modalClose { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__modalClose:hover { background: rgba(0, 0, 0, 0.04); color: var(--lm-ink); }
+html.mp-light .mklistspage__fieldLabel { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__fieldInfo { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__input,
+html.mp-light .mklistspage__textarea {
+  background: var(--lm-field-bg);
+  border-color: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .mklistspage__infoMark { border-color: var(--lm-line); color: var(--lm-ink-3); }
+html.mp-light .mklistspage__btnInverted { color: var(--lm-ink); border-color: var(--lm-line); }
+html.mp-light .mklistspage__launchLogo { color: var(--lm-ink-3); }
+html.mp-light .mklistspage__launchText { color: var(--lm-ink-2); }
+html.mp-light .mklistspage__launchText b { color: var(--lm-ink); }

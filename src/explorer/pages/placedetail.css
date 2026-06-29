@@ -33,7 +33,6 @@
   flex: 0 0 300px; align-self: flex-start; min-width: 0;
   aspect-ratio: 4 / 3;
   border-radius: 14px; overflow: hidden;
-  /* Real scene image (when --thumb-img set by PlaceDetail) over the hue gradient. */
   background:
     var(--thumb-img, none) center / cover no-repeat,
     radial-gradient(circle at 60% 35%, hsl(var(--hue,270) 55% 45% / .55), transparent 55%),

@@ -1,14 +1,13 @@
-// TanStack Query hooks for the Communities panel.
-// - useCommunities(): the browse list (fixture-backed this milestone).
-// - useCommunity(id): detail + members, fetched LIVE on select with fixture
-//   fallback; disabled until an id is selected.
-// Keys come from `qk`, staleTime from `STALE`, and the query-fn ctx `signal` is
-// forwarded into the data layer so panel switches cancel in-flight reads.
-
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { qk, STALE } from "../queryKeys.js";
-import { loadCommunities, loadCommunity } from "../catalyst/communities.js";
+import {
+  joinCommunity,
+  leaveCommunity,
+  loadCommunities,
+  loadCommunity,
+} from "../catalyst/communities.js";
+import { getDeployIdentity } from "../../overlay/bridge.js";
 
 export function useCommunities(params = {}) {
   return useQuery({
@@ -24,5 +23,30 @@ export function useCommunity(id) {
     queryFn: ({ signal }) => loadCommunity(id, { signal }),
     staleTime: STALE.community,
     enabled: Boolean(id),
+  });
+}
+
+export function useJoinCommunity() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, privacy }) => joinCommunity(id, { privacy }),
+    onSuccess: (_res, { id }) => {
+      qc.invalidateQueries({ queryKey: qk.community(id) });
+      qc.invalidateQueries({ queryKey: ["communities"] });
+    },
+  });
+}
+
+export function useLeaveCommunity() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id }) => {
+      const ident = getDeployIdentity();
+      return leaveCommunity(id, { address: ident?.signerAddress });
+    },
+    onSuccess: (_res, { id }) => {
+      qc.invalidateQueries({ queryKey: qk.community(id) });
+      qc.invalidateQueries({ queryKey: ["communities"] });
+    },
   });
 }

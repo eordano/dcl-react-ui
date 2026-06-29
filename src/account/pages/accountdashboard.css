@@ -330,10 +330,6 @@
   .acd-cards { grid-template-columns: 1fr; }
 }
 
-/* Light theme — the account dashboard is a web/dapp surface, so it follows the
-   "Theme: Light" (faithful upstream web look). Remap the dark tokens this surface
-   consumes to the light marketplace palette, mirroring `html.mp-light .mk` in
-   atoms/primitives.css. The DclTopBar stays dark (see accountchrome.css). */
 html.mp-light .acd {
   color: var(--lm-ink);
   --text: var(--lm-ink);

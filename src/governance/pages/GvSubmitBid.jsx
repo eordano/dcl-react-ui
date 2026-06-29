@@ -123,7 +123,7 @@ function NumberSelector({ label, value, unit, min, max, onChange }) {
 
 function ParentCard({ kind, proposal }) {
   return (
-    <a className="gvsubmitbid__parentcard" href="#parent">
+    <button type="button" className="gvsubmitbid__parentcard">
       <div className="gvsubmitbid__parenthead">
         <span className="gvsubmitbid__parentkind">{kind}</span>
         <svg viewBox="0 0 16 16" width="14" height="14" className="gvsubmitbid__extlink" aria-hidden="true">
@@ -140,7 +140,7 @@ function ParentCard({ kind, proposal }) {
           Passed with <strong>{proposal.votingPower} VP</strong> {proposal.finishAt}
         </span>
       </div>
-    </a>
+    </button>
   );
 }
 

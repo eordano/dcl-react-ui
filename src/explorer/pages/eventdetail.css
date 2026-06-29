@@ -22,8 +22,6 @@
   position: relative;
   flex: 0 0 auto;
   aspect-ratio: 16 / 9;
-  /* Real event poster (when --thumb-img set by EventDetail) over the gradient
-     fallback; .evd__heroscrim darkens the lower half for title legibility. */
   background:
     var(--thumb-img, none) center / cover no-repeat,
     radial-gradient(120% 120% at 70% 25%, #c83a6b 0%, #7a1d52 38%, #3d0d55 100%);

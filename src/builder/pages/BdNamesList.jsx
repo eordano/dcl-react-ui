@@ -1,16 +1,28 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import BuilderChrome from "../frames/BuilderChrome.jsx";
 import "./bdnameslist.css";
 import { Caret } from "../../atoms/icons.jsx";
 
 const PAGE_SIZE = 12;
 
+const SR_ONLY = {
+  position: "absolute",
+  width: "1px",
+  height: "1px",
+  padding: 0,
+  margin: "-1px",
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  whiteSpace: "nowrap",
+  border: 0,
+};
+
 const SORT_OPTIONS = [
   { value: "ASC", text: "Name A→Z" },
   { value: "DESC", text: "Name Z→A" },
 ];
 
-const NAMES = [
+export const NAMES = [
   {
     name: "Aria",
     subdomain: "aria.dcl.eth",
@@ -62,6 +74,11 @@ const CloneGlyph = () => (
   <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
     <rect x="5" y="5" width="9" height="9" rx="1.6" stroke="currentColor" strokeWidth="1.3" fill="none" />
     <path d="M11 5V3.6A1.6 1.6 0 0 0 9.4 2H3.6A1.6 1.6 0 0 0 2 3.6v5.8A1.6 1.6 0 0 0 3.6 11H5" stroke="currentColor" strokeWidth="1.3" fill="none" />
+  </svg>
+);
+const CheckGlyph = () => (
+  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+    <path d="M3.5 8.4l3 3 6-6.6" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 const PinGlyph = () => (
@@ -120,6 +137,31 @@ const EmptyHero = () => (
 
 const shorten = (addr) => (addr ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : "");
 
+function CopyButton({ value, label, copiedKey, onCopy }) {
+  if (!value) return null;
+  const key = `${label}:${value}`;
+  const isCopied = copiedKey === key;
+  const fire = () => onCopy(value, key, `Copied ${label}`);
+  return (
+    <span
+      className="bdnameslist__copy"
+      role="button"
+      tabIndex={0}
+      aria-label={isCopied ? `${label} copied to clipboard` : `Copy ${label}`}
+      title={isCopied ? "Copied" : `Copy ${label}`}
+      onClick={fire}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          fire();
+        }
+      }}
+    >
+      {isCopied ? <CheckGlyph /> : <CloneGlyph />}
+    </span>
+  );
+}
+
 function AliasCell({ ens, avatarFace, hasProfileCreated }) {
   if (ens.isAlias) {
     return (
@@ -135,16 +177,28 @@ function AliasCell({ ens, avatarFace, hasProfileCreated }) {
     );
   }
   return (
-    <button type="button" className="bdnameslist__ghostbtn" disabled={!hasProfileCreated}>
+    <button
+      type="button"
+      className="bdnameslist__ghostbtn"
+      disabled
+      title="Coming soon"
+      aria-label="Assign to Avatar — coming soon"
+    >
       <AddRounded /> Assign to Avatar
     </button>
   );
 }
 
-function AddressCell({ ens }) {
+function AddressCell({ ens, copiedKey, onCopy }) {
   if (ens.ensOwnerAddress !== ens.nftOwnerAddress) {
     return (
-      <button type="button" className="bdnameslist__ghostbtn">
+      <button
+        type="button"
+        className="bdnameslist__ghostbtn"
+        disabled
+        title="Coming soon"
+        aria-label="Reclaim to assign ETH address — coming soon"
+      >
         <ReclaimGlyph /> Reclaim to assign ETH address
       </button>
     );
@@ -154,14 +208,18 @@ function AddressCell({ ens }) {
       <span className="bdnameslist__address">
         <EthCoin />
         {shorten(ens.ensAddressRecord)}
-        <span className="bdnameslist__copy" role="button" aria-label="copy address">
-          <CloneGlyph />
-        </span>
+        <CopyButton value={ens.ensAddressRecord} label="address" copiedKey={copiedKey} onCopy={onCopy} />
       </span>
     );
   }
   return (
-    <button type="button" className="bdnameslist__ghostbtn">
+    <button
+      type="button"
+      className="bdnameslist__ghostbtn"
+      disabled
+      title="Coming soon"
+      aria-label="Assign ETH address — coming soon"
+    >
       <AddRounded /> Assign ETH address
     </button>
   );
@@ -170,14 +228,26 @@ function AddressCell({ ens }) {
 function LandCell({ ens }) {
   if (ens.ensOwnerAddress !== ens.nftOwnerAddress) {
     return (
-      <button type="button" className="bdnameslist__ghostbtn">
+      <button
+        type="button"
+        className="bdnameslist__ghostbtn"
+        disabled
+        title="Coming soon"
+        aria-label="Reclaim to assign to location — coming soon"
+      >
         <ReclaimGlyph /> Reclaim to assign to location
       </button>
     );
   }
   if (!ens.landId) {
     return (
-      <button type="button" className="bdnameslist__ghostbtn">
+      <button
+        type="button"
+        className="bdnameslist__ghostbtn"
+        disabled
+        title="Coming soon"
+        aria-label="Assign to Location — coming soon"
+      >
         <PinGlyph /> Assign to Location
       </button>
     );
@@ -195,7 +265,7 @@ function LandCell({ ens }) {
   );
 }
 
-function NameRow({ ens, avatarFace, hasProfileCreated }) {
+function NameRow({ ens, avatarFace, hasProfileCreated, copiedKey, onCopy }) {
   const unclaimed = ens.ensOwnerAddress !== ens.nftOwnerAddress;
   return (
     <tr className="bdnameslist__row">
@@ -205,21 +275,19 @@ function NameRow({ ens, avatarFace, hasProfileCreated }) {
           <span className="bdnameslist__subdomain">
             <span>{ens.name}</span>.dcl.eth
           </span>
-          <span className="bdnameslist__copy" role="button" aria-label="copy subdomain">
-            <CloneGlyph />
-          </span>
+          <CopyButton value={ens.subdomain} label="subdomain" copiedKey={copiedKey} onCopy={onCopy} />
           {unclaimed ? <span className="bdnameslist__unclaimed">Unclaimed</span> : null}
         </div>
       </td>
       <td><AliasCell ens={ens} avatarFace={avatarFace} hasProfileCreated={hasProfileCreated} /></td>
-      <td><AddressCell ens={ens} /></td>
+      <td><AddressCell ens={ens} copiedKey={copiedKey} onCopy={onCopy} /></td>
       <td><LandCell ens={ens} /></td>
       <td>
         <div className="bdnameslist__actions">
           <a className="bdnameslist__transfer" href={`https://decentraland.org/marketplace/contracts/0x2a187453064356c898cae034eaed119e1663acb8/tokens/${ens.tokenId}/transfer`} target="_blank" rel="noopener noreferrer">
             <ExchangeGlyph /> Transfer
           </a>
-          <a className="bdnameslist__edit" href="#edit">
+          <a className="bdnameslist__edit" href={`/builder/names/${encodeURIComponent(ens.name.toLowerCase())}`}>
             <PencilGlyph /> Edit
           </a>
         </div>
@@ -269,17 +337,31 @@ const HEADERS = [
 ];
 
 export default function BdNamesList({
-  names = NAMES,
+  names = [],
   alias = "aria.dcl.eth",
   avatarFace = null,
   hasProfileCreated = true,
   loading = false,
   initialSort = "ASC",
+  signedIn = false,
+  account = "",
 }) {
   const [navTab, setNavTab] = useState("names");
   const [sortBy, setSortBy] = useState(initialSort === "DESC" ? "DESC" : "ASC");
   const [sortOpen, setSortOpen] = useState(false);
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
+  const [copied, setCopied] = useState({ key: "", msg: "" });
+
+  const copyTimer = useRef(null);
+  const onCopy = (value, key, msg) => {
+    try {
+      navigator.clipboard?.writeText?.(value);
+    } catch {
+    }
+    setCopied({ key, msg });
+    clearTimeout(copyTimer.current);
+    copyTimer.current = setTimeout(() => setCopied({ key: "", msg: "" }), 1400);
+  };
 
   const total = names.length;
   const sorted = useMemo(() => {
@@ -291,16 +373,21 @@ export default function BdNamesList({
 
   const rows = sorted.map((n) => ({ ...n, isAlias: n.subdomain === alias }));
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const current = Math.min(Math.max(1, page), totalPages);
+  const pageRows = rows.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
   const isEmpty = !loading && total === 0;
   const sortLabel = SORT_OPTIONS.find((o) => o.value === sortBy)?.text ?? "";
 
   return (
-    <BuilderChrome active={navTab} onTab={setNavTab}>
+    <BuilderChrome active={navTab} onTab={setNavTab} signedIn={signedIn} account={account}>
       <div className="bdnameslist">
         {isEmpty ? (
           <EmptyState />
         ) : (
           <div className="bdnameslist__content">
+            <div role="status" aria-live="polite" style={SR_ONLY}>
+              {copied.msg}
+            </div>
             <div className="bdnameslist__header">
               <div className="bdnameslist__title">
                 <h1>Your NAMEs</h1>
@@ -363,12 +450,14 @@ export default function BdNamesList({
                 <tbody>
                   {loading
                     ? Array.from({ length: 4 }).map((_, i) => <SkeletonRow key={i} />)
-                    : rows.map((ens) => (
+                    : pageRows.map((ens) => (
                         <NameRow
                           key={ens.subdomain}
                           ens={ens}
                           avatarFace={avatarFace}
                           hasProfileCreated={hasProfileCreated}
+                          copiedKey={copied.key}
+                          onCopy={onCopy}
                         />
                       ))}
                 </tbody>
@@ -378,23 +467,39 @@ export default function BdNamesList({
                 <span className="bdnameslist__items">
                   {total} {total === 1 ? "result" : "results"}
                 </span>
-                <nav className="bdnameslist__pagination" aria-label="Pagination">
-                  <button type="button" className="bdnameslist__page bdnameslist__page--nav" aria-label="Previous" disabled={page <= 1}>
-                    ‹
-                  </button>
-                  {Array.from({ length: totalPages }).map((_, i) => (
+                {totalPages > 1 ? (
+                  <nav className="bdnameslist__pagination" aria-label="Pagination">
                     <button
-                      key={i}
                       type="button"
-                      className={"bdnameslist__page" + (i + 1 === page ? " is-active" : "")}
+                      className="bdnameslist__page bdnameslist__page--nav"
+                      aria-label="Previous"
+                      disabled={current <= 1}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
                     >
-                      {i + 1}
+                      ‹
                     </button>
-                  ))}
-                  <button type="button" className="bdnameslist__page bdnameslist__page--nav" aria-label="Next" disabled={page >= totalPages}>
-                    ›
-                  </button>
-                </nav>
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        className={"bdnameslist__page" + (i + 1 === current ? " is-active" : "")}
+                        aria-current={i + 1 === current ? "page" : undefined}
+                        onClick={() => setPage(i + 1)}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      className="bdnameslist__page bdnameslist__page--nav"
+                      aria-label="Next"
+                      disabled={current >= totalPages}
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    >
+                      ›
+                    </button>
+                  </nav>
+                ) : null}
               </div>
             </div>
           </div>

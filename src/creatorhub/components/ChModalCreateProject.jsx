@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { useDialogKeys } from "../../components/useDialogKeys.js";
 import "./chmodalcreateproject.css";
 
 const COPY = {
@@ -39,6 +40,8 @@ export default function ChModalCreateProject({
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const paperRef = useRef(null);
+  useDialogKeys(paperRef, onClose);
 
   const validateProjectPath = useCallback(
     (path, name) =>
@@ -98,6 +101,8 @@ export default function ChModalCreateProject({
         role="dialog"
         aria-modal="true"
         aria-label={COPY.title}
+        tabIndex={-1}
+        ref={paperRef}
       >
         <div className="chmcp__titlebar">
           <h2 className="chmcp__title">{COPY.title}</h2>

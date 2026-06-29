@@ -84,3 +84,10 @@
 .mkcar__cta svg {
   flex: 0 0 auto;
 }
+
+html.mp-light .mkcar__text { color: var(--lm-ink-2); }
+html.mp-light .mkcar__path {
+  background: var(--lm-bg);
+  border-color: var(--lm-line);
+  color: var(--lm-ink-3);
+}

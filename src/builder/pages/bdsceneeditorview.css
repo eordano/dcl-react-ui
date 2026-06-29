@@ -1,0 +1,273 @@
+.scene-editor-route {
+  min-height: 100vh;
+  background: #18141f;
+  color: #fff;
+}
+
+.scene-editor-route__sim {
+  margin: 0;
+  padding: 10px 24px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #f3d9a4;
+  background: #2a2331;
+  border-bottom: 1px solid #3a3144;
+}
+
+.scene-editor-route__sim strong {
+  color: #ffcf6b;
+}
+
+.sew {
+  position: relative;
+}
+
+.sew__editor {
+  position: relative;
+}
+
+.sew__overlay {
+  position: absolute;
+  left: 24px;
+  bottom: 64px;
+  z-index: 5;
+  max-width: 420px;
+  pointer-events: none;
+}
+
+.sew__overlay > * {
+  pointer-events: auto;
+}
+
+.sew__card,
+.sew__panel,
+.sew__status {
+  background: #221c2b;
+  border: 1px solid #3a3144;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.sew__panel,
+.sew__status {
+  max-width: 720px;
+  margin: 28px auto;
+}
+
+.sew__status {
+  text-align: center;
+}
+
+.sew__eyebrow {
+  margin: 0 0 4px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a89fbb;
+}
+
+.sew__title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.sew__lead {
+  margin: 0 0 16px;
+  color: #c7c0d6;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.sew__lead strong {
+  color: #ffcf6b;
+}
+
+.sew__packs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.sew__pack {
+  padding: 5px 12px;
+  font-size: 12px;
+  border-radius: 999px;
+  border: 1px solid #4a4156;
+  background: transparent;
+  color: #d9d3e6;
+  cursor: pointer;
+}
+
+.sew__pack.is-active {
+  background: #ff2d55;
+  border-color: #ff2d55;
+  color: #fff;
+}
+
+.sew__assets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.sew__asset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  border-radius: 10px;
+  border: 1px solid #3a3144;
+  background: #2a2331;
+  color: #e7e2f0;
+  font-size: 11px;
+  cursor: pointer;
+  position: relative;
+}
+
+.sew__asset:hover {
+  border-color: #6b5f80;
+}
+
+.sew__asset.is-smart {
+  border-color: #ff63e1;
+}
+
+.sew__assetThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: hsl(var(--hue, 210), 45%, 52%);
+}
+
+.sew__assetName {
+  text-align: center;
+  line-height: 1.2;
+}
+
+.sew__smartTag {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: #ff63e1;
+  color: #1a0f18;
+}
+
+.sew__gizmos {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.sew__metrics {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.sew__metrics th,
+.sew__metrics td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #322a3d;
+  text-align: left;
+}
+
+.sew__metrics th {
+  color: #a89fbb;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sew__num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sew__metrics tr.is-over td {
+  color: #ff7a90;
+}
+
+.sew__verdict {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.sew__verdict.is-ok {
+  background: rgba(54, 207, 117, 0.12);
+  color: #6ee7a0;
+}
+
+.sew__verdict.is-over {
+  background: rgba(255, 99, 99, 0.12);
+  color: #ff9aa8;
+}
+
+.sew__controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sew__btn {
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid #4a4156;
+  background: #2a2331;
+  color: #ece8f4;
+  cursor: pointer;
+}
+
+.sew__btn:hover:not(:disabled) {
+  border-color: #6b5f80;
+}
+
+.sew__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sew__btn--primary {
+  background: #ff2d55;
+  border-color: #ff2d55;
+  color: #fff;
+}
+
+.sew__btn--primary:hover:not(:disabled) {
+  background: #ff476a;
+  border-color: #ff476a;
+}
+
+.sew__spinner {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 12px;
+  border: 3px solid #3a3144;
+  border-top-color: #ff2d55;
+  border-radius: 50%;
+  animation: sew-spin 0.8s linear infinite;
+}
+
+@keyframes sew-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sew__check {
+  color: #36cf75;
+  margin-bottom: 8px;
+}

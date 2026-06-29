@@ -135,8 +135,8 @@ function Description({ parts }) {
     <div className="mkactivitypage__desc">
       {parts.map((p, i) => {
         if (typeof p === "string") return <span key={i}>{p}</span>;
-        if (p.link) return <a key={i} className="mkactivitypage__link" href="#">{p.link}</a>;
-        if (p.profile) return <a key={i} className="mkactivitypage__profile" href="#">{p.profile}</a>;
+        if (p.link) return <span key={i} role="button" tabIndex={0} className="mkactivitypage__link">{p.link}</span>;
+        if (p.profile) return <span key={i} role="button" tabIndex={0} className="mkactivitypage__profile">{p.profile}</span>;
         if (p.mana)
           return (
             <span key={i} className="mkactivitypage__mana">
@@ -153,7 +153,7 @@ function Description({ parts }) {
 function Status({ status }) {
   const label = status.charAt(0).toUpperCase() + status.slice(1);
   return (
-    <a className={"mkactivitypage__status mkactivitypage__status--" + status} href="#" target="_blank" rel="noopener noreferrer">
+    <span role="button" tabIndex={0} className={"mkactivitypage__status mkactivitypage__status--" + status}>
       <span className="mkactivitypage__statuslabel">{label}</span>
       {status === PENDING ? (
         <span className="mkactivitypage__statusspin"><Spinner size={16} /></span>
@@ -162,7 +162,7 @@ function Status({ status }) {
       ) : (
         <CheckIcon />
       )}
-    </a>
+    </span>
   );
 }
 

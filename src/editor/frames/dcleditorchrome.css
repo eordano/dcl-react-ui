@@ -22,23 +22,23 @@
 
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
 
-  --paper: #1d1c20;
-  --paper-hi: #242328;
-  --input: #141317;
-  --divider: rgba(255, 255, 255, 0.1);
-  --divider-soft: rgba(255, 255, 255, 0.06);
-  --text: rgba(240, 240, 240, 0.96);
-  --text-2: rgba(240, 240, 240, 0.66);
-  --text-3: rgba(240, 240, 240, 0.38);
-  --hover: rgba(240, 240, 240, 0.07);
-  --primary: #8c5bf6;
-  --primary-dark: #7a45e6;
-  --primary-selected: rgba(140, 91, 246, 0.16);
-  --primary-border: rgba(140, 91, 246, 0.6);
-  --primary-glow: rgba(140, 91, 246, 0.4);
-  --error: #fb3b3b;
-  --error-hover: rgba(251, 59, 59, 0.14);
-  --success: #34ce77;
+  --paper: var(--panel);
+  --paper-hi: color-mix(in srgb, #fff 4%, var(--panel));
+  --input: color-mix(in srgb, #000 28%, var(--panel));
+  --divider: var(--fill-4);
+  --divider-soft: var(--fill-2);
+  --text-2: var(--ink-7);
+  --text-3: var(--ink-45);
+  --hover: var(--fill-2);
+  --primary: var(--brand);
+  --primary-dark: color-mix(in srgb, var(--brand) 85%, black);
+  --primary-selected: color-mix(in srgb, var(--brand) 16%, transparent);
+  --primary-border: color-mix(in srgb, var(--brand) 60%, transparent);
+  --primary-glow: color-mix(in srgb, var(--brand) 40%, transparent);
+  --error-hover: color-mix(in srgb, var(--error) 14%, transparent);
+
+  --eui-top-inset: 12px;
+  --eui-bottom-inset: 12px;
 
   --surface: linear-gradient(180deg, var(--paper-hi) 0%, var(--paper) 72px);
   --shadow-panel: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.4),
@@ -54,7 +54,7 @@
   background: transparent;
 }
 .eui-root ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--fill-5);
   border-radius: 3px;
 }
 .eui-root ::-webkit-scrollbar-thumb:hover {
@@ -62,7 +62,7 @@
 }
 .eui-root * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  scrollbar-color: var(--fill-5) transparent;
 }
 
 @keyframes eui-rise {
@@ -118,17 +118,17 @@
 }
 .eui-left {
   position: absolute;
-  top: 12px;
+  top: var(--eui-top-inset, 12px);
   left: 12px;
-  bottom: 12px;
+  bottom: var(--eui-bottom-inset, 12px);
   width: 264px;
   animation: eui-rise 0.28s cubic-bezier(0.2, 0.9, 0.3, 1) backwards;
 }
 .eui-right {
   position: absolute;
-  top: 12px;
+  top: var(--eui-top-inset, 12px);
   right: 12px;
-  bottom: 12px;
+  bottom: var(--eui-bottom-inset, 12px);
   width: 320px;
   animation: eui-rise 0.28s cubic-bezier(0.2, 0.9, 0.3, 1) 0.05s backwards;
 }
@@ -246,7 +246,7 @@
 .eui-btn.icon.active {
   color: var(--primary);
   background: var(--primary-selected);
-  box-shadow: inset 0 0 0 1px rgba(255, 45, 85, 0.25);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand) 25%, transparent);
 }
 .eui-btn svg {
   width: 15px;
@@ -270,7 +270,7 @@
 }
 .eui-input:focus {
   border-color: var(--primary-border);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 2px rgba(255, 45, 85, 0.18);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 2px color-mix(in srgb, var(--brand) 18%, transparent);
 }
 .eui-input::placeholder {
   color: var(--text-3);
@@ -293,7 +293,7 @@
 }
 .eui-num:focus {
   border-color: var(--primary-border);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 45, 85, 0.16);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 0 2px color-mix(in srgb, var(--brand) 16%, transparent);
 }
 .eui-num.dirty {
   border-color: var(--primary-border);
@@ -403,7 +403,7 @@
 
 .eui-toolbar {
   position: absolute;
-  top: 12px;
+  top: var(--eui-top-inset, 12px);
   left: 50%;
   transform: translateX(-50%);
   overflow: visible;
@@ -433,9 +433,13 @@
   border-radius: 7px;
 }
 .eui-tool-group .eui-btn.icon.active {
-  background: linear-gradient(180deg, rgba(255, 45, 85, 0.24), rgba(255, 45, 85, 0.14));
-  color: #ff8da6;
-  box-shadow: inset 0 0 0 1px rgba(255, 45, 85, 0.35), 0 1px 3px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--brand) 24%, transparent),
+    color-mix(in srgb, var(--brand) 14%, transparent)
+  );
+  color: color-mix(in srgb, var(--brand) 55%, white);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand) 35%, transparent), 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 .eui-toolbar > .eui-btn.icon.closed {
   color: var(--text-3);
@@ -592,6 +596,9 @@
   background: var(--primary-selected);
   box-shadow: inset 2px 0 0 var(--primary);
 }
+.eui-row.is-readonly {
+  cursor: default;
+}
 .eui-row .twisty {
   width: 18px;
   height: 18px;
@@ -627,7 +634,7 @@
   border-radius: 5px;
   background: var(--input);
   border: 1px solid var(--primary-border);
-  box-shadow: 0 0 0 2px rgba(255, 45, 85, 0.16);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 16%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 13px;
@@ -735,6 +742,11 @@
 }
 .eui-comp-status.err {
   color: var(--error);
+}
+.eui-comp-note {
+  color: var(--text-3);
+  font-size: 11px;
+  padding: 2px 0;
 }
 
 .eui-prop {
@@ -908,6 +920,25 @@
   box-shadow: var(--shadow-float);
 }
 
+.eui-play-frame--preview {
+  border-color: var(--brand);
+  box-shadow: inset 0 0 22px rgba(255, 45, 85, 0.22);
+  animation: eui-play-pulse-calm 4s ease-in-out infinite;
+}
+@keyframes eui-play-pulse-calm {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.eui-play-badge--preview {
+  background: var(--brand);
+  color: #fff;
+}
+
 .eui-check {
   display: flex;
   align-items: center;
@@ -1009,6 +1040,14 @@
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
 }
+.eui-asset.is-readonly {
+  cursor: default;
+}
+.eui-asset.is-readonly:hover {
+  border-color: var(--divider-soft);
+  transform: none;
+  box-shadow: none;
+}
 .eui-asset img,
 .eui-asset .glyph {
   width: 100%;
@@ -1057,8 +1096,8 @@
 
 .eui-left-resize {
   position: absolute;
-  top: 12px;
-  bottom: 12px;
+  top: var(--eui-top-inset, 12px);
+  bottom: var(--eui-bottom-inset, 12px);
   width: 10px;
   z-index: 6;
   cursor: ew-resize;
@@ -1169,6 +1208,17 @@
     radial-gradient(120% 80% at 50% 8%, #2c2640 0%, rgba(44, 38, 64, 0) 50%),
     linear-gradient(180deg, #14131b 0%, #0c0b11 52%, #08070b 100%);
   overflow: hidden;
+}
+.eui-vp-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  z-index: 0;
+  background: #08070b;
+  pointer-events: auto;
 }
 .eui-vp-horizon {
   position: absolute;

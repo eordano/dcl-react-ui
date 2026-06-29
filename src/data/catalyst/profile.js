@@ -1,20 +1,5 @@
-// Browser-only twin of sites/app/lib/catalyst/{profile.ts,passport.ts}.
-// Pure / browser-safe: no node, no *.server imports. zod is isomorphic so the
-// schemas are ported verbatim (minus the TS types). Every wrapper is a thin GET
-// over the shared getJSON() and threads the AbortSignal from its caller so panel
-// switches cancel in-flight reads.
-//
-// Endpoints used by the Passport panel:
-//   /lambdas/profile/{addr}            -> LIVE (200; empty {avatars:[]} on this realm)
-//   /badges/users/{addr}/badges        -> LIVE 200 but empty on this realm -> fixture
-//   /camera-reel/users/{addr}/images   -> edge-404 today                   -> fixture
-
 import { z } from "zod";
 import { getJSON, catalystBase } from "./client.js";
-
-// ---------------------------------------------------------------------------
-// address helpers
-// ---------------------------------------------------------------------------
 
 export function normalizeAddress(addr) {
   return (addr ?? "").trim().toLowerCase();
@@ -23,10 +8,6 @@ export function normalizeAddress(addr) {
 export function isEthAddress(addr) {
   return /^0x[0-9a-fA-F]{40}$/.test((addr ?? "").trim());
 }
-
-// ---------------------------------------------------------------------------
-// profile (/lambdas/profile/{addr})
-// ---------------------------------------------------------------------------
 
 const Color3Schema = z
   .object({ r: z.number(), g: z.number(), b: z.number() })
@@ -82,8 +63,6 @@ export function parseProfileEnvelope(raw) {
   return ProfileEnvelopeSchema.parse(raw);
 }
 
-// Returns the first deployed Avatar, or null when no profile is deployed
-// (catalyst answers 200 with {avatars:[]} for un-deployed addresses).
 export async function fetchProfile(address, opts = {}) {
   const raw = await getJSON(
     `/lambdas/profile/${encodeURIComponent(normalizeAddress(address))}`,
@@ -110,7 +89,6 @@ const INFO_FIELDS = [
   { src: "hobbies", key: "favorite_hobby", label: "Favorite hobby", icon: "heart" },
 ];
 
-// Map a raw Avatar into the presentational view-model the Passport surface wants.
 export function mapProfile(avatar, address) {
   const nameColor =
     typeof avatar.nameColor === "string"
@@ -149,19 +127,12 @@ export function mapProfile(avatar, address) {
   };
 }
 
-// Resolve the avatar face snapshot into a usable <img src>. Deployed profiles
-// usually carry an absolute URL; a bare content hash is resolved against the
-// catalyst content endpoint.
 export function profileFaceUrl(avatar, opts = {}) {
   const snap = avatar?.avatar?.snapshots?.face256;
   if (!snap || typeof snap !== "string") return null;
   if (/^https?:\/\//i.test(snap) || snap.startsWith("data:")) return snap;
   return `${catalystBase(opts.base)}/content/contents/${snap}`;
 }
-
-// ---------------------------------------------------------------------------
-// badges (/badges/users/{addr}/badges + /badges/categories)
-// ---------------------------------------------------------------------------
 
 const CategoriesEnvelopeSchema = z
   .object({
@@ -180,6 +151,7 @@ export const BadgeDataSchema = z
     category: z.string().nullish(),
     isTier: z.boolean().optional(),
     completedAt: z.string().nullish(),
+    assets: z.any().optional(),
     progress: z
       .object({
         stepsDone: z.number().optional(),
@@ -205,22 +177,40 @@ const UserBadgesEnvelopeSchema = z
   .passthrough();
 
 export async function fetchBadgeCategories(opts = {}) {
-  const raw = await getJSON("/badges/categories", opts);
+  const raw = await getJSON("/categories", opts);
   return CategoriesEnvelopeSchema.parse(raw).data.categories;
+}
+
+export function badgeImage(b) {
+  const tier = b?.progress?.lastCompletedTierImage;
+  if (typeof tier === "string" && tier.trim()) return tier;
+  const flat = b?.assets?.["2d"]?.normal ?? b?.assets?.["2d"]?.baseColor;
+  return typeof flat === "string" && flat.trim() ? flat : null;
+}
+
+export function mapBadge(b) {
+  return {
+    id: b.id || b.name,
+    name: b.name,
+    description: b.description ?? "",
+    category: b.category ?? null,
+    tier: b.progress?.lastCompletedTierName ?? null,
+    image: badgeImage(b),
+    completedAt: b.completedAt ?? null,
+  };
 }
 
 export async function fetchUserBadges(address, opts = {}) {
   const raw = await getJSON(
-    `/badges/users/${encodeURIComponent(normalizeAddress(address))}/badges`,
+    `/users/${encodeURIComponent(normalizeAddress(address))}/badges`,
     opts,
   );
   const env = UserBadgesEnvelopeSchema.parse(raw);
-  return { achieved: env.data.achieved, notAchieved: env.data.notAchieved };
+  return {
+    achieved: env.data.achieved.map(mapBadge),
+    notAchieved: env.data.notAchieved.map(mapBadge),
+  };
 }
-
-// ---------------------------------------------------------------------------
-// photos (/camera-reel/users/{addr}/images)
-// ---------------------------------------------------------------------------
 
 export const GalleryImageSchema = z
   .object({

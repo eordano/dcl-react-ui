@@ -491,3 +491,48 @@
     gap: 8px;
   }
 }
+
+html.mp-light .mkassetpage2 {
+  --mk2-card: var(--lm-surface);
+  --mk2-cardhead: var(--lm-bg);
+  --mk2-muted: var(--lm-ink-3);
+  --mk2-label: var(--lm-ink-3);
+  --mk2-divider: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .mkassetpage2__back { color: var(--lm-ink-2); }
+html.mp-light .mkassetpage2__back:hover { color: var(--lm-ink); }
+html.mp-light .mkassetpage2__rarity { background: #ececed; color: #16141a; }
+html.mp-light .mkassetpage2__badge {
+  color: var(--lm-ink-2);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--lm-line);
+}
+html.mp-light .mkassetpage2__badgeicon { color: var(--lm-ink-3); }
+html.mp-light .mkassetpage2__subhead { color: var(--lm-ink-3); }
+html.mp-light .mkassetpage2__creatorname { color: var(--lm-ink); }
+html.mp-light .mkassetpage2__collname { color: var(--lm-ink); }
+html.mp-light .mkassetpage2__permstitle { color: var(--lm-ink-3); }
+html.mp-light .mkassetpage2__permchip {
+  color: var(--lm-ink-2);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--lm-line);
+}
+html.mp-light .mkassetpage2__infodot { border-color: var(--lm-line); color: var(--lm-ink-3); }
+html.mp-light .mkassetpage2__buycardhead { color: var(--lm-ink); }
+html.mp-light .mkassetpage2__fiat { color: var(--lm-ink-3); }
+html.mp-light .mkassetpage2__stock { color: var(--lm-ink); }
+html.mp-light .mkassetpage2__nooffer { color: var(--lm-ink-3); }
+html.mp-light .mkassetpage2__expires { color: var(--lm-ink-2); }
+html.mp-light .mkassetpage2__emptytext { color: var(--lm-ink-2); }
+html.mp-light .mkassetpage2__emptytitle { color: var(--lm-ink); }
+html.mp-light .mkassetpage2__table { border-color: var(--lm-line); }
+html.mp-light .mkassetpage2__thead {
+  color: var(--lm-ink-3);
+  background: var(--lm-bg);
+  border-bottom-color: var(--lm-line);
+}
+html.mp-light .mkassetpage2__trow { border-top-color: var(--lm-line); }
+html.mp-light .mkassetpage2__emptytable { color: var(--lm-ink-3); border-color: var(--lm-line); }
+html.mp-light .mkassetpage2__close { color: var(--lm-ink-3); }
+html.mp-light .mkassetpage2__close:hover { color: var(--lm-ink); }

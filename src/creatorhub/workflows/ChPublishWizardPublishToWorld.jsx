@@ -121,9 +121,11 @@ function InfoItem({ icon, label }) {
   );
 }
 
-function SelectWorld({ data, multiScene, onToggleMulti }) {
+function SelectWorld({ data, multiScene, onToggleMulti, onPickName, onReview, onClaimName }) {
   const { name, world, names } = data;
   const hasName = !!name;
+  const [open, setOpen] = useState(false);
+  const showMenu = (open || !hasName) && names && names.length > 0;
   return (
     <div className="cpw__selectworld">
       <div className="cpw__selection">
@@ -136,19 +138,39 @@ function SelectWorld({ data, multiScene, onToggleMulti }) {
             </span>
             <ChevronDownAlt size={20} />
           </button>
-          <button type="button" className="cpw__select cpw__select--name">
+          <button
+            type="button"
+            className="cpw__select cpw__select--name"
+            aria-expanded={showMenu}
+            onClick={() => setOpen((v) => !v)}
+          >
             <span className={"cpw__selectval" + (hasName ? "" : " cpw__placeholder")}>
               {hasName ? name : "Select a Name"}
             </span>
             <ChevronDownAlt size={20} />
           </button>
         </div>
-        {!hasName && names && names.length > 0 ? (
+        {showMenu ? (
           <div className="cpw__menu" role="listbox" aria-label="World names">
             {names.map((n) => (
-              <div key={n} className="cpw__menuitem" role="option">{n}</div>
+              <div
+                key={n}
+                className="cpw__menuitem"
+                role="option"
+                aria-selected={n === name}
+                onClick={() => {
+                  onPickName && onPickName(n);
+                  setOpen(false);
+                }}
+              >
+                {n}
+              </div>
             ))}
-            <div className="cpw__menuitem cpw__menuitem--claim">
+            <div
+              className="cpw__menuitem cpw__menuitem--claim"
+              role="option"
+              onClick={() => onClaimName && onClaimName()}
+            >
               <PlusIcon /> Claim a new NAME
             </div>
           </div>
@@ -198,7 +220,12 @@ function SelectWorld({ data, multiScene, onToggleMulti }) {
       ) : null}
 
       <div className="cpw__actions">
-        <button type="button" className="cpw__btn cpw__btn--primary" disabled={!hasName}>
+        <button
+          type="button"
+          className="cpw__btn cpw__btn--primary"
+          disabled={!hasName}
+          onClick={onReview}
+        >
           {multiScene && world ? "Select Location" : "Review"}
           <ChevronRight size={18} />
         </button>
@@ -207,7 +234,7 @@ function SelectWorld({ data, multiScene, onToggleMulti }) {
   );
 }
 
-function EmptyNames() {
+function EmptyNames({ onClaimName }) {
   return (
     <div className="cpw__empty">
       <h3 className="cpw__emptytitle">You don't have any available World</h3>
@@ -217,7 +244,7 @@ function EmptyNames() {
         Each NAME will give you access to one World. You can have as many as you want.
       </p>
       <div className="cpw__emptyactions">
-        <button type="button" className="cpw__btn cpw__btn--primary cpw__btn--block">Claim a new Name</button>
+        <button type="button" className="cpw__btn cpw__btn--primary cpw__btn--block" onClick={onClaimName}>Claim a new Name</button>
         <button type="button" className="cpw__btn cpw__btn--secondary cpw__btn--block">Learn more</button>
       </div>
     </div>
@@ -228,6 +255,13 @@ const PROJECT = {
   title: "Neon Night Market",
   size: "2x2",
   grad: "linear-gradient(135deg, #ff2d55 0%, #350447 100%)",
+};
+const OWNER = {
+  network: "Mainnet",
+  address: "0x9f3c…7a21",
+  username: "javier.dcl",
+  verified: true,
+  role: "Owner",
 };
 const SELECTION_DATA = {
   name: "mystore.dcl.eth",
@@ -240,38 +274,55 @@ const SELECTION_DATA = {
   },
 };
 
-export default function ChPublishWizardPublishToWorld({ state = "selection" }) {
-  const [multiScene, setMultiScene] = useState(true);
+export default function ChPublishWizardPublishToWorld({
+  state = "selection",
+  project =(PROJECT),
+  owner =(OWNER),
+  names =(SELECTION_DATA.names),
+  selectedName =(SELECTION_DATA.name),
+  world =(SELECTION_DATA.world),
+  multiScene =(undefined),
+  onToggleMulti =(undefined),
+  onPickName =(undefined),
+  onReview =(undefined),
+  onBack =(undefined),
+  onClose =(undefined),
+  onClaimName =(undefined),
+}) {
+  const [multiSceneState, setMultiSceneState] = useState(true);
+  const multiSceneOn = multiScene ?? multiSceneState;
+  const toggleMulti = onToggleMulti ?? setMultiSceneState;
   const isEmpty = state === "empty";
 
   return (
     <div className="cpw__backdrop">
       <div className={"cpw__modal" + (isEmpty ? " cpw__modal--empty" : "")} role="dialog" aria-modal="true" aria-label="Publish to your World">
         <header className="cpw__header">
-          <button type="button" className="cpw__iconbtn cpw__back" aria-label="back"><ChevronLeft size={22} /></button>
+          {onBack ? (
+            <button type="button" className="cpw__iconbtn cpw__back" aria-label="back" onClick={onBack}><ChevronLeft size={22} /></button>
+          ) : null}
           <h2 className="cpw__titletext">{isEmpty ? "Worlds" : "Publish to your World"}</h2>
-          <button type="button" className="cpw__iconbtn cpw__close" aria-label="close"><Close size={20} /></button>
+          {onClose ? (
+            <button type="button" className="cpw__iconbtn cpw__close" aria-label="close" onClick={onClose}><Close size={20} /></button>
+          ) : null}
         </header>
 
         <div className="cpw__body">
           {isEmpty ? (
-            <EmptyNames />
+            <EmptyNames onClaimName={onClaimName} />
           ) : (
             <div className="cpw__stepwrapper">
-              <ChipsRow
-                network="Mainnet"
-                address="0x9f3c…7a21"
-                username="javier.dcl"
-                verified
-                role="Owner"
-              />
+              <ChipsRow {...owner} />
               <div className="cpw__projcontainer">
-                <ProjectInfo project={PROJECT} />
+                <ProjectInfo project={project} />
                 <div className="cpw__content">
                   <SelectWorld
-                    data={{ ...SELECTION_DATA }}
-                    multiScene={multiScene}
-                    onToggleMulti={setMultiScene}
+                    data={{ name: selectedName, names, world }}
+                    multiScene={multiSceneOn}
+                    onToggleMulti={toggleMulti}
+                    onPickName={onPickName}
+                    onReview={onReview}
+                    onClaimName={onClaimName}
                   />
                 </div>
               </div>

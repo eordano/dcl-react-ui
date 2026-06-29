@@ -214,13 +214,13 @@ export default function MkListPage({
                   <span className="mklistpage__description">{list.description}</span>
                 ) : null}
                 {isPublicView && list.userAddress && (
-                  <a className="mklistpage__owner" href="#owner" onClick={(e) => e.preventDefault()}>
+                  <span role="button" tabIndex={0} className="mklistpage__owner">
                     <span
                       className="mklistpage__owneravatar u-avatar"
                       style={{ "--sz": "24px", "--hue": 292 }}
                     />
                     {list.userAddress}
-                  </a>
+                  </span>
                 )}
               </div>
               {list.updatedAt ? (
@@ -246,7 +246,7 @@ export default function MkListPage({
                   <p>{isPublicView ? "Try with another list." : "Discover amazing items."}</p>
                   {!isPublicView && (
                     <div className="mklistpage__emptyactions">
-                      <a className="mklistpage__primary" href="#browse" onClick={(e) => e.preventDefault()}>
+                      <a className="mklistpage__primary" href="/marketplace">
                         Explore collectibles
                       </a>
                     </div>

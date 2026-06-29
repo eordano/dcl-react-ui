@@ -329,19 +329,12 @@
   .sje__desc { height: 250px; }
   .sje__desc::after { background: linear-gradient(transparent, #2e013e); }
   .sje__desctext { font-size: 16px; line-height: 1.5; }
-  /* Buttons stay in-row but wrap cleanly: the wide calendar button takes its
-     own full-width row, while REMIND ME grows to fill the row beside the
-     fixed-size share button (instead of each button stretching full-width in a
-     column, which left the 48px share button stranded). */
   .sje__actions { margin-top: 0; }
   .sje__calendar { flex: 1 1 100%; justify-content: center; }
   .sje__remind { flex: 1 1 0; }
   .sje__share { flex: 0 0 auto; }
 }
 
-/* ── Invalid state ─────────────────────────────────────────────────────────
-   Folded in from the former StJumpInEventsInvalid component. Rendered when
-   state="invalid"; the centered "Oops!" panel replaces the event card. */
 .siv {
   --siv-bg-grad: linear-gradient(160deg, #2a0640 0%, #1a0330 46%, #3a0a4d 100%);
   --siv-bg-bloom: radial-gradient(120% 90% at 50% 110%, rgba(255, 45, 85, 0.28) 0%, rgba(152, 45, 226, 0.18) 34%, rgba(42, 6, 64, 0) 64%);

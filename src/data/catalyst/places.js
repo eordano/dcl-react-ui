@@ -1,30 +1,12 @@
-// Browser-only catalyst wrappers for the Places API, mirroring the conventions
-// of sites/app/lib/catalyst/places.ts + map-jump.ts (zod validation, envelope
-// unwrapping, pure mapping helpers) — but client-side only: it imports nothing
-// from node/server, just getJSON from ./client.js. zod is isomorphic, so the
-// schemas below are the same shape as the SSR app's.
-//
-// Endpoints (LIVE, GET, https://catalyst.dcl.one):
-//   /places/api/places?limit=40   -> { ok, data: Place[], total }
-//   /places/api/places/{id}       -> { ok, data: Place }
-//   /places/api/categories        -> { ok, data: Category[] }
-
 import { z } from "zod";
 
 import { getJSON } from "./client.js";
 
 export const PLACES_LIMIT = 40;
 
-// Genesis City spans roughly -150..150 on each axis; pad a little so edge
-// parcels aren't clipped against the CSS-grid frame. The engine owns the real
-// tile raster — this is the lightweight overlay projection onto a 0..100% grid.
 const GRID_MIN = -170;
 const GRID_SPAN = 340;
 const GRID_MAX = GRID_MIN + GRID_SPAN;
-
-// ---------------------------------------------------------------------------
-// schemas (defensive: unknown rows are skipped, never throw on a single bad row)
-// ---------------------------------------------------------------------------
 
 const nullableStr = z.string().nullish().transform((v) => v ?? null);
 const numOr = (d) => z.number().nullish().transform((v) => (v == null ? d : v));
@@ -75,10 +57,6 @@ const CategoriesEnvelope = z.object({
   data: z.array(z.unknown()).nullish().transform((v) => v ?? []),
 });
 
-// ---------------------------------------------------------------------------
-// pure helpers
-// ---------------------------------------------------------------------------
-
 export function parseCoords(pos) {
   const [xs, ys] = String(pos ?? "0,0").split(",");
   const x = Number.parseInt((xs ?? "0").trim(), 10);
@@ -90,8 +68,6 @@ function clampPct(n) {
   return Math.max(2, Math.min(98, n));
 }
 
-// Project parcel coords onto the CSS grid: x -> left%, y -> top% (y flipped so
-// north points up, matching the in-world map).
 export function coordsToPercent(coords) {
   const [x, y] = parseCoords(coords);
   return {
@@ -118,7 +94,6 @@ function fmtDate(iso) {
   return d.toLocaleDateString();
 }
 
-// Map a place to a ui3 map.css pin class kind (map__pin--<kind>).
 function pinKind(p) {
   if (p.user_count > 0) return "live";
   const c = p.categories.map((s) => s.toLowerCase());
@@ -149,8 +124,6 @@ function catColor(name) {
   return CAT_COLORS[name] || `hsl(${hueFor(name)} 70% 62%)`;
 }
 
-// Presentational view of a place: drives both the CSS-grid pins and the info
-// card. Keeps raw coords (for teleport) plus derived left/top% (for layout).
 export function toPlaceView(p) {
   const [x, y] = parseCoords(p.base_position);
   const { left, top } = coordsToPercent(p.base_position);
@@ -183,8 +156,6 @@ export function toPlaceView(p) {
   };
 }
 
-// Adapt a place view into the prop shape expected by the reused
-// explorer/pages/PlaceDetail.jsx component.
 export function toPlaceDetail(view) {
   if (!view) return null;
   return {
@@ -213,7 +184,6 @@ export function toCategoryView(c) {
   };
 }
 
-// Decentraland jump URL (used for world realm switches via engine.changerealm).
 export function jumpUrlFor(view) {
   if (view?.world && view?.worldName) {
     return `https://decentraland.org/jump/?realm=${encodeURIComponent(view.worldName)}`;
@@ -221,10 +191,6 @@ export function jumpUrlFor(view) {
   const pos = (view?.coords || "0,0").trim();
   return `https://decentraland.org/jump/?position=${pos}`;
 }
-
-// ---------------------------------------------------------------------------
-// fetchers (opts.signal is forwarded into getJSON so panel switches cancel reads)
-// ---------------------------------------------------------------------------
 
 export async function fetchPlaces(params = {}, opts = {}) {
   const env = await getJSON("/places/api/places", {

@@ -1,16 +1,12 @@
-import { useState } from "react";
 import CreatorHubChrome from "../frames/CreatorHubChrome.jsx";
+import EmptyState from "../../components/EmptyState.jsx";
+import Spinner from "../../atoms/Spinner.jsx";
 import { asset } from "../../asset.js";
 import "./creatorhubhome.css";
 
-const SCENES = [
-  { id: "s1", title: "Genesis Plaza Booth" },
-  { id: "s2", title: "Neon Night Market" },
-  { id: "s3", title: "Sakura Garden" },
-  { id: "s4", title: "Cyber Arena" },
-  { id: "s5", title: "Lo-Fi Lounge" },
-  { id: "s6", title: "Desert Expo Hall" },
-];
+const SCENES_HREF = "/create/scenes";
+const LEARN_HREF = "/create/learn";
+const FEEDBACK_URL = "https://forum.decentraland.org/c/support-sdk/11";
 
 const LEARN_RESOURCES = [
   { title: "Let's build the metaverse together", href: "https://docs.decentraland.org/creator/", kind: "doc" },
@@ -38,6 +34,107 @@ const VideoIcon = () => (
   </svg>
 );
 
+const NewProjectIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <rect x="3" y="3" width="14" height="14" rx="2.4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <path d="M10 7v6M7 10h6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+  </svg>
+);
+const DeployIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <path d="M10 13V4M6.5 7.5 10 4l3.5 3.5" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M4 14.5v1A1.5 1.5 0 0 0 5.5 17h9a1.5 1.5 0 0 0 1.5-1.5v-1" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const SparkleIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <path d="M10 2.5c.6 4 3.5 6.9 7.5 7.5-4 .6-6.9 3.5-7.5 7.5-.6-4-3.5-6.9-7.5-7.5 4-.6 6.9-3.5 7.5-7.5Z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+  </svg>
+);
+const TemplatesIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <rect x="3" y="3" width="6" height="6" rx="1.3" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <rect x="11" y="3" width="6" height="6" rx="1.3" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <rect x="3" y="11" width="6" height="6" rx="1.3" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <rect x="11" y="11" width="6" height="6" rx="1.3" stroke="currentColor" strokeWidth="1.5" fill="none" />
+  </svg>
+);
+const DesktopAppIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <rect x="2.5" y="3.5" width="15" height="10" rx="1.6" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <path d="M7.5 17h5M10 13.5V17" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M10 6v3.6M8.2 7.8 10 9.6l1.8-1.8" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const CompassArt = () => (
+  <svg className="chh__exploreart" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.6" />
+    <path d="m15.2 8.8-1.7 4.7-4.7 1.7 1.7-4.7 4.7-1.7Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+  </svg>
+);
+
+const CollectionsIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <path d="M3 3h6l8 8-6 6-8-8V3Z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+    <circle cx="6.4" cy="6.4" r="1.1" fill="currentColor" />
+  </svg>
+);
+const WorldsIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <circle cx="10" cy="10" r="7" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <path d="M3 10h14M10 3c2.2 2.4 2.2 11.6 0 14M10 3c-2.2 2.4-2.2 11.6 0 14" stroke="currentColor" strokeWidth="1.4" fill="none" />
+  </svg>
+);
+const MetricsIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <path d="M3 16.5h14" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+    <path d="M6 16.5V12M10 16.5V8.5M14 16.5V5" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+  </svg>
+);
+const LandIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <rect x="3" y="3" width="14" height="14" rx="1.3" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <path d="M10 3v14M3 10h14" stroke="currentColor" strokeWidth="1.5" fill="none" />
+  </svg>
+);
+const NamesIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <path d="M10.3 3H16a1 1 0 0 1 1 1v5.7a1 1 0 0 1-.3.7l-6 6a1 1 0 0 1-1.4 0L3.6 11.7a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 .7-.3Z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+    <circle cx="13.3" cy="6.7" r="1.1" fill="currentColor" />
+  </svg>
+);
+const ShieldCheckIcon = () => (
+  <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+    <path d="M10 2.5 16 4.7v4.3c0 3.4-2.4 6.5-6 8-3.6-1.5-6-4.6-6-8V4.7L10 2.5Z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+    <path d="m7.3 9.8 1.9 1.9 3.5-3.6" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const ManageArt = () => (
+  <svg className="chh__exploreart" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 7h9M16 7h4M4 12h4M11 12h9M4 17h12M19 17h1" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    <circle cx="14.5" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+    <circle cx="9.5" cy="12" r="2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+    <circle cx="17.5" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="1.6" />
+  </svg>
+);
+
+const EXPLORE_LINKS = [
+  { title: "New project", href: "/creator-hub/create-project?from=home", icon: <NewProjectIcon />, badge: "Preview" },
+  { title: "Browse templates", href: "/create/templates", icon: <TemplatesIcon />, badge: "Preview" },
+  { title: "Generate with AI", href: "/creator-hub/ai-generate?from=home", icon: <SparkleIcon />, badge: "Preview" },
+  { title: "Deploy a scene", href: "/creator-hub/deploy-land", icon: <DeployIcon /> },
+  { title: "Get the desktop app", href: "/landings/creator-hub-download", icon: <DesktopAppIcon /> },
+];
+
+const MANAGE_LINKS = [
+  { title: "Collections", href: "/create/wearables", icon: <CollectionsIcon /> },
+  { title: "Worlds", href: "/creator-hub/manage", icon: <WorldsIcon /> },
+  { title: "Metrics", href: "/creator-hub/metrics", icon: <MetricsIcon /> },
+  { title: "Curate", href: "/create/curate", icon: <ShieldCheckIcon />, badge: "Committee" },
+  { title: "Land", href: "/builder/land", icon: <LandIcon />, builder: true },
+  { title: "Names", href: "/builder/names", icon: <NamesIcon />, builder: true },
+];
+
 const EditorArt = () => (
   <img className="chh__bannerart" src={asset("assets/ch-home-editor.png")} alt="" aria-hidden="true" />
 );
@@ -48,75 +145,104 @@ const InfluenceArt = () => (
   <img className="chh__feedbackart" src={asset("assets/ch-home-influence.png")} alt="" aria-hidden="true" />
 );
 
-function CardBanner({ art, title, onClick }) {
-  const clickable = !!onClick;
+function CardBanner({ art, title }) {
   return (
-    <div
-      className={"chh__banner" + (clickable ? " is-clickable" : "")}
-      onClick={onClick}
-      {...(clickable ? { role: "button", tabIndex: 0 } : {})}
-    >
+    <div className="chh__banner">
       <span className="chh__bannerimg">{art}</span>
-      <span className="chh__bannertitle">{title}</span>
+      <h2 className="chh__bannertitle">{title}</h2>
     </div>
   );
 }
 
-function CardItem({ title, icon, href }) {
+const ExternalGlyph = () => (
+  <svg className="chh__itemext" viewBox="0 0 20 20" width="13" height="13" aria-hidden="true">
+    <path d="M8 4.5H5.2a1 1 0 0 0-1 1V15a1 1 0 0 0 1 1h9.6a1 1 0 0 0 1-1v-2.8" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M11.5 4.5H15.5V8.5M15.5 4.5 9.5 10.5" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+function CardItem({ title, icon, href, external, builder, badge }) {
   const inner = (
     <>
       <span className="chh__itemicon" aria-hidden="true">{icon}</span>
       <span className="chh__itemtitle u-truncate">{title}</span>
+      {builder || external ? <ExternalGlyph /> : null}
+      {badge ? <span className="chh__itembadge">{badge}</span> : null}
     </>
   );
   if (href != null) {
+    const ext = external ? { target: "_blank", rel: "noreferrer" } : {};
+    const labelAttrs = builder
+      ? { "aria-label": `${title} (opens Builder)`, title: `${title} (opens Builder)` }
+      : external
+      ? { "aria-label": `${title} (opens in new tab)`, title: `${title} (opens in new tab)` }
+      : {};
     return (
-      <a className="chh__item" href={href} target="_blank" rel="noreferrer">
+      <a className="chh__item" href={href} {...ext} {...labelAttrs}>
         {inner}
       </a>
     );
   }
-  return (
-    <button type="button" className="chh__item">
-      {inner}
-    </button>
-  );
+  return <span className="chh__item chh__item--inert" aria-disabled="true">{inner}</span>;
 }
 
-function SignInCard({ onSignIn }) {
-  return (
-    <article className="chh__card chh__card--signin">
-      <div className="chh__cardbody chh__cardbody--centered">
-        <p className="chh__signintitle">Sign In to publish your scenes</p>
-        <button type="button" className="chh__signinbtn" onClick={onSignIn}>
-          Sign In
-        </button>
-      </div>
-    </article>
-  );
+function shortAddress(addr) {
+  return addr && addr.length > 12 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr;
 }
 
-function ScenesCard({ scenes }) {
+function ScenesCard({ scenes, scenesError, rescoping, signedIn, onSignIn, onScenes, onStartBuilding, onRetry }) {
   const empty = scenes.length === 0;
   return (
     <article className="chh__card">
-      <CardBanner art={<EditorArt />} title="Scenes" onClick={() => {}} />
-      {empty ? (
+      <CardBanner art={<EditorArt />} title="Scenes" />
+      {scenesError ? (
         <div className="chh__cardbody chh__cardbody--centered chh__cardbody--empty">
-          <p className="chh__emptytext">Create your first scene</p>
-          <button type="button" className="chh__ghostbtn">Start Building</button>
+          <p className="chh__outagetext" role="alert">
+            Couldn’t load your scenes just now — the Builder data layer may be
+            temporarily unavailable. Your work isn’t lost.
+          </p>
+          {onRetry ? (
+            <button type="button" className="chh__ghostbtn" onClick={onRetry}>Try again</button>
+          ) : null}
+        </div>
+      ) : rescoping ? (
+        <div
+          className="chh__cardbody chh__cardbody--centered chh__cardbody--empty"
+          role="status"
+          aria-live="polite"
+        >
+          <Spinner size={36} />
+          <p className="chh__loadingtext">Loading your scenes…</p>
+        </div>
+      ) : empty && !signedIn ? (
+        <div className="chh__cardbody chh__cardbody--centered chh__cardbody--empty">
+          <EmptyState
+            variant="inline"
+            title="Connect wallet to see your scenes"
+            subtitle="Your scenes will appear here once your wallet is connected."
+            actions={[{ label: "Connect wallet", onClick: onSignIn }]}
+          />
+        </div>
+      ) : empty ? (
+        <div className="chh__cardbody chh__cardbody--centered chh__cardbody--empty">
+          <EmptyState
+            variant="inline"
+            title="Create your first scene"
+            subtitle="Build, preview, and publish your first Decentraland scene."
+            actions={[{ label: "Start building", onClick: onStartBuilding }]}
+          />
         </div>
       ) : (
         <>
           <div className="chh__cardbody">
             <div className="chh__list">
               {scenes.slice(0, 6).map((s) => (
-                <CardItem key={s.id} title={s.title} icon={<LayersIcon />} />
+                <CardItem key={s.id} title={s.title} icon={<LayersIcon />} href={s.href ?? null} />
               ))}
             </div>
           </div>
           <div className="chh__cardactions">
-            <button type="button" className="chh__seeall">See All</button>
+            <button type="button" className="chh__seeall" onClick={onScenes} aria-label="See all scenes">See All</button>
           </div>
         </>
       )}
@@ -124,10 +250,43 @@ function ScenesCard({ scenes }) {
   );
 }
 
-function LearnCard() {
+function ExploreCard({ hasScenes = false }) {
+  const links = hasScenes
+    ? EXPLORE_LINKS
+    : EXPLORE_LINKS.filter((l) => l.href !== "/creator-hub/deploy-land");
   return (
     <article className="chh__card">
-      <CardBanner art={<BookArt />} title="Learn" onClick={() => {}} />
+      <CardBanner art={<CompassArt />} title="Explore" />
+      <div className="chh__cardbody">
+        <div className="chh__list">
+          {links.map((l) => (
+            <CardItem key={l.href} title={l.title} icon={l.icon} href={l.href} badge={l.badge} />
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function ManageCard() {
+  return (
+    <article className="chh__card">
+      <CardBanner art={<ManageArt />} title="Manage" />
+      <div className="chh__cardbody">
+        <div className="chh__list">
+          {MANAGE_LINKS.map((l) => (
+            <CardItem key={l.href} title={l.title} icon={l.icon} href={l.href} builder={l.builder} badge={l.badge} />
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function LearnCard({ onLearn }) {
+  return (
+    <article className="chh__card">
+      <CardBanner art={<BookArt />} title="Learn" />
       <div className="chh__cardbody">
         <div className="chh__list">
           {LEARN_RESOURCES.map((r, i) => (
@@ -135,13 +294,14 @@ function LearnCard() {
               key={i}
               title={r.title}
               href={r.href}
+              external
               icon={r.kind === "video" ? <VideoIcon /> : <BookmarkIcon />}
             />
           ))}
         </div>
       </div>
       <div className="chh__cardactions">
-        <button type="button" className="chh__seeall">See All</button>
+        <button type="button" className="chh__seeall" onClick={onLearn} aria-label="See all learning resources">See All</button>
       </div>
     </article>
   );
@@ -152,30 +312,68 @@ function FeedbackCard() {
     <article className="chh__card chh__card--feedback">
       <div className="chh__cardbody chh__cardbody--centered">
         <span className="chh__feedbackimg" aria-hidden="true"><InfluenceArt /></span>
-        <p className="chh__feedbacktitle">Shape the future of Creator Hub</p>
-        <button type="button" className="chh__signinbtn">Submit Feedback</button>
+        <h2 className="chh__feedbacktitle">Shape the future of Creator Hub</h2>
+        <a
+          className="chh__feedbackbtn"
+          href={FEEDBACK_URL}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Submit Feedback (opens in new tab)"
+          title="Submit Feedback (opens in new tab)"
+        >
+          Submit Feedback
+        </a>
       </div>
     </article>
   );
 }
 
-export default function CreatorHubHome({ scenes = SCENES, signedIn = true }) {
-  const [tab, setTab] = useState("home");
-
+export default function CreatorHubHome({
+  scenes =([]),
+  scenesError = false,
+  rescoping = false,
+  signedIn = false,
+  account = "",
+  name = "",
+  onSignIn,
+  onStartBuilding,
+  onScenes,
+  onLearn,
+  onRetry,
+}) {
+  const greeting =
+    signedIn && (name || account)
+      ? `Welcome back, ${name || shortAddress(account)}`
+      : "Welcome to Creator Hub";
   return (
-    <CreatorHubChrome active={tab} onTab={setTab} signedIn={signedIn}>
-      <main className="chh">
+    <CreatorHubChrome active="home" signedIn={signedIn} account={account} name={name} onSignIn={onSignIn}>
+      <section className="chh">
         <div className="chh__container">
-          <h1 className="chh__title">Welcome to Creator Hub</h1>
+          <div className="chh__hero">
+            <h1 className="chh__title">{greeting}</h1>
+            <button type="button" className="chh__herobtn" onClick={onStartBuilding}>
+              Start building
+            </button>
+          </div>
 
           <div className="chh__grid">
-            {!signedIn ? <SignInCard onSignIn={() => {}} /> : null}
-            <ScenesCard scenes={scenes} />
-            <LearnCard />
+            <ScenesCard
+              scenes={scenes}
+              scenesError={scenesError}
+              rescoping={rescoping}
+              signedIn={signedIn}
+              onSignIn={onSignIn}
+              onScenes={onScenes}
+              onStartBuilding={onStartBuilding}
+              onRetry={onRetry}
+            />
+            <ExploreCard hasScenes={scenes.length > 0} />
+            <ManageCard />
+            <LearnCard onLearn={onLearn} />
             <FeedbackCard />
           </div>
         </div>
-      </main>
+      </section>
     </CreatorHubChrome>
   );
 }

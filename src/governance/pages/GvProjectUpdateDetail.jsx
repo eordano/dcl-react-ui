@@ -199,7 +199,7 @@ function BreakdownRow({ group }) {
                 <span className="gud__sumtoken">{r.token}</span>
                 <span className="gud__sumamount">{fmt(r.amount)}</span>
                 {r.link ? (
-                  <a className="gud__sumlink" href={r.link} onClick={(e) => e.preventDefault()} aria-label="View transaction">
+                  <a className="gud__sumlink" href={r.link} target="_blank" rel="noopener noreferrer" aria-label="View transaction">
                     <LinkOut />
                   </a>
                 ) : (
@@ -273,7 +273,7 @@ export default function GvProjectUpdateDetail({ update = UPDATE, project = PROJE
             <section className="gud__section gud__header">
               <span className="gud__projecttitle">
                 Project update for{" "}
-                <a className="gud__projectlink" href="#project" onClick={(e) => e.preventDefault()}>
+                <a className="gud__projectlink" href={`/governance/projects/${project.id}`}>
                   {project.title}
                 </a>
               </span>
@@ -333,10 +333,10 @@ export default function GvProjectUpdateDetail({ update = UPDATE, project = PROJE
               <div className="gud__dates">
                 <div className="gud__dateline">
                   <span className="gud__datetext">Posted {update.completion_date} by</span>
-                  <a className="gud__author" href="#author" onClick={(e) => e.preventDefault()}>
+                  <span className="gud__author" role="button" tabIndex={0} onClick={(e) => e.preventDefault()}>
                     <span className="gud__authoravatar u-avatar" style={{ "--sz": "20px", "--hue": project.authorHue }} aria-hidden="true" />
                     {update.author}
-                  </a>
+                  </span>
                 </div>
                 {edited && (
                   <div className="gud__dateline">
@@ -367,13 +367,13 @@ export default function GvProjectUpdateDetail({ update = UPDATE, project = PROJE
               <div className="gud__comments">
                 {COMMENTS.map((c) => (
                   <div className="gud__comment" key={c.id}>
-                    <a className="gud__commentavatar u-avatar" href="#user" onClick={(e) => e.preventDefault()} style={{ "--sz": "40px", "--hue": c.hue }} aria-hidden="true" />
+                    <span className="gud__commentavatar u-avatar" style={{ "--sz": "40px", "--hue": c.hue }} aria-hidden="true" />
                     <div className="gud__commentbody">
                       <div className="gud__commenthead">
-                        <a className="gud__commentname" href="#user" onClick={(e) => e.preventDefault()}>
+                        <span className="gud__commentname" role="button" tabIndex={0} onClick={(e) => e.preventDefault()}>
                           {c.name}
                           {c.validated && <ValidatedBadge />}
-                        </a>
+                        </span>
                         <span className="gud__commenttime">{c.time}</span>
                       </div>
                       <p className="gud__commenttext">{c.text}</p>

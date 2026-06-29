@@ -75,24 +75,43 @@ function AssetImage({ category, name, dimmed }) {
   );
 }
 
-function SuccessActions({ asset }) {
+function ActionLink({ href, external, children }) {
+  const ext = external ?? /^https?:/i.test(href);
+  return (
+    <a
+      href={href}
+      style={{ display: "contents" }}
+      {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : null)}
+    >
+      {children}
+    </a>
+  );
+}
+
+function SuccessActions({ asset, dest }) {
   if (asset.category === "ens") {
     return (
       <div className="mksuccesspage__ensActions">
         <div className="mksuccesspage__primaryEnsActions">
-          <Button variant="secondary" className="mksuccesspage__successButton">
-            {COPY.mint_more_names}
-          </Button>
-          <Button variant="primary" className="mksuccesspage__successButton">
-            {COPY.set_as_primary_name}
-          </Button>
+          <ActionLink href={dest.getMoreNames}>
+            <Button variant="secondary" className="mksuccesspage__successButton">
+              {COPY.mint_more_names}
+            </Button>
+          </ActionLink>
+          <ActionLink href={dest.assignName}>
+            <Button variant="primary" className="mksuccesspage__successButton">
+              {COPY.set_as_primary_name}
+            </Button>
+          </ActionLink>
         </div>
-        <Button variant="ghost" className="mksuccesspage__manageBtn">
-          <span className="mksuccesspage__manageNames">
-            <span className="mksuccesspage__manageNamesIcon" aria-hidden="true" />
-            {COPY.manage_names}
-          </span>
-        </Button>
+        <ActionLink href={dest.manageNames}>
+          <Button variant="ghost" className="mksuccesspage__manageBtn">
+            <span className="mksuccesspage__manageNames">
+              <span className="mksuccesspage__manageNamesIcon" aria-hidden="true" />
+              {COPY.manage_names}
+            </span>
+          </Button>
+        </ActionLink>
       </div>
     );
   }
@@ -101,12 +120,16 @@ function SuccessActions({ asset }) {
     return (
       <div className="mksuccesspage__ensActions">
         <div className="mksuccesspage__primaryEnsActions">
-          <Button variant="secondary" className="mksuccesspage__successButton">
-            {COPY.manage_land}
-          </Button>
-          <Button variant="primary" className="mksuccesspage__successButton">
-            {COPY.start_building}
-          </Button>
+          <ActionLink href={dest.manageLand}>
+            <Button variant="secondary" className="mksuccesspage__successButton">
+              {COPY.manage_land}
+            </Button>
+          </ActionLink>
+          <ActionLink href={dest.startBuilding}>
+            <Button variant="primary" className="mksuccesspage__successButton">
+              {COPY.start_building}
+            </Button>
+          </ActionLink>
         </div>
       </div>
     );
@@ -115,22 +138,28 @@ function SuccessActions({ asset }) {
   if (asset.category === "wearable" || asset.category === "emote") {
     return (
       <>
-        <Button variant="secondary" className="mksuccesspage__successButton">
-          {COPY.view_item}
-        </Button>
-        <div className="mksuccesspage__jumpInButtonContainer">
-          <Button variant="primary" className="mksuccesspage__successButton">
-            {COPY.try_it_on_in_world}
+        <ActionLink href={dest.viewItem}>
+          <Button variant="secondary" className="mksuccesspage__successButton">
+            {COPY.view_item}
           </Button>
+        </ActionLink>
+        <div className="mksuccesspage__jumpInButtonContainer">
+          <ActionLink href={dest.tryInWorld} external>
+            <Button variant="primary" className="mksuccesspage__successButton">
+              {COPY.try_it_on_in_world}
+            </Button>
+          </ActionLink>
         </div>
       </>
     );
   }
 
   return (
-    <Button variant="secondary" className="mksuccesspage__successButton">
-      {COPY.view_item}
-    </Button>
+    <ActionLink href={dest.viewItem}>
+      <Button variant="secondary" className="mksuccesspage__successButton">
+        {COPY.view_item}
+      </Button>
+    </ActionLink>
   );
 }
 
@@ -162,8 +191,25 @@ export default function MkSuccessPage({
   state = "success",
   asset = DEFAULT_ASSET,
   subdomain = asset.category === "ens" ? asset.name : null,
+  links = {},
 }) {
   const [active, setActive] = useState("activity");
+
+  const ensName =
+    asset.category === "ens" && asset.name ? String(asset.name).toLowerCase() : "";
+  const dest = {
+    getMoreNames: "/marketplace/claim-name",
+    assignName: ensName
+      ? `/builder/names/${encodeURIComponent(ensName)}`
+      : "/builder/names",
+    manageNames: "/builder/names",
+    manageLand: "/marketplace/land",
+    startBuilding: "/creator-hub",
+    viewItem: "/marketplace/account",
+    tryInWorld: "https://decentraland.org/play",
+    activity: "/marketplace/activity",
+    ...links,
+  };
 
   let body;
   if (state === "error") {
@@ -173,9 +219,11 @@ export default function MkSuccessPage({
           <h1 className="mksuccesspage__errorTitle">{COPY.error_title}</h1>
           <p className="mksuccesspage__errorDescription">{COPY.error_description}</p>
         </div>
-        <Button variant="primary" className="mksuccesspage__goActivity">
-          {COPY.go_to_activity}
-        </Button>
+        <ActionLink href={dest.activity}>
+          <Button variant="primary" className="mksuccesspage__goActivity">
+            {COPY.go_to_activity}
+          </Button>
+        </ActionLink>
       </div>
     );
   } else if (state === "loading") {
@@ -205,7 +253,7 @@ export default function MkSuccessPage({
           {COPY.success_status}
         </span>
         <div className="mksuccesspage__actionContainer">
-          <SuccessActions asset={asset} />
+          <SuccessActions asset={asset} dest={dest} />
         </div>
       </>
     );

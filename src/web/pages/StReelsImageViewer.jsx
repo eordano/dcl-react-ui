@@ -130,7 +130,12 @@ function WearableMetadata({ wearable }) {
   );
   if (!buyable) return <div className="streelsimageviewer__wbrow streelsimageviewer__wbrow--static">{inner}</div>;
   return (
-    <a className="streelsimageviewer__wbrow" href="#" onClick={(e) => e.preventDefault()}>
+    <a
+      className="streelsimageviewer__wbrow"
+      href={`https://decentraland.org/marketplace/contracts/${wearable.collectionId}/items/${wearable.blockchainId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {inner}
     </a>
   );
@@ -147,7 +152,7 @@ function UserMetadata({ user, isFirst, defaultOpen = false }) {
           ) : (
             <span className="streelsimageviewer__useravatar streelsimageviewer__useravatar--fallback" aria-hidden="true" />
           )}
-          <a className="streelsimageviewer__username" href="#" onClick={(e) => e.preventDefault()}>
+          <a className="streelsimageviewer__username" href={`/profile/${user.userAddress}`}>
             {user.userName}
           </a>
           {user.isGuest && <span className="streelsimageviewer__guest">guest</span>}
@@ -251,7 +256,7 @@ export default function StReelsImageViewer({
               <div className="streelsimageviewer__userline">
                 <span>Photo taken by</span>
                 {photoTakenByFace && <img className="streelsimageviewer__inlineavatar" src={photoTakenByFace} alt="" loading="lazy" />}
-                <a className="streelsimageviewer__userlink" href="#" onClick={(e) => e.preventDefault()}>
+                <a className="streelsimageviewer__userlink" href={`/profile/${meta.userAddress}`}>
                   {meta.userName}
                 </a>
               </div>
@@ -265,11 +270,21 @@ export default function StReelsImageViewer({
             <div className="streelsimageviewer__placeline">
               <div className="streelsimageviewer__placeleft">
                 <LocationIcon />
-                <a className="streelsimageviewer__placelink" href="#" onClick={(e) => e.preventDefault()}>
+                <a
+                  className="streelsimageviewer__placelink"
+                  href={`https://places.decentraland.org/place/?position=${meta.scene.location.x},${meta.scene.location.y}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {meta.scene.name} {meta.scene.location.x},{meta.scene.location.y}
                 </a>
               </div>
-              <a className="streelsimageviewer__jumpin" href="#" onClick={(e) => e.preventDefault()}>
+              <a
+                className="streelsimageviewer__jumpin"
+                href={`https://decentraland.org/play/?position=${meta.scene.location.x},${meta.scene.location.y}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 jump in
               </a>
             </div>

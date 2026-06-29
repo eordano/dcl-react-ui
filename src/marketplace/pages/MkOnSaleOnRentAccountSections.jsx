@@ -62,13 +62,13 @@ const Mana = ({ amount }) => (
 
 function AssetCell({ name, sub, rarity }) {
   return (
-    <a className="mkosr__assetcell" href="#asset">
+    <span role="button" tabIndex={0} className="mkosr__assetcell">
       <span className="mkosr__assetimg u-rar-bg" style={{ "--rb": `var(--rar-bg-${rarity})` }} />
       <span>
         <span className="mkosr__assettitle">{name}</span>
         {sub ? <span className="mkosr__assetsub" style={{ display: "block" }}>{sub}</span> : null}
       </span>
-    </a>
+    </span>
   );
 }
 
@@ -310,17 +310,17 @@ function SaleRow({ row }) {
       </td>
       <td className="mkosr__c-actions">
         {row.needsAttention ? (
-          <a className="mkosr__actbtn mkosr__actbtn--inverted" href="#cancel">
+          <button type="button" className="mkosr__actbtn mkosr__actbtn--inverted">
             Cancel sale
-          </a>
+          </button>
         ) : row.legacyExpired ? (
-          <a className="mkosr__actbtn mkosr__actbtn--primary" href="#terminate">
+          <button type="button" className="mkosr__actbtn mkosr__actbtn--primary">
             Terminate listing
-          </a>
+          </button>
         ) : row.legacy ? (
-          <a className="mkosr__actbtn mkosr__actbtn--inverted" href="#update">
+          <button type="button" className="mkosr__actbtn mkosr__actbtn--inverted">
             Update sale
-          </a>
+          </button>
         ) : null}
       </td>
     </tr>

@@ -58,8 +58,7 @@ function BidCard({ bid }) {
   return (
     <a
       className={"gvbv__card" + (bid.current ? " is-disabled" : "")}
-      href={bid.current ? undefined : "#"}
-      onClick={(e) => e.preventDefault()}
+      href={bid.current ? undefined : `/governance/proposals/${bid.id}`}
     >
       <div className="gvbv__card-body">
         <span className="gvbv__card-title">{bid.title}</span>
@@ -140,7 +139,7 @@ export default function GvBidVotingFlow({
                   </p>
                 </div>
                 <div className="gvbv__sr-actions">
-                  <a className="gvbv__sr-btn" href="#" onClick={(e) => e.preventDefault()}>
+                  <a className="gvbv__sr-btn" href="https://snapshot.org/#/dao-council.dcl.eth" target="_blank" rel="noopener noreferrer">
                     <SnapshotMark />
                     Vote on Snapshot
                   </a>

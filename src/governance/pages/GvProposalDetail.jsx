@@ -162,7 +162,7 @@ function DetailsCard({ proposal }) {
       </div>
       <div className="gd__row">
         <span className="gd__rowkey">Snapshot</span>
-        <a className="gd__snaplink" href="#snapshot" onClick={(e) => e.preventDefault()}>
+        <a className="gd__snaplink" href="https://snapshot.org/#/dao-council.dcl.eth" target="_blank" rel="noopener noreferrer">
           {proposal.snapshot}
           <OpenIcon />
         </a>
@@ -377,7 +377,7 @@ export default function GvProposalDetail({ proposal = PROPOSAL, state = "ready" 
                   </ul>
                   <p>
                     Full milestones and the budget breakdown are linked in the{" "}
-                    <a href="#discourse" onClick={(e) => e.preventDefault()}>forum thread</a>.
+                    <a href="https://forum.decentraland.org/" target="_blank" rel="noopener noreferrer">forum thread</a>.
                   </p>
                 </>
               )}

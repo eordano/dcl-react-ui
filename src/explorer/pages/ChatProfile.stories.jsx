@@ -8,8 +8,6 @@ export default {
   parameters: { layout: "fullscreen" },
 };
 
-// Chat profile popup hero: real 3D avatar injected via the zero-dep avatarPreview
-// prop (story supplies three.js; the component stays dependency-free).
 const SHOWCASE_ADDRESS = "0x4274c2545f2263f820f4e5dc19cca999c955238c";
 const avatar = (emote = "wave") => (
   <div style={{ width: "100%", height: "100%" }}>
@@ -21,7 +19,6 @@ export const Default = {
   render: () => <ChatProfile avatarPreview={avatar()} />,
 };
 
-// Zero-dep fallback: the Avatar circle when no 3D preview is injected.
 export const Placeholder = {
   render: () => <ChatProfile />,
 };

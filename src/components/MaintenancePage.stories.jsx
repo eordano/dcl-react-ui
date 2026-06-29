@@ -6,10 +6,8 @@ export default {
   parameters: { layout: "fullscreen" },
 };
 
-// Full-height wrapper only; MaintenancePage paints its own themed page bg (flips with the Theme control).
 const Frame = ({ children }) => <div style={{ minHeight: "100vh" }}>{children}</div>;
 
-// One footer for both themes — renders inside .maintenance, so its colors flip with the Theme control.
 const Footer = (
   <footer
     style={{
@@ -26,7 +24,6 @@ const Footer = (
   </footer>
 );
 
-// Theme-driven: toggle the Theme control (Dark/Light) for the dark and upstream-light looks. No surface prop.
 export const Default = {
   render: () => (
     <Frame>
@@ -67,7 +64,6 @@ export const MessageOnly = {
   ),
 };
 
-// Forced light surface (surface override) regardless of the Theme control — e.g. the always-light governance page.
 export const GovernanceHeading = {
   render: () => (
     <Frame>

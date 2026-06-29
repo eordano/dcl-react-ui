@@ -1,8 +1,3 @@
-/* ModalShell shares the .modal__card surface but adds the modal-family rhythm:
-   generous padding + vertical gap between header / body / footer. Scoped to
-   .modal-shell so other raw .modal__card consumers (page modals) are untouched.
-   The global `* { margin: 0 }` reset zeroes child margins, so the gap is what
-   gives the stacked sections their breathing room. Matches DuplicateIdentityPopup. */
 .modal-shell {
   display: flex;
   flex-direction: column;

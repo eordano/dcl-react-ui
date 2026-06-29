@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useDialogKeys } from "../../components/useDialogKeys.js";
 import "./chworldpermissionstabbedsections.css";
 
 const COPY = {
@@ -183,8 +184,15 @@ const ACCESS_TYPE_OPTIONS = [
   },
 ];
 
-function AccessTab({ ownerAddress, wallets }) {
-  const [accessType, setAccessType] = useState("allow-list");
+function AccessTab({
+  ownerAddress,
+  ownerName,
+  wallets,
+  accessType: initialAccessType,
+  onClearList,
+  onNewInvite,
+}) {
+  const [accessType, setAccessType] = useState(initialAccessType);
   const [list, setList] = useState(wallets);
   const current = ACCESS_TYPE_OPTIONS.find((o) => o.value === accessType);
   const isInvitationOnly = accessType === "allow-list";
@@ -224,13 +232,25 @@ function AccessTab({ ownerAddress, wallets }) {
               {COPY.access.approved_addresses(total)}
             </span>
             <div className="chwp__listactions">
-              <button type="button" className="chwp__textlink">
-                {COPY.access.clear_list}
-              </button>
-              <button type="button" className="chwp__btn chwp__btn--primary chwp__btn--icon">
-                <AddIcon />
-                {COPY.access.new_invite}
-              </button>
+              {onClearList && (
+                <button
+                  type="button"
+                  className="chwp__textlink"
+                  onClick={onClearList}
+                >
+                  {COPY.access.clear_list}
+                </button>
+              )}
+              {onNewInvite && (
+                <button
+                  type="button"
+                  className="chwp__btn chwp__btn--primary chwp__btn--icon"
+                  onClick={onNewInvite}
+                >
+                  <AddIcon />
+                  {COPY.access.new_invite}
+                </button>
+              )}
             </div>
           </div>
 
@@ -241,7 +261,7 @@ function AccessTab({ ownerAddress, wallets }) {
               <>
                 <PermissionRow
                   value={ownerAddress}
-                  name="WorldOwner.dcl.eth"
+                  name={ownerName}
                   role="owner"
                 />
                 {list.map((w) => (
@@ -298,7 +318,15 @@ function DeploymentSelect({ value, parcelsCount, onPickParcels }) {
   );
 }
 
-function CollaboratorsTab({ ownerAddress, collaborators, onPickParcels }) {
+function CollaboratorsTab({
+  ownerAddress,
+  ownerName,
+  collaborators,
+  onPickParcels,
+  onClearList,
+  onAddCollaborator,
+  onRemoveCollaborator,
+}) {
   const count = collaborators.length;
   if (count === 0) {
     return (
@@ -309,10 +337,16 @@ function CollaboratorsTab({ ownerAddress, collaborators, onPickParcels }) {
         </p>
         <div className="chwp__emptystate">
           <p>{COPY.collaborators.empty_list}</p>
-          <button type="button" className="chwp__btn chwp__btn--primary chwp__btn--icon">
-            <AddIcon />
-            {COPY.collaborators.add}
-          </button>
+          {onAddCollaborator && (
+            <button
+              type="button"
+              className="chwp__btn chwp__btn--primary chwp__btn--icon"
+              onClick={onAddCollaborator}
+            >
+              <AddIcon />
+              {COPY.collaborators.add}
+            </button>
+          )}
         </div>
       </div>
     );
@@ -328,17 +362,29 @@ function CollaboratorsTab({ ownerAddress, collaborators, onPickParcels }) {
           <span className="chwp__collabheadertitle">
             {COPY.collaborators.column_name_label(`${count}/${MAX_COLLABORATORS}`)}
           </span>
-          <button type="button" className="chwp__textlink">
-            {COPY.collaborators.clear_list}
-          </button>
-          <button type="button" className="chwp__btn chwp__btn--primary chwp__btn--icon">
-            <AddIcon />
-            {COPY.collaborators.add}
-          </button>
+          {onClearList && (
+            <button
+              type="button"
+              className="chwp__textlink"
+              onClick={onClearList}
+            >
+              {COPY.collaborators.clear_list}
+            </button>
+          )}
+          {onAddCollaborator && (
+            <button
+              type="button"
+              className="chwp__btn chwp__btn--primary chwp__btn--icon"
+              onClick={onAddCollaborator}
+            >
+              <AddIcon />
+              {COPY.collaborators.add}
+            </button>
+          )}
         </div>
         <PermissionRow
           value={ownerAddress}
-          name="WorldOwner.dcl.eth"
+          name={ownerName}
           role="owner"
         />
         {collaborators.map((c) => (
@@ -347,7 +393,9 @@ function CollaboratorsTab({ ownerAddress, collaborators, onPickParcels }) {
             value={c.address}
             name={c.name}
             role="collaborator"
-            onRemove={() => {}}
+            onRemove={
+              onRemoveCollaborator ? () => onRemoveCollaborator(c) : undefined
+            }
             control={
               <DeploymentSelect
                 value={c.deployment}
@@ -362,13 +410,15 @@ function CollaboratorsTab({ ownerAddress, collaborators, onPickParcels }) {
   );
 }
 
+function seedSelected() {
+  const s = new Set();
+  for (let x = 3; x <= 5; x++) for (let y = 3; y <= 4; y++) s.add(`${x},${y}`);
+  return s;
+}
+
 function ParcelsTab({ collaborator, onGoBack }) {
   const SIZE = 9;
-  const [selected, setSelected] = useState(() => {
-    const s = new Set();
-    for (let x = 3; x <= 5; x++) for (let y = 3; y <= 4; y++) s.add(`${x},${y}`);
-    return s;
-  });
+  const [selected, setSelected] = useState(seedSelected);
   const [dirty, setDirty] = useState(false);
 
   const toggle = (key) => {
@@ -424,7 +474,14 @@ function ParcelsTab({ collaborator, onGoBack }) {
 
       <div className="chwp__parcelactions">
         {dirty && (
-          <button type="button" className="chwp__btn chwp__btn--outlined">
+          <button
+            type="button"
+            className="chwp__btn chwp__btn--outlined"
+            onClick={() => {
+              setSelected(seedSelected());
+              setDirty(false);
+            }}
+          >
             {COPY.parcels.discard}
           </button>
         )}
@@ -454,7 +511,9 @@ export default function ChWorldPermissionsTabbedSections({
   worldName = "myworld.dcl.eth",
   initialTab = "access",
   onClose = () => {},
+  accessType = "allow-list",
   ownerAddress = "0x9f3c2b1d4e5a6f7081920a3b4c5d6e7f80a1b2c3",
+  ownerName = undefined,
   accessWallets = [
     { address: "0x2a8b1c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b", name: "DesignLead.dcl.eth", role: "collaborator" },
     { address: "0x71c0ffee00d34dbeefcafe1234567890abcdef12", name: "alice.eth" },
@@ -466,6 +525,10 @@ export default function ChWorldPermissionsTabbedSections({
     { address: "0x55de01ab23cd45ef67ab89cd01ef23ab45cd67ef", name: "builder.eth", deployment: "parcels", parcelsCount: 6 },
     { address: "0xc0ffee2548cafe9876543210fedcba0123456789", deployment: "none", parcelsCount: 0 },
   ],
+  onClearList = undefined,
+  onNewInvite = undefined,
+  onAddCollaborator = undefined,
+  onRemoveCollaborator = undefined,
 }) {
   const [activeTab, setActiveTab] = useState(
     initialTab === "parcels" ? "collaborators" : initialTab,
@@ -473,6 +536,8 @@ export default function ChWorldPermissionsTabbedSections({
   const [parcelsFor, setParcelsFor] = useState(
     initialTab === "parcels" ? collaborators[1] : null,
   );
+  const paperRef = useRef(null);
+  useDialogKeys(paperRef, onClose);
 
   if (!open) return null;
 
@@ -485,6 +550,8 @@ export default function ChWorldPermissionsTabbedSections({
         role="dialog"
         aria-modal="true"
         aria-label={COPY.title(worldName)}
+        tabIndex={-1}
+        ref={paperRef}
       >
         <div className="chwp__header">
           <div className="chwp__headertitle">
@@ -524,7 +591,14 @@ export default function ChWorldPermissionsTabbedSections({
 
           <div className="chwp__content">
             {activeTab === "access" && (
-              <AccessTab ownerAddress={ownerAddress} wallets={accessWallets} />
+              <AccessTab
+                ownerAddress={ownerAddress}
+                ownerName={ownerName}
+                accessType={accessType}
+                wallets={accessWallets}
+                onClearList={onClearList}
+                onNewInvite={onNewInvite}
+              />
             )}
             {activeTab === "collaborators" &&
               (showParcels ? (
@@ -535,8 +609,12 @@ export default function ChWorldPermissionsTabbedSections({
               ) : (
                 <CollaboratorsTab
                   ownerAddress={ownerAddress}
+                  ownerName={ownerName}
                   collaborators={collaborators}
                   onPickParcels={(c) => setParcelsFor(c)}
+                  onClearList={onClearList}
+                  onAddCollaborator={onAddCollaborator}
+                  onRemoveCollaborator={onRemoveCollaborator}
                 />
               ))}
           </div>

@@ -47,10 +47,9 @@ function Authorization({ token = "MANA", contract, address, network, checked, pe
       <div className={"mks__field" + (pending ? " is-pending" : "")}>
         {pending ? (
           <a
-            href="#activity"
+            href="/marketplace/activity"
             className="mks__loadertip"
             title="Transaction pending, click the spinner to go to your activity for a detailed status"
-            onClick={(e) => e.preventDefault()}
           >
             <Spinner size={20} />
           </a>
@@ -69,9 +68,10 @@ function Authorization({ token = "MANA", contract, address, network, checked, pe
         <div className="mks__radiodesc mks__secondary">
           Authorize the{" "}
           <a
-            href="#contract"
+            href={address ? `${network === "Ethereum" ? "https://etherscan.io" : "https://polygonscan.com"}/address/${address}` : undefined}
             className="mks__contractlink"
-            onClick={(e) => e.preventDefault()}
+            target="_blank"
+            rel="noopener noreferrer"
             title={address}
           >
             {contract}

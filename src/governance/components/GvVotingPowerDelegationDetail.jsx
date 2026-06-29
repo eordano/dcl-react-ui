@@ -183,7 +183,7 @@ function VotedInitiative({ vote }) {
   const icon =
     vote.match === undefined ? <QuestionCircle /> : vote.match ? <CheckCircle /> : <CancelCircle />;
   return (
-    <a className="gvvotingpowerdelegationdetail__vote" href="#" onClick={(e) => e.preventDefault()}>
+    <a className="gvvotingpowerdelegationdetail__vote" href={`/governance/proposals/${vote.id}`}>
       <div className="gvvotingpowerdelegationdetail__votetitlewrap">
         {icon}
         <h2 className="gvvotingpowerdelegationdetail__votetitle">{vote.title}</h2>

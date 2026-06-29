@@ -101,10 +101,10 @@ function CategoryRow({ c }) {
     <article className="fcat__row">
       <span className="fcat__bar" style={{ "--c": c.color }} aria-hidden="true" />
       <div className="fcat__main">
-        <a className="fcat__name" href="#">
+        <span className="fcat__name" role="button" tabIndex={0}>
           <span className="fcat__sq" style={{ "--c": c.color }} aria-hidden="true" />
           {c.name}
-        </a>
+        </span>
         <p className="fcat__desc">{c.desc}</p>
       </div>
       <div className="fcat__stats">
@@ -117,7 +117,7 @@ function CategoryRow({ c }) {
       <div className="fcat__latest">
         <span className="fcat__latestavatar u-avatar" style={{ "--sz": "30px", "--hue": c.latest.hue }} aria-hidden="true" />
         <div className="fcat__latestmeta">
-          <a className="fcat__latesttitle" href="#">{c.latest.title}</a>
+          <span className="fcat__latesttitle" role="button" tabIndex={0}>{c.latest.title}</span>
           <span className="fcat__latesttime">{c.latest.time}</span>
         </div>
       </div>

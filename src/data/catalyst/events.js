@@ -1,7 +1,3 @@
-// Browser-only twin of sites/app/lib/catalyst/events.ts.
-// Pure HTTP wrappers over getJSON for the Events panel. No node/server imports.
-// zod is isomorphic, so the schemas are reused verbatim (minus TS types).
-
 import { z } from "zod";
 
 import { getJSON } from "./client.js";
@@ -89,8 +85,6 @@ function warnInvalid(kind, issues) {
   if (isDev()) console.warn(`[catalyst] ${kind} failed schema validation`, issues);
 }
 
-// Lenient parsing: on schema drift we warn (dev only) and pass the raw object
-// through so the UI degrades gracefully instead of throwing.
 export function parseEvent(raw) {
   const r = EventSchema.safeParse(raw);
   if (r.success) return r.data;
@@ -109,11 +103,6 @@ export function parseEventCategory(raw) {
   return raw;
 }
 
-/**
- * GET /events/api/events
- * @param {{ list?: "live"|"active"|"highlight", search?: string, category?: string, limit?: number, offset?: number }} params
- * @returns {Promise<{ data: object[], total: number }>}
- */
 export async function fetchEvents(params = {}, opts = {}) {
   const env = await getJSON("/events/api/events", {
     ...opts,
@@ -129,21 +118,15 @@ export async function fetchEvents(params = {}, opts = {}) {
   return { data, total: env?.total ?? data.length };
 }
 
-/** GET /events/api/events/{id} */
 export async function fetchEvent(id, opts = {}) {
   const env = await getJSON(`/events/api/events/${encodeURIComponent(id)}`, opts);
   return parseEvent(env?.data);
 }
 
-/** GET /events/api/events/categories */
 export async function fetchEventCategories(opts = {}) {
   const env = await getJSON("/events/api/events/categories", opts);
   return (env?.data ?? []).map(parseEventCategory);
 }
-
-// ---------------------------------------------------------------------------
-// Presentational helpers (ported from events.ts — pure, browser-safe).
-// ---------------------------------------------------------------------------
 
 export function hueFor(id) {
   let h = 0;
@@ -189,7 +172,6 @@ export function eventCoords(e) {
   return `(${x},${y})`;
 }
 
-/** Effective next occurrence (recurring events surface next_start_at). */
 export function eventStart(e) {
   return e?.next_start_at ?? e?.start_at ?? null;
 }

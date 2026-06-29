@@ -29,12 +29,10 @@ export default {
   },
 };
 
-// In-world Settings overlay: full Explore HUD (top-nav tabs), Settings panel active.
 export const Default = {
   args: { bare: false },
 };
 
-// Just the settings panel in isolation — no HUD chrome, no scene backdrop.
 export const Panel = {
   args: { bare: true },
 };

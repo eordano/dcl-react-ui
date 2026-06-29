@@ -100,9 +100,6 @@ export default function MaintenancePage({
   title = "We'll be right back",
   description = "Decentraland is currently under maintenance. We're polishing things up and will be back online shortly.",
   sign = false,
-  // surface forces a palette regardless of the global theme (e.g. governance is
-  // always light). Leave it unset to follow the Theme control: base = dark,
-  // html.mp-light flips to the light web look (see maintenancepage.css).
   surface,
   footer,
   areas = DEFAULT_AREAS,

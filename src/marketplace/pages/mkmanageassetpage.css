@@ -401,3 +401,15 @@
   .mma__summary { flex-direction: column; }
   .mma__column:not(:last-child) { margin-right: 0; }
 }
+
+html.mp-light .mma {
+  --mma-card: var(--lm-surface);
+  --mma-text: var(--lm-ink);
+  --mma-muted: var(--lm-ink-3);
+  --mma-label: var(--lm-ink-3);
+}
+html.mp-light .mma__box { border-color: var(--lm-line); }
+html.mp-light .mma__infoContent,
+html.mp-light .mma__infoLink { color: var(--lm-ink-3); }
+html.mp-light .mma__iconButton { background: rgba(0, 0, 0, 0.05); }
+html.mp-light .mma__iconButton:hover { background: rgba(0, 0, 0, 0.08); }

@@ -39,8 +39,6 @@ function Sensitivity({ label }) {
   );
 }
 
-// In-world Settings overlay for the Explorer HUD. Pass `bare` to render just the
-// settings panel without the surrounding ExploreChrome nav (used by the story).
 export default function Controls({ bare = false }) {
   const [tab, setTab] = useState("settings");
   const [section, setSection] = useState("controls");

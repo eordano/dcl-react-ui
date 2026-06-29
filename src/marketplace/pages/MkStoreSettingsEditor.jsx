@@ -168,9 +168,9 @@ export default function MkStoreSettingsEditor({
         <main className="mkss__main">
           <div className="mkss__header">
             <h1 className="mkss__title">Settings</h1>
-            <a className="mkss__guestlink" href="#guest">
+            <span role="button" tabIndex={0} className="mkss__guestlink">
               See store as guest
-            </a>
+            </span>
           </div>
 
           {isLoading ? (

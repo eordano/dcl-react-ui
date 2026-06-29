@@ -1,6 +1,5 @@
 import MkCatchAllRedirect from "./MkCatchAllRedirect.jsx";
 
-// Unknown paths fall through to <Redirect> elements of the route <Switch>.
 export default {
   title: "Marketplace/Pages/Catch-all redirect",
   component: MkCatchAllRedirect,

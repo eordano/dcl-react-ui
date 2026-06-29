@@ -200,16 +200,25 @@ function Properties({ item }) {
   );
 }
 
-export default function BdItemDetail({ item = SMART_WEARABLE, loading = false }) {
+export default function BdItemDetail({
+  item = SMART_WEARABLE,
+  loading = false,
+  bare = false,
+}) {
   const [tab, setTab] = useState("collections");
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (loading) {
-    return (
+    const loadingBody = (
+      <div className="bditemdetail bditemdetail--loading">
+        <Spinner size={48} />
+      </div>
+    );
+    return bare ? (
+      loadingBody
+    ) : (
       <BuilderChrome active={tab} onTab={setTab}>
-        <div className="bditemdetail bditemdetail--loading">
-          <Spinner size={48} />
-        </div>
+        {loadingBody}
       </BuilderChrome>
     );
   }
@@ -220,8 +229,7 @@ export default function BdItemDetail({ item = SMART_WEARABLE, loading = false })
   const showPermissions = isSmart && item.requiredPermissions.length > 0;
   const rarToken = RARITY[item.rarity];
 
-  return (
-    <BuilderChrome active={tab} onTab={setTab}>
+  const body = (
       <div className="bditemdetail">
         <div className="bditemdetail__container">
           <button type="button" className="bditemdetail__back" aria-label="Back">
@@ -274,9 +282,9 @@ export default function BdItemDetail({ item = SMART_WEARABLE, loading = false })
                 {item.collection ? (
                   <div className="bditemdetail__detailrow">
                     <span className="bditemdetail__subtitle">Collection</span>
-                    <a className="bditemdetail__collink" href="#collection">
+                    <button type="button" className="bditemdetail__collink">
                       {item.collection}
-                    </a>
+                    </button>
                   </div>
                 ) : null}
                 {item.urn ? (
@@ -435,6 +443,13 @@ export default function BdItemDetail({ item = SMART_WEARABLE, loading = false })
           </div>
         </div>
       </div>
+  );
+
+  return bare ? (
+    body
+  ) : (
+    <BuilderChrome active={tab} onTab={setTab}>
+      {body}
     </BuilderChrome>
   );
 }

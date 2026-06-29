@@ -247,7 +247,7 @@ export default function BdScenesList({ projects = PROJECTS, pool = POOL, loading
             <div className="bdsceneslist__poolblock">
               <div className="bdsceneslist__poolhead">
                 <h2 className="bdsceneslist__poolsub">From The Scene Pool</h2>
-                <a className="bdsceneslist__viewmore" href="#pool">
+                <a className="bdsceneslist__viewmore" href="/builder/pool">
                   View More
                   <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
                     <path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />

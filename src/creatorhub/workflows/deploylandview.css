@@ -1,0 +1,103 @@
+.deploy-land-wizard {
+  position: relative;
+}
+
+.deploy-land-wizard__controls {
+  position: fixed;
+  left: 50%;
+  bottom: 56px;
+  transform: translateX(-50%);
+  z-index: calc(var(--z-modal) + 1);
+  display: flex;
+  gap: 12px;
+}
+
+.deploy-land-wizard__note {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: calc(var(--z-modal) + 1);
+  max-width: 920px;
+  margin: 0;
+  padding: 0 16px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+}
+.deploy-land-wizard__note code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #ff9990;
+}
+
+.deploy-land-wizard__coord {
+  position: absolute;
+  left: 50%;
+  top: 88px;
+  transform: translateX(-50%);
+  z-index: calc(var(--z-modal) + 1);
+  padding: 2px 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ff9990;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.deploy-land-review {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 0 16px;
+  max-height: 460px;
+  overflow: auto;
+}
+.deploy-land-review__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+}
+.deploy-land-review__label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+.deploy-land-review__value {
+  color: var(--text, #fff);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word;
+}
+.deploy-land-review__files {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.deploy-land-review__file {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.deploy-land-review__filename {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.deploy-land-review__filesize {
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+}
+.deploy-land-review__error {
+  margin: 8px 0 0;
+  color: #ff6b6b;
+  font-size: 13px;
+}

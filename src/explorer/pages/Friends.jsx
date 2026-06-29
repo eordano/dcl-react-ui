@@ -42,7 +42,7 @@ function GroupHeader({ label, count, collapsed, onToggle }) {
   );
 }
 
-export default function Friends({ initialSection = "friends", friends = FRIENDS, received = RECEIVED, sent = SENT, blocked = BLOCKED } = {}) {
+export default function Friends({ initialSection = "friends", friends = FRIENDS, received = RECEIVED, sent = SENT, blocked = BLOCKED, onClose } = {}) {
   const [section, setSection] = useState(
     SECTIONS.some((s) => s.id === initialSection) ? initialSection : "friends",
   );
@@ -69,7 +69,7 @@ export default function Friends({ initialSection = "friends", friends = FRIENDS,
             {s.id === "requests" && reqCount > 0 && <Badge>{reqCount}</Badge>}
           </button>
         ))}
-        <button className="fr__close" aria-label="Close">×</button>
+        <button className="fr__close" aria-label="Close" onClick={onClose}>×</button>
       </header>
 
       <div className="fr__body">
@@ -85,9 +85,9 @@ export default function Friends({ initialSection = "friends", friends = FRIENDS,
               <div className="fr__empty">No friends</div>
             ) : (
               online.map((f) => (
-                <div className="fr__row" key={f.name} data-sb-linkto="Explorer/Pages/Passport">
+                <div className="fr__row" key={f.address || f.name}>
                   <Avatar hue={f.hue} status="online" size={30} />
-                  <div className="fr__info">
+                  <div className="fr__info" data-sb-linkto="Explorer/Pages/Passport">
                     <div className="fr__name u-truncate">{f.name}<span className="fr__tag">{f.tag}</span></div>
                     <div className="fr__status fr__status--on u-truncate">{f.where}</div>
                   </div>
@@ -110,9 +110,9 @@ export default function Friends({ initialSection = "friends", friends = FRIENDS,
               <div className="fr__empty">No friends</div>
             ) : (
               offline.map((f) => (
-                <div className="fr__row" key={f.name} data-sb-linkto="Explorer/Pages/Passport">
+                <div className="fr__row" key={f.address || f.name}>
                   <Avatar hue={f.hue} status="offline" size={30} className="fr__av--off" />
-                  <div className="fr__info">
+                  <div className="fr__info" data-sb-linkto="Explorer/Pages/Passport">
                     <div className="fr__name u-truncate">{f.name}<span className="fr__tag">{f.tag}</span></div>
                     <div className="fr__status u-truncate">Offline</div>
                   </div>
@@ -138,7 +138,7 @@ export default function Friends({ initialSection = "friends", friends = FRIENDS,
               <div className="fr__empty">No requests</div>
             ) : (
               received.map((r) => (
-                <div className="fr__row" key={r.name}>
+                <div className="fr__row" key={r.id || r.address || r.name}>
                   <Avatar hue={r.hue} size={30} />
                   <div className="fr__info">
                     <div className="fr__name u-truncate">{r.name}<span className="fr__tag">{r.tag}</span></div>
@@ -162,7 +162,7 @@ export default function Friends({ initialSection = "friends", friends = FRIENDS,
               <div className="fr__empty">No requests</div>
             ) : (
               sent.map((r) => (
-                <div className="fr__row" key={r.name}>
+                <div className="fr__row" key={r.id || r.address || r.name}>
                   <Avatar hue={r.hue} size={30} />
                   <div className="fr__info">
                     <div className="fr__name u-truncate">{r.name}<span className="fr__tag">{r.tag}</span></div>
@@ -189,7 +189,7 @@ export default function Friends({ initialSection = "friends", friends = FRIENDS,
               <div className="fr__empty">No blocked users</div>
             ) : (
               blocked.map((b) => (
-                <div className="fr__row" key={b.name}>
+                <div className="fr__row" key={b.address || b.name}>
                   <Avatar hue={b.hue} size={30} className="fr__av--off" />
                   <div className="fr__info">
                     <div className="fr__name u-truncate">{b.name}<span className="fr__tag">{b.tag}</span></div>

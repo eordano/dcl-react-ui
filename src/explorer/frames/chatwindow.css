@@ -166,9 +166,6 @@
   .cw__dock { width: auto; flex: 1; padding-left: 10px; padding-right: 10px; }
 }
 
-/* Bare mode — render ONLY the chat window (no toolbar / location card / minimap).
-   Used by the ExplorerIslands/ChatWindow story so it showcases just the window,
-   over its native sky backdrop, instead of the whole HUD scene. */
 .cw__stage--bare {
   width: auto; height: auto;
   display: inline-flex;

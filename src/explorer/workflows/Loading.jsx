@@ -1,11 +1,10 @@
+import { useEvents } from "../../data/hooks/useEvents.js";
+import { eventStart, formatEventTime, hueFor } from "../../data/catalyst/events.js";
 import "./loading.css";
 
-const TIP = {
-  title: "What's On",
-  body:
-    "Movie nights, trivia, dance parties, there's usually something happening. " +
-    "Drop in enough times and you'll start to recognize the regulars.",
-};
+const TIP_BODY =
+  "Movie nights, trivia, dance parties — there's usually something happening. " +
+  "Drop in enough times and you'll start to recognize the regulars.";
 
 function DclGem() {
   return (
@@ -19,9 +18,39 @@ function DclGem() {
   );
 }
 
+function hostOf(ev) {
+  return ev?.user_name || ev?.scene_name || ev?.estate_name || "Decentraland";
+}
+
+function EventCard({ ev, front }) {
+  const hue = hueFor(ev.id);
+  const artStyle = ev.image
+    ? {
+        backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.55)), url("${ev.image}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : {
+        background: `linear-gradient(135deg, hsl(${hue} 60% 42%), hsl(${(hue + 40) % 360} 65% 40%))`,
+      };
+  return (
+    <div className={"loading__card " + (front ? "loading__card--front" : "loading__card--back")}>
+      <div className="loading__card-art" style={artStyle} aria-hidden="true" />
+      <div className="loading__card-info">
+        <div className="loading__card-title">{ev.name || "Untitled event"}</div>
+        <div className="loading__card-sub">By {hostOf(ev)}</div>
+        <div className="loading__card-time">
+          <span className="loading__clock" /> {formatEventTime(eventStart(ev))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Loading({ progress = 65 }) {
-  const tip = TIP;
-  const dots = 10;
+  const evq = useEvents({ list: "highlight", limit: 2 });
+  const events = (evq.data?.data ?? []).slice(0, 2);
+  const hasEvents = events.length > 0;
 
   return (
     <div className="loading">
@@ -36,68 +65,18 @@ export default function Loading({ progress = 65 }) {
         <div className="loading__bar-fill" style={{ width: progress + "%" }} />
       </div>
 
-      <div className="loading__cards" aria-hidden="true">
-        <div className="loading__card loading__card--back">
-          <div className="loading__card-art loading__card-art--wtf">
-            <span className="loading__card-kicker">W.T.F.</span>
-            <span className="loading__card-kicker2">WE TALK FUN</span>
-          </div>
-          <div className="loading__card-info">
-            <div className="loading__card-title">W.T.F — We Talk Fun</div>
-            <div className="loading__card-sub">By ToxicWaifu</div>
-            <div className="loading__card-time">
-              <span className="loading__clock" /> 10:30 PM
-            </div>
-          </div>
-        </div>
-
-        <div className="loading__card loading__card--front">
-          <div className="loading__card-art loading__card-art--beast">
-            <div className="loading__card-badge">
-              <DclGem />
-              <span>Decentraland</span>
-            </div>
-            <span className="loading__card-kicker">THE META</span>
-            <span className="loading__card-beast">Beast!</span>
-            <span className="loading__card-kicker2">ROAMING PARTY</span>
-            <span className="loading__card-dj">DJ AKIDcalledMAKE</span>
-          </div>
-          <div className="loading__card-info">
-            <div className="loading__card-title">THE META BEAST</div>
-            <div className="loading__card-sub">By AKIDcalledMAKE</div>
-            <div className="loading__card-time">
-              <span className="loading__clock" /> 2:00 AM
-            </div>
-            <div className="loading__card-actions">
-              <button className="loading__remind" type="button" tabIndex={-1}>
-                <span className="loading__bell" /> REMIND ME
-              </button>
-              <button className="loading__iconbtn" type="button" tabIndex={-1} aria-hidden="true">
-                <span className="loading__ic loading__ic--save" />
-              </button>
-              <button className="loading__iconbtn" type="button" tabIndex={-1} aria-hidden="true">
-                <span className="loading__ic loading__ic--share" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="loading__tip">
-        <h1 className="loading__title">{tip.title}</h1>
-        <p className="loading__body">{tip.body}</p>
-        <div className="loading__dots">
-          {Array.from({ length: dots }).map((_, i) => (
-            <span
-              key={i}
-              className={"loading__dot" + (i === 0 ? " is-active" : "")}
-            />
+      {hasEvents ? (
+        <div className="loading__cards" aria-hidden="true">
+          {events.map((ev, i) => (
+            <EventCard key={ev.id} ev={ev} front={i === events.length - 1} />
           ))}
         </div>
-      </div>
+      ) : null}
 
-      <button className="loading__arrow loading__arrow--left" aria-label="Previous">‹</button>
-      <button className="loading__arrow loading__arrow--right" aria-label="Next">›</button>
+      <div className="loading__tip">
+        {hasEvents ? <h1 className="loading__title">What's On</h1> : null}
+        <p className="loading__body">{TIP_BODY}</p>
+      </div>
     </div>
   );
 }

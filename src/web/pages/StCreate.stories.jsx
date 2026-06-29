@@ -6,7 +6,6 @@ export default {
   parameters: { layout: "fullscreen" },
 };
 
-// The real /create/about landing page, sections from built-in defaults.
 export const Default = {
   render: () => <StCreate />,
 };

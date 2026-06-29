@@ -1,16 +1,3 @@
-// Communities panel — id `communities` (#/communities).
-//
-// Reads-only milestone. Reuses the ui3 explorer design system (the communities
-// browse-grid CSS `cm__*` and the community-detail CSS `cmb__*`) plus the shared
-// atoms (Avatar / fmt / hueFromSeed / SearchField / UpcomingEventCard), driven
-// by real data from the catalyst wrappers instead of the pages' hardcoded mocks:
-//   - list  -> useCommunities()  (fixture grid; live feed is unmoderated junk)
-//   - detail -> useCommunity(id) (LIVE /v1/communities/{id} + /members on select)
-// Identity is read-only via the bridge; every write (join / request / add-friend)
-// is a stub through sendBridge() — the future SignRequest chokepoint.
-//
-// Rendered inside ExploreChrome's body by AppLayout (no ExploreChrome here).
-
 import { useMemo, useState } from "react";
 
 import { Avatar, fmt, hueFromSeed } from "../../atoms/primitives.jsx";
@@ -19,14 +6,16 @@ import UpcomingEventCard from "../../web/components/UpcomingEventCard.jsx";
 import { sendBridge } from "../../overlay/bridge.js";
 import { qk, STALE } from "../../data/queryKeys.js";
 import { loadCommunities } from "../../data/catalyst/communities.js";
-import { useCommunities, useCommunity } from "../../data/hooks/useCommunities.js";
+import {
+  useCommunities,
+  useCommunity,
+  useJoinCommunity,
+  useLeaveCommunity,
+} from "../../data/hooks/useCommunities.js";
 
 import "../../explorer/pages/communities.css";
 import "../../explorer/pages/communitymembers.css";
 
-// Warm the browse list on hover/focus intent over the Communities tab. Must be
-// best-effort — never throw to the shell. Key + queryFn + staleTime mirror the
-// hook so the cache entry resolves on click.
 export function prefetch(queryClient) {
   try {
     queryClient.prefetchQuery({
@@ -35,7 +24,6 @@ export function prefetch(queryClient) {
       staleTime: STALE.communities,
     });
   } catch {
-    /* best-effort */
   }
 }
 
@@ -69,7 +57,6 @@ function Sidebar() {
 
       <button className="cm__invites" type="button" onClick={() => sendBridge("community.invites", {})}>
         <span>Invites &amp; Requests</span>
-        {/* no hardcoded badge — invites aren't wired yet, so don't fake a count */}
       </button>
 
       <div className="cm__promo">
@@ -99,12 +86,115 @@ function Sidebar() {
   );
 }
 
+function joinErrorText(err) {
+  const status = err?.status ?? 0;
+  if (status === 401 || status === 403 || status === 501) {
+    return "Joining isn’t available on this realm yet";
+  }
+  if (status === 0) return "Couldn’t reach the server — try again";
+  return err?.message || "Couldn’t join — please try again";
+}
+
+const ERR_STYLE = {
+  display: "block",
+  marginTop: 6,
+  fontSize: 11,
+  lineHeight: 1.3,
+  color: "#ff8aa0",
+  fontWeight: 600,
+};
+
+function JoinButton({ id, privacy, joined, variant }) {
+  const join = useJoinCommunity();
+  const leave = useLeaveCommunity();
+  const [override, setOverride] = useState(null);
+  const isPublic = privacy !== "private";
+  const pending = join.isPending || leave.isPending;
+
+  const effectiveJoined =
+    override === "joined" ? true : override === "left" ? false : Boolean(joined);
+  const requested = override === "requested";
+  const err = join.error || leave.error;
+
+  const doJoin = (e) => {
+    e?.stopPropagation?.();
+    if (pending) return;
+    setOverride(null);
+    leave.reset();
+    join.mutate(
+      { id, privacy },
+      { onSuccess: () => setOverride(isPublic ? "joined" : "requested") },
+    );
+  };
+  const doLeave = (e) => {
+    e?.stopPropagation?.();
+    if (pending) return;
+    setOverride(null);
+    join.reset();
+    leave.mutate({ id }, { onSuccess: () => setOverride("left") });
+  };
+
+  if (variant === "detail") {
+    let label;
+    if (effectiveJoined) label = leave.isPending ? "LEAVING…" : "LEAVE";
+    else if (requested) label = "REQUESTED";
+    else if (join.isPending) label = isPublic ? "JOINING…" : "REQUESTING…";
+    else label = isPublic ? "JOIN" : "REQUEST TO JOIN";
+    return (
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+        <button
+          className="cmb__join"
+          type="button"
+          disabled={pending || requested}
+          onClick={effectiveJoined ? doLeave : doJoin}
+        >
+          {label}
+        </button>
+        {err ? <span style={ERR_STYLE} role="alert">{joinErrorText(err)}</span> : null}
+      </div>
+    );
+  }
+
+  let cardEl;
+  if (effectiveJoined) {
+    cardEl = (
+      <button className="cm__joined" type="button" disabled={pending} onClick={doLeave}>
+        {leave.isPending ? "Leaving…" : "Joined"}
+        <span className="cm__btncoin" aria-hidden="true">◆</span>
+      </button>
+    );
+  } else if (requested) {
+    cardEl = (
+      <button className="cm__join" type="button" disabled>
+        Requested
+        <span className="cm__btncoin" aria-hidden="true">◆</span>
+      </button>
+    );
+  } else {
+    let label;
+    if (join.isPending) label = isPublic ? "Joining…" : "Requesting…";
+    else label = isPublic ? "Join" : "Request to join";
+    cardEl = (
+      <button className="cm__join" type="button" disabled={pending} onClick={doJoin}>
+        {label}
+        <span className="cm__btncoin" aria-hidden="true">◆</span>
+      </button>
+    );
+  }
+  return (
+    <>
+      {cardEl}
+      {err ? <span style={ERR_STYLE} role="alert">{joinErrorText(err)}</span> : null}
+    </>
+  );
+}
+
 function CommunityCard({ c, onOpen }) {
   const isPublic = c.privacy !== "private";
   const joined = c.role && c.role !== "none";
   return (
     <article className="cm__card" onClick={() => onOpen(c.id)} role="button" tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(c.id); } }}
+      onKeyDown={(e) => { if (e.target !== e.currentTarget) return; if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(c.id); } }}
       title={c.name}>
       <div className="cm__banner" style={bannerStyle(c)}>
         {c.isLive ? (
@@ -127,19 +217,7 @@ function CommunityCard({ c, onOpen }) {
           </span>
         </div>
         <div className="cm__actions">
-          {joined ? (
-            <button className="cm__joined" type="button"
-              onClick={(e) => { e.stopPropagation(); sendBridge("community.leave", { id: c.id }); }}>
-              Joined
-              <span className="cm__btncoin" aria-hidden="true">◆</span>
-            </button>
-          ) : (
-            <button className="cm__join" type="button"
-              onClick={(e) => { e.stopPropagation(); sendBridge("community.join", { id: c.id, privacy: c.privacy }); }}>
-              {isPublic ? "Join" : "Request to join"}
-              <span className="cm__btncoin" aria-hidden="true">◆</span>
-            </button>
-          )}
+          <JoinButton id={c.id} privacy={c.privacy} joined={joined} variant="card" />
         </div>
       </div>
     </article>
@@ -241,7 +319,6 @@ function CommunityDetail({ id, onClose }) {
   }, [members, memberQuery]);
 
   const hue = hueFromSeed(id);
-  const isPublic = community ? community.privacy !== "private" : true;
   const joined = community && community.role && community.role !== "none";
   const thumbStyle = community && isHttpUrl(community.thumbnailUrl)
     ? { backgroundImage: `url("${community.thumbnailUrl}")`, backgroundSize: "cover", backgroundPosition: "center" }
@@ -267,10 +344,7 @@ function CommunityDetail({ id, onClose }) {
               </p>
             </div>
             {community ? (
-              <button className="cmb__join" type="button"
-                onClick={() => sendBridge(joined ? "community.leave" : "community.join", { id, privacy: community.privacy })}>
-                {joined ? "LEAVE" : isPublic ? "JOIN" : "REQUEST TO JOIN"}
-              </button>
+              <JoinButton id={id} privacy={community.privacy} joined={joined} variant="detail" />
             ) : null}
           </header>
 
@@ -328,7 +402,8 @@ function CommunityDetail({ id, onClose }) {
             )}
           </div>
 
-          <div className="cmb__search">
+          {tab === "members" && (
+          <form className="cmb__search" onSubmit={(e) => e.preventDefault()}>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
             </svg>
@@ -339,12 +414,13 @@ function CommunityDetail({ id, onClose }) {
               value={memberQuery}
               onChange={(e) => setMemberQuery(e.target.value)}
             />
-            <button className="cmb__searchgo" type="button" aria-label="Search">
+            <button className="cmb__searchgo" type="submit" aria-label="Search">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </button>
-          </div>
+          </form>
+          )}
         </div>
 
         <aside className="cmb__events">

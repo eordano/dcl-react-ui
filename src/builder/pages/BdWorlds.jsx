@@ -25,6 +25,17 @@ const SORT_OPTIONS = [
   { value: "DESC", text: "Name (Z–A)" },
 ];
 
+const SAMPLE_STORAGE = {
+  usedMbs: 980,
+  maxMbs: 1100,
+  breakdown: [
+    { name: "MANA", desc: "Earn 100 Mb of storage per 2,000 tokens (Polygon or Ethereum).", holding: "You have 200 Mb thanks to holding 4,000 MANA tokens.", cta: "BUY MANA" },
+    { name: "LANDs", desc: "Earn 100 Mb of storage per LAND.", holding: "You have 300 Mb thanks to holding 3 LANDs.", cta: "BUY LAND" },
+    { name: "NAMEs", desc: "Earn 100 Mb of storage per NAME.", holding: "You have 600 Mb thanks to holding 6 Decentraland NAMEs.", cta: "BUY NAME" },
+  ],
+  sample: true,
+};
+
 const EXPLORER = "https://decentraland.org";
 const getExplorerUrl = (world) => `${EXPLORER}/world/${world}`;
 
@@ -100,14 +111,16 @@ function PublishSceneCell({ world }) {
   );
 }
 
-function WorldsStorage({ usedMbs, maxMbs, onViewDetails }) {
+function WorldsStorage({ usedMbs, maxMbs, sample, onViewDetails }) {
   const pct = Math.trunc((usedMbs * 100) / maxMbs);
   return (
     <div className="bdworlds__storage">
-      <span className="bdworlds__storageused">Space Used</span>
+      <span className="bdworlds__storageused">
+        Space Used{sample ? <>{" "}<span className="bdworlds__sample" role="note">Sample data</span></> : null}
+      </span>
       <div className="bdworlds__storagedesc">
         <span>Total storage is calculated based on MANA, LAND, and NAME holdings.</span>{" "}
-        <span className="bdworlds__storagelink" onClick={onViewDetails}>View Details</span>
+        <button type="button" className="bdworlds__storagelink" onClick={onViewDetails}>View Details</button>
       </div>
       <div className="bdworlds__storagespace">
         <div>
@@ -121,7 +134,7 @@ function WorldsStorage({ usedMbs, maxMbs, onViewDetails }) {
   );
 }
 
-function EmptyNames({ tab, onClaim }) {
+function EmptyNames({ tab }) {
   return (
     <div className="bdworlds__empty">
       <div className={"bdworlds__emptyicon " + (tab === "dcl" ? "is-dcl" : "is-ens")} aria-hidden="true" />
@@ -135,19 +148,15 @@ function EmptyNames({ tab, onClaim }) {
           <>With an ENS Domain, you can create a unique World with 25 Mb of dedicated storage. It's a great way to start your journey in Decentraland.</>
         )}
       </div>
-      <button type="button" className="bdworlds__btn bdworlds__btn--primary bdworlds__emptyaction" onClick={onClaim}>
+      <a href="/creator-hub/claim-name" className="bdworlds__btn bdworlds__btn--primary bdworlds__emptyaction" style={{ textDecoration: "none" }}>
         {tab === "dcl" ? "Claim Name" : "Claim ENS Domain"}
-      </button>
+      </a>
     </div>
   );
 }
 
-function YourStorageModal({ available, onClose }) {
-  const assets = [
-    { name: "MANA", desc: "Earn 100 Mb of storage per 2,000 tokens (Polygon or Ethereum).", holding: "You have 200 Mb thanks to holding 4,000 MANA tokens.", cta: "BUY MANA" },
-    { name: "LANDs", desc: "Earn 100 Mb of storage per LAND.", holding: "You have 300 Mb thanks to holding 3 LANDs.", cta: "BUY LAND" },
-    { name: "NAMEs", desc: "Earn 100 Mb of storage per NAME.", holding: "You have 600 Mb thanks to holding 6 Decentraland NAMEs.", cta: "BUY NAME" },
-  ];
+function YourStorageModal({ available, breakdown, sample, onClose }) {
+  const assets = breakdown;
   return (
     <div className="bdworlds__scrim" role="dialog" aria-modal="true" aria-label="Your Storage" onClick={onClose}>
       <div className="bdworlds__modal" onClick={(e) => e.stopPropagation()}>
@@ -159,6 +168,7 @@ function YourStorageModal({ available, onClose }) {
           <div className="bdworlds__total">
             <span>TOTAL AVAILABLE STORAGE</span>
             <span className="bdworlds__totalmbs">{available.toLocaleString()} Mb</span>
+            {sample ? <span className="bdworlds__sample" role="note">Sample data</span> : null}
           </div>
           {assets.map((a, i) => (
             <div key={a.name}>
@@ -175,7 +185,7 @@ function YourStorageModal({ available, onClose }) {
           ))}
           <div className="bdworlds__proposal">
             These storage rules were voted on and passed in a governance DAO proposal.{" "}
-            <span className="bdworlds__storagelink">LEARN MORE</span>
+            <a className="bdworlds__storagelink" href="https://governance.decentraland.org" target="_blank" rel="noopener noreferrer">LEARN MORE</a>
           </div>
         </div>
       </div>
@@ -257,6 +267,7 @@ export default function BdWorlds({
   ens = ENS_WORLDS,
   loading = false,
   blocked = null,
+  storage = null,
   modal = null,
 }) {
   const [navTab, setNavTab] = useState("worlds");
@@ -273,8 +284,10 @@ export default function BdWorlds({
   const hasResults = total > 0;
   const sortLabel = SORT_OPTIONS.find((o) => o.value === sort)?.text ?? "";
 
-  const usedMbs = 980;
-  const maxMbs = 1100;
+  const storageVM = storage ?? SAMPLE_STORAGE;
+  const isSampleStorage = storageVM.sample === true;
+  const usedMbs = storageVM.usedMbs;
+  const maxMbs = storageVM.maxMbs;
 
   const switchTab = (t) => { setActiveTab(t); setPage(1); };
 
@@ -304,11 +317,11 @@ export default function BdWorlds({
             <span className="bdworlds__spinner" />
           </div>
         ) : !hasResults ? (
-          <EmptyNames tab={activeTab} onClaim={() => {}} />
+          <EmptyNames tab={activeTab} />
         ) : (
           <>
             {isDcl && (
-              <WorldsStorage usedMbs={usedMbs} maxMbs={maxMbs} onViewDetails={() => setOpenModal("storage")} />
+              <WorldsStorage usedMbs={usedMbs} maxMbs={maxMbs} sample={isSampleStorage} onViewDetails={() => setOpenModal("storage")} />
             )}
             {isDcl && blockedMsg && (
               <div className="bdworlds__warning">
@@ -341,7 +354,7 @@ export default function BdWorlds({
                     </div>
                   )}
                 </div>
-                <button type="button" className="bdworlds__claim" aria-label="Claim name"><PlusGlyph /></button>
+                <a href="/creator-hub/claim-name" className="bdworlds__claim" aria-label="Claim name"><PlusGlyph /></a>
               </div>
             </div>
 
@@ -401,7 +414,12 @@ export default function BdWorlds({
       </div>
 
       {openModal === "storage" && (
-        <YourStorageModal available={maxMbs - usedMbs} onClose={() => setOpenModal(null)} />
+        <YourStorageModal
+          available={maxMbs - usedMbs}
+          breakdown={storageVM.breakdown}
+          sample={isSampleStorage}
+          onClose={() => setOpenModal(null)}
+        />
       )}
       {openModal === "permissions" && (
         <PermissionsModal worldName="monkeyisland.dcl.eth" onClose={() => setOpenModal(null)} />

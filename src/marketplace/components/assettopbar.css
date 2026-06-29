@@ -106,3 +106,14 @@
   .topbar--inline .topbar__tools { order: 2; }
   .topbar__sortlabel { display: none; }
 }
+
+html.mp-light .topbar__count--inline { color: var(--lm-ink-3); }
+html.mp-light .topbar--stacked .topbar__count { color: var(--lm-ink); }
+html.mp-light .topbar__sortlabel { color: var(--lm-ink-3); }
+html.mp-light .topbar__sortselect option { background: var(--lm-surface); color: var(--lm-ink); }
+html.mp-light .topbar__view {
+  border-color: var(--lm-line);
+  background: var(--lm-field-bg);
+}
+html.mp-light .topbar__viewbtn { color: var(--lm-ink-3); }
+html.mp-light .topbar__viewbtn:hover { color: var(--lm-ink); }

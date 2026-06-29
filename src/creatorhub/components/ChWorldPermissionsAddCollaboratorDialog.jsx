@@ -45,7 +45,6 @@ function AddCollaboratorForm({ value = "", error = null }) {
           className="acd__input"
           type="text"
           placeholder="0x..."
-          /* eslint-disable-next-line jsx-a11y/no-autofocus */
           autoFocus
           value={address}
           onChange={handleChange}

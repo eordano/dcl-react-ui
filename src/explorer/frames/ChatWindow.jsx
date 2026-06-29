@@ -1,14 +1,3 @@
-/**
- * ChatWindow — a STATIC visual concept for a windowed Nearby chat redesign.
- *
- * Presentational only: rounded titlebar + location/minimap card + message
- * bubbles over a daytime sky. The input is uncontrolled and there is NO
- * `sendBridge` wiring; nothing mounts this in `overlay/Overlay.jsx` (it is only
- * reachable as the standalone `chatwindow` route).
- *
- * The functional, overlay-wired chat is `Chat.jsx` — that is the canonical
- * implementation. Treat ChatWindow as a design exploration until adopted.
- */
 import { Avatar } from "../../atoms/primitives.jsx";
 import "./chatwindow.css";
 

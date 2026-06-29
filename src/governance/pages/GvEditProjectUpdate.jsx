@@ -310,9 +310,9 @@ export default function GvEditProjectUpdate({ update = PREFILLED }) {
               <p className="gpu__reportsub">
                 Bring some light onto how this project is utilizing funds, CSV
                 syntax. More about our formatting{" "}
-                <a href="#" onClick={(e) => e.preventDefault()}>
+                <span role="button" tabIndex={0} onClick={(e) => e.preventDefault()}>
                   here
-                </a>
+                </span>
                 .
               </p>
               <div className="gpu__csv">

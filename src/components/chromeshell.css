@@ -7,6 +7,40 @@
   color: var(--shell-ink, #fff);
 }
 
+.cs__skip {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.cs__skip:focus-visible {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: var(--z-panel);
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: var(--panel);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--r-control);
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
 .cs__nav {
   flex: 0 0 auto;
   position: relative;
@@ -62,6 +96,7 @@
   height: var(--shell-nav-h, 60px);
   padding: 0 14px;
   white-space: nowrap;
+  text-decoration: none;
   transition: color 0.12s ease;
 }
 .cs__tab:hover { color: var(--shell-tab-ink-active, #fff); }

@@ -98,8 +98,6 @@
   .acooc__card { padding: 40px 32px 32px; border-radius: 12px; }
 }
 
-/* Light theme — the opt-out confirmation modal is a web/dapp account surface, so
-   it follows "Theme: Light". Remap the shared + local dark tokens it consumes. */
 html.mp-light .acooc {
   --panel: var(--lm-surface);
   --text: var(--lm-ink);

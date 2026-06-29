@@ -1,24 +1,10 @@
-// Map panel — route id "map" (#/map), matches EXPLORE_TABS "map".
-//
-// Reuses the ui3 explorer Map look-and-feel: it imports map.css and reproduces
-// the chrome-free `map__shell` (pins on a CSS grid, the category bar, the info
-// card) driven by LIVE catalyst data, and reuses the PlaceDetail page verbatim
-// for the expanded view. It deliberately does NOT render ExploreChrome itself —
-// AppLayout already wraps every panel in the router-wired chrome, and ExploreChrome
-// is `position:fixed;inset:0`, so a nested one would cover the nav and break
-// instant-nav. The reused Map.jsx page bundles its own ExploreChrome + hardcoded
-// pins and takes no props, so it can't be dropped in as-is; this wrapper is the
-// chrome-free, data-driven binding of the same design.
-//
-// Engine coupling is outbound-only: jump-in -> window.engine.teleport(x, y)
-// (parcel coords), world realms -> window.engine.changerealm(url). Identity/scene
-// are read-only from the bridge (player marker position).
-
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import JumpLoading from "../../explorer/components/JumpLoading.jsx";
 
 import SearchField from "../../atoms/SearchField.jsx";
 import PlaceDetail from "../../explorer/pages/PlaceDetail.jsx";
-import { useBridgeState } from "../../overlay/bridge.js";
+import { sendBridge, useBridgeState } from "../../overlay/bridge.js";
 import { usePlaces, usePlace, useCategories } from "../../data/hooks/usePlaces.js";
 import {
   fetchPlaces,
@@ -33,7 +19,63 @@ import "../../explorer/pages/map.css";
 
 const LIST_PARAMS = { limit: PLACES_LIMIT };
 
-// Warm the cache on hover/focus intent over the Map tab (best-effort).
+const SAT_BASE = "https://catalyst.dcl.one/satellite";
+const SAT_WORLD_MIN = -256;
+const SAT_WORLD_SPAN = 512;
+const SAT_GRID_MIN = -170;
+const SAT_GRID_SPAN = 340;
+const SAT_TILE = (z, x, y) => `${SAT_BASE}/${z}/${x}/${y}.png`;
+
+function slippyTilesFor(zoom, view) {
+  const z = Math.max(1, Math.min(7, Math.round(2.6 + Math.log2(zoom))));
+  const n = 1 << z;
+  const span = SAT_WORLD_SPAN / n;
+
+  let west;
+  let east;
+  let south;
+  let north;
+  if (view && view.square > 0) {
+    const scaled = view.square * zoom;
+    const u0 = 0.5 + (-view.w / 2 - view.panX) / scaled;
+    const u1 = 0.5 + (view.w / 2 - view.panX) / scaled;
+    const v0 = 0.5 + (-view.h / 2 - view.panY) / scaled;
+    const v1 = 0.5 + (view.h / 2 - view.panY) / scaled;
+    west = SAT_GRID_MIN + u0 * SAT_GRID_SPAN;
+    east = SAT_GRID_MIN + u1 * SAT_GRID_SPAN;
+    north = SAT_GRID_MIN + SAT_GRID_SPAN - v0 * SAT_GRID_SPAN;
+    south = SAT_GRID_MIN + SAT_GRID_SPAN - v1 * SAT_GRID_SPAN;
+  } else {
+    west = -170 / zoom;
+    east = 170 / zoom;
+    south = -170 / zoom;
+    north = 170 / zoom;
+  }
+
+  const xIdx = (w) => Math.floor((w - SAT_WORLD_MIN) / span);
+  const yIdx = (w) => Math.floor((SAT_WORLD_MIN + SAT_WORLD_SPAN - w) / span);
+  const loX = Math.max(0, xIdx(west) - 1);
+  const hiX = Math.min(n - 1, xIdx(east) + 1);
+  const loY = Math.max(0, yIdx(north) - 1);
+  const hiY = Math.min(n - 1, yIdx(south) + 1);
+
+  const tiles = [];
+  for (let x = loX; x <= hiX; x++) {
+    const wx0 = SAT_WORLD_MIN + x * span;
+    for (let y = loY; y <= hiY; y++) {
+      const wyTop = SAT_WORLD_MIN + SAT_WORLD_SPAN - y * span;
+      tiles.push({
+        key: `${z}/${x}/${y}`,
+        src: SAT_TILE(z, x, y),
+        left: ((wx0 - SAT_GRID_MIN) / SAT_GRID_SPAN) * 100,
+        top: ((SAT_GRID_MIN + SAT_GRID_SPAN - wyTop) / SAT_GRID_SPAN) * 100,
+        size: (span / SAT_GRID_SPAN) * 100,
+      });
+    }
+  }
+  return tiles;
+}
+
 export function prefetch(queryClient) {
   try {
     queryClient.prefetchQuery({
@@ -47,7 +89,6 @@ export function prefetch(queryClient) {
       staleTime: STALE.categories,
     });
   } catch {
-    /* prefetch is best-effort, never throw */
   }
 }
 
@@ -64,16 +105,26 @@ function PinIcon({ kind }) {
   );
 }
 
-// Outbound engine action: teleport to a place (or switch realm for a world).
+const PARCEL_SIZE = 16;
+
 function teleportTo(view) {
   if (!view || typeof window === "undefined") return;
-  const engine = window.engine;
-  if (!engine) return;
-  if (view.world && view.worldName && typeof engine.changerealm === "function") {
-    engine.changerealm(jumpUrlFor(view));
+  if (view.world && view.worldName) {
+    const engine = window.engine;
+    if (engine && typeof engine.changerealm === "function") {
+      engine.changerealm(view.worldName);
+    }
     return;
   }
-  if (typeof engine.teleport === "function") engine.teleport(view.x, view.y);
+  const px = Number(view.x);
+  const py = Number(view.y);
+  if (!Number.isFinite(px) || !Number.isFinite(py)) return;
+  sendBridge("Teleport", {
+    x: px * PARCEL_SIZE + PARCEL_SIZE / 2,
+    y: 0,
+    z: py * PARCEL_SIZE + PARCEL_SIZE / 2,
+    duration: 0,
+  });
 }
 
 export default function MapPanel() {
@@ -81,15 +132,156 @@ export default function MapPanel() {
   const placesQ = usePlaces(LIST_PARAMS);
   const catsQ = useCategories();
 
+  const navigate = useNavigate();
   const [cat, setCat] = useState("ALL");
   const [search, setSearch] = useState("");
+  const [jumping, setJumping] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [animate, setAnimate] = useState(true);
+  const [grabbing, setGrabbing] = useState(false);
+  const [box, setBox] = useState(null);
+
+  const ZOOM_MIN = 0.6;
+  const ZOOM_MAX = 4;
+  const ZOOM_STEP = 0.25;
+  const clampZoom = (z) =>
+    Math.round(Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z)) * 100) / 100;
+
+  const shellRef = useRef(null);
+  const zoomRef = useRef(zoom);
+  const panRef = useRef(pan);
+  zoomRef.current = zoom;
+  panRef.current = pan;
+  const dragRef = useRef(null);
+  const draggedRef = useRef(false);
+  const wheelEndRef = useRef(0);
+
+  const metrics = () => {
+    const el = shellRef.current;
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return {
+      w: r.width,
+      h: r.height,
+      cx: r.left + r.width / 2,
+      cy: r.top + r.height / 2,
+      square: Math.min(r.width, r.height),
+    };
+  };
+
+  const clampPan = (px, py, z, m) => {
+    const mm = m || metrics();
+    if (!mm) return { x: px, y: py };
+    const max = (mm.square * z) / 2;
+    return {
+      x: Math.max(-max, Math.min(max, px)),
+      y: Math.max(-max, Math.min(max, py)),
+    };
+  };
+
+  const applyView = (nz, np) => {
+    zoomRef.current = nz;
+    panRef.current = np;
+    setZoom(nz);
+    setPan(np);
+  };
+
+  const zoomAround = (nz, ax, ay) => {
+    const z = zoomRef.current;
+    const cz = clampZoom(nz);
+    const m = metrics();
+    if (!m || cz === z) {
+      applyView(cz, clampPan(panRef.current.x, panRef.current.y, cz, m));
+      return;
+    }
+    const f = cz / z;
+    const mx = (ax == null ? m.cx : ax) - m.cx;
+    const my = (ay == null ? m.cy : ay) - m.cy;
+    const nx = panRef.current.x + (mx - panRef.current.x) * (1 - f);
+    const ny = panRef.current.y + (my - panRef.current.y) * (1 - f);
+    applyView(cz, clampPan(nx, ny, cz, m));
+  };
+
+  const wheelHandlerRef = useRef(null);
+  wheelHandlerRef.current = (e) => {
+    if (e.target.closest?.(".map__info, .map__pldwrap, .map__catbar")) return;
+    e.preventDefault();
+    setAnimate(false);
+    window.clearTimeout(wheelEndRef.current);
+    wheelEndRef.current = window.setTimeout(() => setAnimate(true), 180);
+    zoomAround(zoomRef.current * Math.exp(-e.deltaY * 0.0015), e.clientX, e.clientY);
+  };
+
+  useEffect(() => {
+    const el = shellRef.current;
+    if (!el) return undefined;
+    const onWheel = (e) => wheelHandlerRef.current?.(e);
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  useEffect(() => {
+    const el = shellRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return undefined;
+    const measure = () => {
+      const r = el.getBoundingClientRect();
+      setBox({ w: r.width, h: r.height, square: Math.min(r.width, r.height) });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const onTilesPointerDown = (e) => {
+    if (e.button != null && e.button !== 0) return;
+    if (e.target.closest?.(".map__pin")) return;
+    dragRef.current = {
+      sx: e.clientX,
+      sy: e.clientY,
+      px: panRef.current.x,
+      py: panRef.current.y,
+      moved: false,
+    };
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+    }
+  };
+  const onTilesPointerMove = (e) => {
+    const d = dragRef.current;
+    if (!d) return;
+    const dx = e.clientX - d.sx;
+    const dy = e.clientY - d.sy;
+    if (!d.moved && Math.hypot(dx, dy) > 3) {
+      d.moved = true;
+      setGrabbing(true);
+      setAnimate(false);
+    }
+    if (d.moved) {
+      applyView(zoomRef.current, clampPan(d.px + dx, d.py + dy, zoomRef.current));
+    }
+  };
+  const onTilesPointerUp = (e) => {
+    const d = dragRef.current;
+    if (!d) return;
+    dragRef.current = null;
+    try {
+      e.currentTarget.releasePointerCapture?.(e.pointerId);
+    } catch {
+    }
+    if (d.moved) {
+      draggedRef.current = true;
+      setGrabbing(false);
+      setAnimate(true);
+    }
+  };
 
   const places = placesQ.data ?? [];
 
-  // Live detail fetch when the expanded view opens; fall back to the list row so
-  // the overlay renders instantly while the per-id read is in flight.
   const detailQ = usePlace(detailOpen ? selectedId : null);
   const selectedFromList = useMemo(
     () => places.find((p) => p.id === selectedId) ?? null,
@@ -97,7 +289,6 @@ export default function MapPanel() {
   );
   const detailView = detailQ.data ?? selectedFromList;
 
-  // Category bar: ALL + FAVORITES (ui-only) + live categories from the API.
   const cats = useMemo(() => {
     const live = catsQ.data ?? [];
     return [
@@ -150,14 +341,24 @@ export default function MapPanel() {
     return () => window.removeEventListener("keydown", onKey);
   }, [clearSel]);
 
-  // The reused PlaceDetail's JUMP IN / START NAVIGATION buttons are presentational
-  // (their data-sb-linkto is unmapped, so AppLayout ignores the click) and its ×
-  // close is unwired here — bind both via this bubble handler over the overlay.
+  const onJumpIn = useCallback(
+    (view) => {
+      if (!view) return;
+      teleportTo(view);
+      setJumping(view.name || "destination");
+      setTimeout(() => {
+        setJumping(null);
+        navigate("/");
+      }, 3500);
+    },
+    [navigate],
+  );
+
   const onDetailClick = useCallback(
     (e) => {
       const t = e.target;
       if (t.closest?.(".pld__jump") || t.closest?.(".pld__nav")) {
-        teleportTo(detailView ?? sel);
+        onJumpIn(detailView ?? sel);
         setDetailOpen(false);
         return;
       }
@@ -165,9 +366,9 @@ export default function MapPanel() {
         setDetailOpen(false);
         return;
       }
-      if (!t.closest?.(".pld")) setDetailOpen(false); // backdrop click
+      if (!t.closest?.(".pld")) setDetailOpen(false);
     },
-    [detailView, sel],
+    [detailView, sel, onJumpIn],
   );
 
   const loading = placesQ.isLoading;
@@ -175,13 +376,48 @@ export default function MapPanel() {
   const empty = !loading && !error && filtered.length === 0;
 
   return (
-    <div className="map__shell">
-      <div className="map__tiles" onClick={clearSel}>
+    <div className="map__shell" ref={shellRef}>
+      {jumping && <JumpLoading name={jumping} />}
+      <div
+        className={"map__tiles" + (grabbing ? " is-grabbing" : "")}
+        onClick={() => {
+          if (draggedRef.current) {
+            draggedRef.current = false;
+            return;
+          }
+          clearSel();
+        }}
+        onPointerDown={onTilesPointerDown}
+        onPointerMove={onTilesPointerMove}
+        onPointerUp={onTilesPointerUp}
+        onPointerCancel={onTilesPointerUp}
+        style={{
+          transform: `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+          transformOrigin: "center center",
+          transition: animate ? "transform 0.15s ease" : "none",
+        }}
+      >
         <div className="map__grid" />
         <div className="map__roads" />
-        {/* Removed 4 hardcoded decorative "district" rectangles: fixed positions,
-            no underlying map data, and they read as stray colored artifacts
-            overlapping the category bar. The real regions are the place pins. */}
+        {slippyTilesFor(zoom, box && { ...box, panX: pan.x, panY: pan.y }).map((t) => (
+          <img
+            key={t.key}
+            className="map__satellite"
+            src={t.src}
+            alt=""
+            draggable={false}
+            loading="lazy"
+            style={{
+              position: "absolute",
+              left: t.left + "%",
+              top: t.top + "%",
+              width: `calc(${t.size}% + 0.5px)`,
+              height: `calc(${t.size}% + 0.5px)`,
+              imageRendering: "pixelated",
+              pointerEvents: "none",
+            }}
+          />
+        ))}
 
         <div
           className="map__player"
@@ -259,17 +495,28 @@ export default function MapPanel() {
 
       <div className="map__zoom">
         <div className="map__zgroup">
-          <button className="map__zbtn" aria-label="Zoom in">
+          <button
+            className="map__zbtn"
+            aria-label="Zoom in"
+            onClick={() => zoomAround(zoomRef.current + ZOOM_STEP)}
+          >
             +
           </button>
-          <button className="map__zbtn" aria-label="Zoom out">
+          <button
+            className="map__zbtn"
+            aria-label="Zoom out"
+            onClick={() => zoomAround(zoomRef.current - ZOOM_STEP)}
+          >
             −
           </button>
         </div>
         <button
           className="map__zbtn map__locate"
           aria-label="Recenter"
-          onClick={clearSel}
+          onClick={() => {
+            clearSel();
+            applyView(1, { x: 0, y: 0 });
+          }}
         >
           ⊕
         </button>
@@ -314,7 +561,7 @@ export default function MapPanel() {
         </div>
       )}
 
-      {empty && (
+      {empty && !sel && (
         <div className="map__info">
           <div className="map__infobody">
             <div className="map__infoname">No places match</div>
@@ -367,7 +614,7 @@ export default function MapPanel() {
               </span>
             </div>
             <div className="map__infoactions">
-              <button className="map__jump" onClick={() => teleportTo(sel)}>
+              <button className="map__jump" onClick={() => onJumpIn(sel)}>
                 jump in
               </button>
               <button className="map__nav" onClick={() => setDetailOpen(true)}>
@@ -379,7 +626,6 @@ export default function MapPanel() {
       )}
 
       {detailOpen && sel && (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
         <div className="map__pldwrap" onClick={onDetailClick}>
           <PlaceDetail
             place={toPlaceDetail(detailView ?? sel)}

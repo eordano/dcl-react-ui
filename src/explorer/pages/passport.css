@@ -14,8 +14,6 @@
 .ps__close:hover { background: rgba(0, 0, 0, .55); }
 
 .ps__preview { position: relative; flex: 0 0 36%; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
-/* Circular Avatar portrait, centred on a soft glow backdrop (the figure/gold
-   pedestal is gone — a large seeded portrait reads cleanly on the gradient). */
 .ps__preview::before {
   content: ""; position: absolute; top: 50%; left: 50%; width: 264px; height: 264px;
   transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none;
@@ -26,6 +24,8 @@
     0 22px 44px rgba(0,0,0,.38),
     inset 0 0 0 4px rgba(255,255,255,.20);
 }
+.ps__preview--empty::before { display: none; }
+.ps__preview--empty .ps__avatar { box-shadow: none; }
 
 .ps__main { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 22px 24px 0; }
 
@@ -80,48 +80,14 @@
   display: flex; align-items: center; justify-content: center;
   background: var(--fill-2);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+  overflow: hidden;
 }
-.ps__badgeart {
-  width: 58px; height: 58px;
-  background:
-    radial-gradient(circle at 38% 28%, color-mix(in srgb, var(--t) 72%, #fff) 0%,
-      var(--t) 42%, color-mix(in srgb, var(--t) 60%, #000) 100%);
-  box-shadow:
-    0 4px 12px color-mix(in srgb, var(--t) 45%, transparent),
-    inset 0 1.5px 3px rgba(255,255,255,.55),
-    inset 0 0 0 2px color-mix(in srgb, var(--t) 40%, #fff),
-    inset 0 0 0 4px color-mix(in srgb, var(--t) 70%, #000);
-  position: relative;
-}
-.ps__badge--x .ps__badgeart::before,
-.ps__badge--gem .ps__badgeart::before {
-  content: ""; position: absolute; inset: 8% 14% 50% 14%;
-  border-radius: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,0));
-  pointer-events: none;
-}
-.ps__badge--x .ps__badgeart,
-.ps__badge--gem .ps__badgeart { border-radius: 50%; }
-.ps__badge--card .ps__badgeart { border-radius: 12px; }
-.ps__badge--cone .ps__badgeart { clip-path: polygon(50% 0, 92% 30%, 64% 100%, 36% 100%, 8% 30%); }
-.ps__badge--x .ps__badgeart::after {
-  content: "✕"; position: absolute; inset: 0;
+.ps__badgeimg { width: 58px; height: 58px; object-fit: contain; display: block; }
+.ps__badgeinitial {
+  width: 58px; height: 58px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px; font-weight: 900; color: rgba(255,255,255,.92);
-}
-.ps__badge--gem .ps__badgeart::after {
-  content: ""; position: absolute; inset: 30%; border-radius: 4px;
-  background: rgba(255,255,255,.85);
-  clip-path: polygon(50% 0, 100% 35%, 80% 100%, 20% 100%, 0 35%);
-}
-.ps__badge--card .ps__badgeart::after {
-  content: ""; position: absolute; inset: 26% 30%;
-  background: rgba(255,255,255,.85); border-radius: 2px;
-}
-.ps__badge--cone .ps__badgeart::after {
-  content: ""; position: absolute; left: 50%; top: 30%;
-  width: 6px; height: 6px; border-radius: 50%; transform: translateX(-50%);
-  background: rgba(255,255,255,.9);
+  font-size: 24px; font-weight: 800; color: rgba(255,255,255,.92);
+  background: radial-gradient(circle at 38% 28%, rgba(255,255,255,.22), rgba(255,255,255,.06));
 }
 
 .ps__equipped { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 14px; padding-bottom: 6px; }
@@ -168,3 +134,23 @@
   .ps__main { min-height: 0; }
   .ps__modules { min-height: 0; }
 }
+
+.ps__photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.ps__photo {
+  display: block;
+  width: 100%;
+  padding: 0;
+  aspect-ratio: 16 / 10;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: border-color 0.12s ease, transform 0.08s ease;
+}
+.ps__photo:hover { border-color: rgba(255, 45, 142, 0.6); transform: translateY(-2px); }
+.ps__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }

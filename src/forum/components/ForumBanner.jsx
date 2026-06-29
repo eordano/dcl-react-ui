@@ -16,7 +16,7 @@ export default function ForumBanner({ banner = DEFAULT_BANNER }) {
       <div className="fbn__main">
         <h2 className="fbn__title">{banner.title}</h2>
         <p className="fbn__body">
-          {banner.body} <a className="fbn__cta" href="#">{banner.cta}</a>
+          {banner.body} <span className="fbn__cta" role="button" tabIndex={0}>{banner.cta}</span>
         </p>
       </div>
       <button type="button" className="fbn__close" aria-label="Dismiss">

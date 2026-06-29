@@ -2,8 +2,6 @@ import { useMemo } from "react";
 import SitesChrome from "../frames/SitesChrome.jsx";
 import RedirectInterstitial from "../../components/RedirectInterstitial.jsx";
 
-// the explicit routes falls through to a client-side react-router <Navigate>
-
 export const REDIRECT_TARGET = "/";
 
 const SAMPLE_PATH = "/marketpalce/collectibles";

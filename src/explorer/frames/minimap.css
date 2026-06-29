@@ -10,8 +10,6 @@
   backdrop-filter: blur(8px);
   color: #fff;
   box-shadow: 0 8px 28px rgba(0, 0, 0, .4);
-  /* visible so the options dropdown can float out from the hamburger;
-     the map is circular-masked, so the rounded card corners stay clean. */
   overflow: visible;
 }
 
@@ -36,7 +34,6 @@
 
 .mm__actions { display: flex; align-items: center; gap: 4px; flex: 0 0 auto; }
 
-/* positioning context so the dropdown is anchored to the hamburger button */
 .mm__kebab-wrap { position: relative; flex: 0 0 auto; display: flex; }
 
 .mm__fav, .mm__kebab {
@@ -48,6 +45,9 @@
 .mm__fav:hover { color: #ff5d7a; }
 
 .mm__map {
+  display: block; margin: 0; padding: 0; border: none; font: inherit;
+  color: inherit; text-align: inherit; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
   position: relative; width: 100%; aspect-ratio: 1 / 1;
   overflow: hidden;
   background:
@@ -56,6 +56,8 @@
   -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 99%, transparent 100%);
           mask-image: radial-gradient(circle closest-side at 50% 50%, #000 99%, transparent 100%);
 }
+.mm__map:hover { filter: brightness(1.14); }
+.mm__map:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--brand, #ff2d9b); }
 .mm__grid {
   position: absolute; inset: 0;
   background-color: #160d0e;
@@ -92,8 +94,6 @@
           drop-shadow(0 1px 2px rgba(0, 0, 0, .6));
 }
 
-/* dropdown opens from the hamburger control, anchored to its top-right
-   corner rather than dropping straight below the whole minimap card */
 .mm__menu {
   position: absolute;
   top: calc(100% + 6px);

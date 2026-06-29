@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./camera.css";
+import { sendBridge, subscribeBridge, useBridgeState } from "../../overlay/bridge";
+import { catalystBase, signedFetch } from "../../data/catalyst/client";
+import Lightbox from "../components/Lightbox.jsx";
 
 const SHORTCUTS = [
   { action: "Take a photo", keys: ["Space"] },
@@ -13,6 +16,13 @@ const SHORTCUTS = [
   { action: "Toggle UI", keys: ["H"] },
   { action: "Exit camera", keys: ["Esc"] },
 ];
+
+const STATUS_LABEL = {
+  capturing: "Capturing…",
+  uploading: "Saving to reel…",
+  saved: "Saved to reel ✓",
+  noauth: "Connect a wallet to save photos",
+};
 
 function Keys({ keys }) {
   return (
@@ -28,15 +38,152 @@ function Keys({ keys }) {
   );
 }
 
-export default function Camera() {
+function parseCoords(coords) {
+  if (!coords) return ["0", "0"];
+  if (typeof coords === "string") {
+    const [x, y] = coords.split(",").map((s) => s.trim());
+    return [x || "0", y || "0"];
+  }
+  if (typeof coords === "object") return [String(coords.x ?? "0"), String(coords.y ?? "0")];
+  return ["0", "0"];
+}
+
+function focusWorldCanvas() {
+  if (typeof document === "undefined") return;
+  const c = document.getElementById("mygame-canvas");
+  const ae = document.activeElement;
+  if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.isContentEditable)) return;
+  try {
+    c?.focus({ preventScroll: true });
+  } catch {
+  }
+}
+
+export default function Camera({ onClose }) {
+  const { identity, scene } = useBridgeState();
   const [showShortcuts, setShowShortcuts] = useState(true);
+  const [flash, setFlash] = useState(false);
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState("");
+  const [reel, setReel] = useState([]);
+  const [lightbox, setLightbox] = useState(null);
+
+  const address = identity?.address || null;
+
+  const loadReel = useCallback(async () => {
+    if (!address) return;
+    try {
+      const { status, body } = await signedFetch(
+        `${catalystBase()}/camera-reel/api/users/${address}/images`,
+        { method: "GET" }
+      );
+      if (status < 200 || status >= 300) return;
+      const data = JSON.parse(body);
+      setReel(Array.isArray(data?.images) ? data.images : []);
+    } catch {
+    }
+  }, [address]);
+
+  const upload = useCallback(
+    async (dataUrl) => {
+      if (!address) {
+        setStatus("noauth");
+        return;
+      }
+      const comma = dataUrl.indexOf(",");
+      const image = comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl;
+      const [cx, cy] = parseCoords(scene?.coords);
+      const body = {
+        image,
+        content_type: "image/png",
+        metadata: {
+          userName: identity?.name || "Guest",
+          userAddress: address,
+          dateTime: new Date().toISOString(),
+          realm: scene?.realm || "",
+          scene: { name: scene?.title || "", location: { x: cx, y: cy } },
+          visiblePeople: [],
+          placeId: "",
+        },
+        is_public: false,
+      };
+      setStatus("uploading");
+      setError("");
+      try {
+        const { status: code, body: resBody } = await signedFetch(
+          `${catalystBase()}/camera-reel/api/images-json`,
+          { method: "POST", body, timeoutMs: 30000 }
+        );
+        if (code >= 200 && code < 300) {
+          setStatus("saved");
+          loadReel();
+          setTimeout(() => setStatus((s) => (s === "saved" ? "idle" : s)), 2500);
+        } else {
+          let msg = `Upload failed (${code})`;
+          try {
+            msg = JSON.parse(resBody)?.message || msg;
+          } catch {
+          }
+          setStatus("error");
+          setError(msg);
+        }
+      } catch (e) {
+        setStatus("error");
+        setError(e?.message || "Upload failed");
+      }
+    },
+    [address, identity, scene, loadReel]
+  );
+
+  useEffect(() => {
+    const unsub = subscribeBridge((push) => {
+      if (push && push.kind === "photo" && push.dataUrl) upload(push.dataUrl);
+    });
+    return unsub;
+  }, [upload]);
+
+  useEffect(() => {
+    loadReel();
+  }, [loadReel]);
+
+  const takePhoto = useCallback(() => {
+    if (!address) {
+      setStatus("noauth");
+      setFlash(true);
+      setTimeout(() => setFlash(false), 220);
+      return;
+    }
+    sendBridge("CapturePhoto");
+    setStatus("capturing");
+    setFlash(true);
+    setTimeout(() => setFlash(false), 220);
+    setTimeout(() => focusWorldCanvas(), 0);
+  }, [address]);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.code !== "Space" && e.key !== " ") return;
+      const ae = document.activeElement;
+      if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.isContentEditable)) return;
+      e.preventDefault();
+      takePhoto();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [takePhoto]);
+
+  useEffect(() => {
+    document.body.classList.add("camera-open");
+    const t = setTimeout(() => focusWorldCanvas(), 60);
+    return () => {
+      clearTimeout(t);
+      document.body.classList.remove("camera-open");
+    };
+  }, []);
 
   return (
     <div className="cam">
       <div className="cam__view">
-        <div className="cam__sky" />
-        <div className="cam__ground" />
-        <div className="cam__sun" />
         <div className="cam__guides">
           <span className="cam__gv" style={{ left: "33.33%" }} />
           <span className="cam__gv" style={{ left: "66.66%" }} />
@@ -66,6 +213,30 @@ export default function Camera() {
         </aside>
       )}
 
+      {status !== "idle" && (
+        <div className={"cam__status cam__status--" + status} role="status" aria-live="polite">
+          {status === "error" ? error || "Upload failed" : STATUS_LABEL[status]}
+        </div>
+      )}
+
+      {reel.length > 0 && (
+        <div className="cam__reelstrip" aria-label="Recent photos">
+          {reel.slice(0, 8).map((img) => (
+            <img
+              key={img.id}
+              className="cam__reelthumb"
+              src={img.thumbnailUrl || img.url}
+              alt="Reel photo"
+              loading="lazy"
+              role="button"
+              tabIndex={0}
+              style={{ cursor: "pointer" }}
+              onClick={() => setLightbox(img.url)}
+            />
+          ))}
+        </div>
+      )}
+
       <div className="cam__hud">
         <button className="cam__reel" title="Camera Reel" data-sb-linkto="Explorer/Pages/Reel">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -77,7 +248,12 @@ export default function Camera() {
         </button>
 
         <div className="cam__shutterwrap">
-          <button className="cam__shutter" aria-label="Take photo"><span /></button>
+          <button
+            className="cam__shutter"
+            aria-label="Take photo"
+            onClick={takePhoto}
+            disabled={status === "capturing" || status === "uploading"}
+          ><span /></button>
           <span className="cam__spacebar">[ SPACE BAR ]</span>
         </div>
 
@@ -87,9 +263,12 @@ export default function Camera() {
             onClick={() => setShowShortcuts((s) => !s)}
             title="Camera Controls"
           >?</button>
-          <button className="cam__iconbtn" aria-label="Close camera">×</button>
+          <button className="cam__iconbtn" aria-label="Close camera" onClick={onClose}>×</button>
         </div>
       </div>
+
+      {flash && <div className="cam__flash" aria-hidden="true" />}
+      <Lightbox src={lightbox} onClose={() => setLightbox(null)} />
     </div>
   );
 }

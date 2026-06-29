@@ -196,6 +196,7 @@ export default function BdCollectionDetail({
   emotes = EMOTES,
   loading = false,
   initialItemType = "wearable",
+  bare = false,
 }) {
   collection = collection ?? COLLECTION;
   const [tab, setTab] = useState("collections");
@@ -241,17 +242,21 @@ export default function BdCollectionDetail({
   );
 
   if (loading) {
-    return (
+    const loadingBody = (
+      <div className="bdcollectiondetail bdcollectiondetail--loading">
+        <Spinner size={48} />
+      </div>
+    );
+    return bare ? (
+      loadingBody
+    ) : (
       <BuilderChrome active={tab} onTab={setTab}>
-        <div className="bdcollectiondetail bdcollectiondetail--loading">
-          <Spinner size={48} />
-        </div>
+        {loadingBody}
       </BuilderChrome>
     );
   }
 
-  return (
-    <BuilderChrome active={tab} onTab={setTab}>
+  const body = (
       <div className="bdcollectiondetail">
         <div className="bdcollectiondetail__container">
           <button type="button" className="bdcollectiondetail__back" aria-label="Back">
@@ -409,6 +414,13 @@ export default function BdCollectionDetail({
           )}
         </div>
       </div>
+  );
+
+  return bare ? (
+    body
+  ) : (
+    <BuilderChrome active={tab} onTab={setTab}>
+      {body}
     </BuilderChrome>
   );
 }

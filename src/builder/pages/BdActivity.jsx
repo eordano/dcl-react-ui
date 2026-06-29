@@ -111,8 +111,8 @@ const DEFAULT_TX = [
     imageKind: "asset",
     description: (
       <>
-        Minted <a className="bdactivity__link" href="#">Neon Visor</a> for the collection{" "}
-        <a className="bdactivity__link" href="#">Cyber Threads</a> once
+        Minted <span className="bdactivity__link" role="button" tabIndex={0}>Neon Visor</span> for the collection{" "}
+        <span className="bdactivity__link" role="button" tabIndex={0}>Cyber Threads</span> once
       </>
     ),
     timestamp: "1 hour ago",
@@ -123,7 +123,7 @@ const DEFAULT_TX = [
     hash: "0x773",
     imageKind: "asset",
     description: (
-      <>Published the collection <a className="bdactivity__link" href="#">Cyber Threads</a></>
+      <>Published the collection <span className="bdactivity__link" role="button" tabIndex={0}>Cyber Threads</span></>
     ),
     timestamp: "3 hours ago",
     status: "confirmed",
@@ -165,8 +165,8 @@ const DEFAULT_TX = [
     description: (
       <>
         You <strong>approved</strong> the{" "}
-        <a className="bdactivity__link" href="#">Collection Manager</a> contract to operate{" "}
-        <a className="bdactivity__link" href="#">MANA</a> on your behalf.
+        <span className="bdactivity__link" role="button" tabIndex={0}>Collection Manager</span> contract to operate{" "}
+        <span className="bdactivity__link" role="button" tabIndex={0}>MANA</span> on your behalf.
       </>
     ),
     timestamp: "6 days ago",

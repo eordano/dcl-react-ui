@@ -30,7 +30,7 @@ export default function CommunityCreate() {
             <h1 className="ccr__gatetitle">Get a NAME to Unlock Community Creation</h1>
             <p className="ccr__gatebody">
               NAMEs are unique Decentraland usernames that come with a{" "}
-              <a className="ccr__link" href="#world">World</a>, and unlock community creation.
+              <a className="ccr__link" href="https://decentraland.org/blog/about-decentraland/decentraland-worlds-your-own-virtual-space" target="_blank" rel="noopener noreferrer">World</a>, and unlock community creation.
             </p>
             <div className="ccr__gatebtns">
               <button className="ccr__primary" onClick={() => setGated(false)}>Get a NAME</button>
@@ -106,7 +106,7 @@ export default function CommunityCreate() {
               <button className="ccr__primary ccr__create" aria-disabled={!name.trim()}>CREATE</button>
             </div>
 
-            <p className="ccr__policy">Please ensure Community content follows Decentraland's <a className="ccr__link" href="#policy">Content Policy</a>.</p>
+            <p className="ccr__policy">Please ensure Community content follows Decentraland's <a className="ccr__link" href="https://decentraland.org/content" target="_blank" rel="noopener noreferrer">Content Policy</a>.</p>
           </div>
         </div>
       )}

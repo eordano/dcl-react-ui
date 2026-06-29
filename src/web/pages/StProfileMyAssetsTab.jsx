@@ -152,9 +152,9 @@ function AssetCard({ item }) {
           </span>
           <span className="stam__network">{item.network === "ETHEREUM" ? "Ethereum" : "Polygon"}</span>
         </div>
-        <a className="stam__viewbtn" href="#" target="_blank" rel="noopener noreferrer">
+        <span className="stam__viewbtn" role="button" tabIndex={0}>
           View
-        </a>
+        </span>
       </div>
     </article>
   );
@@ -284,12 +284,12 @@ export default function StProfileMyAssetsTab({
                             <span className="stam__namesuffix">.dcl.eth</span>
                           </span>
                           <div className="stam__nameactions">
-                            <a className="stam__nameedit" href="#" target="_blank" rel="noopener noreferrer">
+                            <span className="stam__nameedit" role="button" tabIndex={0}>
                               Edit
-                            </a>
-                            <a className="stam__nametransfer" href="#" target="_blank" rel="noopener noreferrer">
+                            </span>
+                            <span className="stam__nametransfer" role="button" tabIndex={0}>
                               Transfer
-                            </a>
+                            </span>
                           </div>
                         </div>
                       ))}

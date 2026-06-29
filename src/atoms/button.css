@@ -14,7 +14,7 @@
 .btn--md { font-size: 13px; padding: var(--ctl-pad-md, 10px 22px); }
 .btn--lg { font-size: 15px; padding: var(--ctl-pad-lg, 13px 30px); }
 
-.btn--primary { background: var(--brand); color: #fff; }
+.btn--primary { background: var(--brand); color: #0d0c11; }
 .btn--primary:not(:disabled):hover { background: var(--brand-hover); }
 
 .btn--secondary { background: var(--fill-4); color: #fff; }
@@ -23,8 +23,6 @@
 .btn--ghost { background: transparent; border: 1.5px solid var(--ink-6); color: var(--ink-85); }
 .btn--ghost:not(:disabled):hover { background: var(--fill-4); border-color: #fff; color: #fff; }
 
-/* ui2 contained buttons lift on hover (MUI shadows-2). Dapp scope only; HUD pills
-   stay flat. See ui2 components.ts MuiButton …:hover { boxShadow: shadows-2 }. */
 .ui2 .btn--primary:not(:disabled):hover,
 .ui2 .btn--secondary:not(:disabled):hover {
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { sendBridge, emoteUrnForName } from "../../overlay/bridge.js";
 import "./emotewheel.css";
 
 const EMOTES = [
@@ -82,11 +83,23 @@ function EmoteIcon({ pose }) {
   );
 }
 
-export default function EmoteWheel() {
+export default function EmoteWheel({ onSelect, onClose }) {
   const [sel, setSel] = useState(0);
 
+  function choose(i) {
+    setSel(i);
+    const urn = emoteUrnForName(EMOTES[i]);
+    if (urn) sendBridge("PlayEmote", { urn });
+    onSelect?.(EMOTES[i]);
+  }
+
   return (
-    <div className="ew">
+    <div
+      className="ew"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
       <div className="ew__wheel">
         <svg className="ew__ring" viewBox="0 0 400 400" aria-hidden="true">
           <defs>
@@ -108,7 +121,7 @@ export default function EmoteWheel() {
                 key={i}
                 className={"ew__slot" + (active ? " is-active" : "")}
                 onMouseEnter={() => setSel(i)}
-                onClick={() => setSel(i)}
+                onClick={() => choose(i)}
                 role="button"
                 aria-label={name}
               >

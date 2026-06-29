@@ -143,3 +143,11 @@
     aspect-ratio: 1 / 1;
   }
 }
+
+html.mp-light .mkbuystatuspage { color: var(--lm-ink); }
+html.mp-light .mkbuystatuspage__title { color: var(--lm-ink); }
+html.mp-light .mkbuystatuspage__loader {
+  border-color: var(--lm-line);
+  border-top-color: var(--brand);
+}
+html.mp-light .mkbuystatuspage__description { color: var(--lm-ink-2); }

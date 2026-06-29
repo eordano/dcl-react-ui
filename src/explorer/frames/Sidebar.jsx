@@ -1,4 +1,5 @@
 import { Avatar, Badge } from "../../atoms/primitives.jsx";
+import { useBridgeState } from "../../overlay/bridge.js";
 import "./sidebar.css";
 
 function Ico({ d, viewBox = "0 0 24 24", children }) {
@@ -58,7 +59,11 @@ const ICONS = {
 
 const STROKE_ICONS = new Set(["skybox", "voice"]);
 
-function Btn({ icon, label, active, tile, badge, badgeKind, dot, notifDot, to }) {
+function openExternal(url) {
+  if (typeof window !== "undefined") window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function Btn({ icon, label, active, tile, badge, badgeKind, dot, notifDot, to, onClick }) {
   return (
     <button
       className={
@@ -70,6 +75,7 @@ function Btn({ icon, label, active, tile, badge, badgeKind, dot, notifDot, to })
       title={label}
       aria-label={label}
       data-sb-linkto={to || undefined}
+      onClick={onClick}
     >
       {ICONS[icon]}
       {dot ? <span className="sb__presence" /> : null}
@@ -83,43 +89,59 @@ function Btn({ icon, label, active, tile, badge, badgeKind, dot, notifDot, to })
   );
 }
 
-// `to` = canonical destination story title (drives the Storybook experience
-// flow via the data-sb-linkto decorator in .storybook/preview.jsx).
 const UPPER = [
-  { icon: "backpackRotate", label: "Backpack", badge: 2, badgeKind: "purple", div: true, to: "Explorer/Pages/Backpack" },
+  { icon: "backpackRotate", label: "Backpack", div: true, to: "Explorer/Pages/Backpack" },
   { icon: "places", label: "Places", to: "Explorer/Pages/Places" },
   { icon: "people", label: "Communities", to: "Explorer/Pages/Communities" },
   { icon: "backpack", label: "Wearables", to: "Explorer/Pages/Backpack" },
-  { icon: "marketplace", label: "Marketplace" },
+  { icon: "marketplace", label: "Marketplace", onClick: () => openExternal("https://decentraland.org/marketplace") },
   { icon: "gallery", label: "Camera Reel", to: "Explorer/Pages/Reel" },
   { icon: "settings", label: "Settings", to: "Explorer/Pages/Settings" },
-  { icon: "help", label: "Help", div: true },
+  { icon: "help", label: "Help", div: true, onClick: () => openExternal("https://docs.decentraland.org") },
 ];
 
 const LOWER = [
-  { icon: "voice", label: "Voice Chat", tile: true, dot: true, to: "Explorer/Components/VoiceChat" },
+  { icon: "voice", label: "Voice Chat", tile: true, to: "Explorer/Components/VoiceChat" },
   { icon: "wearables", label: "Smart Wearables", to: "Explorer/Components/SmartWearables" },
   { icon: "skybox", label: "Skybox", div: true, to: "Explorer/Components/SkyboxHUD" },
   { icon: "camera", label: "Camera", to: "Explorer/Pages/Camera" },
   { icon: "emote", label: "Emotes", div: true, to: "Explorer/Components/EmoteWheel" },
-  { icon: "friends", label: "Friends", notifDot: true, to: "Explorer/Pages/Friends" },
-  // Chat -> Frames/Chat (canonical DM/chat target; ChatWindow is presentational).
+  { icon: "friends", label: "Friends", to: "Explorer/Pages/Friends" },
   { icon: "chat", label: "Chat", active: true, to: "Explorer/Frames/Chat" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({
+  avatarPreview,
+  onProfileToggle,
+  chatOpen,
+  onChatToggle,
+  emoteOpen,
+  onEmoteToggle,
+  notifOpen,
+  onNotifToggle,
+  voiceOpen,
+  onVoiceToggle,
+  skyboxOpen,
+  onSkyboxToggle,
+}) {
+  const { mic, friends } = useBridgeState();
   return (
     <div className="sb__stage">
       <nav className="sb" aria-label="Main menu">
-        <button className="sb__cfg" title="More" aria-label="More options">
+        <button className="sb__cfg" title="More" aria-label="More options" data-sb-linkto="Explorer/Pages/Settings">
           {ICONS.overflow}
         </button>
-        <button className="sb__profile" title="Profile" aria-label="Profile" data-sb-linkto="Explorer/Pages/Passport">
-          <Avatar hue={320} size={38} className="sb__avatar" />
+        <button className="sb__profile" type="button" title="Profile" aria-label="Profile" onClick={onProfileToggle}>
+          <Avatar hue={320} size={38} src={avatarPreview || undefined} className="sb__avatar" />
         </button>
-        <button className="sb__btn" title="Notifications" aria-label="Notifications" data-sb-linkto="Explorer/Components/Notifications">
+        <button
+          className={"sb__btn" + (notifOpen ? " is-active" : "")}
+          type="button"
+          title="Notifications"
+          aria-label="Notifications"
+          onClick={onNotifToggle}
+        >
           {ICONS.bell}
-          <span className="sb__notif" />
         </button>
 
         <div className="sb__group">
@@ -137,7 +159,19 @@ export default function Sidebar() {
           {LOWER.map((b) => (
             <span key={b.icon} className="sb__item">
               {b.div ? <span className="sb__divider" /> : null}
-              <Btn {...b} />
+              {b.icon === "chat" ? (
+                <Btn icon="chat" label="Chat" active={chatOpen} onClick={onChatToggle} />
+              ) : b.icon === "voice" ? (
+                <Btn {...b} to={undefined} active={voiceOpen} dot={mic.enabled} onClick={onVoiceToggle} />
+              ) : b.icon === "skybox" ? (
+                <Btn {...b} to={undefined} active={skyboxOpen} onClick={onSkyboxToggle} />
+              ) : b.icon === "emote" ? (
+                <Btn {...b} to={undefined} active={emoteOpen} onClick={onEmoteToggle} />
+              ) : b.icon === "friends" ? (
+                <Btn {...b} notifDot={friends.onlineCount > 0} />
+              ) : (
+                <Btn {...b} />
+              )}
             </span>
           ))}
         </div>

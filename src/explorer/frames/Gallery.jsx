@@ -6,10 +6,8 @@ const PHOTO = {
   place: { name: "Genesis Plaza", coords: "0,12" },
 };
 
-// In-world captures in this album. The first is the one currently open.
 const SHOTS = [0, 1, 2, 3, 4, 5];
 
-// People recognised in the open photo.
 const PEOPLE = [
   { name: "Mojito", tag: "#a91f" },
   { name: "Pixel Pete", tag: "#7c30" },

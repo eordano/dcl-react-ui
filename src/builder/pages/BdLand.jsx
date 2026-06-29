@@ -56,6 +56,13 @@ function inlineList(list) {
   return `${list[0]}, ${list[1]} and ${list.length - 2} more`;
 }
 
+function activateOnKey(e) {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    e.currentTarget.click();
+  }
+}
+
 function AtlasThumb({ land, size = 45 }) {
   if (land.image) {
     return (
@@ -131,6 +138,10 @@ function AtlasMap({ lands, selected }) {
               background: ROLE_COLOR[land.role],
             }}
             title={`${land.name} (${land.x},${land.y})`}
+            tabIndex={0}
+            role="button"
+            aria-label={land.name}
+            onKeyDown={activateOnKey}
           >
             {(selected === i || span > 1) && <span className="bdland__plotlabel">{land.name}</span>}
           </span>
@@ -144,7 +155,7 @@ function AtlasMap({ lands, selected }) {
   );
 }
 
-export default function BdLand({ lands = LANDS, view = "grid", isLoading = false }) {
+export default function BdLand({ lands = LANDS, view = "grid", isLoading = false, signedIn = false, account = "" }) {
   const [navTab, setNavTab] = useState("land");
   const [activeView, setActiveView] = useState(view);
   const [showOwner, setShowOwner] = useState(true);
@@ -171,7 +182,7 @@ export default function BdLand({ lands = LANDS, view = "grid", isLoading = false
   const pageSlice = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <BuilderChrome active={navTab} onTab={setNavTab}>
+    <BuilderChrome active={navTab} onTab={setNavTab} signedIn={signedIn} account={account}>
       <div className={"bdland" + (isAtlas ? " bdland--atlas" : "")}>
         {isLoading ? (
           <div className="bdland__loader" role="status" aria-label="Loading">
@@ -264,7 +275,14 @@ export default function BdLand({ lands = LANDS, view = "grid", isLoading = false
                     </thead>
                     <tbody>
                       {pageSlice.map((land) => (
-                        <tr key={land.id} className="bdland__row" tabIndex={0}>
+                        <tr
+                          key={land.id}
+                          className="bdland__row"
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`Open ${land.name}`}
+                          onKeyDown={activateOnKey}
+                        >
                           <td>
                             <div className="bdland__namecell">
                               <AtlasThumb land={land} />

@@ -431,3 +431,34 @@
   .mkbuyflow__selectorcol--token { align-self: stretch; }
   .mkbuyflow__selector { width: 100%; }
 }
+
+html.mp-light .mkbuyflow__scrim {
+  --mkbf-divider: var(--lm-line);
+  --mkbf-chip: var(--lm-bg);
+  --mkbf-mute: var(--lm-ink-3);
+  --mkbf-border: var(--lm-line);
+  --mkbf-card-on-modal: var(--lm-bg);
+}
+html.mp-light .mkbuyflow__modal {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .mkbuyflow__back { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__close { color: var(--lm-ink-3); }
+html.mp-light .mkbuyflow__close:hover { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__assetimg { color: var(--lm-ink-2); }
+html.mp-light .mkbuyflow__selectors { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__paylabel { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__selector { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__selname { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__balanceval { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__costlabel--fee { color: var(--lm-ink); }
+html.mp-light .mkbuyflow__btn--secondary { color: var(--lm-ink); border-color: var(--lm-line); }
+html.mp-light .mkbuyflow__btn--secondary:hover { background: rgba(0, 0, 0, 0.04); }
+html.mp-light .mkbuyflow__btn--primary:disabled,
+html.mp-light .mkbuyflow__btn--primary.is-loading { background: #c9c7cf; }
+html.mp-light .mkbuyflow__skel {
+  background: linear-gradient(90deg, #e8e6ec 25%, #f3f1f6 50%, #e8e6ec 75%);
+  background-size: 200% 100%;
+}

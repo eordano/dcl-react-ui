@@ -508,3 +508,28 @@
   .mkclaimnamepage__modal { padding: 32px; }
   .mkclaimnamepage__costrow { flex-wrap: wrap; justify-content: center; }
 }
+
+html.mp-light .mkclaimnamepage {
+  --mkcn-card: var(--lm-surface);
+  --mkcn-img-band: #ececed;
+  --mkcn-namelink: var(--lm-ink);
+}
+html.mp-light .mkclaimnamepage__whytitle,
+html.mp-light .mkclaimnamepage__voting,
+html.mp-light .mkclaimnamepage__whytext span { color: var(--lm-ink); }
+html.mp-light .mkclaimnamepage__whytext p { color: var(--lm-ink-3); }
+html.mp-light .mkclaimnamepage__modal {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .mkclaimnamepage__modaldesc { color: var(--lm-ink); }
+html.mp-light .mkclaimnamepage__modalclose { color: var(--lm-ink-3); }
+html.mp-light .mkclaimnamepage__capswarning {
+  border-color: var(--lm-line);
+  color: var(--lm-ink-3);
+}
+html.mp-light .mkclaimnamepage__pricerow { background: var(--lm-bg); }
+html.mp-light .mkclaimnamepage__pricelabel,
+html.mp-light .mkclaimnamepage__pricefiat { color: var(--lm-ink-3); }
+html.mp-light .mkclaimnamepage__priceamount { color: var(--lm-ink); }

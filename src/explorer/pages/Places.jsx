@@ -57,7 +57,7 @@ const CARDS = [
   { title: "", creator: "", players: 0, rating: 0 },
 ];
 
-export default function Places({ places = CARDS, categories = CATEGORIES }) {
+export default function Places({ places = CARDS, categories = CATEGORIES, loading = false, error = false }) {
   const [tab, setTab] = useState("places");
   const [section, setSection] = useState("explore");
   const [cat, setCat] = useState("all");
@@ -89,17 +89,6 @@ export default function Places({ places = CARDS, categories = CATEGORIES }) {
           </div>
 
           <div className="pl__actions">
-            <button type="button" className="pl__filter">
-              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor"
-                  strokeWidth="1.6" strokeLinecap="round" />
-              </svg>
-              FILTER &amp; SORT
-              <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" className="pl__caret">
-                <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6"
-                  strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              </svg>
-            </button>
             <div className="pl__search"><SearchField placeholder="Search" /></div>
           </div>
         </div>
@@ -126,22 +115,38 @@ export default function Places({ places = CARDS, categories = CATEGORIES }) {
           ))}
         </div>
 
-        <div className="pl__grid">
-          {places.map((card, i) => (
-            <PlaceCard
-              key={i}
-              title={card.title}
-              image={card.image}
-              players={card.players}
-              rating={card.rating}
-              coords={card.coords}
-              live={card.live}
-              featured={card.featured}
-              creator={card.creator}
-              hue={(i * 47) % 360}
-              to={card.to}
-            />
-          ))}
+        <div className="pl__grid" aria-busy={loading || undefined}>
+          {loading ? (
+            Array.from({ length: 8 }).map((_, i) => (
+              <article className="pl__card" key={"sk" + i} aria-hidden="true">
+                <div className="pl__thumb" style={{ "--hue": (i * 47) % 360, opacity: 0.5 }} />
+              </article>
+            ))
+          ) : error ? (
+            <div className="pl__statemsg" role="alert" style={{ gridColumn: "1 / -1", padding: "32px 8px", color: "rgba(255,255,255,.6)" }}>
+              Couldn’t load places. Please try again.
+            </div>
+          ) : places.length === 0 ? (
+            <div className="pl__statemsg" style={{ gridColumn: "1 / -1", padding: "32px 8px", color: "rgba(255,255,255,.6)" }}>
+              No places found.
+            </div>
+          ) : (
+            places.map((card, i) => (
+              <PlaceCard
+                key={i}
+                title={card.title}
+                image={card.image}
+                players={card.players}
+                rating={card.rating}
+                coords={card.coords}
+                live={card.live}
+                featured={card.featured}
+                creator={card.creator}
+                hue={(i * 47) % 360}
+                to={card.to}
+              />
+            ))
+          )}
         </div>
       </div>
     </ExploreChrome>

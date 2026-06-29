@@ -1,6 +1,5 @@
 import ContextMenu from "../../components/ContextMenu.jsx";
 
-// The ContextMenuDemo route wraps this menu in a Communities-page mockup; this story shows just the element.
 const MENU = [
   { kind: "caption", label: "Alice.dcl", avatar: true, hue: 300 },
   { kind: "button", label: "Member" },

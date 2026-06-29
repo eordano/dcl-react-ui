@@ -3,7 +3,6 @@ import ChatWindow from "./ChatWindow.jsx";
 export default {
   title: "Explorer/Frames/ChatWindow",
   component: ChatWindow,
-  // Show just the chat window, not the whole HUD scene: render bare and opt out of the scene backdrop (sceneBackdrop: false).
   parameters: {
     layout: "centered",
     sceneBackdrop: false,

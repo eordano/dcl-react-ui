@@ -164,7 +164,7 @@ function CollectionCard({ collection }) {
           <KebabGlyph />
         </button>
       )}
-      <a className="bdcoll__cardlink" href="#collection">
+      <a className="bdcoll__cardlink" href={`/builder/collections/${collection.id}`}>
         <CollectionImage thumbs={thumbs} count={count} />
         <div className="bdcoll__content">
           <div className="bdcoll__text u-truncate" title={name}>
@@ -190,7 +190,7 @@ function ItemCard({ item }) {
       <button type="button" className="bdcoll__cardopts" aria-label="Item options">
         <KebabGlyph />
       </button>
-      <a className="bdcoll__cardlink" href="#item">
+      <a className="bdcoll__cardlink" href={`/builder/item/${item.id}`}>
         <div className="bdcoll__image bdcoll__image--single">
           <span className="bdcoll__imgcell" style={{ background: item.grad }} />
         </div>

@@ -7,9 +7,6 @@ import { queryClient } from "./queryClient.js";
 import { router } from "./router.jsx";
 import BootGate from "./BootGate.jsx";
 
-// Global design tokens + base styles the reused ui3 explorer components depend on
-// (same set the storybook preview loads). Imported once here; the lazy panel
-// chunks only ship their own component CSS.
 import "../atoms/primitives.css";
 import "../styles.css";
 import "../explorepanel.css";

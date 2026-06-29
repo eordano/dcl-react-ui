@@ -228,3 +228,30 @@
   .mkcampaignbrowserpage__heroart { display: none; }
   .mkcampaignbrowserpage__herotitle { font-size: 28px; }
 }
+
+html.mp-light .mkcampaignbrowserpage__sidebar {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+}
+html.mp-light .mkcampaignbrowserpage__sidehead { color: var(--lm-ink-3); }
+html.mp-light .mkcampaignbrowserpage__section { color: var(--lm-ink-2); }
+html.mp-light .mkcampaignbrowserpage__section:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--lm-ink);
+}
+html.mp-light .mkcampaignbrowserpage__loadbtn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .mkcampaignbrowserpage__loadbtn:hover {
+  background: rgba(0, 0, 0, 0.09);
+  border-color: var(--lm-line);
+}
+html.mp-light .mkcampaignbrowserpage__empty { color: var(--lm-ink-3); }
+html.mp-light .mkcampaignbrowserpage__emptyicon {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--lm-line);
+}
+html.mp-light .mkcampaignbrowserpage__emptytitle { color: var(--lm-ink); }
+html.mp-light .mkcampaignbrowserpage__emptysub { color: var(--lm-ink-3); }

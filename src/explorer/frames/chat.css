@@ -144,9 +144,6 @@
   .chmap { width: 130px; }
 }
 
-/* Bare mode — render ONLY the chat island (no rail / minimap / full-page stage).
-   Used by the ExplorerIslands/Chat story so it showcases just the chat panel,
-   on its native dark backdrop, instead of the whole HUD scene. */
 .chat__bare {
   display: inline-block;
   padding: 18px 20px;

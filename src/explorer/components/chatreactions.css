@@ -55,8 +55,6 @@
   .rx { max-width: calc(100vw - 24px); }
 }
 
-/* Story-only: center the reactions bar in the canvas instead of pinning it
-   to the bottom edge (where it sits as an in-world chat overlay). */
 .rx-story .rx__stage {
   align-items: center;
   padding: 24px;

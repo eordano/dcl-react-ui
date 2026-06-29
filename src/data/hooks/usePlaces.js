@@ -1,9 +1,3 @@
-// TanStack Query hooks for the Map panel. Keys come from the qk factory and
-// staleTime from STALE so hover-prefetch (router.prefetchPanel -> Map.route
-// prefetch) and the on-click useQuery resolve to the same cache entry — panel
-// switches render instantly from memory. The AbortSignal from the query ctx is
-// threaded into the fetchers so switching away cancels in-flight reads.
-
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchPlaces, fetchPlace, fetchCategories } from "../catalyst/places.js";

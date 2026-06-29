@@ -4,7 +4,6 @@ import NftCard from "../../marketplace/components/NftCard.jsx";
 import CardGrid from "../../components/CardGrid.jsx";
 import { MEMBER_PROFILE_TABS as MEMBER_TABS, OWN_PROFILE_TABS as OWN_TABS } from "../../data/profileTabs.js";
 
-// Preview uses a real catalyst showcase profile (PROFILE.address is a fixture).
 const SHOWCASE_ADDRESS = "0xf12c21d3edb2c0e68935a3bbe5d68ae4bf9dcd7c";
 
 export default {
@@ -42,7 +41,6 @@ const icoBtn = {
   cursor: "pointer",
 };
 
-// Sample owned wearables shaped like marketplace assets so each tile renders a full NftCard.
 const OWNED_ASSETS = [
   { id: "a1", name: "Cyber Halo", collection: "Neon Dreams", price: "350", rarity: "epic", network: "polygon" },
   { id: "a2", name: "Aurora Jacket", collection: "Polar Series", price: "1,200", rarity: "legendary", network: "polygon" },

@@ -5,9 +5,6 @@
   display: flex;
   flex-direction: column;
   color: #fff;
-  /* HUD: root container transparent + click-through (pointer-events handled in
-     the injected overlay style) so the bevy 3D world shows behind it; an OPEN
-     panel (.xc__body, below) supplies its own backdrop. */
   background: transparent;
   animation: u-fade-in 0.25s linear;
 }
@@ -158,18 +155,22 @@
   font-weight: 700;
 }
 .xc__user:hover { background: rgba(255, 255, 255, 0.16); }
+.xc__close {
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; flex: 0 0 auto;
+  border: 0; cursor: pointer; color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+.xc__close:hover { background: rgba(255, 255, 255, 0.2); }
 .xc__avatar { border: 2px solid rgba(255, 255, 255, 0.85); }
 
 .xc__body {
   flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
-  /* the open-panel backdrop lives here (moved off .xc) so the empty HUD state
-     stays transparent and the bevy world shows through. */
   background: var(--explore-grad);
 }
-/* HUD (no panel active, set by AppLayout via the xc--hud class): the empty body
-   is transparent so the 3D world is fully visible behind the nav bar. */
 .xc--hud .xc__body { background: transparent; }
 
 .xc__body > .ep__placeholder {

@@ -4,8 +4,6 @@ import EmptyStateCard from "./EmptyStateCard.jsx";
 export default {
   title: "Components/EmptyState",
   component: EmptyState,
-  // No forced background — the canvas follows the Theme control and EmptyState's
-  // CSS flips under html.mp-light, so one set of stories covers both themes.
   parameters: { layout: "padded" },
 };
 
@@ -95,7 +93,11 @@ export const RichSubtitleAndCustomAction = () => (
       <>
         Unleash your creativity. Start building scenes for your LANDs and Worlds and share with the
         community.{" "}
-        <a href="#" onClick={(e) => e.preventDefault()}>
+        <a
+          href="https://docs.decentraland.org/creator/scenes-sdk7/getting-started/sdk-101"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Learn more about creating Scenes.
         </a>
       </>

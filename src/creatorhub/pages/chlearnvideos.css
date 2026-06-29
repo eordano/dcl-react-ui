@@ -99,7 +99,7 @@
   cursor: pointer;
   background-color: transparent;
   padding: 12px;
-  border-radius: 16px;
+  border-radius: var(--r-card);
   text-decoration: none;
   color: inherit;
   transition: background-color 0.2s ease-in-out;
@@ -112,11 +112,11 @@
   width: 256px;
   height: 143px;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: var(--r-card);
   box-sizing: border-box;
   border: 2px solid var(--chlv-transp-light);
   flex: none;
-  background: #242129;
+  background: var(--panel-2);
 }
 
 .chlv__thumbnail.is-fallback {
@@ -126,7 +126,7 @@
   background:
     no-repeat center / 48px 48px
       linear-gradient(transparent, transparent),
-    #242129;
+    var(--panel-2);
 }
 .chlv__thumbnail.is-fallback::after {
   content: "";

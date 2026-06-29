@@ -276,7 +276,7 @@ function ProposalRow({ p, kind }) {
   const cat = CATEGORY_LABELS[p.category];
   const status = STATUS_LABELS[p.status];
   return (
-    <a className="gpa__prow" href="#proposal" onClick={(e) => e.preventDefault()}>
+    <a className="gpa__prow" href={`/governance/proposals/${p.id}`}>
       <div className="gpa__prowmain">
         <h4 className="gpa__prowtitle">{p.title}</h4>
         <div className="gpa__prowstatus">
@@ -314,7 +314,7 @@ function FullWidthButton({ children }) {
 
 function DelegatorCard({ d }) {
   return (
-    <a className="gpa__delcard" href="#delegator" onClick={(e) => e.preventDefault()}>
+    <span className="gpa__delcard" role="button" tabIndex={0} onClick={(e) => e.preventDefault()}>
       <div className="gpa__delsection">
         <span className="gpa__delavatar u-avatar" style={{ "--sz": "40px", "--hue": d.hue }} aria-hidden="true" />
         <div className="gpa__deldetails">
@@ -323,13 +323,13 @@ function DelegatorCard({ d }) {
         </div>
       </div>
       <Chevron />
-    </a>
+    </span>
   );
 }
 
 function ProjectItem({ p }) {
   return (
-    <a className="gpa__project" href="#project" onClick={(e) => e.preventDefault()}>
+    <a className="gpa__project" href={`/governance/projects/${p.id}`}>
       <div className="gpa__projmain">
         <h4 className="gpa__projtitle">{p.title}</h4>
         <p className="gpa__projdesc">

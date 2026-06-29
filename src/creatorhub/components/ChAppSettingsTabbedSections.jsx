@@ -1,6 +1,12 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { asset } from "../../asset.js";
+import { useDialogKeys } from "../../components/useDialogKeys.js";
+import Button from "../../atoms/Button.jsx";
+import EmptyState from "../../components/EmptyState.jsx";
 import "./chappsettingstabbedsections.css";
+
+const DOWNLOAD_HREF = "/landings/creator-hub-download";
+const RELEASES_HREF = "https://github.com/decentraland/creator-hub/releases";
 
 const COPY = {
   title: "App Preferences",
@@ -35,6 +41,12 @@ const COPY = {
   about: {
     title: "Decentraland Creator Hub",
     viewChangelog: "View changelog",
+  },
+  web: {
+    noticeTitle: "Manage in the desktop app",
+    noticeBody:
+      "Your scenes folder, default code editor, and automatic updates are handled by the Creator Hub desktop app.",
+    download: "Download Creator Hub",
   },
   update: {
     check: "Check for updates",
@@ -358,7 +370,8 @@ function UpdateSettings({ updateState, version, releaseNotes, progress = 0 }) {
   );
 }
 
-function AboutTab({ version, updateState, releaseNotes, progress }) {
+function AboutTab({ version, updateState, releaseNotes, progress, web }) {
+  const changelogHref = version ? `${RELEASES_HREF}/tag/${version}` : RELEASES_HREF;
   return (
     <div className="chast__about">
       <div className="chast__abouthead">
@@ -369,33 +382,61 @@ function AboutTab({ version, updateState, releaseNotes, progress }) {
         />
         <div className="chast__aboutinfo">
           <h5 className="chast__abouttitle">{COPY.about.title}</h5>
-          {version && (
-            <div className="chast__aboutversion">
-              <span className="chast__aboutver">{`v${version}`}</span>
-              <button type="button" className="chast__changelog">
-                {COPY.about.viewChangelog}
-              </button>
-            </div>
-          )}
+          <div className="chast__aboutversion">
+            {version && <span className="chast__aboutver">{`v${version}`}</span>}
+            <a
+              className="chast__changelog"
+              href={changelogHref}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {COPY.about.viewChangelog}
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className="chast__about-update-section">
-        <UpdateSettings
-          updateState={updateState}
-          version={version}
-          releaseNotes={releaseNotes}
-          progress={progress}
-        />
-      </div>
+      {!web && (
+        <div className="chast__about-update-section">
+          <UpdateSettings
+            updateState={updateState}
+            version={version}
+            releaseNotes={releaseNotes}
+            progress={progress}
+          />
+        </div>
+      )}
     </div>
+  );
+}
+
+function WebDesktopNotice() {
+  return (
+    <EmptyState
+      className="chast__webnotice"
+      title={COPY.web.noticeTitle}
+      subtitle={COPY.web.noticeBody}
+      actions={
+        <Button
+          variant="primary"
+          onClick={() => {
+            if (typeof window !== "undefined") {
+              window.location.href = DOWNLOAD_HREF;
+            }
+          }}
+        >
+          {COPY.web.download}
+        </Button>
+      }
+    />
   );
 }
 
 export default function ChAppSettingsTabbedSections({
   open = true,
-  initialTab = "scenes",
-  version = "1.6.0",
+  web = false,
+  initialTab = web ? "about" : "scenes",
+  version = "",
   settings = {
     scenesPath: "/Users/creator/Documents/Decentraland",
     dependencyUpdateStrategy: "notify",
@@ -429,6 +470,8 @@ export default function ChAppSettingsTabbedSections({
   const [activeTab, setActiveTab] = useState(initialTab);
   const [scenes, setScenes] = useState(settings);
   const [error, setError] = useState(initialError);
+  const paperRef = useRef(null);
+  useDialogKeys(paperRef, onClose);
 
   const defaultEditor = (editors.find((e) => e.isDefault) || {}).path || "";
 
@@ -454,7 +497,14 @@ export default function ChAppSettingsTabbedSections({
 
   return (
     <div className="chast" role="presentation">
-      <div className="chast__paper" role="dialog" aria-modal="true" aria-label={COPY.title}>
+      <div
+        className="chast__paper"
+        role="dialog"
+        aria-modal="true"
+        aria-label={COPY.title}
+        tabIndex={-1}
+        ref={paperRef}
+      >
         <div className="chast__header">
           <div className="chast__titlebox">
             <span className="chast__titleicon">
@@ -484,25 +534,32 @@ export default function ChAppSettingsTabbedSections({
           </div>
 
           <div className="chast__content">
-            {activeTab === "scenes" && (
-              <ScenesTab
-                settings={scenes}
-                error={error}
-                isCustomScenesPath={isCustomScenesPath}
-                onChange={handleScenesPath}
-                onReset={handleReset}
-                onOpenFolder={handleOpenFolder}
-              />
-            )}
-            {activeTab === "editor" && (
-              <EditorTab settings={scenes} editors={editors} defaultEditor={defaultEditor} />
-            )}
+            {activeTab === "scenes" &&
+              (web ? (
+                <WebDesktopNotice />
+              ) : (
+                <ScenesTab
+                  settings={scenes}
+                  error={error}
+                  isCustomScenesPath={isCustomScenesPath}
+                  onChange={handleScenesPath}
+                  onReset={handleReset}
+                  onOpenFolder={handleOpenFolder}
+                />
+              ))}
+            {activeTab === "editor" &&
+              (web ? (
+                <WebDesktopNotice />
+              ) : (
+                <EditorTab settings={scenes} editors={editors} defaultEditor={defaultEditor} />
+              ))}
             {activeTab === "about" && (
               <AboutTab
                 version={version}
                 updateState={updateState}
                 releaseNotes={releaseNotes}
                 progress={progress}
+                web={web}
               />
             )}
           </div>

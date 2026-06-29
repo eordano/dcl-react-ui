@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CreatorHubChrome from "../frames/CreatorHubChrome.jsx";
+import ChScenesEmptyState from "./ChScenesEmptyState.jsx";
 import Spinner from "../../atoms/Spinner.jsx";
 import ContextMenu from "../../components/ContextMenu.jsx";
-import { ChevronDownAlt } from "../../atoms/icons.jsx";
+import Dropdown from "../../components/Dropdown.jsx";
 import "./chscenes.css";
 
 const ImportIcon = () => (
@@ -38,56 +39,48 @@ const SORT_OPTIONS = [
   { value: "name", label: "Name" },
   { value: "size", label: "Size" },
 ];
+const SORT_LABELS = SORT_OPTIONS.map((o) => o.label);
 
-function SortSelect({ value, onChange }) {
+function CardMenu({ project, onDuplicateScene, onOpenFolder, onViewDeployments, onDeleteScene }) {
   const [open, setOpen] = useState(false);
-  const current = SORT_OPTIONS.find((o) => o.value === value) ?? SORT_OPTIONS[0];
-  return (
-    <div className={"chscenes__sort" + (open ? " is-open" : "")}>
-      <button
-        type="button"
-        className="chscenes__sortbtn"
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
-      >
-        <span>{current.label}</span>
-        <ChevronDownAlt />
-      </button>
-      {open ? (
-        <ul className="chscenes__sortmenu" role="listbox">
-          {SORT_OPTIONS.map((o) => (
-            <li
-              key={o.value}
-              role="option"
-              aria-selected={o.value === value}
-              className={"chscenes__sortopt" + (o.value === value ? " is-active" : "")}
-              onClick={() => {
-                onChange?.(o.value);
-                setOpen(false);
-              }}
-            >
-              {o.label}
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
-  );
-}
-
-function CardMenu({ hasDeployments }) {
-  const [open, setOpen] = useState(false);
-  const items = [
-    { kind: "button", label: "Duplicate" },
-    { kind: "button", label: "Open Folder Location" },
-    { kind: "button", label: "View Deployments", disabled: !hasDeployments },
-    { kind: "separator" },
-    { kind: "button", label: "Delete from My Scenes", danger: true },
-  ];
+  const kebabRef = useRef(null);
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e) => {
+      const wrap = kebabRef.current?.closest(".chscenes__cardmenu");
+      if (wrap && !wrap.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
+  useEffect(() => {
+    if (wasOpen.current && !open) kebabRef.current?.focus();
+    wasOpen.current = open;
+  }, [open]);
+  const run = (fn) => {
+    setOpen(false);
+    fn?.(project.id);
+  };
+  const items = [];
+  if (onDuplicateScene) {
+    items.push({ kind: "button", label: "Duplicate", onClick: () => run(onDuplicateScene) });
+  }
+  if (onOpenFolder) {
+    items.push({ kind: "button", label: "Open Folder Location", onClick: () => run(onOpenFolder) });
+  }
+  if (onViewDeployments) {
+    items.push({ kind: "button", label: "View Deployments", disabled: !project.hasDeployments, onClick: () => run(onViewDeployments) });
+  }
+  if (onDeleteScene) {
+    if (items.length > 0) items.push({ kind: "separator" });
+    items.push({ kind: "button", label: "Delete from My Scenes", danger: true, onClick: () => run(onDeleteScene) });
+  }
+  if (items.length === 0) return null;
   return (
     <div className={"chscenes__cardmenu" + (open ? " is-open" : "")}>
       <button
+        ref={kebabRef}
         type="button"
         className="chscenes__kebab"
         aria-label="Project actions"
@@ -102,71 +95,58 @@ function CardMenu({ hasDeployments }) {
       </button>
       {open ? (
         <div className="chscenes__menuanchor" onClick={(e) => e.stopPropagation()}>
-          <ContextMenu items={items} />
+          <ContextMenu items={items} onClose={() => setOpen(false)} autoFocus />
         </div>
       ) : null}
     </div>
   );
 }
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, onSelectScene, onDuplicateScene, onOpenFolder, onViewDeployments, onDeleteScene }) {
   const parcels = project.layout.cols * project.layout.rows;
+  const open = () => onSelectScene?.(project.id);
   return (
-    <div className="chscenes__card" role="button" tabIndex={0}>
-      <div
-        className="chscenes__thumb"
-        style={project.thumbnail ? { backgroundImage: `url(${project.thumbnail})` } : { background: project.grad }}
+    <div className="chscenes__card">
+      <button type="button" className="chscenes__open" aria-label={`Open ${project.title}`} onClick={open}>
+        <div
+          className="chscenes__thumb"
+          style={project.thumbnail ? { backgroundImage: `url(${project.thumbnail})` } : { background: project.grad }}
+        />
+        {project.published ? (
+          <span className="chscenes__badge">Published</span>
+        ) : null}
+        <div className="chscenes__cardinfo">
+          <div className="chscenes__cardtitle">
+            <span className="u-truncate">{project.title}</span>
+          </div>
+          <div className="chscenes__cardcontent">
+            <ParcelIcon />
+            {parcels} {parcels === 1 ? "parcel" : "parcels"}
+          </div>
+        </div>
+      </button>
+      <CardMenu
+        project={project}
+        onDuplicateScene={onDuplicateScene}
+        onOpenFolder={onOpenFolder}
+        onViewDeployments={onViewDeployments}
+        onDeleteScene={onDeleteScene}
       />
-      {project.published ? (
-        <span className="chscenes__badge">Published</span>
-      ) : null}
-      <div className="chscenes__cardinfo">
-        <div className="chscenes__cardtitle">
-          <span className="u-truncate">{project.title}</span>
-          <CardMenu hasDeployments={project.hasDeployments} />
-        </div>
-        <div className="chscenes__cardcontent">
-          <ParcelIcon />
-          {parcels} {parcels === 1 ? "parcel" : "parcels"}
-        </div>
-      </div>
     </div>
   );
 }
 
-function NewSceneTile() {
+function NewSceneTile({ onCreateScene }) {
   return (
-    <div className="chscenes__newscene" role="button" tabIndex={0} aria-label="Create a new scene">
+    <button
+      type="button"
+      className="chscenes__newscene"
+      aria-label="Create a new scene"
+      onClick={() => onCreateScene?.()}
+    >
       <span className="chscenes__newplus" aria-hidden="true">+</span>
       <span className="chscenes__newlabel">Create Scene</span>
-    </div>
-  );
-}
-
-function NoScenes() {
-  return (
-    <div className="chscenes__nocontainer">
-      <div className="chscenes__nocard">
-        <div className="chscenes__notext">
-          <h3 className="chscenes__notitle">Create your first scene</h3>
-          <span className="chscenes__nodesc">
-            Unleash your creativity. Start building scenes for your LANDs and Worlds
-            and share with the community.{" "}
-            <a
-              href="https://docs.decentraland.org/creator/scenes-sdk7/getting-started/sdk-101"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn more about creating Scenes.
-            </a>
-          </span>
-        </div>
-        <div className="chscenes__nobutton" role="button" tabIndex={0} aria-label="Create your first scene">
-          <span className="chscenes__newplus" aria-hidden="true">+</span>
-          <span className="chscenes__newlabel">Create Scene</span>
-        </div>
-      </div>
-    </div>
+    </button>
   );
 }
 
@@ -218,19 +198,56 @@ const PROJECTS = [
   },
 ];
 
-export default function ChScenes({ state = "default", projects: provided }) {
+export default function ChScenes({
+  state = "default",
+  projects: provided,
+  demo = false,
+  signedIn = false,
+  account = "",
+  name = "",
+  onSignIn =(undefined),
+  onSelectScene =(undefined),
+  onCreateScene =(undefined),
+  onTemplates =(undefined),
+  onImport =(undefined),
+  onDuplicateScene =(undefined),
+  onOpenFolder =(undefined),
+  onViewDeployments =(undefined),
+  onDeleteScene =(undefined),
+}) {
   const [sortBy, setSortBy] = useState("newest");
   const isEmpty = state === "empty";
   const isLoading = state === "loading";
 
-  const projects = useMemo(
-    () => (isEmpty ? [] : provided && provided.length > 0 ? provided : PROJECTS),
-    [isEmpty, provided],
-  );
+  const projects = useMemo(() => {
+    if (isEmpty) return [];
+    const list = provided && provided.length > 0 ? provided : demo ? PROJECTS : [];
+    const sorted = list.slice();
+    if (sortBy === "name") {
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortBy === "size") {
+      sorted.sort((a, b) => b.layout.cols * b.layout.rows - a.layout.cols * a.layout.rows);
+    }
+    return sorted;
+  }, [isEmpty, provided, demo, sortBy]);
+
+  if (!isLoading && projects.length === 0) {
+    return (
+      <ChScenesEmptyState
+        signedIn={signedIn}
+        account={account}
+        name={name}
+        onSignIn={onSignIn}
+        onCreateScene={onCreateScene}
+        onImport={onImport}
+        onTemplates={onTemplates}
+      />
+    );
+  }
 
   return (
-    <CreatorHubChrome active="scenes">
-      <main className="chscenes">
+    <CreatorHubChrome active="scenes" signedIn={signedIn} account={account} name={name} onSignIn={onSignIn}>
+      <section className="chscenes">
         <div className="chscenes__container">
           {isLoading ? (
             <div className="chscenes__loader">
@@ -240,13 +257,21 @@ export default function ChScenes({ state = "default", projects: provided }) {
             <div className="chscenes__list-wrap">
               <div className="chscenes__menu">
                 <div className="chscenes__header">
-                  <h3 className="chscenes__heading">My Scenes</h3>
+                  <h1 className="chscenes__heading">My Scenes</h1>
                   <div className="chscenes__actions">
-                    <button type="button" className="chscenes__actionbtn chscenes__actionbtn--secondary">
+                    <button
+                      type="button"
+                      className="chscenes__actionbtn chscenes__actionbtn--secondary"
+                      onClick={() => onImport?.()}
+                    >
                       <ImportIcon />
                       Import Scene
                     </button>
-                    <button type="button" className="chscenes__actionbtn chscenes__actionbtn--primary">
+                    <button
+                      type="button"
+                      className="chscenes__actionbtn chscenes__actionbtn--primary"
+                      onClick={() => onTemplates?.()}
+                    >
                       <TemplateIcon />
                       Templates
                     </button>
@@ -260,28 +285,37 @@ export default function ChScenes({ state = "default", projects: provided }) {
                     </div>
                     <div className="chscenes__sortwrap">
                       <p>Sort by</p>
-                      <SortSelect value={sortBy} onChange={setSortBy} />
+                      <Dropdown
+                        options={SORT_LABELS}
+                        value={(SORT_OPTIONS.find((o) => o.value === sortBy) ?? SORT_OPTIONS[0]).label}
+                        onChange={(label) => {
+                          const opt = SORT_OPTIONS.find((o) => o.label === label);
+                          if (opt) setSortBy(opt.value);
+                        }}
+                      />
                     </div>
                   </div>
                 ) : null}
               </div>
 
               <div className="chscenes__cards">
-                {projects.length > 0 ? (
-                  <>
-                    <NewSceneTile />
-                    {projects.map((p) => (
-                      <ProjectCard key={p.id} project={p} />
-                    ))}
-                  </>
-                ) : (
-                  <NoScenes />
-                )}
+                <NewSceneTile onCreateScene={onCreateScene} />
+                {projects.map((p) => (
+                  <ProjectCard
+                    key={p.id}
+                    project={p}
+                    onSelectScene={onSelectScene}
+                    onDuplicateScene={onDuplicateScene}
+                    onOpenFolder={onOpenFolder}
+                    onViewDeployments={onViewDeployments}
+                    onDeleteScene={onDeleteScene}
+                  />
+                ))}
               </div>
             </div>
           )}
         </div>
-      </main>
+      </section>
     </CreatorHubChrome>
   );
 }

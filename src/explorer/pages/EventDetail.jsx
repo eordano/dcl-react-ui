@@ -21,11 +21,83 @@ const EVENT = {
   location: "(0,0)",
 };
 
+function icsStamp(d) {
+  return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+}
+
+function icsEscape(s) {
+  return String(s || "")
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/,/g, "\\,")
+    .replace(/;/g, "\\;");
+}
+
+function downloadIcs(ev, { withAlarm } = {}) {
+  if (typeof document === "undefined") return false;
+  const start = ev.start ? new Date(ev.start) : null;
+  if (!start || Number.isNaN(start.getTime())) return false;
+  const end =
+    ev.finish && !Number.isNaN(new Date(ev.finish).getTime())
+      ? new Date(ev.finish)
+      : new Date(start.getTime() + 60 * 60 * 1000);
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Decentraland//Events//EN",
+    "BEGIN:VEVENT",
+    `UID:${(ev.id || start.getTime())}@decentraland.org`,
+    `DTSTAMP:${icsStamp(new Date())}`,
+    `DTSTART:${icsStamp(start)}`,
+    `DTEND:${icsStamp(end)}`,
+    `SUMMARY:${icsEscape(ev.title)}`,
+    `DESCRIPTION:${icsEscape(ev.description)}`,
+    `LOCATION:${icsEscape(ev.url || ev.location)}`,
+  ];
+  if (withAlarm)
+    lines.push(
+      "BEGIN:VALARM",
+      "TRIGGER:-PT15M",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:Reminder",
+      "END:VALARM",
+    );
+  lines.push("END:VEVENT", "END:VCALENDAR");
+  const blob = new Blob([lines.join("\r\n")], { type: "text/calendar" });
+  const href = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = href;
+  a.download = `${(ev.title || "event").slice(0, 60).replace(/[^\w-]+/g, "_")}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(href), 0);
+  return true;
+}
+
+function shareEvent(ev) {
+  if (typeof window === "undefined") return;
+  const url = ev.url || ev.jumpHref || window.location.href;
+  const data = { title: ev.title, text: ev.title, url };
+  if (navigator.share) {
+    navigator.share(data).catch(() => {});
+    return;
+  }
+  try {
+    navigator.clipboard?.writeText(url);
+  } catch {
+  }
+}
+
 export default function EventDetail({ event, jumpHref, onJumpIn, onClose } = {}) {
   const e = event || EVENT;
+  const evForActions = { ...e, url: e.url || jumpHref };
+  const remindOrCalendar = (withAlarm) => {
+    if (!downloadIcs(evForActions, { withAlarm })) shareEvent(evForActions);
+  };
   return (
-    <div className="ep__backdrop evd__backdrop">
-      <div className="evd">
+    <div className="ep__backdrop evd__backdrop" onClick={onClose}>
+      <div className="evd" onClick={(e) => e.stopPropagation()}>
         <div
           className="evd__hero"
           style={e.image ? { "--thumb-img": `url("${e.image}")` } : undefined}
@@ -46,7 +118,11 @@ export default function EventDetail({ event, jumpHref, onJumpIn, onClose } = {})
 
         <div className="evd__body">
           <div className="evd__actions">
-            <button className="evd__remind">
+            <button
+              className="evd__remind"
+              type="button"
+              onClick={() => remindOrCalendar(true)}
+            >
               <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
                 <path
                   d="M8 2a3.4 3.4 0 00-3.4 3.4c0 3.2-1.1 4.3-1.1 4.3h9c0 0-1.1-1.1-1.1-4.3A3.4 3.4 0 008 2zM6.6 11.7a1.4 1.4 0 002.8 0"
@@ -59,7 +135,12 @@ export default function EventDetail({ event, jumpHref, onJumpIn, onClose } = {})
               </svg>
               REMIND ME
             </button>
-            <button className="evd__iconbtn" aria-label="Add to calendar">
+            <button
+              className="evd__iconbtn"
+              type="button"
+              aria-label="Add to calendar"
+              onClick={() => remindOrCalendar(false)}
+            >
               <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
                 <path
                   d="M3 4h10v9H3zM3 6.5h10M6 2.5v2M10 2.5v2"
@@ -71,7 +152,12 @@ export default function EventDetail({ event, jumpHref, onJumpIn, onClose } = {})
                 />
               </svg>
             </button>
-            <button className="evd__iconbtn" aria-label="Share">
+            <button
+              className="evd__iconbtn"
+              type="button"
+              aria-label="Share"
+              onClick={() => shareEvent(evForActions)}
+            >
               <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
                 <g
                   fill="none"

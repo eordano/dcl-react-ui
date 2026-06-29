@@ -1,12 +1,3 @@
-// Notifications panel route (id: `notifications`, url: #/notifications).
-//
-// Reuses the ui3 explorer component src/explorer/components/Notifications.jsx
-// (NOT rebuilt) and feeds it real props: the live GET /notifications feed via
-// useNotifications, mapped into the component's card shape. Auth-gated today, so
-// anonymous reads fall back to the bundled fixture inside the hook. While the
-// query is in flight we pass no `items`, so the component renders its own mock
-// placeholder (matches the scaffold's "unwired/loading still renders" rule).
-
 import Notifications from "../../explorer/components/Notifications.jsx";
 import { useNotifications } from "../../data/hooks/useNotifications.js";
 import {
@@ -20,8 +11,6 @@ import {
 import { qk, STALE } from "../../data/queryKeys.js";
 import { getDeployIdentity } from "../../overlay/bridge.js";
 
-// Category -> CSS background, matching the component's prefab palette so live
-// items are visually consistent with the mock the component ships.
 const CATEGORY_GRADIENT = {
   friends: "linear-gradient(135deg,#ff8f5e,#c44dff)",
   gift: "linear-gradient(135deg,#5ee0ff,#3a6dff)",
@@ -31,10 +20,6 @@ const CATEGORY_GRADIENT = {
   system: "linear-gradient(135deg,#3a6dff,#6a2da8)",
 };
 
-// Data-driven affordances keyed on the canonical NotificationType. The component
-// resolves each action's click locally (mark-read is SIMULATED — writes are
-// stubbed this milestone); `to` values are read-only in-overlay nav targets
-// handled by the existing data-sb-linkto delegation.
 function actionsForType(type) {
   const t = String(type ?? "").toLowerCase();
   if (t.startsWith("social_service_friendship_request"))
@@ -74,8 +59,6 @@ function toCard(n, now) {
     time: relativeTime(n.timestamp, now),
   };
 
-  // Pick the component's visual slot: round avatar for people, rounded thumb for
-  // anything carrying real artwork (or community), else the category glyph chip.
   if (cat === "friends" || cat === "gift") {
     card.avatar = bg;
   } else if (cat === "community" || img) {
@@ -89,8 +72,6 @@ function toCard(n, now) {
   return card;
 }
 
-// Warm the cache on hover/focus intent. Best-effort, never throws. Uses the same
-// qk key + queryFn + STALE as the hook so the on-click useQuery hits the cache.
 export function prefetch(queryClient) {
   const address = getDeployIdentity()?.signerAddress;
   const headers =
@@ -105,15 +86,13 @@ export function prefetch(queryClient) {
     .catch(() => {});
 }
 
-export default function NotificationsPanel() {
+export default function NotificationsPanel({ floating = false }) {
   const { notifications } = useNotifications();
 
-  // notifications: undefined while loading -> pass no `items` so the component
-  // shows its mock placeholder; [] (authed-empty) -> empty state; rows -> live.
   const now = Date.now();
   const items = notifications
     ? notifications.map((n) => toCard(n, now))
     : undefined;
 
-  return <Notifications {...(items ? { items } : {})} />;
+  return <Notifications bare floating={floating} {...(items ? { items } : {})} />;
 }

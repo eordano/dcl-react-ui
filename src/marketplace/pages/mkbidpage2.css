@@ -255,3 +255,23 @@
   .mkbidpage2__buttons { grid-template-columns: 1fr; }
   .mkbidpage2__back { margin-bottom: 28px; }
 }
+
+html.mp-light .mkbidpage2 { --mkbidpage2-muted: var(--lm-ink-3); }
+html.mp-light .mkbidpage2__title,
+html.mp-light .mkbidpage2__back:hover,
+html.mp-light .mkbidpage2__dialogtitle,
+html.mp-light .mkbidpage2__dialogtext b,
+html.mp-light .mkbidpage2__manainline { color: var(--lm-ink); }
+html.mp-light .mkbidpage2__back,
+html.mp-light .mkbidpage2__label,
+html.mp-light .mkbidpage2__subtitle,
+html.mp-light .mkbidpage2__dialogtext { color: var(--lm-ink-2); }
+html.mp-light .mkbidpage2__dialog {
+  background: var(--lm-surface);
+  border-color: var(--lm-line);
+}
+html.mp-light .mkbidpage2__btn:not(.mkbidpage2__btn--primary) {
+  background: #eceaef;
+  color: var(--lm-ink-2);
+}
+html.mp-light .mkbidpage2__btn:not(.mkbidpage2__btn--primary):hover { background: #e1dfe6; }

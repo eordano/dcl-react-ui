@@ -162,10 +162,10 @@ function TopicRow({ t }) {
   return (
     <tr className="fl__row">
       <td className="fl__c-topic">
-        <a className="fl__title" href="#">
+        <span className="fl__title" role="button" tabIndex={0}>
           {t.pinned ? <PinGlyph /> : null}
           {t.title}
-        </a>
+        </span>
         {t.excerpt ? <p className="fl__excerpt">{t.excerpt}</p> : null}
         <div className="fl__tags">
           {cat ? (

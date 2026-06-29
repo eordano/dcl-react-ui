@@ -1,5 +1,18 @@
+import { useEffect, useState } from "react";
 import { asset } from "../../asset.js";
+import { SCENE_TIPS } from "./sceneTips.js";
 import "./sceneloading.css";
+
+function renderRich(text) {
+  const cleaned = String(text).replace(/<\/?size[^>]*>/g, "");
+  return cleaned
+    .split(/(<b>[\s\S]*?<\/b>)/g)
+    .filter(Boolean)
+    .map((part, i) => {
+      const m = part.match(/^<b>([\s\S]*?)<\/b>$/);
+      return m ? <b key={i}>{m[1]}</b> : <span key={i}>{part}</span>;
+    });
+}
 
 const EVENTS = [
   {
@@ -50,9 +63,34 @@ function ShareIcon() {
   );
 }
 
-export default function SceneLoading({ progress = 31 }) {
-  const dots = 12;
-  const activeDot = 8;
+export default function SceneLoading({
+  progress = 31,
+  tips = SCENE_TIPS,
+  tip,
+  rotate = true,
+  intervalMs = 5000,
+}) {
+  const count = tips.length;
+  const controlled = typeof tip === "number";
+  const [idx, setIdx] = useState(controlled ? tip : 0);
+  const [auto, setAuto] = useState(!controlled);
+
+  useEffect(() => {
+    if (controlled) setIdx(((tip % count) + count) % count);
+  }, [controlled, tip, count]);
+
+  useEffect(() => {
+    if (controlled || !rotate || !auto || count <= 1) return;
+    const id = setInterval(() => setIdx((i) => (i + 1) % count), intervalMs);
+    return () => clearInterval(id);
+  }, [controlled, rotate, auto, count, intervalMs]);
+
+  const go = (delta) => {
+    setAuto(false);
+    setIdx((i) => (((i + delta) % count) + count) % count);
+  };
+
+  const active = tips[idx] || tips[0];
 
   return (
     <div className="sl">
@@ -99,23 +137,32 @@ export default function SceneLoading({ progress = 31 }) {
       </div>
 
       <div className="sl__tip">
-        <h1 className="sl__title">What's On</h1>
-        <p className="sl__body">
-          Movie nights, trivia, dance parties, there's usually something happening.
-          Drop in enough times and you'll start to recognize the regulars.
-        </p>
+        <h1 className="sl__title">{renderRich(active.title)}</h1>
+        <p className="sl__body">{renderRich(active.body)}</p>
         <div className="sl__dots">
-          {Array.from({ length: dots }).map((_, i) => (
+          {tips.map((_, i) => (
             <span
               key={i}
-              className={"sl__dot" + (i === activeDot ? " is-active" : "")}
+              className={"sl__dot" + (i === idx ? " is-active" : "")}
             />
           ))}
         </div>
       </div>
 
-      <button className="sl__arrow sl__arrow--left" aria-label="Previous">‹</button>
-      <button className="sl__arrow sl__arrow--right" aria-label="Next">›</button>
+      <button
+        className="sl__arrow sl__arrow--left"
+        aria-label="Previous tip"
+        onClick={() => go(-1)}
+      >
+        ‹
+      </button>
+      <button
+        className="sl__arrow sl__arrow--right"
+        aria-label="Next tip"
+        onClick={() => go(1)}
+      >
+        ›
+      </button>
     </div>
   );
 }

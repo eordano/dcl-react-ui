@@ -1,17 +1,16 @@
 .chwp {
   --chwp-black: var(--panel);
-  --chwp-darker-gray: #242129;
-  --chwp-dark-gray: #43404a;
-  --chwp-light-gray: #5e5b67;
+  --chwp-darker-gray: var(--fill-2);
+  --chwp-dark-gray: var(--fill-4);
+  --chwp-light-gray: var(--line);
   --chwp-dcl: var(--brand);
-  --chwp-dcl-dark: #9c1c34;
+  --chwp-dcl-dark: var(--brand-hover);
   --chwp-dcl-silver: #a09ba8;
   --chwp-white: #ffffff;
-  --chwp-text-on-secondary: #ffffffb2;
-  --chwp-border: rgba(255, 255, 255, 0.23);
+  --chwp-text-on-secondary: var(--ink-7);
+  --chwp-border: var(--line);
   --chwp-danger: #ffa900;
-  --chwp-font: "Inter", system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --chwp-font: var(--font-sans);
 
   position: fixed;
   inset: 0;
@@ -59,7 +58,7 @@
   align-items: center;
   gap: 8px;
   margin-left: 8px;
-  color: var(--chwp-light-gray);
+  color: var(--chwp-text-on-secondary);
 }
 .chwp__headertitle .chwp__svg {
   font-size: 22px;
@@ -119,18 +118,19 @@
   font-family: var(--chwp-font);
   font-size: 0.875rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.02857em;
   color: var(--chwp-text-on-secondary);
   cursor: pointer;
   transition: color 0.15s ease, background 0.15s ease;
 }
 .chwp__tab:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--ink-85);
 }
 .chwp__tab.is-selected {
-  color: var(--chwp-dcl);
-  background-color: var(--chwp-darker-gray);
+  background-color: var(--brand);
+  color: #0d0c11;
+  border-radius: var(--r-pill);
+  font-weight: 600;
 }
 
 .chwp__content {
@@ -166,6 +166,7 @@
 }
 .chwp__btn--primary {
   background-color: var(--chwp-dcl);
+  color: #0d0c11;
 }
 .chwp__btn--primary:hover {
   background-color: var(--chwp-dcl-dark);
@@ -201,7 +202,7 @@
   padding: 0;
 }
 .chwp__textlink:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--ink-85);
 }
 
 .chwp__avatar {
@@ -238,7 +239,7 @@
   justify-items: start;
   grid-template-columns: 1fr 180px 32px;
   background-color: var(--chwp-black);
-  border-top: 1px solid var(--chwp-dark-gray);
+  border-top: 1px solid var(--line);
   box-sizing: border-box;
 }
 .chwp__item.chwp__item--collab {
@@ -372,7 +373,7 @@
   justify-content: space-between;
   padding: 0 16px 16px;
   margin: 0 -16px;
-  border-bottom: 1px solid var(--chwp-dark-gray);
+  border-bottom: 1px solid var(--line);
 }
 .chwp__approvedcount {
   display: flex;

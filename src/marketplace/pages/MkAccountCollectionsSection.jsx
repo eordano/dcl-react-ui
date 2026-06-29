@@ -220,7 +220,7 @@ export default function MkAccountCollectionsSection({
             <>
               <div className="cl__cards">
                 {collections.map((c) => (
-                  <a key={c.contractAddress} className="cl__card" href="#collection">
+                  <a key={c.contractAddress} className="cl__card" href={`/marketplace/collection?contract=${c.contractAddress}`}>
                     <div className="cl__cardcontent">
                       <div className="cl__details">
                         <div className="cl__detailsleft">

@@ -2,8 +2,6 @@ import MarketplaceChrome from "../frames/MarketplaceChrome.jsx";
 import Spinner from "../../atoms/Spinner.jsx";
 import "./mkcatchallredirect.css";
 
-// matches none of the explicit <Route>s falls through to a client-side
-
 const HOME = "/";
 const BROWSE = "/browse?assetType=item&section=wearables&vendor=decentraland";
 

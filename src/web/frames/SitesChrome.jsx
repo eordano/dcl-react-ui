@@ -3,9 +3,6 @@ import DclTopBar from "./DclTopBar.jsx";
 import { Caret } from "../../atoms/icons.jsx";
 import "./siteschrome.css";
 
-// language menu + legal links and the copyright — all verbatim labels/links.
-
-// falls through to "" (no highlight). The sites variant's own ids pass through
 const ACTIVE_MAP = {
   play: "whatson",
   marketplace: "shop",

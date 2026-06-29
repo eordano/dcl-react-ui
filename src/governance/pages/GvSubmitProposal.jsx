@@ -206,9 +206,14 @@ function CategoryBanner({ type, active = true, isNew, onClick, href }) {
   const notAvailable = type === "hiring_add";
 
   const handleClick = (e) => {
-    e.preventDefault();
-    if (!active) return;
-    onClick?.();
+    if (!active) {
+      e.preventDefault();
+      return;
+    }
+    if (clickable) {
+      e.preventDefault();
+      onClick?.();
+    }
   };
 
   return (
@@ -243,9 +248,9 @@ function CategoryBanner({ type, active = true, isNew, onClick, href }) {
 }
 
 const ADD_REMOVE = {
-  catalyst: { title: "Catalyst Node", addType: "catalyst_add", removeType: "catalyst_remove" },
-  poi: { title: "Point of Interest", addType: "add_poi", removeType: "remove_poi" },
-  hiring: { title: "Hiring", addType: "hiring_add", removeType: "hiring_remove", isAddDisabled: true },
+  catalyst: { title: "Catalyst Node", addType: "catalyst_add", removeType: "catalyst_remove", route: "/governance/submit/catalyst" },
+  poi: { title: "Point of Interest", addType: "add_poi", removeType: "remove_poi", route: "/governance/submit/poi" },
+  hiring: { title: "Hiring", addType: "hiring_add", removeType: "hiring_remove", isAddDisabled: true, route: "/governance/submit/hiring" },
 };
 
 function AddRemoveProposalModal({ proposalType, onClose }) {
@@ -264,8 +269,8 @@ function AddRemoveProposalModal({ proposalType, onClose }) {
           <p className="gsp__modaldesc">What would you like to do?</p>
         </div>
         <div className="gsp__modalactions">
-          <CategoryBanner type={cfg.addType} active={!cfg.isAddDisabled} href="#" />
-          <CategoryBanner type={cfg.removeType} active href="#" />
+          <CategoryBanner type={cfg.addType} active={!cfg.isAddDisabled} href={cfg.route} />
+          <CategoryBanner type={cfg.removeType} active href={cfg.route} />
         </div>
       </div>
     </div>
@@ -295,21 +300,21 @@ export default function GvSubmitProposal({ grantActive = false }) {
             <p className="gsp__shead">Common Actions</p>
             <CategoryBanner type="catalyst" onClick={() => setModalType("catalyst")} />
             <CategoryBanner type="poi" onClick={() => setModalType("poi")} />
-            <CategoryBanner type="ban_name" href="#" />
-            <CategoryBanner type="linked_wearables" href="#" />
-            <CategoryBanner type="grant" href="#" active={grantActive} />
+            <CategoryBanner type="ban_name" href="/governance/submit/ban-name" />
+            <CategoryBanner type="linked_wearables" href="/governance/submit/linked-wearables" />
+            <CategoryBanner type="grant" href="/governance/submit/grant" active={grantActive} />
             <CategoryBanner type="hiring" onClick={() => setModalType("hiring")} />
-            <CategoryBanner type="council_decision_veto" href="#" isNew />
+            <CategoryBanner type="council_decision_veto" href="/governance/submit/council-veto" isNew />
           </section>
 
           <section className="gsp__section">
             <p className="gsp__shead">Bidding &amp; Tendering Process</p>
-            <CategoryBanner type="pitch" href="#" />
+            <CategoryBanner type="pitch" href="/governance/submit/pitch" />
           </section>
 
           <section className="gsp__section">
             <p className="gsp__shead">Governance Process</p>
-            <CategoryBanner type="poll" href="#" />
+            <CategoryBanner type="poll" href="/governance/submit/poll" />
           </section>
         </div>
       </div>

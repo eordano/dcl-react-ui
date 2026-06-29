@@ -24,6 +24,7 @@
   padding: 9px 10px; border-radius: 9px; transition: background .1s ease, color .1s ease;
 }
 .ctx__item:hover { background: rgba(255, 255, 255, .08); }
+.ctx__item:disabled, .ctx__item--disabled { opacity: .4; pointer-events: none; cursor: default; }
 .ctx__item--toggle { cursor: pointer; }
 .ctx__item--danger { color: #ff5470; }
 .ctx__item--danger:hover { background: rgba(255, 36, 36, .14); color: #ff6b84; }

@@ -267,3 +267,19 @@
   .mkmybids__actions { width: 100%; }
   .mkmybids__btn { width: 100%; }
 }
+
+html.mp-light .mkmybids {
+  --mb-card: var(--lm-surface);
+  --mb-divider: var(--lm-line);
+  --mb-secondary-on-modal: var(--lm-line);
+  color: var(--lm-ink);
+}
+html.mp-light .mkmybids__item { color: var(--lm-ink); }
+html.mp-light .mkmybids__item:hover { background-color: rgba(0, 0, 0, 0.04); }
+html.mp-light .mkmybids__item.is-active { background-color: rgba(0, 0, 0, 0.06); }
+html.mp-light .mkmybids__basicbtn { color: var(--lm-ink); }
+html.mp-light .mkmybids__image { background: var(--lm-bg); }
+html.mp-light .mkmybids__profile .name { color: var(--lm-ink); }
+html.mp-light .mkmybids__manamark { color: var(--lm-ink); }
+html.mp-light .mkmybids__btn { color: var(--lm-ink); }
+html.mp-light .mkmybids__btn--primary { color: #fff; }

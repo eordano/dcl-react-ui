@@ -144,3 +144,10 @@
   border-radius: var(--r-pill);
   white-space: nowrap;
 }
+
+html.mp-light .nc__rarity {
+  color: #16141a;
+  background: #ececed;
+  border-color: #ececed;
+}
+html.mp-light .nc:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14); }

@@ -211,8 +211,6 @@ function ProposalCard({ p }) {
         </div>
       </div>
 
-      {/* Vote tallies aren't exposed by the live API, so omit the bar entirely
-          when forPct is absent rather than render a misleading 0%/50% split. */}
       {p.forPct != null ? (
         <div className="gp__vote">
           <div className="gp__votebar" role="img" aria-label={`${p.forPct}% in favor, ${p.againstPct}% against`}>
@@ -231,23 +229,10 @@ function ProposalCard({ p }) {
   );
 }
 
-/**
- * @param {{
- *   proposals?: any[],
- *   totalCount?: number,
- *   pager?: import("react").ReactNode,
- * }} props
- */
 export default function GovernanceProposals({
   proposals = PROPOSALS,
-  // When the route paginates server-side it passes the true filtered total so
-  // the count label reflects the whole result set, not just the current page.
   totalCount,
-  // Real per-category counts over the full live set (id -> count). When present,
-  // overrides the hardcoded CATEGORIES numbers so the sidebar reconciles with the
-  // live total instead of showing the old fixture "1,284".
   categoryCounts,
-  // Optional pager node (prev/next + page links) rendered under the card list.
   pager = null,
 }) {
   const [tab, setTab] = useState("proposals");
@@ -273,8 +258,6 @@ export default function GovernanceProposals({
   }, [proposals, category, status, query, sort]);
 
   const count = list.length;
-  // The local sidebar/search narrows the current page client-side; only show the
-  // server-side filtered total when no local filter is narrowing the result.
   const localFilterActive =
     category !== "all" || status !== "all" || query.trim() !== "";
   const displayCount =

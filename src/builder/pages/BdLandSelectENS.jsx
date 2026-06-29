@@ -151,7 +151,7 @@ function SelectForm({ land, ensList, isLoading }) {
             </span>
           ) : (
             <span>
-              <a className="bdselectens__link" href="#claim">
+              <a className="bdselectens__link" href="/builder/mint-name">
                 Click here
               </a>{" "}
               to claim a new name
@@ -210,7 +210,7 @@ export default function BdLandSelectENS({
                 <h1 className="bdselectens__title">Select a Name</h1>
                 <span className="bdselectens__subtitle">
                   It will be used as a link to{" "}
-                  <a className="bdselectens__link" href="#land">
+                  <a className="bdselectens__link" href={`/builder/land/${land.id}`}>
                     {land.name}
                   </a>
                 </span>

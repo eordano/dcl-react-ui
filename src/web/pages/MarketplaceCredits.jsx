@@ -80,7 +80,7 @@ export default function MarketplaceCredits() {
                 </div>
               ))}
             </div>
-            <a className="mc__learn" href="#">LEARN MORE</a>
+            <a className="mc__learn" href="/rewards-terms">LEARN MORE</a>
           </section>
         </div>
       </div>

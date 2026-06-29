@@ -182,9 +182,6 @@
   .acec__header { margin-top: 0; }
 }
 
-/* Light theme — email-notifications settings is a web/dapp account surface, so it
-   follows "Theme: Light". Remap this surface's local dark tokens + the shared
-   tokens it consumes to the light marketplace palette. */
 html.mp-light .acec-page {
   color: var(--lm-ink);
   --undefined-card: var(--lm-surface);

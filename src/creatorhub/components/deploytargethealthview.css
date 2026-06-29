@@ -1,0 +1,80 @@
+.deploy-target-health {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: var(--z-panel);
+  width: min(320px, 86vw);
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: var(--scrim);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.deploy-target-health__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.deploy-target-health__title {
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+.deploy-target-health__meta {
+  font-size: 11px;
+  color: var(--ink-45);
+}
+
+.deploy-target-health__error {
+  margin: 0;
+  color: var(--error);
+}
+.deploy-target-health__empty {
+  margin: 0;
+  color: var(--ink-6);
+}
+
+.deploy-target-health__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.deploy-target-health__item {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.deploy-target-health__hash {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brand);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.deploy-target-health__detail {
+  font-size: 11px;
+  color: var(--ink-6);
+}
+
+.deploy-target-health__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.deploy-target-health__link {
+  color: var(--brand);
+  text-decoration: none;
+}
+.deploy-target-health__link:hover {
+  color: var(--brand-hover);
+}

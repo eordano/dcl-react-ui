@@ -183,9 +183,6 @@
   .acdel__header { margin-top: 0; }
 }
 
-/* Light theme — the delete-account settings tab is a web/dapp account surface, so
-   it follows "Theme: Light". Remap this surface's local dark tokens + the shared
-   tokens it consumes; the amber/danger tint banners read fine on the light card. */
 html.mp-light .acdel-page {
   color: var(--lm-ink);
   --undefined-warning-card: var(--lm-surface);

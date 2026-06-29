@@ -237,3 +237,52 @@
   .ma__listhead { display: none; }
   .ma__row { grid-template-columns: 1fr auto; row-gap: 4px; }
 }
+
+html.mp-light .ma {
+  --ma-card: var(--lm-surface);
+  --ma-active: #ececed;
+  --ma-active-hover: #f0eff3;
+  --ma-secondary-text: var(--lm-ink-3);
+}
+html.mp-light .ma__menuitem { color: var(--lm-ink); }
+html.mp-light .ma__togglelabel { color: var(--lm-ink-2); }
+html.mp-light .ma__switch:not(.is-on) { background: #d8d6dd; }
+html.mp-light .ma__chip {
+  border-color: var(--lm-line);
+  background: var(--lm-bg);
+  color: var(--lm-ink-2);
+}
+html.mp-light .ma__chip:hover { background: #ececed; color: var(--lm-ink); }
+html.mp-light .ma__chip.is-active {
+  color: var(--lm-ink);
+  border-color: var(--chip);
+  background: color-mix(in srgb, var(--chip) 16%, #fff);
+}
+html.mp-light .ma__loadbtn {
+  border-color: var(--lm-line);
+  background: var(--lm-surface);
+  color: var(--lm-ink);
+}
+html.mp-light .ma__loadbtn:hover { background: #ececed; border-color: var(--lm-line); }
+html.mp-light .ma__list { border-color: var(--lm-line); background: var(--lm-surface); }
+html.mp-light .ma__listhead { color: var(--lm-ink-3); border-bottom-color: var(--lm-line); }
+html.mp-light .ma__row { border-bottom-color: var(--lm-line); color: var(--lm-ink-2); }
+html.mp-light .ma__row:hover { background: var(--lm-bg); }
+html.mp-light .ma__itemname { color: var(--lm-ink); }
+html.mp-light .ma__itemsub { color: var(--lm-ink-3); }
+html.mp-light .ma__addr { color: var(--lm-ink-2); }
+html.mp-light .ma__muted { color: var(--lm-ink-3); }
+html.mp-light .ma__mana { color: var(--lm-ink); }
+html.mp-light .ma__manamark { color: var(--lm-ink); }
+html.mp-light .ma__collection { background: var(--lm-surface); border-color: var(--lm-line); }
+html.mp-light .ma__collname { color: var(--lm-ink); }
+html.mp-light .ma__collmeta { color: var(--lm-ink-3); }
+html.mp-light .ma__settingsnote { color: var(--lm-ink-3); }
+html.mp-light .ma__empty { color: var(--lm-ink-3); }
+html.mp-light .ma__emptyicon {
+  color: var(--lm-ink-3);
+  background: var(--lm-bg);
+  border-color: var(--lm-line);
+}
+html.mp-light .ma__notitle { color: var(--lm-ink); }
+html.mp-light .ma__nosub { color: var(--lm-ink-3); }

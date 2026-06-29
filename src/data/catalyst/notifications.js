@@ -1,11 +1,3 @@
-// Browser-only twin of sites/app/lib/catalyst/notifications.ts.
-// Pure helpers (category mapping, zod schemas, parse + presentation getters,
-// relative time) are ported byte-for-byte minus TS types — zod is isomorphic, so
-// the schemas are reused as-is. The *.server.ts variant (node fixture import,
-// best-effort orchestration) is NOT ported; the live fetch here THROWS on failure
-// so the hook can distinguish loading / live-empty / error and pick the fixture
-// fallback. No node/server imports.
-
 import { z } from "zod";
 import { getJSON } from "./client.js";
 import { notificationsFixture } from "../fixtures.js";
@@ -19,8 +11,6 @@ export const NOTIFICATION_CATEGORIES = [
   "system",
 ];
 
-// Canonical NotificationType (decentraland/schemas) -> ui3 Notifications.jsx card
-// category (friends/badge/gift/community/marketplace/system).
 export function categoryForType(type) {
   const t = String(type ?? "").toLowerCase();
   if (t.startsWith("social_service_friendship")) return "friends";
@@ -54,8 +44,6 @@ export const NotificationSchema = z.object({
   metadata: MetadataSchema,
 });
 
-// The live edge replies with a bare array OR a `{ notifications: [...] }`
-// envelope depending on version; accept either.
 const ListEnvelopeSchema = z.object({
   notifications: z.array(z.unknown()).default([]),
 });
@@ -95,8 +83,6 @@ export function notificationBody(n) {
   return typeof d === "string" ? d : "";
 }
 
-// Real artwork carried in metadata (badge art / community thumb / reward token
-// image) if present — else null and the card draws its category glyph.
 export function notificationImage(n) {
   const m = n?.metadata ?? {};
   for (const k of ["badgeImageUrl", "thumbnailUrl", "tokenImage", "imageUrl", "image"]) {
@@ -122,8 +108,6 @@ export function relativeTime(timestamp, now) {
   return `${day}d`;
 }
 
-// ---- fixture (degraded / auth-gated fallback) --------------------------------
-
 export const FIXTURE_ADDRESS = notificationsFixture.address;
 
 let _fixtureRows = null;
@@ -136,20 +120,6 @@ export function fixtureNotifications() {
   return _fixtureRows;
 }
 
-// ---- live read ---------------------------------------------------------------
-
-/**
- * GET /notifications (live). Requires a signed auth-chain header (require_signer);
- * the public edge 301-redirects / 401s anonymous requests, so without a signed
- * header this REJECTS (CatalystError) and the hook falls back to the fixture.
- *
- * Flip to live with ZERO structural change: pass a signed header through
- * `opts.headers` (e.g. `{ authorization: ... }` or the auth-chain triplet) — the
- * same getJSON path then returns the real feed (incl. an authed-empty array,
- * which surfaces the panel's empty state instead of the fixture).
- *
- * Forwards `opts.signal` so a panel switch cancels the in-flight read.
- */
 export async function fetchLiveNotifications(opts = {}) {
   const raw = await getJSON("/notifications", opts);
   return parseNotifications(raw);

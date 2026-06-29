@@ -258,3 +258,16 @@
 @media (max-width: 768px) {
   .sh__stats { grid-template-columns: 1fr; }
 }
+
+html.mp-light .sh {
+  --sh-secondary: var(--lm-surface);
+  --sh-icon-chip: #ececed;
+  --sh-active: #ececed;
+  --sh-active-hover: #f0eff3;
+}
+html.mp-light .sh__staticon { color: var(--lm-ink-2); }
+html.mp-light .sh__th { border-bottom-color: var(--lm-line); }
+html.mp-light .sh__td { border-bottom-color: var(--lm-line); }
+html.mp-light .sh__pagebtn { border-color: var(--lm-line); }
+html.mp-light .sh__pagebtn:hover:not(:disabled) { background: #ececed; }
+html.mp-light .sh__loader { border-color: #e1dfe6; border-top-color: var(--brand); }

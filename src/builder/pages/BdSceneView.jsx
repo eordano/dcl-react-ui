@@ -24,8 +24,6 @@ const ICON = {
   download: "M12 3v11M8 10l4 4 4-4M5 19h14",
   heart:
     "M12 20s-7-4.6-9.2-9.2C1.3 7.6 3 4.5 6.2 4.5c2 0 3.2 1.3 3.8 2.2.6-.9 1.8-2.2 3.8-2.2 3.2 0 4.9 3.1 3.4 6.3C19 15.4 12 20 12 20z",
-  view:
-    "M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
   back: "M15 5l-7 7 7 7",
   alert: "M12 3l9 16H3zM12 9v5M12 17h0",
 };
@@ -154,12 +152,6 @@ export default function BdSceneView({
                 </CircleChip>
               </div>
             )}
-            <div className="bdsceneview__spacer" />
-            <div className="bdsceneview__action">
-              <CircleChip onClick={() => {}}>
-                <Glyph d={ICON.view} size={18} sw={1.6} />
-              </CircleChip>
-            </div>
           </div>
 
           <div className="bdsceneview__detail">
@@ -170,13 +162,13 @@ export default function BdSceneView({
 
             <div className="bdsceneview__author">
               made by{" "}
-              <a className="bdsceneview__authorLink" href="#author">
+              <span className="bdsceneview__authorLink" role="button" tabIndex={0}>
                 <span
                   className="bdsceneview__authorAvatar u-avatar"
                   style={{ "--sz": "24px", "--hue": scene.author.hue }}
                 />
                 <span className="bdsceneview__authorName">{scene.author.name}</span>
-              </a>
+              </span>
             </div>
 
             {scene.description && (

@@ -5,9 +5,6 @@
     #0e0d10;
 }
 
-/* Light theme: flip the chrome body background to the light token, mirroring
-   `html.mp-light .mk` in atoms/primitives.css. The DclTopBar stays dark per
-   upstream (dark top nav over a light page). */
 html.mp-light .ac {
   background: var(--lm-bg);
 }

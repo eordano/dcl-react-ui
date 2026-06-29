@@ -18,12 +18,13 @@ const PLACE = {
   hue: 270,
 };
 
-export default function PlaceDetail({ place, notFound = false }) {
+export default function PlaceDetail({ place, notFound = false, onClose, onJumpIn } = {}) {
   if (notFound) {
     return (
-      <div className="ep__backdrop">
+      <div className="ep__backdrop" onClick={onClose}>
         <div
           className="pld"
+          onClick={(e) => e.stopPropagation()}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -44,9 +45,9 @@ export default function PlaceDetail({ place, notFound = false }) {
   }
   const p = place ?? PLACE;
   return (
-    <div className="ep__backdrop">
-      <div className="pld">
-        <button className="pld__close" aria-label="Close" data-sb-linkto="Explorer/Pages/Places">×</button>
+    <div className="ep__backdrop" onClick={onClose}>
+      <div className="pld" onClick={(e) => e.stopPropagation()}>
+        <button className="pld__close" aria-label="Close" data-sb-linkto="Explorer/Pages/Places" onClick={onClose}>×</button>
 
         <div className="pld__top">
           <div
@@ -121,13 +122,13 @@ export default function PlaceDetail({ place, notFound = false }) {
           </div>
 
           <div className="pld__actions">
-            <Button variant="primary" className="pld__nav" data-sb-linkto="Explorer/Workflows/SceneLoading">
+            <Button variant="primary" className="pld__nav" data-sb-linkto="Explorer/Workflows/SceneLoading" onClick={onJumpIn}>
               <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
                 <path d="M8 1.5l6.5 13L8 11.5 1.5 14.5 8 1.5z" fill="currentColor" />
               </svg>
               START NAVIGATION
             </Button>
-            <Button variant="primary" className="pld__jump" data-sb-linkto="Explorer/Workflows/SceneLoading">
+            <Button variant="primary" className="pld__jump" data-sb-linkto="Explorer/Workflows/SceneLoading" onClick={onJumpIn}>
               JUMP IN
               <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
                 <path d="M3 8h8M8 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />

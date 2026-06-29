@@ -21,7 +21,6 @@ const vpLink = (pre) => [
 const intro = (parts) =>
   parts.map((p, i) =>
     typeof p === "string" ? p : (
-      // eslint-disable-next-line react/jsx-key
       <a key={i} href={p.href}>{p.text}</a>
     )
   );

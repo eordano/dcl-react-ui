@@ -11,8 +11,6 @@
     radial-gradient(90% 60% at 100% 100%, rgba(152, 45, 226, 0.06), transparent 62%),
     rgba(0, 0, 0, 0.6);
 
-  --cpwds-paper: #1d1c20;
-  --cpwds-dark-gray: #43404a;
   font-family: inherit;
   color: var(--text);
 }
@@ -23,8 +21,8 @@
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  background: var(--cpwds-paper);
-  border-radius: 12px;
+  background: var(--panel);
+  border-radius: var(--modal-radius);
   box-shadow: var(--shadow-modal);
   overflow: auto;
 }
@@ -96,8 +94,8 @@
   justify-content: space-evenly;
   align-items: center;
   text-align: center;
-  background-color: var(--cpwds-dark-gray);
-  border-radius: 8px;
+  background-color: var(--fill-2);
+  border-radius: var(--r-card);
   padding: 10px 30px;
 }
 .cpwds__thumb {
@@ -128,6 +126,9 @@
 }
 
 .cpwds__altservers {
+  background: none;
+  border: 0;
+  font: inherit;
   text-align: center;
   text-decoration: underline;
   text-transform: uppercase;
@@ -145,13 +146,13 @@
   height: 44px;
   padding: 0 22px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--r-control);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.12s;
 }
-.cpwds__btn--primary { background: var(--brand); color: #fff; }
+.cpwds__btn--primary { background: var(--brand); color: #0d0c11; }
 .cpwds__btn--primary:hover { background: var(--brand-hover); }
 
 .cpwds__signinbtn { align-self: center; min-width: 200px; }

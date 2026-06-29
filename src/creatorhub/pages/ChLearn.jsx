@@ -3,30 +3,30 @@ import "./chlearn.css";
 
 const VideosArt = () => (
   <svg className="chl__art" viewBox="0 0 150 100" aria-hidden="true">
-    <rect x="22" y="30" width="74" height="48" rx="6" fill="#ffffff" opacity="0.92" />
-    <rect x="22" y="30" width="74" height="48" rx="6" fill="none" stroke="#3a0a4d" strokeWidth="2.5" />
-    <path d="M52 44v20l18-10-18-10Z" fill="#691fa9" />
-    <circle cx="104" cy="34" r="12" fill="#ffd34e" />
-    <path d="M99 34h10M104 29v10" stroke="#691fa9" strokeWidth="2.4" strokeLinecap="round" />
+    <rect x="22" y="30" width="74" height="48" rx="6" fill="var(--ink-85)" opacity="0.92" />
+    <rect x="22" y="30" width="74" height="48" rx="6" fill="none" stroke="var(--line)" strokeWidth="2.5" />
+    <path d="M52 44v20l18-10-18-10Z" fill="var(--brand)" />
+    <circle cx="104" cy="34" r="12" fill="none" stroke="var(--line)" strokeWidth="2.5" />
+    <path d="M99 34h10M104 29v10" stroke="var(--ink-85)" strokeWidth="2.4" strokeLinecap="round" />
   </svg>
 );
 const DocsArt = () => (
   <svg className="chl__art" viewBox="0 0 150 100" aria-hidden="true">
-    <rect x="34" y="22" width="56" height="68" rx="5" fill="#ffffff" opacity="0.92" />
-    <rect x="34" y="22" width="56" height="68" rx="5" fill="none" stroke="#3a0a4d" strokeWidth="2.5" />
-    <path d="M44 38h36M44 50h36M44 62h26" stroke="#691fa9" strokeWidth="3" strokeLinecap="round" />
-    <circle cx="98" cy="68" r="13" fill="#67e8f9" />
-    <path d="M94 68h8M98 64v8" stroke="#3a0a4d" strokeWidth="2.4" strokeLinecap="round" />
+    <rect x="34" y="22" width="56" height="68" rx="5" fill="var(--ink-85)" opacity="0.92" />
+    <rect x="34" y="22" width="56" height="68" rx="5" fill="none" stroke="var(--line)" strokeWidth="2.5" />
+    <path d="M44 38h36M44 50h36M44 62h26" stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" />
+    <circle cx="98" cy="68" r="13" fill="none" stroke="var(--line)" strokeWidth="2.5" />
+    <path d="M94 68h8M98 64v8" stroke="var(--ink-85)" strokeWidth="2.4" strokeLinecap="round" />
   </svg>
 );
 const MoreArt = () => (
   <svg className="chl__art" viewBox="0 0 150 100" aria-hidden="true">
-    <circle cx="58" cy="50" r="22" fill="#ffffff" opacity="0.92" />
-    <circle cx="58" cy="50" r="22" fill="none" stroke="#3a0a4d" strokeWidth="2.5" />
-    <circle cx="49" cy="50" r="3.4" fill="#691fa9" />
-    <circle cx="58" cy="50" r="3.4" fill="#691fa9" />
-    <circle cx="67" cy="50" r="3.4" fill="#691fa9" />
-    <path d="M92 40l14 10-14 10V40Z" fill="#ffd34e" />
+    <circle cx="58" cy="50" r="22" fill="var(--ink-85)" opacity="0.92" />
+    <circle cx="58" cy="50" r="22" fill="none" stroke="var(--line)" strokeWidth="2.5" />
+    <circle cx="49" cy="50" r="3.4" fill="var(--brand)" />
+    <circle cx="58" cy="50" r="3.4" fill="var(--brand)" />
+    <circle cx="67" cy="50" r="3.4" fill="var(--brand)" />
+    <path d="M92 40l14 10-14 10V40Z" fill="var(--ink-85)" />
   </svg>
 );
 
@@ -91,45 +91,82 @@ const MORE = [
   { url: "https://docs.decentraland.org/contributor/", title: "Open Protocol Docs" },
 ];
 
-export default function ChLearn({ active = "learn" }) {
+const VIDEOS_PLAYLIST_URL = `https://www.youtube.com/playlist?list=${VIDEOS[0].list}`;
+const DOCS_URL = "https://docs.decentraland.org/creator/";
+
+export default function ChLearn({
+  active = "learn",
+  signedIn = false,
+  account = "",
+  name = "",
+  onSignIn =(undefined),
+}) {
   return (
-    <CreatorHubChrome active={active}>
-      <main className="chl">
+    <CreatorHubChrome active={active} signedIn={signedIn} account={account} name={name} onSignIn={onSignIn}>
+      <section className="chl">
         <div className="chl__container">
           <div className="chl__content">
             <h1 className="chl__title">Learn</h1>
 
             <div className="chl__sections">
               <section className="chl__section chl__section--videos">
-                <div className="chl__header chl__header--clickable" role="link" tabIndex={0}>
+                <a
+                  className="chl__header chl__header--clickable"
+                  href={VIDEOS_PLAYLIST_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
                   <span className="chl__image"><VideosArt /></span>
-                  <span className="chl__sectiontitle">Videos</span>
-                </div>
+                  <h2 className="chl__sectiontitle">Videos</h2>
+                </a>
                 <div className="chl__sectioncontent">
                   {VIDEOS.map((v, i) => (
                     <VideoLink key={i} {...v} />
                   ))}
                 </div>
-                <button type="button" className="chl__seeall">See All</button>
+                <a
+                  className="chl__seeall"
+                  href={VIDEOS_PLAYLIST_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
+                  See All
+                </a>
               </section>
 
               <section className="chl__section chl__section--docs">
-                <div className="chl__header chl__header--clickable" role="link" tabIndex={0}>
+                <a
+                  className="chl__header chl__header--clickable"
+                  href={DOCS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
                   <span className="chl__image"><DocsArt /></span>
-                  <span className="chl__sectiontitle">Creator Docs</span>
-                </div>
+                  <h2 className="chl__sectiontitle">Creator Docs</h2>
+                </a>
                 <div className="chl__sectioncontent">
                   {DOCS.map((d, i) => (
                     <ResourceLink key={i} {...d} kind="docs" />
                   ))}
                 </div>
-                <button type="button" className="chl__seeall">See All</button>
+                <a
+                  className="chl__seeall"
+                  href={DOCS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
+                  See All
+                </a>
               </section>
 
               <section className="chl__section chl__section--more">
                 <div className="chl__header">
                   <span className="chl__image"><MoreArt /></span>
-                  <span className="chl__sectiontitle">More</span>
+                  <h2 className="chl__sectiontitle">More</h2>
                 </div>
                 <div className="chl__sectioncontent">
                   {MORE.map((m, i) => (
@@ -140,7 +177,7 @@ export default function ChLearn({ active = "learn" }) {
             </div>
           </div>
         </div>
-      </main>
+      </section>
     </CreatorHubChrome>
   );
 }

@@ -6,7 +6,6 @@
   color: var(--gv-ink);
   background: var(--gv-page);
 
-  /* Dark defaults. preview.css overrides the same tokens for theme-light. */
   --gv-ink: var(--text);
   --gv-muted: rgba(255, 255, 255, .62);
   --gv-faint: rgba(255, 255, 255, .42);
@@ -18,7 +17,6 @@
   --gv-tint: color-mix(in srgb, var(--brand) 16%, transparent);
 }
 
-/* ---- Stage : framed photo + filmstrip ---- */
 .gv__stage {
   position: relative;
   flex: 1 1 auto;
@@ -42,7 +40,6 @@
 }
 .gv__photoart { position: absolute; inset: 0; background: var(--scene-photo); }
 
-/* Toolbar floats over the image inside a dark glass pill (theme-independent). */
 .gv__toolbar {
   position: absolute;
   top: 14px;
@@ -82,7 +79,6 @@
 }
 .gv__close:hover { background: var(--brand); opacity: 1; }
 
-/* Filmstrip */
 .gv__strip {
   flex: 0 0 auto;
   display: flex;
@@ -120,7 +116,6 @@
   box-shadow: 0 0 0 2px var(--brand), 0 4px 14px rgba(0, 0, 0, .35);
 }
 
-/* ---- Rail : details ---- */
 .gv__rail {
   flex: 0 0 26%;
   max-width: 380px;

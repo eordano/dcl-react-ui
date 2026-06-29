@@ -284,3 +284,14 @@
   .mkosr__grid .mkosr__c-type,
   .mkosr__grid .mkosr__c-saletype { display: none; }
 }
+
+html.mp-light .mkosr__switch { background: var(--lm-field-bg); border-color: var(--lm-line); }
+html.mp-light .mkosr__seg { color: var(--lm-ink-2); }
+html.mp-light .mkosr__sortcaret { color: var(--lm-ink-3); }
+html.mp-light .mkosr__page {
+  border-color: var(--lm-line);
+  background: var(--lm-surface);
+  color: var(--lm-ink-2);
+}
+html.mp-light .mkosr__page:hover { background: rgba(0, 0, 0, 0.04); }
+html.mp-light .mkosr__actbtn--inverted:hover { background: rgba(0, 0, 0, 0.04); }

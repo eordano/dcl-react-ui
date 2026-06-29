@@ -13,9 +13,6 @@ const fromDoc = (doc) => ({
   ),
 });
 
-// The Terms story is a LAYOUT demo, not canonical copy: a short slice exercising
-// nested TOC depth, h3 subheadings, paragraphs and a list. The full document lives
-// in ../data/legalPageConfig.jsx (LEGAL_DOCS.terms), which /terms renders verbatim.
 const termsDemo = {
   title: "Terms of Use",
   activeSlug: "/terms",

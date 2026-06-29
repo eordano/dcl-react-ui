@@ -298,9 +298,6 @@
   .stjumpinplaces__desc p { font-size: 16px; line-height: 1.5; }
 }
 
-/* ── Invalid state ─────────────────────────────────────────────────────────
-   Folded in from the former StJumpInPlacesInvalid component. Rendered when
-   variant="invalid"; the centered "Oops!" panel replaces the place card. */
 .stjumpinplacesinvalid {
   position: relative;
   display: flex;

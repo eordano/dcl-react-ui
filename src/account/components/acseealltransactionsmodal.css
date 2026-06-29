@@ -118,8 +118,6 @@
 }
 .acseealltransactionsmodal__empty p { margin: 0; font-size: 16px; line-height: 18px; text-align: center; }
 
-/* Light theme — the all-transactions modal is a web/dapp account surface, so it
-   follows "Theme: Light". Remap this surface's local dark tokens. */
 html.mp-light .acseealltransactionsmodal {
   --acst-card: var(--lm-surface);
   --acst-ink: var(--lm-ink);

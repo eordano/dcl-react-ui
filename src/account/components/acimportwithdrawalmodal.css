@@ -142,9 +142,6 @@
   .acimportwithdrawalmodal__description { margin-bottom: 2.5rem; }
 }
 
-/* Light theme — the import-withdrawal modal is a web/dapp account surface, so it
-   follows "Theme: Light". Remap the shared dark tokens it consumes + flip the
-   hardcoded white text. The brand CTA keeps its white label. */
 html.mp-light .acimportwithdrawalmodal__card {
   color: var(--lm-ink);
   border-color: var(--lm-line);

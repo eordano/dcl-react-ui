@@ -1,7 +1,6 @@
 .chh {
-  --chh-grad-from: #c640cd;
-  --chh-grad-to: #691fa9;
-  --chh-secondary-light: #cfcdd4;
+  --chh-grad-from: color-mix(in srgb, var(--purple) 65%, var(--brand) 35%);
+  --chh-grad-to: color-mix(in srgb, var(--purple) 78%, black);
 
   min-height: 100%;
   box-sizing: border-box;
@@ -12,23 +11,47 @@
 .chh__container {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 36px 34px 52px;
+  padding: 24px 24px 36px;
   display: flex;
   flex-direction: column;
 }
 
 .chh__title {
-  margin: 0 0 36px;
-  font-size: clamp(28px, 3.4vw, 38px);
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 0.2px;
+  margin: 0 0 24px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
+
+.chh__hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0 0 24px;
+}
+.chh__hero .chh__title { margin: 0; }
+.chh__herobtn {
+  flex: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0d0c11;
+  background: var(--brand);
+  padding: 13px 30px;
+  border-radius: var(--r-pill);
+  transition: background 0.12s ease;
+}
+.chh__herobtn:hover { background: var(--brand-hover); }
 
 .chh__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
   align-items: stretch;
 }
 
@@ -41,13 +64,12 @@
   border-radius: var(--r-card);
 }
 
-.chh__card--signin,
 .chh__card--feedback {
-  background: var(--fill-1);
+  grid-column: 1 / -1;
+  min-height: 220px;
+  background: var(--panel);
+  border: 1px solid var(--line);
   overflow: hidden;
-}
-.chh__card--feedback {
-  background: linear-gradient(180deg, var(--chh-grad-from) 0%, var(--chh-grad-to) 100%);
 }
 
 .chh__banner {
@@ -77,13 +99,13 @@
   pointer-events: none;
 }
 .chh__bannerart { width: 100%; height: 100%; display: block; object-fit: cover; }
+.chh__exploreart { display: block; width: 84px; height: 84px; margin: 22px 0 0 18px; color: var(--ink-85); }
 .chh__bannertitle {
   margin: 0 24px 16px;
   color: #fff;
   font-weight: 700;
   font-size: 24px;
   line-height: 1;
-  text-transform: uppercase;
   z-index: 1;
 }
 
@@ -92,9 +114,10 @@
   display: flex;
   flex-direction: column;
 }
-.chh__card:not(.chh__card--signin):not(.chh__card--feedback) .chh__cardbody {
+.chh__card:not(.chh__card--feedback) .chh__cardbody {
   border-radius: var(--r-card);
-  background: var(--fill-1);
+  border: 1px solid var(--line);
+  background: var(--panel);
   padding: 8px;
 }
 .chh__cardbody--centered {
@@ -106,7 +129,8 @@
 }
 .chh__cardbody--empty {
   border-radius: var(--r-card);
-  background: var(--fill-1);
+  border: 1px solid var(--line);
+  background: var(--panel);
 }
 
 .chh__list { display: flex; flex-direction: column; }
@@ -123,7 +147,7 @@
   font: inherit;
   text-decoration: none;
   padding: 14px 12px;
-  border-radius: 8px;
+  border-radius: var(--r-control);
   transition: background 0.12s ease;
 }
 .chh__item:hover { background: var(--fill-4); }
@@ -134,23 +158,61 @@
 }
 .chh__itemtitle { min-width: 0; font-size: 15px; font-weight: 600; }
 
+.chh__itemext {
+  flex: 0 0 auto;
+  margin-left: 6px;
+  color: var(--ink-45);
+}
+.chh__item:hover .chh__itemext { color: var(--ink-6); }
+
+.chh__itembadge {
+  flex-shrink: 0;
+  margin-left: 6px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
+
+.chh__item--inert { cursor: default; }
+.chh__item--inert:hover { background: transparent; }
+.chh__item--inert .chh__itemtitle { color: var(--ink-45); }
+.chh__item--inert .chh__itemicon { color: var(--ink-6); }
+
 .chh__cardactions { flex: none; }
 .chh__seeall {
   width: 100%;
-  border: 0;
+  height: 44px;
+  border: 1px solid var(--line);
   cursor: pointer;
   font: inherit;
   font-size: 14px;
   font-weight: 700;
   color: #fff;
-  background: var(--fill-1);
-  padding: 11px 22px;
-  border-radius: var(--r-control);
-  transition: background 0.12s ease, color 0.12s ease;
+  background: var(--fill-3);
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  transition: background 0.12s ease, border-color 0.12s ease;
 }
-.chh__seeall:hover { background: var(--chh-secondary-light); color: #16141a; }
+.chh__seeall:hover { background: var(--fill-4); border-color: rgba(255, 255, 255, 0.18); }
 
-.chh__emptytext { margin: 0; font-size: 15px; font-weight: 600; color: var(--offline); }
+.chh__outagetext {
+  margin: 0;
+  max-width: 30ch;
+  border: 1px solid color-mix(in srgb, var(--error) 35%, transparent);
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+  color: color-mix(in srgb, var(--error) 45%, var(--text));
+  border-radius: var(--r-card);
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
 .chh__ghostbtn {
   border: 1px solid var(--line);
   background: var(--fill-2);
@@ -158,37 +220,34 @@
   cursor: pointer;
   font: inherit;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 9px 18px;
-  border-radius: var(--r-control);
+  border-radius: var(--r-pill);
   transition: background 0.12s ease, border-color 0.12s ease;
 }
 .chh__ghostbtn:hover { background: var(--fill-4); border-color: var(--fill-5); }
 
-.chh__signintitle {
+.chh__loadingtext {
   margin: 0;
-  max-width: 18ch;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.4;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  text-wrap: pretty;
+  color: var(--ink-45);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-.chh__signinbtn {
+.chh__feedbackbtn {
   border: 0;
   cursor: pointer;
   font: inherit;
   font-size: 14px;
-  font-weight: 800;
-  color: #16141a;
-  background: #fff;
+  font-weight: 600;
+  color: #0d0c11;
+  background: var(--brand);
   padding: 11px 26px;
-  border-radius: var(--r-control);
+  border-radius: var(--r-pill);
+  text-decoration: none;
   transition: background 0.12s ease;
 }
-.chh__signinbtn:hover { background: var(--chh-secondary-light); }
+.chh__feedbackbtn:hover { background: var(--brand-hover); }
 
 .chh__feedbackimg { display: inline-flex; }
 .chh__feedbackart { width: 180px; height: 180px; display: block; object-fit: contain; }
@@ -203,7 +262,7 @@
 }
 
 @media (max-width: 980px) {
-  .chh__grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .chh__grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
   .chh__container { padding: 24px 16px 36px; }

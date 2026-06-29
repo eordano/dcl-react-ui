@@ -166,11 +166,11 @@ export default function BdLandEdit({ land = PARCEL_LAND, loading = false }) {
                   />
 
                   <div className="bdlandedit__row">
-                    <a className="bdlandedit__cancel" href="#cancel">
+                    <span className="bdlandedit__cancel">
                       <button type="button" className="bdlandedit__btn">
                         Cancel
                       </button>
-                    </a>
+                    </span>
                     <button
                       type="submit"
                       className="bdlandedit__btn bdlandedit__btn--primary"

@@ -26,5 +26,4 @@ export default {
   },
 };
 
-// One story; flip `variant` via Controls (place / world / generic / loading / invalid).
 export const Places = {};

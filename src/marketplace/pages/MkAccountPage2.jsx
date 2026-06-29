@@ -140,7 +140,7 @@ export default function MkAccountPage2({
       <div className="ap2__profile">
         <span className="ap2__avatar u-avatar" style={{ "--sz": "96px", "--hue": 312 }} aria-hidden="true" />
         <div className="ap2__name">
-          <a href="#account" className="ap2__namelink">{account.name}</a>
+          <a href={`/profile/${account.address}`} className="ap2__namelink">{account.name}</a>
         </div>
         <div className="ap2__address">
           <span className="ap2__hash">{shortenAddress(account.address)}</span>

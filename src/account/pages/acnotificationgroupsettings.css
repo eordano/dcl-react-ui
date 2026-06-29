@@ -204,9 +204,6 @@
   .acng__header { margin-top: 0; }
 }
 
-/* Light theme — notification settings is a web/dapp account surface, so it follows
-   "Theme: Light". Remap this surface's local dark tokens + the shared tokens it
-   consumes to the light marketplace palette. */
 html.mp-light .acng-page {
   color: var(--lm-ink);
   --undefined-card: var(--lm-surface);

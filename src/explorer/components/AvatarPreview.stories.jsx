@@ -1,10 +1,7 @@
 import WearablePreview from "../../wearable-preview/WearablePreview.jsx";
 
-// Real 3D avatar via the isolated three.js-only WearablePreview (lazy/code-split;
-// three is not in ui3). Transparent canvas; Storybook Controls drive camera/emote.
 const PROFILE = "0xf12c21d3edb2c0e68935a3bbe5d68ae4bf9dcd7c";
 
-// an explicit asset list (base wearables) — pick exactly what the avatar wears
 const BODY = "urn:decentraland:off-chain:base-avatars:BaseMale";
 const OUTFIT_URNS = [
   "urn:decentraland:off-chain:base-avatars:eyes_00",
@@ -60,7 +57,6 @@ const box = {
   borderRadius: 20,
 };
 
-// Drives the live Controls panel (zoom / yaw / pitch / fov / emote / spin / background).
 export const Default = {
   name: "Live (3D · controls)",
   render: (args) => (
@@ -72,7 +68,6 @@ export const Default = {
   ),
 };
 
-// Transparent canvas demonstrated over a checkerboard — only the avatar is opaque.
 export const Transparent = {
   args: { emote: "wave", spin: false },
   render: (args) => (
@@ -89,7 +84,6 @@ export const Transparent = {
   ),
 };
 
-// Framed-in portrait: zoomed, angled, head-height target, no spin.
 export const Headshot = {
   args: { emote: "", zoom: 1.8, yaw: 18, pitch: 4, targetY: 0.84, spin: false },
   render: (args) => (
@@ -101,7 +95,6 @@ export const Headshot = {
   ),
 };
 
-// Dress the avatar from an explicit list of wearable URNs (no profile).
 export const AssetList = {
   name: "Asset list (urns)",
   render: () => (
@@ -113,7 +106,6 @@ export const AssetList = {
   ),
 };
 
-// Render a saved outfit (fetched from /lambdas/outfits/<address>).
 export const SavedOutfit = {
   name: "Saved outfit (slot)",
   render: () => (

@@ -206,3 +206,10 @@
   .mksuccesspage__primaryEnsActions { flex-direction: column; }
   .mksuccesspage__jumpInButtonContainer { width: 100%; }
 }
+
+html.mp-light .mksuccesspage__statusInfo { color: var(--lm-ink-2); }
+html.mp-light .mksuccesspage__statusInfo.is-success { color: var(--rar-rare); }
+html.mp-light .mksuccesspage__viewProgress { background-color: #ececed; color: var(--lm-ink-2); }
+html.mp-light .mksuccesspage__highlighted { color: var(--lm-ink); }
+html.mp-light .mksuccesspage__link { color: var(--lm-ink); }
+html.mp-light .mksuccesspage__errorDescription { color: var(--lm-ink-2); }

@@ -1,6 +1,5 @@
 import StCreatorHubDownload, { ICON } from "./StCreatorHubDownload.jsx";
 
-// Reuse the icons from the component so the two copies can never drift.
 const WINDOWS_ICON = ICON.Windows;
 const MACOS_ICON = ICON.macOS;
 

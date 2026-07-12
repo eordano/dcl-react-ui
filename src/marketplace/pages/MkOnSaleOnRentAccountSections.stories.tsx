@@ -1,0 +1,58 @@
+import type { ComponentProps } from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import MkOnSaleOnRentAccountSections from "./MkOnSaleOnRentAccountSections";
+
+type Props = ComponentProps<typeof MkOnSaleOnRentAccountSections>;
+
+const SAMPLE_ON_SALE: NonNullable<Props["onSale"]> = [
+  { id: "n1", name: "Cyber Ronin Jacket", sub: "", category: "wearable", rarity: "legendary", saleType: "secondary", price: "1,250" },
+  { id: "n2", name: "Genesis Plaza Parcel", sub: "-42,18", category: "parcel", rarity: "rare", saleType: "secondary", price: "9,400" },
+  { id: "n3", name: "Pixel Shades", sub: "", category: "wearable", rarity: "rare", saleType: "primary", price: "120" },
+  { id: "n4", name: "Solar Halo", sub: "", category: "emote", rarity: "exotic", saleType: "secondary", price: "1,780", needsAttention: true },
+  { id: "n5", name: "Aetheria Estate", sub: "6 parcels", category: "estate", rarity: "epic", saleType: "secondary", price: "21,000" },
+  { id: "n6", name: "Glitch Mask", sub: "", category: "wearable", rarity: "uncommon", saleType: "secondary", price: "199", legacyExpired: true },
+  { id: "n7", name: "frostfang", sub: "DCL Name", category: "ens", rarity: "unique", saleType: "secondary", price: "2,000" },
+  { id: "n8", name: "Holo Backpack", sub: "", category: "wearable", rarity: "epic", saleType: "primary", price: "310" },
+  { id: "n9", name: "Vapor Tee", sub: "", category: "wearable", rarity: "common", saleType: "secondary", price: "45", legacy: true },
+  { id: "n10", name: "Dragonscale Cape", sub: "", category: "wearable", rarity: "legendary", saleType: "secondary", price: "640" },
+  { id: "n11", name: "Sakura Kimono", sub: "", category: "wearable", rarity: "rare", saleType: "secondary", price: "275" },
+  { id: "n12", name: "Plasma Boots", sub: "", category: "wearable", rarity: "epic", saleType: "primary", price: "180" },
+  { id: "n13", name: "Neon District Parcel", sub: "12,-7", category: "parcel", rarity: "rare", saleType: "secondary", price: "8,900" },
+];
+
+const SAMPLE_ON_RENT: NonNullable<Props["onRent"]> = [
+  { id: "r1", name: "Aetheria Estate", sub: "6 parcels", category: "estate", rarity: "epic", status: "open", price: "120" },
+  { id: "r2", name: "Genesis Plaza Parcel", sub: "-42,18", category: "parcel", rarity: "rare", status: "rented", endDate: "Jul 14", price: "45" },
+  { id: "r3", name: "Neon District Parcel", sub: "12,-7", category: "parcel", rarity: "rare", status: "open", price: "60" },
+  { id: "r4", name: "Riverside Estate", sub: "3 parcels", category: "estate", rarity: "legendary", status: "over", price: "90" },
+  { id: "r5", name: "Skyline Parcel", sub: "88,4", category: "parcel", rarity: "common", status: "claiming", price: "30" },
+];
+
+const meta = {
+  title: "Marketplace/Pages/On Sale / On Rent",
+  component: MkOnSaleOnRentAccountSections,
+  parameters: { layout: "fullscreen" },
+  args: {
+    onSale: SAMPLE_ON_SALE,
+    onRent: SAMPLE_ON_RENT,
+  },
+} satisfies Meta<typeof MkOnSaleOnRentAccountSections>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { type: "sale" },
+};
+
+export const OnRent: Story = {
+  args: { type: "rent" },
+};
+
+export const Empty: Story = {
+  args: { type: "sale", isEmpty: true },
+};
+
+export const Loading: Story = {
+  args: { type: "sale", isLoading: true },
+};

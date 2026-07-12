@@ -1,0 +1,140 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import GvProposalDetail, {
+  type GvProposal,
+  type GvProposalComment,
+  type GvSurveyRow,
+  type GvVoteChoice,
+  type GvVoteRationale,
+  type GvVpSeries,
+} from "./GvProposalDetail";
+
+const PROPOSAL: GvProposal = {
+  id: "0x9f3c-7a21",
+  type: "grant",
+  toneClass: "purple",
+  catLabel: "Grant Request",
+  catTone: "purple",
+  status: "active",
+  statusLabel: "Active",
+  statusTone: "neutral",
+  title: "Grant Request: Decentraland Builders Hackathon Season 5",
+  author: "buildersdao.dcl",
+  authorHue: 268,
+  published: "May 28, 2026 14:10",
+  start: "Jun 02, 2026 00:00",
+  finish: "Jun 16, 2026 00:00",
+  snapshot: "#4b91c2f",
+  threshold: "2,000,000",
+  thresholdReached: false,
+  yourVp: "12,480",
+  budget: { size: "$45,000", beneficiary: "0x55…1b2a", tier: "Tier 3" },
+  description:
+    "We're requesting a grant to run the fifth season of the Decentraland Builders Hackathon — a six-week program that onboards new creators to the SDK and ships playable scenes to Genesis City.\n\nPrior seasons produced 40+ published scenes and brought ~120 first-time builders into the ecosystem. This season focuses on retention: every participant is paired with a mentor and committed to a public post-mortem.",
+};
+
+const CHOICES: GvVoteChoice[] = [
+  { id: "yes", label: "Yes", pct: 64, vp: "1,420,300", tone: "yes", voted: true },
+  { id: "no", label: "No", pct: 36, vp: "798,140", tone: "no", voted: false },
+];
+
+const SURVEY: GvSurveyRow[] = [
+  { id: "love", label: "Love it", emoji: "😍", count: 142, pct: 58, dir: "up" },
+  { id: "neutral", label: "Neutral", emoji: "😐", count: 47, pct: 19, dir: "neutral" },
+  { id: "concerned", label: "Concerned", emoji: "😟", count: 56, pct: 23, dir: "down" },
+];
+
+const RATIONALE: GvVoteRationale[] = [
+  {
+    id: 1,
+    name: "metaverse-mike.dcl",
+    hue: 200,
+    choice: "Yes",
+    tone: "yes",
+    vp: "210,400 VP",
+    text: "Builders programs consistently bring new creators into Decentraland. The proposed milestones and beneficiary track record justify the budget.",
+  },
+  {
+    id: 2,
+    name: "0xab…77d3",
+    hue: 12,
+    choice: "No",
+    tone: "no",
+    vp: "88,900 VP",
+    text: "I support hackathons in principle but $45k feels high for a single season without committed retention metrics. Would vote Yes on a scoped-down Tier 2.",
+  },
+];
+
+const COMMENTS: GvProposalComment[] = [
+  {
+    id: 1,
+    name: "buildersdao.dcl",
+    hue: 268,
+    time: "2 days ago",
+    text: "Thanks for the early feedback. We've added a retention-tracking milestone to the grant scope and will publish a public dashboard.",
+  },
+  {
+    id: 2,
+    name: "metaverse-mike.dcl",
+    hue: 200,
+    time: "1 day ago",
+    text: "Great addition. Looking forward to seeing the dashboard — happy to help promote the hackathon across the creator channels.",
+  },
+];
+
+const VP_SERIES: GvVpSeries = {
+  yes: [0, 200000, 480000, 760000, 1010000, 1230000, 1360000, 1420300],
+  no: [0, 110000, 260000, 410000, 540000, 650000, 740000, 798140],
+  ticks: ["Jun 2", "Jun 9", "Jun 16"],
+};
+
+const meta = {
+  title: "Governance/Pages/Proposal Detail",
+  component: GvProposalDetail,
+  parameters: { layout: "fullscreen" },
+  args: {
+    proposal: PROPOSAL,
+    choices: CHOICES,
+    survey: SURVEY,
+    rationales: RATIONALE,
+    comments: COMMENTS,
+    vpSeries: VP_SERIES,
+    totalVotesLabel: "2,218,440 total votes",
+    forumUrl:
+      "https://forum.decentraland.org/t/grant-request-decentraland-builders-hackathon-season-5",
+  },
+} satisfies Meta<typeof GvProposalDetail>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
+
+export const Finished: Story = {
+  args: {
+    proposal: {
+      id: "0x12-9f0c",
+      type: "poll",
+      toneClass: "orange",
+      catLabel: "Poll",
+      catTone: "orange",
+      status: "passed",
+      statusLabel: "Passed",
+      statusTone: "green",
+      title: "Should we lower the Grant proposal vote-power threshold to 1M VP?",
+      author: "0x12…9f0c",
+      authorHue: 30,
+      published: "Apr 12, 2026 09:30",
+      start: "Apr 14, 2026 00:00",
+      finish: "Apr 28, 2026 00:00",
+      snapshot: "#7af0d31",
+      threshold: "1,000,000",
+      thresholdReached: true,
+      yourVp: "12,480",
+      budget: { size: "—", beneficiary: "—", tier: "—" },
+    },
+  },
+};
+
+export const Loading: Story = { args: { state: "loading" } };
+
+export const NotFound: Story = { args: { state: "error" } };

@@ -1,0 +1,131 @@
+.buymint-wizard {
+  min-height: 100vh;
+  background: #18141a;
+  color: #fff;
+}
+
+.buymint-wizard__review {
+  position: relative;
+}
+
+.buymint-wizard__reviewbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 32px;
+  background: rgba(20, 16, 22, 0.96);
+  border-top: 1px solid #2b2630;
+  backdrop-filter: blur(6px);
+}
+
+.buymint-wizard__reviewinfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.buymint-wizard__reviewlabel {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #a09ba8;
+}
+
+.buymint-wizard__reviewprice {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.buymint-wizard__reviewsupply {
+  font-size: 13px;
+  color: #a09ba8;
+}
+
+.buymint-wizard__confirmbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 20px 32px 40px;
+  background: #18141a;
+}
+
+.buymint-wizard__btn {
+  appearance: none;
+  border: 1px solid #43404a;
+  background: transparent;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+.buymint-wizard__btn:hover {
+  border-color: #6b6776;
+}
+
+.buymint-wizard__btn--primary {
+  background: var(--brand-cta);
+  border-color: var(--brand-cta);
+}
+
+.buymint-wizard__btn--primary:hover {
+  background: #ff4f70;
+  border-color: #ff4f70;
+}
+
+.buymint-wizard__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.buymint-wizard__hint {
+  text-align: center;
+  color: #a09ba8;
+  font-size: 14px;
+  margin: 0;
+}
+
+.buymint-wizard__preview {
+  width: 220px;
+  height: 220px;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0 auto;
+  background: var(--rb, #2b2630);
+}
+
+.buymint-wizard__previewname {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 12px 12px;
+  width: 100%;
+  text-align: center;
+}
+
+.buymint-wizard__spinner {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: buymint-spin 0.8s linear infinite;
+}
+
+@keyframes buymint-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,79 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import StProfilePhotosTab, { type Photo, type Profile } from "./StProfilePhotosTab";
+
+const PROFILE: Profile = {
+  address: "0x742d35cc6634c0532925a3b844bc454e4438f44e",
+  name: "metaverse.dcl.eth",
+  hasClaimedName: true,
+  nameColor: "#FF8362",
+  mutualCount: 0,
+};
+
+const sceneGrad = (i: number) => {
+  const h = (i * 47 + 196) % 360;
+  return `linear-gradient(150deg, hsl(${h} 62% 48%) 0%, hsl(${(h + 38) % 360} 55% 26%) 100%)`;
+};
+
+function makePhoto(i: number): Photo {
+  const scenes = [
+    { name: "Genesis Plaza", x: "0", y: "0" },
+    { name: "Vegas City", x: "-120", y: "-12" },
+    { name: "Dragon City", x: "73", y: "-21" },
+    { name: "Wondermine", x: "-9", y: "132" },
+    { name: "Fashion Week Plaza", x: "44", y: "-7" },
+    { name: "Casino Royale", x: "137", y: "20" },
+  ];
+  const s = scenes[i % scenes.length] ?? { name: "Genesis Plaza", x: "0", y: "0" };
+  return {
+    id: `reel-${i}`,
+    grad: sceneGrad(i),
+    metadata: {
+      userName: "metaverse.dcl.eth",
+      userAddress: "0x742d35cc6634c0532925a3b844bc454e4438f44e",
+      dateTime: "2026-05-30T18:42:00.000Z",
+      realm: "main",
+      scene: { name: s.name, location: { x: s.x, y: s.y } },
+      visiblePeople: [
+        {
+          userName: "metaverse.dcl.eth",
+          userAddress: "0x742d35cc6634c0532925a3b844bc454e4438f44e",
+          isGuest: false,
+          wearables: [],
+        },
+        {
+          userName: "stardust",
+          userAddress: "0x8f3a1b2c4d5e6f7081929394a5b6c7d8e9f0a1b2",
+          isGuest: false,
+          wearables: [],
+        },
+      ],
+    },
+  };
+}
+
+const PHOTOS: Photo[] = Array.from({ length: 12 }, (_, i) => makePhoto(i));
+
+const meta = {
+  title: "Web/Pages/Profile/Photos Tab",
+  component: StProfilePhotosTab,
+  parameters: { layout: "fullscreen" },
+} satisfies Meta<typeof StProfilePhotosTab>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { isOwnProfile: false, photos: PHOTOS, profile: PROFILE },
+};
+
+export const OwnProfile: Story = {
+  args: { isOwnProfile: true, photos: PHOTOS, profile: PROFILE },
+};
+
+export const EmptyOwner: Story = {
+  args: { isOwnProfile: true, photos: [], profile: PROFILE },
+};
+
+export const EmptyMember: Story = {
+  args: { isOwnProfile: false, photos: [], profile: PROFILE },
+};

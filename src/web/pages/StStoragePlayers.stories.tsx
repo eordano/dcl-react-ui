@@ -1,0 +1,46 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import StStoragePlayers from "./StStoragePlayers";
+
+const PLAYERS: string[] = [
+  "0x6a77833d2b7f0c6c0e6c4a45a6f8e3c1d9b27a41",
+  "0x8f2a5c9d0b1e4f7a3c6d8b2e5a9f0c3d7b1e6a82",
+  "0x1b3c5d7e9f0a2c4e6d8b0a1c3e5f7d9b2a4c6e80",
+  "0xc4e6a8b0d2f4a6c8e0b2d4f6a8c0e2b4d6f8a0c2",
+  "0x3d5f7a9c1e3b5d7f9a1c3e5b7d9f1a3c5e7b9d10",
+  "0x9a0c2e4b6d8f0a2c4e6b8d0f2a4c6e8b0d2f4a64",
+  "0x5c7e9b1d3f5a7c9e1b3d5f7a9c1e3b5d7f9a1c30",
+  "0x2e4c6a8d0b2f4e6c8a0d2b4f6e8c0a2d4b6f8e09"
+];
+
+const PROFILE_NAMES = new Map<string, string>([
+  ["0x6a77833d2b7f0c6c0e6c4a45a6f8e3c1d9b27a41", "BraveExplorer"],
+  ["0x8f2a5c9d0b1e4f7a3c6d8b2e5a9f0c3d7b1e6a82", "NeonNomad"],
+  ["0xc4e6a8b0d2f4a6c8e0b2d4f6a8c0e2b4d6f8a0c2", "pixel.dcl.eth"],
+  ["0x9a0c2e4b6d8f0a2c4e6b8d0f2a4c6e8b0d2f4a64", "VoxelVagrant"],
+  ["0x5c7e9b1d3f5a7c9e1b3d5f7a9c1e3b5d7f9a1c30", "AuroraBuilder"]
+]);
+
+const meta = {
+  title: "Web/Pages/Storage/Players",
+  component: StStoragePlayers,
+  parameters: { layout: "fullscreen" },
+} satisfies Meta<typeof StStoragePlayers>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { realm: "magma.dcl.eth", players: PLAYERS, profileNames: PROFILE_NAMES },
+};
+
+export const Loading: Story = {
+  args: { realm: "magma.dcl.eth", isLoading: true },
+};
+
+export const Empty: Story = {
+  args: { realm: "magma.dcl.eth", players: [], profileNames: new Map<string, string>() },
+};
+
+export const PositionScoped: Story = {
+  args: { realm: null, position: "-50,72", players: PLAYERS, profileNames: PROFILE_NAMES },
+};
